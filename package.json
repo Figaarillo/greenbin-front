@@ -9,6 +9,9 @@
     "test": "ng test",
     "serve:ssr:greenbin-front": "node dist/greenbin-front/server/server.mjs",
     "prepare": "husky install",
+    "lint": "eslint --ext .ts src",
+    "prettier": "prettier --write \"src/**/*.ts\"",
+    "lint:fix": "pnpm run lint --fix",
     "ts-check": "tsc -p tsconfig.json --noEmit",
     "pre-check": "pnpm run ts-check && pnpm run prettier && pnpm run lint",
     "pre-commit": "lint-staged"
