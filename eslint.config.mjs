@@ -11,7 +11,6 @@ export default [
       eqeqeq: "error",
       "no-trailing-spaces": "error",
       "object-curly-spacing": ["error", "always"],
-
       "arrow-spacing": [
         "error",
         {
@@ -19,18 +18,14 @@ export default [
           after: true,
         },
       ],
-
       "no-console": [
         "warn",
         {
           allow: ["error"],
         },
       ],
-
       "space-before-function-paren": ["error", "always"],
-
       "max-len": "off",
-
       "object-curly-spacing": ["error", "always"],
     },
   },
