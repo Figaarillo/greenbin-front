@@ -1,45 +1,33 @@
-<div>
-  <h4 class="text-muted mb-4">Consultar Entidades</h4>
+<h2 class="mb-5">Consultar Entidades</h2>
 
-  <div class="row mb-4">
-    <div class="col-md-12">
-      <div class="card border-0 rounded-0">
-        <div class="card-body">
-          <div class="table-responsive-md">
-            <table class="table table-bordered">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td></td>
-                  <td>
-                    <span class="badge badge-primary rounded-0 p-1">Fixed</span>
-                  </td>
-                  <td>
-                    <a class="btn btn-sm btn-outline-lightning rounded-0 mr-2">
-                      <i class="far fa-edit"></i>
-                    </a>
-                    <a class="btn btn-sm btn-outline-lightning rounded-0">
-                      <i class="fa-regular fa-trash-can"></i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Razon Social</th>
+      <th>Example</th>
+      <th>Example</th>
+      <th>Actions</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    @for(entidad of entidades; track entidad.id){
+      <tr  >
+        <td>{{entidad.id}}</td>
+        <td>{{entidad.razon_social}}</td>
+        <td>{{entidad.example}}</td>
+        <td>{{entidad.example2}}</td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-primary">Editar</button>
+          <button class="btn btn-danger">Eliminar</button>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+          
+        </td>
+      </tr>
+    }
+   
+  
+  </tbody>
+</table>
