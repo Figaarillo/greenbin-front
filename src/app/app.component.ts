@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { Component } from '@angular/core'
+import { RouterOutlet } from '@angular/router'
+import { NavbarComponent } from './components/navbar/navbar.component'
+NavbarComponent
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -9,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'greenbin-front';
+  title = 'greenbin-front'
 }
