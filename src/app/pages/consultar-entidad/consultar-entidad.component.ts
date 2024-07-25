@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
@@ -8,6 +8,8 @@ import { MatIcon } from '@angular/material/icon'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
+import { EntidadService } from '../../services/entidad/entidad.service'
+import { runInThisContext } from 'vm'
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -24,39 +26,22 @@ import { MatInputModule } from '@angular/material/input'
   templateUrl: './consultar-entidad.component.html',
   styleUrl: './consultar-entidad.component.scss'
 })
-export class ConsultarEntidadComponent {
-  displayedColumns: string[] = ['Id', 'razon_social', 'example', 'example2', 'acciones']
+export class ConsultarEntidadComponent implements OnInit {
+  private entityService = inject(EntidadService)
+  displayedColumns: string[] = ['name', 'description', 'city', 'province', 'acciones']
 
   faEdit = faEdit
   faTrash = faTrash
   faSearch = faSearch
-  entidades = [
-    {
-      id: 1,
-      razon_social: 'Huinca Renanco',
-      example: 'example',
-      example2: 'example',
-      example3: 'example'
-    },
-    {
-      id: 2,
-      razon_social: 'Villa Maria',
-      example: 'example',
-      example2: 'example',
-      example3: 'example'
-    },
-    {
-      id: 3,
-      razon_social: 'Campillo',
-      example: 'example',
-      example2: 'example',
-      example3: 'example'
-    }
-  ]
-
-  dataSource = new MatTableDataSource(this.entidades)
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.dataSource.filter = filterValue.trim().toLowerCase()
+  entidades: any = []
+  dataSource = []
+  ngOnInit(): void {
+    this.entityService.list().subscribe((response: any) => {
+      this.entidades = []
+      response.data.forEach((entidad: any) => {
+        this.entidades.push(entidad)
+      })
+      this.dataSource = this.entidades
+    })
   }
 }
