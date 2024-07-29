@@ -10,6 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { runInThisContext } from 'vm'
+import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
+import { Entidad } from '../../services/interfaces/entidad'
+import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -21,7 +24,9 @@ import { runInThisContext } from 'vm'
     MatTableModule,
     MatToolbarModule,
     MatIcon,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule,
+    EntitiesFilterPipe
   ],
   templateUrl: './consultar-entidad.component.html',
   styleUrl: './consultar-entidad.component.scss'
@@ -33,15 +38,22 @@ export class ConsultarEntidadComponent implements OnInit {
   faEdit = faEdit
   faTrash = faTrash
   faSearch = faSearch
-  entidades: any = []
-  dataSource = []
+  entidades: Entidad[] = []
+  dataSource: any = []
+  PageSize: number = 0
+
   ngOnInit(): void {
-    this.entityService.list().subscribe((response: any) => {
+    this.entityService.list(0, 5).subscribe((response: any) => {
       this.entidades = []
-      response.data.forEach((entidad: any) => {
+      response.data.forEach((entidad: Entidad) => {
         this.entidades.push(entidad)
       })
-      this.dataSource = this.entidades
+      this.dataSource = new MatTableDataSource(this.entidades)
     })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+    this.dataSource.filter = filterValue.trim().toLowerCase()
   }
 }
