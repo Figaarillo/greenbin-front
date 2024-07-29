@@ -10,26 +10,25 @@
   </mat-form-field>
 
   <div class="pagination-container">
-    <select class="form-select" aria-label="Default select example">
+    <select class="form-select" aria-label="Default select example"  (change)="onSelectChange($event)">
       
       <option selected value="5">5</option>
       <option value="10">10</option>
       <option value="15">15</option>
     </select>
     <ul class="pagination">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+      <li class="page-item ">
+        <a class="page-link" (click)="prevPage()" tabindex="-1">Previous</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" >{{nPage}}</a></li>
+     
       <li class="page-item">
-        <a class="page-link" href="#">Next</a>
+        <a class="page-link" (click)="nextPage()">Next</a>
       </li>
     </ul>
   </div>
   
-  <table mat-table [dataSource]="dataSource | entitiesFilter" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource | entitiesFilter:page:cant" class="mat-elevation-z8">
   
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->

@@ -40,10 +40,11 @@ export class ConsultarEntidadComponent implements OnInit {
   faSearch = faSearch
   entidades: Entidad[] = []
   dataSource: any = []
-  PageSize: number = 0
-
+  page: number = 0
+  nPage: number = 1
+  cant: number = 5
   ngOnInit(): void {
-    this.entityService.list(0, 5).subscribe((response: any) => {
+    this.entityService.list(0, 100).subscribe((response: any) => {
       this.entidades = []
       response.data.forEach((entidad: Entidad) => {
         this.entidades.push(entidad)
@@ -55,5 +56,29 @@ export class ConsultarEntidadComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
+  }
+
+  nextPage() {
+    console.log(this.entidades.length)
+    console.log(this.page)
+    if (this.page <= this.entidades.length) {
+      console.log('entra')
+      this.nPage += 1
+      this.page += this.cant
+      console.log(this.page)
+    }
+  }
+
+  prevPage() {
+    if (this.page > 0) {
+      this.nPage -= 1
+      this.page -= this.cant
+    }
+  }
+
+  onSelectChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement
+    this.cant = Number(selectElement.value)
+    console.log('Selected value:', this.cant)
   }
 }
