@@ -16,4 +16,9 @@ export class EntidadService {
   get(id: number) {
     return this.http.get('http://localhost:8000/api')
   }
+
+  delete(id: string) {
+    console.log(typeof id)
+    return this.http.delete(`${this.url}/${id}`)
+  }
 }

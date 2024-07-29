@@ -20,7 +20,7 @@
       <li class="page-item ">
         <a class="page-link" (click)="prevPage()" tabindex="-1">Previous</a>
       </li>
-      <li class="page-item"><a class="page-link" >{{nPage}}</a></li>
+      <li class="page-item"><a class="page-link"  >{{nPage}}</a></li>
      
       <li class="page-item">
         <a class="page-link" (click)="nextPage()">Next</a>
@@ -64,7 +64,7 @@
         <a   matTooltip="Editar"> 
           <mat-icon>edit</mat-icon>
         </a>
-        <a class="btn-delete"  matTooltip="Eliminar"> 
+        <a class="btn-delete"   (click)="deleteEntity(element.id)" matTooltip="Eliminar"> 
           <mat-icon >delete</mat-icon>
         </a>
       </td>
