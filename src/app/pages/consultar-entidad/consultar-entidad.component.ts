@@ -46,15 +46,16 @@ export class ConsultarEntidadComponent implements OnInit {
   nPage: number = 1
   cant: number = 5
   ngOnInit(): void {
+    this.listEntities()
+  }
+
+  listEntities() {
     this.entityService.list(0, 100).subscribe((response: any) => {
-      this.entidades = []
-      response.data.forEach((entidad: Entidad) => {
-        this.entidades.push(entidad)
-      })
+      this.entidades = response
+
       this.dataSource = new MatTableDataSource(this.entidades)
     })
   }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
@@ -98,11 +99,22 @@ export class ConsultarEntidadComponent implements OnInit {
       })
       .then(result => {
         if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire({
-            title: '¡Eliminada!',
-            text: 'La entidad ha sido eliminada.',
-            icon: 'success'
-          })
+          this.entityService.delete(id).subscribe(
+            () => {
+              swalWithBootstrapButtons
+                .fire({
+                  title: '¡Eliminada!',
+                  text: 'La entidad ha sido eliminada.',
+                  icon: 'success'
+                })
+                .then(() => {
+                  this.listEntities()
+                })
+            },
+            error => {
+              console.error('Error al eliminar la entidad:', error)
+            }
+          )
         } else {
           swalWithBootstrapButtons.fire({
             title: 'Cancelado',
