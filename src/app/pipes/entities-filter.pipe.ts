@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table'
   standalone: true
 })
 export class EntitiesFilterPipe implements PipeTransform {
-  transform(value: MatTableDataSource<Entidad>, page: number = 0, cant: number = 5): Entidad[] {
+  transform(value: MatTableDataSource<any>, page: number = 0, cant: number = 5): Entidad[] {
     return value.data.slice(page, page + cant)
   }
 }
