@@ -13,6 +13,8 @@ import { runInThisContext } from 'vm'
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
 import { Entidad } from '../../services/interfaces/entidad'
 import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
+import e from 'express'
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -44,28 +46,26 @@ export class ConsultarEntidadComponent implements OnInit {
   nPage: number = 1
   cant: number = 5
   ngOnInit(): void {
+    this.listEntities()
+  }
+
+  listEntities() {
     this.entityService.list(0, 100).subscribe((response: any) => {
-      this.entidades = []
-      response.data.forEach((entidad: Entidad) => {
-        this.entidades.push(entidad)
-      })
+      this.entidades = response
+
       this.dataSource = new MatTableDataSource(this.entidades)
     })
   }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
 
   nextPage() {
-    console.log(this.entidades.length)
-    console.log(this.page)
     if (this.page <= this.entidades.length) {
       console.log('entra')
       this.nPage += 1
       this.page += this.cant
-      console.log(this.page)
     }
   }
 
@@ -79,6 +79,64 @@ export class ConsultarEntidadComponent implements OnInit {
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement
     this.cant = Number(selectElement.value)
-    console.log('Selected value:', this.cant)
+  }
+
+  deleteEntity(id: string) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estas seguro que desea eliminar esta Entidad?',
+        text: 'No podras revertirlo.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      })
+      .then(result => {
+        if (result.isConfirmed) {
+          this.entityService.delete(id).subscribe(
+            () => {
+              swalWithBootstrapButtons
+                .fire({
+                  title: '¡Eliminada!',
+                  text: 'La entidad ha sido eliminada.',
+                  icon: 'success'
+                })
+                .then(() => {
+                  this.listEntities()
+                })
+            },
+            error => {
+              console.error('Error al eliminar la entidad:', error)
+            }
+          )
+        } else {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelado',
+            text: 'La entidad no fue eliminada.',
+            icon: 'error'
+          })
+        }
+      })
+    // this.entityService.delete(id).subscribe(
+    //   () => {
+    //     this.entityService.list(0, 100).subscribe((response: any) => {
+    //       this.entidades = []
+    //       response.data.forEach((entidad: Entidad) => {
+    //         this.entidades.push(entidad)
+    //       })
+    //       this.dataSource = new MatTableDataSource(this.entidades)
+    //     })
+    //     console.log('eliminado');
+    //   },
+    //   (error) => {
+    //     console.error('Error al eliminar la entidad:', error);
+    //   }
+    // );
   }
 }
