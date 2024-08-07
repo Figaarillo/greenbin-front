@@ -47,16 +47,12 @@ export class TableComponent implements OnChanges {
 
   @Output() delete = new EventEmitter<any>()
 
-  constructor() {
-    this.dataSource = new MatTableDataSource([])
-  }
+  constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('###columns###')
-
-    console.log(this.displayedColumns)
-    console.log('#############')
-    console.log(this.tableData)
-    console.log('#############')
+    this.dataSource = new MatTableDataSource([])
+    console.log('###########')
+    console.log('cambios')
+    console.log('###########')
     this.dataSource.data = this.tableData
     console.log(this.dataSource)
   }
