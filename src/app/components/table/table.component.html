@@ -35,7 +35,7 @@
         <a   matTooltip="Editar"> 
           <mat-icon>edit</mat-icon>
         </a>
-        <a class="btn-delete"   matTooltip="Eliminar"> 
+        <a class="btn-delete" (click)="deleteAction(element.id)"  matTooltip="Eliminar"> 
           <mat-icon >delete</mat-icon>
         </a>
       </td>

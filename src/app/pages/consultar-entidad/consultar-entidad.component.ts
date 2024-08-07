@@ -134,6 +134,7 @@ export class ConsultarEntidadComponent implements OnInit {
                   icon: 'success'
                 })
                 .then(() => {
+                  console.log('eliminado')
                   this.listEntities()
                 })
             },

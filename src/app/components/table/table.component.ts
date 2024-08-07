@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -38,11 +38,15 @@ export class TableComponent implements OnChanges {
   @Input() title: String = ''
   displayedColumns: string[] = []
   tableColumns: Column[] = []
+
   @Input() set columns(columns: Column[]) {
     this.tableColumns = columns
     console.log(this.tableColumns)
     this.displayedColumns = this.tableColumns.map(col => col.key)
   }
+
+  @Output() delete = new EventEmitter<any>()
+
   constructor() {
     this.dataSource = new MatTableDataSource([])
   }
@@ -72,5 +76,9 @@ export class TableComponent implements OnChanges {
       this.nPage -= 1
       this.page -= this.cant
     }
+  }
+
+  deleteAction(item: string) {
+    this.delete.emit(item)
   }
 }
