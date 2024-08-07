@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input'
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
 import { Column } from '../../services/interfaces/columns'
 import { CommonModule } from '@angular/common'
+import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -21,7 +22,8 @@ import { CommonModule } from '@angular/common'
     MatIcon,
     MatTooltipModule,
     MatPaginatorModule,
-    CommonModule
+    CommonModule,
+    EntitiesFilterPipe
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'

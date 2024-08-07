@@ -11,7 +11,7 @@
   <div class="pagination-container">
     <select class="form-select" aria-label="Default select example"  (change)="onSelectChange($event)">
       
-      <option selected value="2">2</option>
+      <option selected value="5">5</option>
       <option value="10">10</option>
       <option value="15">15</option>
     </select>
@@ -26,7 +26,7 @@
       </li>
     </ul>
   </div>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource| entitiesFilter:page:cant" class="mat-elevation-z8">
 
     <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.key">
         <th mat-header-cell *matHeaderCellDef> {{ column.label }} </th>
