@@ -3,7 +3,7 @@ import { ConsultarEntidadComponent } from './pages/consultar-entidad/consultar-e
 
 export const routes: Routes = [
   {
-    path: 'consultar',
+    path: '',
     loadComponent: () =>
       import('./pages/consultar-entidad/consultar-entidad.component').then(m => m.ConsultarEntidadComponent)
   }

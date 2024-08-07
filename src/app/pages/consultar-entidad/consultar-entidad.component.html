@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 <div class="container mt-3">
   <mat-toolbar>
     <span>Entidades</span>
@@ -28,7 +28,7 @@
     </ul>
   </div>
   
-  <table mat-table [dataSource]="dataSource | entitiesFilter:page:cant" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource | entitiesFilter:page:cant" class="mat-elevation-z8"> -->
   
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -37,19 +37,19 @@
   
   
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
+    <!-- <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
-  
+   -->
     <!-- Weight Column -->
-    <ng-container matColumnDef="description">
+    <!-- <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> Description </th>
       <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-    </ng-container>
+    </ng-container> -->
   
     <!-- Symbol Column -->
-    <ng-container matColumnDef="city">
+    <!-- <ng-container matColumnDef="city">
       <th mat-header-cell *matHeaderCellDef> City </th>
       <td mat-cell *matCellDef="let element"> {{element.city}} </td>
     </ng-container>
@@ -71,8 +71,13 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+  </table> -->
   <!-- <mat-paginator  [pageSizeOptions]="[5, 10, 15, 20]" aria-label="Select page">
   </mat-paginator> -->
  
-</div>
+<!-- </div> -->
+ 
+<app-navbar></app-navbar>
+
+
+  <app-table [columns]="columns" [title]="title" [tableData]="entidades"></app-table>

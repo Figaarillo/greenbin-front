@@ -15,6 +15,8 @@ import { Entidad } from '../../services/interfaces/entidad'
 import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
 import e from 'express'
 import Swal from 'sweetalert2'
+import { TableComponent } from '../../components/table/table.component'
+import { Column } from '../../services/interfaces/columns'
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -28,14 +30,15 @@ import Swal from 'sweetalert2'
     MatIcon,
     MatTooltipModule,
     MatPaginatorModule,
-    EntitiesFilterPipe
+    EntitiesFilterPipe,
+    TableComponent
   ],
   templateUrl: './consultar-entidad.component.html',
   styleUrl: './consultar-entidad.component.scss'
 })
 export class ConsultarEntidadComponent implements OnInit {
   private entityService = inject(EntidadService)
-  displayedColumns: string[] = ['name', 'description', 'city', 'province', 'acciones']
+  columns: Column[] = []
 
   faEdit = faEdit
   faTrash = faTrash
@@ -45,7 +48,26 @@ export class ConsultarEntidadComponent implements OnInit {
   page: number = 0
   nPage: number = 1
   cant: number = 5
+  title = 'Entidades'
   ngOnInit(): void {
+    this.columns = [
+      {
+        key: 'name',
+        label: 'Razon Social'
+      },
+      {
+        key: 'description',
+        label: 'Descripción'
+      },
+      {
+        key: 'city',
+        label: 'Ciudad'
+      },
+      {
+        key: 'province',
+        label: 'Provincia'
+      }
+    ]
     this.listEntities()
   }
 
