@@ -66,6 +66,10 @@ export class ConsultarEntidadComponent implements OnInit {
       {
         key: 'province',
         label: 'Provincia'
+      },
+      {
+        key: 'actions',
+        label: 'Acciones'
       }
     ]
     this.listEntities()
