@@ -3,8 +3,15 @@ import { ConsultarEntidadComponent } from './pages/consultar-entidad/consultar-e
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'listar-entidades',
     loadComponent: () =>
       import('./pages/consultar-entidad/consultar-entidad.component').then(m => m.ConsultarEntidadComponent)
+  },
+  {
+    path: 'listar-responsables',
+    loadComponent: () =>
+      import('./pages/consultar-responsables/consultar-responsables.component').then(
+        m => m.ConsultarResponsablesComponent
+      )
   }
 ]
