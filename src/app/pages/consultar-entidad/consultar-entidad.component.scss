@@ -13,28 +13,6 @@ table {
   .mat-mdc-form-field {
     font-size: 14px;
     width: 100%;
-   
-  }
-  
-  .pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  
-    .form-select {
-      width: 80px;
-    }
-  
-    .pagination {
-      margin-bottom: 0;
-  
-      .page-item.disabled .page-link {
-        cursor: not-allowed;
-      }
-  
-      .page-item .page-link {
-        cursor: pointer;
-      }
-    }
+    color: white;
   }
   

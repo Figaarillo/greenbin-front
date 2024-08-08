@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
 import { Entidad } from '../interfaces/entidad'
-import { map } from 'rxjs'
+import { Observable } from 'rxjs'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,22 +10,13 @@ export class EntidadService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/entity'
 
-  list(offset: number, limit: number): Observable<Entidad[]> {
-    return this.http.get<Entidad[]>(`${this.url}?offset=${offset}&limit=${limit}`).pipe(
-      map((resp: any) => {
-        console.log(resp.data)
-        return resp.data
-      })
-    )
+  create(object: Entidad): Observable<Entidad> {
+    return this.http.post<Entidad>(this.url, object)
   }
-  get(id: number) {
-    return this.http.get('http://localhost:8000/api')
+  update(object: Entidad, id: string): Observable<Entidad> {
+    return this.http.put<Entidad>(this.url + '/' + id, object)
   }
-
-  delete(id: string) {
-    console.log(typeof id)
-    return this.http.delete(`${this.url}/${id}`)
+  get(id: string): Observable<Entidad> {
+    return this.http.get<Entidad>(this.url + '/' + id)
   }
-
-  private transforDataToEntity() {}
 }

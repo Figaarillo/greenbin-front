@@ -36,12 +36,10 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@popperjs/core": "^2.11.8",
-    "@sweetalert2/ngx-sweetalert2": "^12.4.0",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
     "pnpm": "^9.5.0",
     "rxjs": "~7.8.0",
-    "sweetalert2": "^11.12.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
