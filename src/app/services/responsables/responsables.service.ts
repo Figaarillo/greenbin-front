@@ -20,4 +20,9 @@ export class ResponsablesService {
       })
     )
   }
+
+  delete(id: string) {
+    console.log(typeof id)
+    return this.http.delete(`${this.url}/${id}`)
+  }
 }
