@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+<div class="container mt-3">
+  <mat-toolbar>
+    <span>Registrar Entidad</span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="name">
+      @if (form.get('name')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>Provincia</mat-label>
+      <mat-select formControlName="province" required>
+        @for (prov of provincesList; track prov) {
+          <mat-option [value]="prov.name">{{prov.name}}</mat-option>
+        }
+      </mat-select>
+      @if (form.get('province')!.hasError('required')) {
+        <mat-error>Selecciona una provincia</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Localidad</mat-label>
+      <input matInput placeholder="Localidad" formControlName="city">
+      @if (form.get('city')!.hasError('required')) {
+        <mat-error>Ingrese una localidad</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <!--
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email"
+             placeholder="Ex. pat@example.com">
+      @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
+        <mat-error>Ingrese un email válido</mat-error>
+      }
+      @if (form.get('email')!.hasError('required')) {
+        <mat-error>Ingrese un email</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <span matTextPrefix>+54 &nbsp;</span>
+      <input type="tel" matInput placeholder="3533-4039876" formControlName="telefono">
+      @if (form.get('telefono')!.invalid && !form.get('telefono')!.hasError('required')) {
+        <mat-error>Ingrese un teléfono válido</mat-error>
+      }
+      @if (form.get('telefono')!.hasError('required')) {
+        <mat-error>Ingrese un teléfono</mat-error>
+      }
+    </mat-form-field>
+    -->
+
+    <button mat-raised-button type="submit">Guardar</button>
+
+  </form>
+  
+</div>
