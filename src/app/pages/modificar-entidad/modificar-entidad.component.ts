@@ -7,10 +7,11 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { EntidadService } from '../../services/entidad/entidad.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { Entidad } from '../../services/interfaces/entidad'
 import { CommonModule } from '@angular/common'
 import { MatOptionModule } from '@angular/material/core'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-modificar-entidad',
@@ -25,7 +26,8 @@ import { MatOptionModule } from '@angular/material/core'
     ReactiveFormsModule,
     MatButtonModule,
     CommonModule,
-    MatOptionModule
+    MatOptionModule,
+    RouterModule
   ],
   templateUrl: './modificar-entidad.component.html',
   styleUrl: './modificar-entidad.component.scss'
@@ -63,7 +65,8 @@ export class ModificarEntidadComponent {
   constructor(
     private fb: FormBuilder,
     private service: EntidadService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     const prov = ''
     this.id = this.route.snapshot.paramMap.get('id')
@@ -83,19 +86,52 @@ export class ModificarEntidadComponent {
   }
 
   onSubmit() {
-    if (this.form.valid && this.id) {
-      console.log('entra')
-      console.log(this.form.value)
-      this.service.update(<Entidad>this.form.value, this.id).subscribe({
-        next: response => {
-          console.log(response)
-        },
-        error: error => {
-          console.error('Error al actualizar la entidad:', error)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estas seguro que desea modificar esta Entidad?',
+        text: 'No podras revertirlo.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      })
+      .then(result => {
+        if (result.isConfirmed) {
+          if (this.form.valid && this.id) {
+            console.log('entra')
+            console.log(this.form.value)
+            this.service.update(<Entidad>this.form.value, this.id).subscribe(
+              () => {
+                swalWithBootstrapButtons
+                  .fire({
+                    title: '¡Editado con éxito!',
+                    text: 'La entidad ha sido modificada.',
+                    icon: 'success'
+                  })
+                  .then(() => {
+                    this.router.navigate(['/listar-entidades'])
+                  })
+              },
+              error => {
+                console.error('Error al eliminar la entidad:', error)
+              }
+            )
+          } else {
+            console.log('Form is invalid')
+          }
+        } else {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelado',
+            text: 'La entidad no fue modificada.',
+            icon: 'error'
+          })
         }
       })
-    } else {
-      console.log('Form is invalid')
-    }
   }
 }
