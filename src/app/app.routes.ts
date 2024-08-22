@@ -2,9 +2,16 @@ import { Routes } from '@angular/router'
 
 export const routes: Routes = [
   {
-    path: 'consultar',
+    path: 'listar-entidades',
     loadComponent: () =>
       import('./pages/consultar-entidad/consultar-entidad.component').then(m => m.ConsultarEntidadComponent)
+  },
+  {
+    path: 'listar-responsables',
+    loadComponent: () =>
+      import('./pages/consultar-responsables/consultar-responsables.component').then(
+        m => m.ConsultarResponsablesComponent
+      )
   },
   {
     path: 'registrar',
