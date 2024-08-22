@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core'
 import { Entidad } from '../interfaces/entidad'
 import { Observable } from 'rxjs'
 
+import { map } from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
@@ -19,4 +20,20 @@ export class EntidadService {
   get(id: string): Observable<Entidad> {
     return this.http.get<Entidad>(this.url + '/' + id)
   }
+
+  list(offset: number, limit: number): Observable<Entidad[]> {
+    return this.http.get<Entidad[]>(`${this.url}?offset=${offset}&limit=${limit}`).pipe(
+      map((resp: any) => {
+        console.log(resp.data)
+        return resp.data
+      })
+    )
+  }
+
+  delete(id: string) {
+    console.log(typeof id)
+    return this.http.delete(`${this.url}/${id}`)
+  }
+
+  private transforDataToEntity() {}
 }
