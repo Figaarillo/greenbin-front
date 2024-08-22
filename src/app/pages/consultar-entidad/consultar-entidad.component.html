@@ -83,4 +83,4 @@
 <app-navbar></app-navbar>
 
 
-  <app-table [columns]="columns" [title]="title" [tableData]="entidades" (delete)="deleteEntity($event)"></app-table>
+  <app-table [columns]="columns" [title]="title" [tableData]="entidades" (delete)="deleteEntity($event)" (edit)="editEntity($event)"></app-table>

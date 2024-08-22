@@ -9,6 +9,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { ActivatedRoute } from '@angular/router'
 import { Entidad } from '../../services/interfaces/entidad'
+import { CommonModule } from '@angular/common'
+import { MatOptionModule } from '@angular/material/core'
 
 @Component({
   selector: 'app-modificar-entidad',
@@ -21,7 +23,9 @@ import { Entidad } from '../../services/interfaces/entidad'
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule,
+    MatOptionModule
   ],
   templateUrl: './modificar-entidad.component.html',
   styleUrl: './modificar-entidad.component.scss'
@@ -55,28 +59,41 @@ export class ModificarEntidadComponent {
 
   form!: FormGroup
   id: string | null = null
-
+  entity: Entidad[] = []
   constructor(
     private fb: FormBuilder,
     private service: EntidadService,
     private route: ActivatedRoute
   ) {
+    const prov = ''
     this.id = this.route.snapshot.paramMap.get('id')
-    this.service.get(this.id!).subscribe(obj => {
+    this.service.get(this.id!).subscribe((obj: any) => {
+      console.log(obj.data)
+
       this.form = this.fb.group({
-        name: [obj.name, Validators.required],
-        province: [obj.province, Validators.required],
-        city: [obj.city, Validators.required],
-        description: [obj.description]
+        name: [obj.data.name, Validators.required],
+        province: [obj.data.province, Validators.required],
+        city: [obj.data.city, Validators.required],
+        description: [obj.data.description]
       })
       this.form.get('province')?.disable()
+      this.form.get('province')?.setValue(obj.data.province)
       this.form.get('city')?.disable()
     })
   }
 
   onSubmit() {
     if (this.form.valid && this.id) {
-      this.service.update(<Entidad>this.form.value, this.id)
+      console.log('entra')
+      console.log(this.form.value)
+      this.service.update(<Entidad>this.form.value, this.id).subscribe({
+        next: response => {
+          console.log(response)
+        },
+        error: error => {
+          console.error('Error al actualizar la entidad:', error)
+        }
+      })
     } else {
       console.log('Form is invalid')
     }

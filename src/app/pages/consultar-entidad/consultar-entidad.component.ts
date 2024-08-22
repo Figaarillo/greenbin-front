@@ -17,6 +17,7 @@ import e from 'express'
 import Swal from 'sweetalert2'
 import { TableComponent } from '../../components/table/table.component'
 import { Column } from '../../services/interfaces/columns'
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -49,6 +50,7 @@ export class ConsultarEntidadComponent implements OnInit {
   nPage: number = 1
   cant: number = 5
   title = 'Entidades'
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.columns = [
       {
@@ -105,6 +107,10 @@ export class ConsultarEntidadComponent implements OnInit {
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement
     this.cant = Number(selectElement.value)
+  }
+  editEntity(id: string) {
+    console.log('%$$')
+    this.router.navigate(['/modificar-entidad', id])
   }
 
   deleteEntity(id: string) {
