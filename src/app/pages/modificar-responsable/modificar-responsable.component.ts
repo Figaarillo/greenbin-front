@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { ResponsableService } from '../../services/responsable/responsable.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterModule } from '@angular/router'
 import { Responsable } from '../../services/interfaces/responsable'
 
 @Component({
@@ -19,7 +19,8 @@ import { Responsable } from '../../services/interfaces/responsable'
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule
   ],
   templateUrl: './modificar-responsable.component.html',
   styleUrl: './modificar-responsable.component.scss'
