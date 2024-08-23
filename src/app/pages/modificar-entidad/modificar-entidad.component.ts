@@ -7,8 +7,11 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { EntidadService } from '../../services/entidad/entidad.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { Entidad } from '../../services/interfaces/entidad'
+import { CommonModule } from '@angular/common'
+import { MatOptionModule } from '@angular/material/core'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-modificar-entidad',
@@ -21,7 +24,10 @@ import { Entidad } from '../../services/interfaces/entidad'
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule,
+    MatOptionModule,
+    RouterModule
   ],
   templateUrl: './modificar-entidad.component.html',
   styleUrl: './modificar-entidad.component.scss'
@@ -52,33 +58,81 @@ export class ModificarEntidadComponent {
     { name: 'Tierra del Fuego, Antártida e Islas del Atlántico Sur' },
     { name: 'Tucumán' }
   ]
-
+  province: String = ''
   form!: FormGroup
   id: string | null = null
-
+  entity: Entidad[] = []
   constructor(
     private fb: FormBuilder,
     private service: EntidadService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
+    const prov = ''
     this.id = this.route.snapshot.paramMap.get('id')
-    this.service.get(this.id!).subscribe(obj => {
+    this.service.get(this.id!).subscribe((obj: any) => {
+      console.log(obj.data)
+      this.province = obj.data.province
       this.form = this.fb.group({
-        name: [obj.name, Validators.required],
-        province: [obj.province, Validators.required],
-        city: [obj.city, Validators.required],
-        description: [obj.description]
+        name: [obj.data.name, Validators.required],
+        province: [obj.data.province, Validators.required],
+        city: [obj.data.city, Validators.required],
+        description: [obj.data.description]
       })
       this.form.get('province')?.disable()
+      this.form.get('name')?.disable()
+      this.form.get('province')?.setValue(obj.data.province)
       this.form.get('city')?.disable()
     })
   }
 
   onSubmit() {
-    if (this.form.valid && this.id) {
-      this.service.update(<Entidad>this.form.value, this.id)
-    } else {
-      console.log('Form is invalid')
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estas seguro que desea modificar esta Entidad?',
+        text: 'No podras revertirlo.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      })
+      .then(result => {
+        if (result.isConfirmed) {
+          if (this.form.valid && this.id) {
+            console.log('entra')
+            console.log(this.form.value)
+            this.service.update(<Entidad>this.form.value, this.id).subscribe(
+              () => {
+                swalWithBootstrapButtons
+                  .fire({
+                    title: '¡Editado con éxito!',
+                    text: 'La entidad ha sido modificada.',
+                    icon: 'success'
+                  })
+                  .then(() => {
+                    this.router.navigate(['/listar-entidades'])
+                  })
+              },
+              error => {
+                console.error('Error al eliminar la entidad:', error)
+              }
+            )
+          } else {
+            console.log('Form is invalid')
+          }
+        } else {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelado',
+            text: 'La entidad no fue modificada.',
+            icon: 'error'
+          })
+        }
+      })
   }
 }

@@ -46,6 +46,7 @@ export class TableComponent implements OnChanges {
   }
 
   @Output() delete = new EventEmitter<any>()
+  @Output() edit = new EventEmitter<any>()
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,5 +77,8 @@ export class TableComponent implements OnChanges {
 
   deleteAction(item: string) {
     this.delete.emit(item)
+  }
+  editAction(item: string) {
+    this.edit.emit(item)
   }
 }

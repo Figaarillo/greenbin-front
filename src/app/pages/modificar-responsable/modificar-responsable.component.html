@@ -22,6 +22,13 @@
         }
     </mat-form-field>
     
+    <mat-form-field>
+      <mat-label>DNI</mat-label>
+      <input type="number" matInput placeholder="DNI" formControlName="dni">
+      @if (form.get('dni')!.hasError('required')) {
+        <mat-error>Ingrese un DNI</mat-error>
+      }
+  </mat-form-field>
 
     <mat-form-field>
         <mat-label>Nombre de Usuario</mat-label>
@@ -30,35 +37,7 @@
           <mat-error>Ingrese un Nombre de Usuario</mat-error>
         }
     </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input type="email" matInput formControlName="email"
-               placeholder="Ex. pat@example.com">
-        @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
-          <mat-error>Ingrese un email válido</mat-error>
-        }
-        @if (form.get('email')!.hasError('required')) {
-          <mat-error>Ingrese un email</mat-error>
-        }
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Contraseña</mat-label>
-        <input matInput placeholder="password" formControlName="password">
-        @if (form.get('password')!.hasError('required')) {
-          <mat-error>Ingrese una contraseña</mat-error>
-        }
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>DNI</mat-label>
-        <input type="number" matInput placeholder="DNI" formControlName="dni">
-        @if (form.get('dni')!.hasError('required')) {
-          <mat-error>Ingrese un DNI</mat-error>
-        }
-    </mat-form-field>
-
+  
     <mat-form-field>
         <mat-label>Teléfono</mat-label>
         <span matTextPrefix>+54 &nbsp;</span>
@@ -70,8 +49,8 @@
           <mat-error>Ingrese un teléfono</mat-error>
         }
     </mat-form-field>
-
-    <button mat-raised-button type="submit">Guardar</button>
+    <button class="btn btn-success"  type="submit">Guardar</button>
+    <a type="button"  [routerLink]="['/listar-responsables']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
 
   </form>
   

@@ -5,6 +5,7 @@ import { ResponsablesService } from '../../services/responsables/responsables.se
 import { TableComponent } from '../../components/table/table.component'
 import { Responsable } from '../../services/interfaces/responsaible'
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-consultar-responsables',
   standalone: true,
@@ -17,6 +18,7 @@ export class ConsultarResponsablesComponent implements OnInit {
   columns: Column[] = []
   title: string = 'Listar Responsables'
   responsibles: Responsable[] = []
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.columns = [
       {
@@ -56,7 +58,9 @@ export class ConsultarResponsablesComponent implements OnInit {
       this.responsibles = resp
     })
   }
-
+  editResponsible(id: string) {
+    this.router.navigate(['/modificar-responsable', id])
+  }
   deleteResponsible(id: string) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {

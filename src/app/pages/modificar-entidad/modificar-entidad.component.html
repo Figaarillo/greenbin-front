@@ -14,24 +14,21 @@
       }
     </mat-form-field>
     
-    <mat-form-field>
-      <mat-label>Provincia</mat-label>
-      <mat-select formControlName="province" required>
-        @for (prov of provincesList; track prov) {
-          <mat-option [value]="prov.name">{{prov.name}}</mat-option>
-        }
-      </mat-select>
-      @if (form.get('province')!.hasError('required')) {
-        <mat-error>Selecciona una provincia</mat-error>
-      }
-    </mat-form-field>
+  <mat-form-field>
+  <mat-label>Provincia</mat-label>
+  <mat-select formControlName="province" required>
+    <mat-option  [value]="province">
+      {{ province }}
+    </mat-option>
+  </mat-select>
+
+</mat-form-field>
+
 
     <mat-form-field>
       <mat-label>Localidad</mat-label>
       <input matInput placeholder="Localidad" formControlName="city">
-      @if (form.get('city')!.hasError('required')) {
-        <mat-error>Ingrese una localidad</mat-error>
-      }
+     
     </mat-form-field>
 
 
@@ -40,7 +37,8 @@
       <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
     </mat-form-field>
 
-    <button mat-raised-button type="submit">Guardar</button>
+    <button class="btn btn-success"  type="submit">Guardar</button>
+    <a type="button"  [routerLink]="['/listar-entidades']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
 
   </form>
   
