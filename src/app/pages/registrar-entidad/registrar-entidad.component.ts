@@ -67,12 +67,15 @@ export class RegistrarEntidadComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.pattern('(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`])')
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]{8,}$/
+          )
         ]
       ]
       //(?=.*[A-Z]) regla para al menos una mayuscula,
       //(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`]) regla para al menos un caracter especial, cualquiera de estos: !@#$%^&*()_+{}[]:;"'<>,.?/~`
+      //[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~]{8,}`: Asegura que la longitud de la cadena sea de al menos 8 caracteres y que contenga
+      //solo letras, números y los caracteres especiales permitidos.
     })
   }
 

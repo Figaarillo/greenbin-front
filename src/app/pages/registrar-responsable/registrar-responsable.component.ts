@@ -39,8 +39,9 @@ export class RegistrarResponsableComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.pattern('(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`])')
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]{8,}$/
+          )
         ]
       ],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8,12}$')]],
