@@ -62,7 +62,8 @@ export class RegistrarEntidadComponent {
       name: ['', Validators.required],
       province: [, Validators.required],
       city: ['', Validators.required],
-      description: ['']
+      description: [''],
+      password: ['', [Validators.required, Validators.minLength(8)]]
       //telefono: ['3514967254', [Validators.required, Validators.pattern(/^\d+$/)]],
       //email: ['munivm@gmail.com', [Validators.required, Validators.email]]
     })
@@ -70,7 +71,18 @@ export class RegistrarEntidadComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      this.service.create(<Entidad>this.form.value)
+      this.service.create(<Entidad>this.form.value).subscribe({
+        next(x) {
+          console.log('response: ' + x)
+        },
+        error(err) {
+          console.error('error')
+          console.log(err)
+        },
+        complete() {
+          alert('done')
+        }
+      })
     } else {
       console.log('Form is invalid')
     }
