@@ -17,8 +17,8 @@
   <mat-form-field>
   <mat-label>Provincia</mat-label>
   <mat-select formControlName="province" required>
-    <mat-option *ngFor="let prov of provincesList" [value]="prov.name">
-      {{ prov.name }}
+    <mat-option  [value]="province">
+      {{ province }}
     </mat-option>
   </mat-select>
 

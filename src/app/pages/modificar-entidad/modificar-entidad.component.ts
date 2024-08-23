@@ -58,7 +58,7 @@ export class ModificarEntidadComponent {
     { name: 'Tierra del Fuego, Antártida e Islas del Atlántico Sur' },
     { name: 'Tucumán' }
   ]
-
+  province: String = ''
   form!: FormGroup
   id: string | null = null
   entity: Entidad[] = []
@@ -72,7 +72,7 @@ export class ModificarEntidadComponent {
     this.id = this.route.snapshot.paramMap.get('id')
     this.service.get(this.id!).subscribe((obj: any) => {
       console.log(obj.data)
-
+      this.province = obj.data.province
       this.form = this.fb.group({
         name: [obj.data.name, Validators.required],
         province: [obj.data.province, Validators.required],
@@ -80,6 +80,7 @@ export class ModificarEntidadComponent {
         description: [obj.data.description]
       })
       this.form.get('province')?.disable()
+      this.form.get('name')?.disable()
       this.form.get('province')?.setValue(obj.data.province)
       this.form.get('city')?.disable()
     })
