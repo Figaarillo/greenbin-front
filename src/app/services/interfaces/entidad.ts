@@ -4,4 +4,5 @@ export interface Entidad {
   description: string
   city: string
   province: string
+  password: string
 }

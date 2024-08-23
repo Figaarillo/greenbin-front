@@ -14,7 +14,7 @@ export const routes: Routes = [
       )
   },
   {
-    path: 'registrar',
+    path: 'registrar-entidad',
     loadComponent: () =>
       import('./pages/registrar-entidad/registrar-entidad.component').then(m => m.RegistrarEntidadComponent)
   },

@@ -39,31 +39,16 @@
       <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
     </mat-form-field>
 
-    <!--
     <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email"
-             placeholder="Ex. pat@example.com">
-      @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
-        <mat-error>Ingrese un email válido</mat-error>
+      <mat-label>Clave</mat-label>
+      <input matInput placeholder="Clave" formControlName="password">
+      @if (form.get('password')!.hasError('required')) {
+        <mat-error>Ingrese una clave</mat-error>
       }
-      @if (form.get('email')!.hasError('required')) {
-        <mat-error>Ingrese un email</mat-error>
+      @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
+        <mat-error>La clave debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
       }
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Teléfono</mat-label>
-      <span matTextPrefix>+54 &nbsp;</span>
-      <input type="tel" matInput placeholder="3533-4039876" formControlName="telefono">
-      @if (form.get('telefono')!.invalid && !form.get('telefono')!.hasError('required')) {
-        <mat-error>Ingrese un teléfono válido</mat-error>
-      }
-      @if (form.get('telefono')!.hasError('required')) {
-        <mat-error>Ingrese un teléfono</mat-error>
-      }
-    </mat-form-field>
-    -->
 
     <button mat-raised-button type="submit">Guardar</button>
 

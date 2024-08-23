@@ -43,7 +43,18 @@ export class RegistrarResponsableComponent {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.service.create(<Responsable>this.form.value)
+      this.service.create(<Responsable>this.form.value).subscribe({
+        next(x) {
+          console.log('response: ' + x)
+        },
+        error(err) {
+          console.error('error')
+          console.log(err)
+        },
+        complete() {
+          alert('done')
+        }
+      })
     } else {
       console.log('Form is invalid')
     }
