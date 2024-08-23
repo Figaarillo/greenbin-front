@@ -63,9 +63,16 @@ export class RegistrarEntidadComponent {
       province: [, Validators.required],
       city: ['', Validators.required],
       description: [''],
-      password: ['', [Validators.required, Validators.minLength(8)]]
-      //telefono: ['3514967254', [Validators.required, Validators.pattern(/^\d+$/)]],
-      //email: ['munivm@gmail.com', [Validators.required, Validators.email]]
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern('(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`])')
+        ]
+      ]
+      //(?=.*[A-Z]) regla para al menos una mayuscula,
+      //(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`]) regla para al menos un caracter especial, cualquiera de estos: !@#$%^&*()_+{}[]:;"'<>,.?/~`
     })
   }
 
