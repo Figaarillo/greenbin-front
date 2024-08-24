@@ -38,6 +38,7 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
+    "ngx-pipes": "^3.2.2",
     "pnpm": "^9.5.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.12.4",
