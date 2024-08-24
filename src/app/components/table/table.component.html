@@ -2,10 +2,22 @@
     <mat-toolbar>
         <span>{{title}}</span>
       </mat-toolbar>
-      <mat-form-field class="mt-3" >
-        <mat-label>Filter</mat-label>
-        <input matInput  placeholder="Buscar" #input>
+
+      <mat-form-field class="mt-3">
+        <mat-label>Buscar por</mat-label>
+        <mat-select placeholder="Seleccione filtro" [(value)]="selectedFilter">
+          <mat-option *ngFor="let column of getFilteredColumns()" [value]="column.key">
+            {{ column.label }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      
+      
+      <mat-form-field class="mt-3">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input [(ngModel)]="search">
+      </mat-form-field>
+      
 
       
   <div class="pagination-container">
@@ -26,7 +38,7 @@
       </li>
     </ul>
   </div>
-  <table mat-table [dataSource]="dataSource| entitiesFilter:page:cant" class="mat-elevation-z8 " >
+  <table mat-table [dataSource]="dataSource| entitiesFilter:page:cant | entities:search:selectedFilter" class="mat-elevation-z8 " >
 
     <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.key">
       <ng-container *ngIf="column.key==='actions'" >
