@@ -35,7 +35,15 @@ export class RegistrarResponsableComponent {
       lastname: ['', [Validators.required, Validators.minLength(2)]],
       username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]{8,}$/
+          )
+        ]
+      ],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8,12}$')]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]]
     })

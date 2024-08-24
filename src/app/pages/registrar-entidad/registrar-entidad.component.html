@@ -40,13 +40,13 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Clave</mat-label>
-      <input matInput placeholder="Clave" formControlName="password">
+      <mat-label>Contraseña</mat-label>
+      <input matInput placeholder="Contraseña" formControlName="password">
       @if (form.get('password')!.hasError('required')) {
-        <mat-error>Ingrese una clave</mat-error>
+        <mat-error>Ingrese una contraseña</mat-error>
       }
       @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
-        <mat-error>La clave debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
+        <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
       }
     </mat-form-field>
 
