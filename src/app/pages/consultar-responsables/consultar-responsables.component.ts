@@ -52,12 +52,31 @@ export class ConsultarResponsablesComponent implements OnInit {
     ]
     this.listRespo()
   }
-
   listRespo() {
-    this.respService.list(0, 100).subscribe(resp => {
-      this.responsibles = resp
+    this.respService.list(0, 100).subscribe({
+      next: (response: any) => {
+        this.responsibles = response
+      },
+      error: err => {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            cancelButton: 'btn btn-danger'
+          }
+        })
+        swalWithBootstrapButtons
+          .fire({
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          .then(result => {
+            if (result.isConfirmed) {
+              this.router.navigate(['']) // Navega al home si se cancela
+            }
+          })
+      }
     })
   }
+
   editResponsible(id: string) {
     this.router.navigate(['/modificar-responsable', id])
   }
