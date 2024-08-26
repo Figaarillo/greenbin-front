@@ -10,6 +10,10 @@ import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
 import { Column } from '../../services/interfaces/columns'
 import { CommonModule } from '@angular/common'
 import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
+import { NgArrayPipesModule } from 'ngx-pipes'
+import { MatSelect, MatOption } from '@angular/material/select'
+import { EntitiesPipe } from '../../pipes/entities.pipe'
+import { FormsModule } from '@angular/forms'
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -23,7 +27,12 @@ import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
     MatTooltipModule,
     MatPaginatorModule,
     CommonModule,
-    EntitiesFilterPipe
+    EntitiesFilterPipe,
+    NgArrayPipesModule,
+    MatSelect,
+    MatOption,
+    EntitiesPipe,
+    FormsModule
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
@@ -33,6 +42,8 @@ export class TableComponent implements OnChanges {
   page: number = 0
   nPage: number = 1
   cant: number = 5
+  selectedFilter = ''
+  search = ''
   @Input() tableData: any[] = []
 
   @Input() title: String = ''
@@ -41,20 +52,20 @@ export class TableComponent implements OnChanges {
 
   @Input() set columns(columns: Column[]) {
     this.tableColumns = columns
-    console.log(this.tableColumns)
+
     this.displayedColumns = this.tableColumns.map(col => col.key)
   }
 
   @Output() delete = new EventEmitter<any>()
+  @Output() edit = new EventEmitter<any>()
+  @Output() filter = new EventEmitter<any>()
+  @Output() pagination = new EventEmitter<any>()
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource([])
-    console.log('###########')
-    console.log('cambios')
-    console.log('###########')
+
     this.dataSource.data = this.tableData
-    console.log(this.dataSource)
   }
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement
@@ -62,7 +73,6 @@ export class TableComponent implements OnChanges {
   }
 
   nextPage() {
-    console.log('entra')
     this.nPage += 1
     this.page += this.cant
   }
@@ -76,5 +86,12 @@ export class TableComponent implements OnChanges {
 
   deleteAction(item: string) {
     this.delete.emit(item)
+  }
+  editAction(item: string) {
+    this.edit.emit(item)
+  }
+  applyFilter(event: Event) {}
+  getFilteredColumns(): Column[] {
+    return this.tableColumns.filter(column => column.key !== 'actions')
   }
 }

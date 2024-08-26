@@ -44,11 +44,14 @@
     </mat-form-field>
 
     <mat-form-field>
-        <mat-label>Contraseña</mat-label>
-        <input matInput placeholder="password" formControlName="password">
-        @if (form.get('password')!.hasError('required')) {
-          <mat-error>Ingrese una contraseña</mat-error>
-        }
+      <mat-label>Contraseña</mat-label>
+      <input matInput placeholder="Contraseña" type="password" formControlName="password">
+      @if (form.get('password')!.hasError('required')) {
+        <mat-error>Ingrese una contraseña</mat-error>
+      }
+      @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
+        <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
+      }
     </mat-form-field>
 
     <mat-form-field>
@@ -71,7 +74,8 @@
         }
     </mat-form-field>
 
-    <button mat-raised-button type="submit">Guardar</button>
+    <button class="btn btn-success"  type="submit">Guardar</button>
+    <a type="button"  [routerLink]="['']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
 
   </form>
   

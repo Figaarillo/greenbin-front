@@ -8,6 +8,8 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatButtonModule } from '@angular/material/button'
 import { Entidad } from '../../services/interfaces/entidad'
 import { EntidadService } from '../../services/entidad/entidad.service'
+import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-registrar-entidad',
@@ -20,7 +22,8 @@ import { EntidadService } from '../../services/entidad/entidad.service'
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule
   ],
   templateUrl: './registrar-entidad.component.html',
   styleUrl: './registrar-entidad.component.scss'
@@ -56,23 +59,94 @@ export class RegistrarEntidadComponent {
 
   constructor(
     private fb: FormBuilder,
-    private service: EntidadService
+    private service: EntidadService,
+    private router: Router
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       province: [, Validators.required],
       city: ['', Validators.required],
-      description: ['']
-      //telefono: ['3514967254', [Validators.required, Validators.pattern(/^\d+$/)]],
-      //email: ['munivm@gmail.com', [Validators.required, Validators.email]]
+      description: [''],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]{8,}$/
+          )
+        ]
+      ]
+      //(?=.*[A-Z]) regla para al menos una mayuscula,
+      //(?=.*[!@#$%^&*()_+{}\\[\\]:;"\'<>,.?/~`]) regla para al menos un caracter especial, cualquiera de estos: !@#$%^&*()_+{}[]:;"'<>,.?/~`
+      //[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/~]{8,}`: Asegura que la longitud de la cadena sea de al menos 8 caracteres y que contenga
+      //solo letras, números y los caracteres especiales permitidos.
     })
   }
-
   onSubmit() {
-    if (this.form.valid) {
-      this.service.create(<Entidad>this.form.value)
-    } else {
-      console.log('Form is invalid')
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+    swalWithBootstrapButtons
+      .fire({
+        title: '¿Estas seguro que desea crear esta Entidad?',
+
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      })
+      .then(result => {
+        if (result.isConfirmed) {
+          if (this.form.valid) {
+            console.log('entra')
+            console.log(this.form.value)
+            this.service.create(<Entidad>this.form.value).subscribe(
+              () => {
+                swalWithBootstrapButtons
+                  .fire({
+                    title: '¡Creado con éxito!',
+
+                    icon: 'success'
+                  })
+                  .then(() => {
+                    this.router.navigate(['/listar-entidades'])
+                  })
+              },
+              error => {
+                swalWithBootstrapButtons
+                  .fire({
+                    title: 'Ha ocurrido un error',
+                    icon: 'error'
+                  })
+                  .then(result => {
+                    if (result.isConfirmed) {
+                      this.router.navigate(['/registrar-entidad']) // Navega al home si se cancela
+                    }
+                  })
+              }
+            )
+          } else {
+            swalWithBootstrapButtons
+              .fire({
+                title: 'Ha ocurrido un error',
+                icon: 'error'
+              })
+              .then(result => {
+                if (result.isConfirmed) {
+                  this.router.navigate(['/registrar-entidad']) // Navega al home si se cancela
+                }
+              })
+          }
+        } else {
+          swalWithBootstrapButtons.fire({
+            title: 'Cancelado',
+
+            icon: 'error'
+          })
+        }
+      })
   }
 }

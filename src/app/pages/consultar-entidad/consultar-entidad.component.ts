@@ -17,6 +17,9 @@ import e from 'express'
 import Swal from 'sweetalert2'
 import { TableComponent } from '../../components/table/table.component'
 import { Column } from '../../services/interfaces/columns'
+import { Router } from '@angular/router'
+import { error } from 'console'
+
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -49,6 +52,7 @@ export class ConsultarEntidadComponent implements OnInit {
   nPage: number = 1
   cant: number = 5
   title = 'Entidades'
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.columns = [
       {
@@ -74,15 +78,34 @@ export class ConsultarEntidadComponent implements OnInit {
     ]
     this.listEntities()
   }
-
   listEntities() {
-    this.entityService.list(0, 100).subscribe((response: any) => {
-      this.entidades = response
-
-      this.dataSource = new MatTableDataSource(this.entidades)
+    this.entityService.list(0, 100).subscribe({
+      next: (response: any) => {
+        this.entidades = response
+        this.dataSource = new MatTableDataSource(this.entidades)
+      },
+      error: err => {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            cancelButton: 'btn btn-danger'
+          }
+        })
+        swalWithBootstrapButtons
+          .fire({
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          .then(result => {
+            if (result.isConfirmed) {
+              this.router.navigate(['']) // Navega al home si se cancela
+            }
+          })
+      }
     })
   }
+
   applyFilter(event: Event) {
+    console.log('aka')
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
@@ -105,6 +128,10 @@ export class ConsultarEntidadComponent implements OnInit {
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement
     this.cant = Number(selectElement.value)
+  }
+  editEntity(id: string) {
+    console.log('%$$')
+    this.router.navigate(['/modificar-entidad', id])
   }
 
   deleteEntity(id: string) {

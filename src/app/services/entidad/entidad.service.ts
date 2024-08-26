@@ -16,6 +16,9 @@ export class EntidadService {
     return this.http.post<Entidad>(this.url, object)
   }
   update(object: Entidad, id: string): Observable<Entidad> {
+    console.log('###')
+    console.log(object)
+    console.log('###')
     return this.http.put<Entidad>(this.url + '/' + id, object)
   }
   get(id: string): Observable<Entidad> {
