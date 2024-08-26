@@ -18,6 +18,8 @@ import Swal from 'sweetalert2'
 import { TableComponent } from '../../components/table/table.component'
 import { Column } from '../../services/interfaces/columns'
 import { Router } from '@angular/router'
+import { error } from 'console'
+
 @Component({
   selector: 'app-consultar-entidad',
   standalone: true,
@@ -76,14 +78,32 @@ export class ConsultarEntidadComponent implements OnInit {
     ]
     this.listEntities()
   }
-
   listEntities() {
-    this.entityService.list(0, 100).subscribe((response: any) => {
-      this.entidades = response
-
-      this.dataSource = new MatTableDataSource(this.entidades)
+    this.entityService.list(0, 100).subscribe({
+      next: (response: any) => {
+        this.entidades = response
+        this.dataSource = new MatTableDataSource(this.entidades)
+      },
+      error: err => {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            cancelButton: 'btn btn-danger'
+          }
+        })
+        swalWithBootstrapButtons
+          .fire({
+            title: 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          .then(result => {
+            if (result.isConfirmed) {
+              this.router.navigate(['']) // Navega al home si se cancela
+            }
+          })
+      }
     })
   }
+
   applyFilter(event: Event) {
     console.log('aka')
     const filterValue = (event.target as HTMLInputElement).value

@@ -52,24 +52,20 @@ export class TableComponent implements OnChanges {
 
   @Input() set columns(columns: Column[]) {
     this.tableColumns = columns
-    console.log(this.tableColumns)
+
     this.displayedColumns = this.tableColumns.map(col => col.key)
-    console.log('####s##')
-    console.log(this.tableColumns)
   }
 
   @Output() delete = new EventEmitter<any>()
   @Output() edit = new EventEmitter<any>()
   @Output() filter = new EventEmitter<any>()
+  @Output() pagination = new EventEmitter<any>()
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.dataSource = new MatTableDataSource([])
-    console.log('###########')
-    console.log('cambios')
-    console.log('###########')
+
     this.dataSource.data = this.tableData
-    console.log(this.dataSource)
   }
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement
@@ -77,7 +73,6 @@ export class TableComponent implements OnChanges {
   }
 
   nextPage() {
-    console.log('entra')
     this.nPage += 1
     this.page += this.cant
   }
@@ -95,12 +90,8 @@ export class TableComponent implements OnChanges {
   editAction(item: string) {
     this.edit.emit(item)
   }
-  applyFilter(event: Event) {
-    console.log('ajkd')
-    this.filter.emit(event)
-  }
+  applyFilter(event: Event) {}
   getFilteredColumns(): Column[] {
-    console.log('jskjsowoiw')
     return this.tableColumns.filter(column => column.key !== 'actions')
   }
 }
