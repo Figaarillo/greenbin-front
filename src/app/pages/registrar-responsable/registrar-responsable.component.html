@@ -45,7 +45,7 @@
 
     <mat-form-field>
       <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" formControlName="password">
+      <input matInput placeholder="Contraseña" type="password" formControlName="password">
       @if (form.get('password')!.hasError('required')) {
         <mat-error>Ingrese una contraseña</mat-error>
       }
@@ -74,7 +74,8 @@
         }
     </mat-form-field>
 
-    <button mat-raised-button type="submit">Guardar</button>
+    <button class="btn btn-success"  type="submit">Guardar</button>
+    <a type="button"  [routerLink]="['']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
 
   </form>
   
