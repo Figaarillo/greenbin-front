@@ -116,7 +116,16 @@ export class RegistrarEntidadComponent {
                   })
               },
               error => {
-                console.error('Error al crear:', error)
+                swalWithBootstrapButtons
+                  .fire({
+                    title: 'Ha ocurrido un error',
+                    icon: 'error'
+                  })
+                  .then(result => {
+                    if (result.isConfirmed) {
+                      this.router.navigate(['/registrar-entidad']) // Navega al home si se cancela
+                    }
+                  })
               }
             )
           } else {
