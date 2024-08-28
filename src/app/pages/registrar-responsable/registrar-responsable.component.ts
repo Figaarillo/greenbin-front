@@ -61,7 +61,7 @@ export class RegistrarResponsableComponent {
     })
     swalWithBootstrapButtons
       .fire({
-        title: '¿Estas seguro que desea crear esta Entidad?',
+        title: '¿Estas seguro que desea crear este Responsable?',
 
         icon: 'warning',
         showCancelButton: true,
@@ -90,6 +90,7 @@ export class RegistrarResponsableComponent {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',
+
                     icon: 'error'
                   })
                   .then(result => {
