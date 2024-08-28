@@ -45,7 +45,10 @@
 
     <mat-form-field>
       <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" type="password" formControlName="password">
+      <input matInput placeholder="Contraseña" type="password"  formControlName="password">
+      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+   <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+   </button>
       @if (form.get('password')!.hasError('required')) {
         <mat-error>Ingrese una contraseña</mat-error>
       }
