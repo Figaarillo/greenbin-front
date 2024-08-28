@@ -87,7 +87,16 @@ export class ModificarResponsableComponent {
               }
             )
           } else {
-            console.log('Form is invalid')
+            swalWithBootstrapButtons
+              .fire({
+                title: 'Ha ocurrido un error',
+                icon: 'error'
+              })
+              .then(result => {
+                if (result.isConfirmed) {
+                  this.router.navigate(['/modificar-responsable']) // Navega al home si se cancela
+                }
+              })
           }
         } else {
           swalWithBootstrapButtons.fire({

@@ -41,7 +41,7 @@ export class TableComponent implements OnChanges {
   dataSource: any = []
   page: number = 0
   nPage: number = 1
-  cant: number = 5
+  cant: number = 15
   selectedFilter = ''
   search = ''
   @Input() tableData: any[] = []

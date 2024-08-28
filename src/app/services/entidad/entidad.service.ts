@@ -4,6 +4,7 @@ import { Entidad } from '../interfaces/entidad'
 import { Observable } from 'rxjs'
 
 import { map } from 'rxjs'
+
 @Injectable({
   providedIn: 'root'
 })

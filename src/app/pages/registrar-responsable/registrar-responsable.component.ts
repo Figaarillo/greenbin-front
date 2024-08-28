@@ -9,6 +9,7 @@ import { Responsable } from '../../services/interfaces/responsable'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
 import Swal from 'sweetalert2'
+import { MatIconModule } from '@angular/material/icon'
 
 @Component({
   selector: 'app-registrar-responsable',
@@ -21,7 +22,8 @@ import Swal from 'sweetalert2'
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './registrar-responsable.component.html',
   styleUrl: './registrar-responsable.component.scss'
@@ -61,7 +63,7 @@ export class RegistrarResponsableComponent {
     })
     swalWithBootstrapButtons
       .fire({
-        title: '¿Estas seguro que desea crear esta Entidad?',
+        title: '¿Estas seguro que desea crear este Responsable?',
 
         icon: 'warning',
         showCancelButton: true,
@@ -90,6 +92,7 @@ export class RegistrarResponsableComponent {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',
+
                     icon: 'error'
                   })
                   .then(result => {
@@ -119,5 +122,12 @@ export class RegistrarResponsableComponent {
           })
         }
       })
+  }
+  hidePassword = true
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword
+    const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
+    passwordField.type = this.hidePassword ? 'password' : 'text'
   }
 }

@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button'
 import { Entidad } from '../../services/interfaces/entidad'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
+import { MatIconModule } from '@angular/material/icon'
+
 import Swal from 'sweetalert2'
 
 @Component({
@@ -23,7 +25,8 @@ import Swal from 'sweetalert2'
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './registrar-entidad.component.html',
   styleUrl: './registrar-entidad.component.scss'
@@ -148,5 +151,12 @@ export class RegistrarEntidadComponent {
           })
         }
       })
+  }
+  hidePassword = true
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword
+    const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
+    passwordField.type = this.hidePassword ? 'password' : 'text'
   }
 }

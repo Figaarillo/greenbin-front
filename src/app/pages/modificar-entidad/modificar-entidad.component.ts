@@ -120,11 +120,29 @@ export class ModificarEntidadComponent {
                   })
               },
               error => {
-                console.error('Error al eliminar la entidad:', error)
+                swalWithBootstrapButtons
+                  .fire({
+                    title: 'Ha ocurrido un error',
+                    icon: 'error'
+                  })
+                  .then(result => {
+                    if (result.isConfirmed) {
+                      this.router.navigate(['/modificar-entidad']) // Navega al home si se cancela
+                    }
+                  })
               }
             )
           } else {
-            console.log('Form is invalid')
+            swalWithBootstrapButtons
+              .fire({
+                title: 'Ha ocurrido un error',
+                icon: 'error'
+              })
+              .then(result => {
+                if (result.isConfirmed) {
+                  this.router.navigate(['/modificar-entidad']) // Navega al home si se cancela
+                }
+              })
           }
         } else {
           swalWithBootstrapButtons.fire({

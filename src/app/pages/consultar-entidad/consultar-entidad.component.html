@@ -6,7 +6,7 @@
 
   <mat-form-field class="mt-3" >
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input>
   </mat-form-field>
 
   <div class="pagination-container">
@@ -67,7 +67,7 @@
         <a   matTooltip="Editar"> 
           <mat-icon>edit</mat-icon>
         </a>
-        <a class="btn-delete"  matTooltip="Eliminar"> 
+        <a class="btn-delete"   (click)="deleteEntity(element.id)" matTooltip="Eliminar"> 
           <mat-icon >delete</mat-icon>
         </a>
       </td>
