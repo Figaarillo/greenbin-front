@@ -36,5 +36,10 @@ export const routes: Routes = [
     path: 'modificar-responsable/:id',
     loadComponent: () =>
       import('./pages/modificar-responsable/modificar-responsable.component').then(m => m.ModificarResponsableComponent)
+  },
+  {
+    path: 'registrar-vecino',
+    loadComponent: () =>
+      import('./pages/registrar-vecino/registrar-vecino.component').then(m => m.RegistrarVecinoComponent)
   }
 ]
