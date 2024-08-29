@@ -41,5 +41,10 @@ export const routes: Routes = [
     path: 'registrar-vecino',
     loadComponent: () =>
       import('./pages/registrar-vecino/registrar-vecino.component').then(m => m.RegistrarVecinoComponent)
+  },
+  {
+    path: 'registrar-local',
+    loadComponent: () =>
+      import('./pages/registrar-local/registrar-local.component').then(m => m.RegistrarLocalComponent)
   }
 ]

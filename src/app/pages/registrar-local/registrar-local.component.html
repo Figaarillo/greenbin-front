@@ -1,1 +1,64 @@
-<p>registrar-local works!</p>
+<app-navbar></app-navbar>
+<div class="container mt-3">
+	
+    <mat-toolbar>
+        <span>Registrarse</span>
+      </mat-toolbar>
+      <form>
+
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" >
+          
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Dirección</mat-label>
+            <input matInput placeholder="Dirección" >
+            
+        </mat-form-field>
+        
+        <mat-form-field>
+            <mat-label>Cuit</mat-label>
+            <input matInput placeholder="Cuit" type="text" >
+            
+        </mat-form-field>
+        
+    
+        <mat-form-field>
+            <mat-label>Nombre de Usuario</mat-label>
+            <input matInput placeholder="Nombre de Usuario" >
+          
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="email" matInput 
+                   placeholder="Ex. pat@example.com">
+           
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Teléfono</mat-label>
+            <span matTextPrefix>+54 &nbsp;</span>
+            <input type="tel" matInput placeholder="3533-4039876" >
+          
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input matInput placeholder="Contraseña" type="password" >
+          
+       
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Confirmar Contraseña</mat-label>
+          <input matInput placeholder="Contraseña" type="password" >
+         
+        </mat-form-field>
+    
+    
+        <button class="btn btn-success" type="submit">Guardar</button>
+        <a type="button" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
+    
+      </form>
+
+</div>
