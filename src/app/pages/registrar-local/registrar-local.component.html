@@ -1,95 +1,82 @@
 <app-navbar [title]="title"></app-navbar>
 <div class="container mt-3">
-	
- 
-      <form class="form" [formGroup]="formGroup">
+  <form class="form" [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
 
-        <mat-form-field>
-          <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" type="text" formControlName="name" />
+      @if (formGroup.controls.name.hasError('required')) {
+        <mat-error>Ingrese el nombre de su Comercio </mat-error>
+      }
+    </mat-form-field>
 
-          <input matInput placeholder="Nombre" type="text" formControlName="name" >
-          @if(formGroup.controls.name.hasError('required')){
+    <mat-form-field>
+      <mat-label>Dirección</mat-label>
+      <input matInput placeholder="Dirección" formControlName="address" />
+      @if (formGroup.controls.address.hasError('required')) {
+        <mat-error>Ingrese la dirección de su Comercio </mat-error>
+      }
+    </mat-form-field>
 
-              <mat-error>Ingrese el nombre de su Comercio </mat-error>
-          }
-        </mat-form-field>
-        
-        <mat-form-field>
-            <mat-label>Dirección</mat-label>
-            <input matInput placeholder="Dirección"  formControlName="address" >
-            @if(formGroup.controls.address.hasError('required')){
-    
-                <mat-error>Ingrese la dirección de su Comercio </mat-error>
-            }
-            
-        </mat-form-field>
-        
-        <mat-form-field>
-            <mat-label>Cuit</mat-label>
-            <input matInput placeholder="Cuit" type="text"  formControlName="cuit" >
-            @if(formGroup.controls.cuit.hasError('required')){
-    
-                <mat-error>Ingrese el CUIT de su Comercio </mat-error>
-            }
-            
-        </mat-form-field>
-        
-        
-        <mat-form-field>
-            <mat-label>Nombre de Usuario</mat-label>
-            <input matInput placeholder="Nombre de Usuario"  formControlName="username" >
-            @if(formGroup.controls.username.hasError('required')){
-    
-                <mat-error>Ingrese su usuario. </mat-error>
-            }
-            
-            
-            
-        </mat-form-field>
-        
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input type="email" matInput 
-            placeholder="Ex. pat@example.com"  formControlName="email">
-            @if(formGroup.controls.email.hasError('required')){
-    
-                <mat-error>Ingrese su email. </mat-error>
-            }
-            
-            @if(formGroup.controls.email.hasError('email')){
-    
-                <mat-error>Ingrese un email válido. </mat-error>
-            }
-           
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Teléfono</mat-label>
-            <span matTextPrefix>+54 &nbsp;</span>
-            <input type="tel" matInput placeholder="3533-4039876"   formControlName="phoneNumber">
-            @if(formGroup.controls.phoneNumber.hasError('required')){
-    
-                <mat-error>Ingrese su N° de teléfono. </mat-error>
-            }
-            @if(formGroup.controls.phoneNumber.hasError('pattern')){
-    
-                <mat-error>Ingrese un N° de teléfono válido. </mat-error>
-            }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Contraseña</mat-label>
-          <input matInput placeholder="Contraseña" type="password" formControlName="password" >
-          
-       
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label> Confirmar Contraseña</mat-label>
-          <input matInput placeholder="Contraseña" type="password" formControlName="confirmPassword" >
-         
-        </mat-form-field>
-    
-    
-        <button style="width: 100%;" class="btn btn-success" type="submit" (click)="register()">Guardar</button>
-    
-      </form>
+    <mat-form-field>
+      <mat-label>Cuit</mat-label>
+      <input matInput placeholder="Cuit" type="text" formControlName="cuit" />
+      @if (formGroup.controls.cuit.hasError('required')) {
+        <mat-error>Ingrese el CUIT de su Comercio </mat-error>
+      }
+    </mat-form-field>
 
+    <mat-form-field>
+      <mat-label>Nombre de Usuario</mat-label>
+      <input matInput placeholder="Nombre de Usuario" formControlName="username" />
+      @if (formGroup.controls.username.hasError('required')) {
+        <mat-error>Ingrese su usuario. </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email" />
+      @if (formGroup.controls.email.hasError('required')) {
+        <mat-error>Ingrese su email. </mat-error>
+      }
+
+      @if (formGroup.controls.email.hasError('email')) {
+        <mat-error>Ingrese un email válido. </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <span matTextPrefix>+54 &nbsp;</span>
+      <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber" />
+      @if (formGroup.controls.phoneNumber.hasError('required')) {
+        <mat-error>Ingrese su N° de teléfono. </mat-error>
+      }
+      @if (formGroup.controls.phoneNumber.hasError('pattern')) {
+        <mat-error>Ingrese un N° de teléfono válido. </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Contraseña</mat-label>
+      <input matInput placeholder="Contraseña" type="password" formControlName="password" />
+      @if (formGroup.controls.password.hasError('required')) {
+        <mat-error>Ingrese su contraseña. </mat-error>
+      }
+      @if (formGroup.controls.password.hasError('pattern')) {
+        <mat-error>Ingrese una contraseña válida. </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Confirmar Contraseña</mat-label>
+      <input matInput placeholder="Contraseña" type="password" formControlName="confirmPassword" [errorStateMatcher]="passwordStateMatcher" />
+      @if (formGroup.controls.confirmPassword.hasError('required')) {
+        <mat-error>Confirme su contraseña. </mat-error>
+      }
+      @if (formGroup.hasError('confirmPasswordError')) {
+        <mat-error>Las contraseñas no coinciden. </mat-error>
+      }
+    </mat-form-field>
+
+    <button style="width: 100%; margin-top: 10px;" class="btn btn-success" type="submit" (click)="register()">Guardar</button>
+  </form>
 </div>
