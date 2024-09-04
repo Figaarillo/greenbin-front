@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Input, input } from '@angular/core'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -11,4 +11,6 @@ import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  @Input() title: string = ''
+}
