@@ -13,4 +13,7 @@ export class VecinoService {
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url + '/signup', object)
   }
+  get(id: string): Observable<Vecino> {
+    return this.http.get<Vecino>(this.url + '/' + id)
+  }
 }

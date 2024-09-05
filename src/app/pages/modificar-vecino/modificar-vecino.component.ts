@@ -4,8 +4,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { RouterModule } from '@angular/router'
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { VecinoService } from '../../services/vecino/vecino.service'
 
 @Component({
   selector: 'app-modificar-vecino',
@@ -24,14 +25,23 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
   styleUrl: './modificar-vecino.component.scss'
 })
 export class ModificarVecinoComponent {
-  form: FormGroup
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      firstname: ['', [Validators.required, Validators.minLength(2)]],
-      lastname: ['', [Validators.required, Validators.minLength(2)]],
-      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]]
+  form!: FormGroup
+  id: string | null = null
+  constructor(
+    private fb: FormBuilder,
+    private service: VecinoService,
+    private route: ActivatedRoute
+  ) {
+    this.id = this.route.snapshot.paramMap.get('id')
+    this.service.get(this.id!).subscribe((obj: any) => {
+      //console.log(obj.data)
+      this.form = this.fb.group({
+        firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
+        lastname: [obj.data.lastname, [Validators.required, Validators.minLength(2)]],
+        username: [obj.data.username, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+        email: [obj.data.email, [Validators.required, Validators.email]],
+        phoneNumber: [obj.data.phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10,15}$')]]
+      })
     })
   }
 
