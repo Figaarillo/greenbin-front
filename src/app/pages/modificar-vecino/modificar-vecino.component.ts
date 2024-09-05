@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { Vecino } from '../../services/interfaces/vecino'
 
 @Component({
   selector: 'app-modificar-vecino',
@@ -45,5 +46,9 @@ export class ModificarVecinoComponent {
     })
   }
 
-  onSubmit() {}
+  onSubmit() {
+    if (this.form.valid && this.id) {
+      this.service.update(<Vecino>this.form.value, this.id).subscribe()
+    }
+  }
 }
