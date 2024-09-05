@@ -1,1 +1,63 @@
-<p>modificar-vecino works!</p>
+<app-navbar></app-navbar>
+<div class="container mt-3">
+  <mat-toolbar>
+    <span>Modificar Vecino</span>
+  </mat-toolbar>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="firstname">
+      @if (form.get('firstname')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Apellido" formControlName="lastname">
+        @if (form.get('lastname')!.hasError('required')) {
+          <mat-error>Ingrese un apellido</mat-error>
+        }
+    </mat-form-field>
+    
+
+    <mat-form-field>
+        <mat-label>Nombre de Usuario</mat-label>
+        <input matInput placeholder="Nombre de Usuario" formControlName="username">
+        @if (form.get('username')!.hasError('required')) {
+          <mat-error>Ingrese un Nombre de Usuario</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email"
+               placeholder="Ex. pat@example.com">
+        @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
+          <mat-error>Ingrese un email válido</mat-error>
+        }
+        @if (form.get('email')!.hasError('required')) {
+          <mat-error>Ingrese un email</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Teléfono</mat-label>
+        <span matTextPrefix>+54 &nbsp;</span>
+        <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
+        @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
+          <mat-error>Ingrese un teléfono válido</mat-error>
+        }
+        @if (form.get('phoneNumber')!.hasError('required')) {
+          <mat-error>Ingrese un teléfono</mat-error>
+        }
+    </mat-form-field>
+
+    <button class="btn btn-success" [disabled]="form.invalid" type="submit">Guardar</button>
+    <a type="button" [routerLink]="['']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
+
+  </form>
+  
+</div>
