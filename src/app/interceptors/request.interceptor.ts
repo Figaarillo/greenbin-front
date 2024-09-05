@@ -18,8 +18,15 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
     {
       url: '/api/neighbor/signup',
       method: 'POST',
-      errorMessage: 'Error al crear el usuario, por favor revise los datos y vuelva a intentarlo',
-      successMessage: 'El usuario se ha creado con exito',
+      errorMessage: 'Error al crear el vecino, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'El vecino se ha creado con exito',
+      routeToNavigate: ''
+    },
+    {
+      url: '/api/neighbor',
+      method: 'PUT',
+      errorMessage: 'Error al editar el vecino, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'El vecino se ha editado con exito',
       routeToNavigate: ''
     }
   ]
