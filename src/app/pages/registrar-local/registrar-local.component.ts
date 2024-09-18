@@ -8,6 +8,11 @@ import { MatInput } from '@angular/material/input'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MatToolbar } from '@angular/material/toolbar'
 import { confirmPasswordValidator, PasswordStateMatcher } from './custom-validator'
+import { LocalAdherido } from '../../services/interfaces/local-adherido'
+import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import Swal from 'sweetalert2'
+import { ActivatedRoute, RouterModule, Router } from '@angular/router'
+
 @Component({
   selector: 'app-registrar-local',
   standalone: true,
@@ -27,6 +32,11 @@ import { confirmPasswordValidator, PasswordStateMatcher } from './custom-validat
 })
 export class RegistrarLocalComponent {
   title: string = 'Registrarse'
+  hidePassword = true
+  constructor(
+    private localService: LocalAdheridoService,
+    private router: Router
+  ) {}
   private readonly _formBuilder = inject(FormBuilder)
   passwordStateMatcher = new PasswordStateMatcher()
   formGroup = this._formBuilder.nonNullable.group(
@@ -51,7 +61,59 @@ export class RegistrarLocalComponent {
     { validators: confirmPasswordValidator }
   )
 
-  register(): void {
-    console.log(this.formGroup.errors)
+  register() {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+
+    if (this.formGroup.valid) {
+      console.log('entra')
+      this.localService.create(<LocalAdherido>this.formGroup.value).subscribe(
+        () => {
+          swalWithBootstrapButtons
+            .fire({
+              title: '¡Creado con éxito!',
+
+              icon: 'success'
+            })
+            .then(() => {
+              this.router.navigate([''])
+            })
+        },
+        error => {
+          console.log(error.error.message)
+          swalWithBootstrapButtons
+            .fire({
+              title: 'Ha ocurrido un error',
+              icon: 'error'
+            })
+            .then(result => {
+              if (result.isConfirmed) {
+                this.router.navigate(['/registrar-local']) // Navega al home si se cancela
+              }
+            })
+        }
+      )
+    } else {
+      swalWithBootstrapButtons
+        .fire({
+          title: 'Ha ocurrido un error',
+          icon: 'error'
+        })
+        .then(result => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/registrar-local']) // Navega al home si se cancela
+          }
+        })
+    }
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword
+    const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
+    passwordField.type = this.hidePassword ? 'password' : 'text'
   }
 }
