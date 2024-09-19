@@ -75,7 +75,7 @@ export class RegistrarVecinoComponent {
   onSubmit() {
     if (this.form.valid) {
       console.log(<Vecino>this.form.value)
-      this.vecinoService.create(<Vecino>this.form.value)
+      this.vecinoService.create(<Vecino>this.form.value).subscribe()
     }
   }
 }
