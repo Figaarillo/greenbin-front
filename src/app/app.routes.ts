@@ -46,5 +46,10 @@ export const routes: Routes = [
     path: 'modificar-vecino/:id', // Nota el parámetro :id'
     loadComponent: () =>
       import('./pages/modificar-vecino/modificar-vecino.component').then(m => m.ModificarVecinoComponent)
+  },
+  {
+    path: 'registrar-local',
+    loadComponent: () =>
+      import('./pages/registrar-local/registrar-local.component').then(m => m.RegistrarLocalComponent)
   }
 ]
