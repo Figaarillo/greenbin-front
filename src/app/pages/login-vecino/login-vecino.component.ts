@@ -5,7 +5,8 @@ import { MatInputModule } from '@angular/material/input'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import { CommonModule } from '@angular/common'
+import { Router, RouterModule } from '@angular/router'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login-vecino',
@@ -17,7 +18,8 @@ import { CommonModule } from '@angular/common'
     MatFormFieldModule,
     FormsModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './login-vecino.component.html',
   styleUrl: './login-vecino.component.scss'
@@ -29,7 +31,10 @@ export class LoginVecinoComponent {
   username: string = 'greenbin'
   password: string = 'proyectofinal'
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: Router
+  ) {
     this.form = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -42,9 +47,13 @@ export class LoginVecinoComponent {
       this.username == this.form.get('username')?.value &&
       this.password == this.form.get('password')?.value
     ) {
-      alert('LOGUEADO')
+      this.route.navigateByUrl('/vecino')
     } else {
-      alert('DATOS INCORRECTOS')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Usuario o contraseña incorrecto'
+      })
     }
   }
 }
