@@ -13,4 +13,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
   templateUrl: './login-vecino.component.html',
   styleUrl: './login-vecino.component.scss'
 })
-export class LoginVecinoComponent {}
+export class LoginVecinoComponent {
+  hide = true
+}

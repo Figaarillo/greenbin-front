@@ -1,28 +1,31 @@
-<div class="h-100 w-100" style="background-color: #3dad55;">
+<div class="h-100 w-100" style="background-color: #4f973d;">
     <div class="body">
 
         <form action="">
-            
+
             <h1>Bienvenido!</h1>
 
-            <mat-form-field>
+            <mat-form-field class="w-100">
                 <mat-label>Usuario</mat-label>
-                <span matTextPrefix><mat-icon>person</mat-icon></span>
+                <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
                 <input type="text" matInput placeholder="Juan Perez">
-                <mat-icon matSuffix>mode_edit</mat-icon>
             </mat-form-field>
 
-            <mat-form-field>
+            <mat-form-field class="w-100 mb-3">
                 <mat-label>Contraseña</mat-label>
-                <span matTextPrefix><mat-icon>lock</mat-icon></span>
-                <input type="password" matInput placeholder="*********">
+                <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
                 <mat-hint><a href="#">Olvide mi Contraseña</a></mat-hint>
-                <mat-icon matSuffix>lock</mat-icon>
             </mat-form-field>
 
-            <mat-checkbox>Mantener sesión iniciada!</mat-checkbox>
+            <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox>
 
-            <button mat-raised-button>Ingresar</button>
+            <p class="p-4">
+                <button mat-raised-button class="w-100">Ingresar</button>
+            </p>
 
         </form>
     </div>
