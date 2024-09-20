@@ -1,0 +1,70 @@
+<div class="h-100 w-100" style="background-color: #e9ffd1;">
+
+    <mat-drawer-container class="h-100 w-100"  autosize>
+
+        <div class="header">
+            <mat-toolbar>
+                <button mat-icon-button (click)="menu.toggle()">
+                  <mat-icon>menu</mat-icon>
+                </button>
+                <span class="spacer"></span>
+                <span><h1 style="color: #fff; font-weight: 900;">GreenBin</h1></span>
+                <span class="spacer"></span>
+                <button mat-icon-button (click)="buzon.toggle()">
+                  <mat-icon>notifications</mat-icon>
+                </button>
+            </mat-toolbar>
+            <h1 style="color: #fff; font-weight: 900;">Bienvenido Manuel</h1>
+            <h3 style="color: #fff; font-weight: 900; font-size: xxx-large;">12389 pts</h3>
+        </div>
+    
+        <mat-drawer #buzon mode="over" [position]="'end'">
+            <p>Buzón</p>
+        </mat-drawer>
+        <mat-drawer #menu mode="over" [position]="'start'">
+            <p>Menu</p>
+        </mat-drawer>
+    
+
+
+        <div class="body">
+            <mat-list>
+                <div mat-subheader>Historial</div>
+                <mat-list-item>
+                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_upward</mat-icon></div>
+                    <div matListItemTitle>+6000 pts</div>
+                    <div matListItemLine>2 kilos de Plástico</div>
+                    <div matListItemLine>24/08/2024 17:52</div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
+                    <div matListItemTitle>-2500 pts</div>
+                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
+                    <div matListItemLine>20/08/2024 20:18</div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+        <div class="menu-footer">
+            <div>
+                <button mat-mini-fab>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button mat-fab>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button mat-mini-fab>
+                    <mat-icon>plus_one</mat-icon>
+                </button>
+            </div>
+        </div>
+    
+    </mat-drawer-container>
+
+</div>
+
+
