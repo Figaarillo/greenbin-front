@@ -9,10 +9,11 @@
     box-shadow: 0px 0px 40px #bebebe,
              0px 0px 40px #ffffff;
 }
-.header mat-toolbar{
+mat-toolbar{
     background-color: #ffffff00;
     position: absolute;
     top: 0;
+    color: #fff;
 }
 .body{
     height: 45%;
@@ -31,6 +32,7 @@ mat-list-item .listIcon{
     align-items: center;
     height: 10%;
     background-color: #4f973d;
+    padding: 0 10%;
 }
 
 .menu-footer button{
