@@ -1,40 +1,80 @@
 <div class="h-100 w-100" style="background-color: #4f973d;">
     <div class="body">
-        <div class="text-center">
-            <h2>Bienvenido</h2>
-            <p>?Como Quieres Acceder?</p>
+        <div class="body-header">
+            <h1 class="m-4">Bienvenido!</h1>
+            @if(loginAs==0){
+                <h4>¿Como deseas ingresar?</h4>
+            }
+            @else{
+                <h4>Iniciaras como <span><b>{{userRole[(loginAs-1)]}}</b></span></h4>
+            }
         </div>
-        <div class="buttons-container">
-            <div class="button-card button-card-neighbor">
-                <div class="button-card-image">
+        <div class="body-content">
+            @if(loginAs==0){
+                <div class="buttons-container">
+                    <div class="button-card button-card-neighbor" (click)="loginAs=1">
+                        <div class="button-card-image">
+                            <mat-icon>account_circle</mat-icon>
+                        </div>
+                        <div class="button-card-content">
+                            <p>Ingresar Como</p>
+                            <p>VECINO</p>
+                        </div>
+                    </div>
+                    <div class="button-card button-card-business" (click)="loginAs=2">
+                        <div class="button-card-image">
+                            <mat-icon>store</mat-icon>
+                        </div>
+                        <div class="button-card-content">
+                            <p>Ingresar Como</p>
+                            <p>LOCAL ADHERIDO</p>
+                        </div>
+                    </div>
+                    <div class="button-card button-card-responsible" (click)="loginAs=3">
+                        <div class="button-card-image">
+                            <mat-icon>recycling</mat-icon>
+                        </div>
+                        <div class="button-card-content">
+                            <p>Ingresar Como</p>
+                            <p>RESPONSABLE</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            @else{
+                <button mat-icon-button class="back-button" (click)="loginAs=0">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+                    <mat-form-field class="w-100">
+                        <mat-label>Usuario</mat-label>
+                        <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
+                        <input type="text" matInput placeholder="Juan Perez" formControlName="username">
+                    </mat-form-field>
+        
+                    <mat-form-field class="w-100 mb-3">
+                        <mat-label>Contraseña</mat-label>
+                        <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-hint><a href="#">Olvidé mi Contraseña</a></mat-hint>
+                    </mat-form-field>
+        
+                    <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox>
+        
                     
-                </div>
-                <div class="button-card-content">
-                    <p>Ingresar Como</p>
-                    <p>VECINO</p>
-                </div>
-            </div>
-            <div class="button-card button-card-bussines">
-                <div class="button-card-image">
-                    
-                </div>
-                <div class="button-card-content">
-                    <p>Ingresar Como</p>
-                    <p>LOCAL ADHERIDO</p>
-                </div>
-            </div>
-            <div class="button-card button-card-responsible">
-                <div class="button-card-image">
-                    
-                </div>
-                <div class="button-card-content">
-                    <p>Ingresar Como</p>
-                    <p>RESPONSABLE</p>
-                </div>
-            </div>
+                    <p class="p-4">
+                        <button mat-raised-button class="w-100" type="submit" [disabled]="form.invalid">Ingresar</button>
+                    </p>
+        
+                </form>
+            }
         </div>
     </div>
-    <div class="footer">
-        <p>GreenBin</p>
+    <div class="footer" [routerLink]="['/registrar-vecino']">
+        <p>No tengo un Usuario</p>
     </div>
 </div>
