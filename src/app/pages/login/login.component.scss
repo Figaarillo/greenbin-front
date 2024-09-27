@@ -1,0 +1,53 @@
+.buttons-container{
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+}
+.button-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.button-card{
+    width: 300px;
+    height: 100px;
+    display: flex;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.22);
+    transition: all 300ms;
+}
+.button-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    cursor: pointer;
+}
+.button-card, .button-card img{
+    border-radius: 1rem;
+}
+.button-card-image{
+    width: 50%;
+    clip-path: polygon(0 0, 100% 0, 60% 100%, 0% 100%);
+    border-radius: 1rem 0 0 1rem;
+    background-image: url('https://images.unsplash.com/photo-1482877346909-048fb6477632?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=958&q=80'); /* Ruta de la imagen */
+    background-size: cover; /* Hace que la imagen cubra todo el div */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+.button-card-content{
+    position: absolute;
+    text-align: end;
+    padding: 10px;
+    bottom: 0;
+    right: 0;
+}
+.button-card-content p{
+    margin: 0;
+}
+.button-card-content p:first-child{
+    color: #888888;
+}
+.button-card-content p:last-child{
+    font-size: 130%;
+    font-weight: bold;
+}
