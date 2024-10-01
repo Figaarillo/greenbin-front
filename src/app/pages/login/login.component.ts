@@ -7,11 +7,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { Router, RouterModule } from '@angular/router'
 import Swal from 'sweetalert2'
+import { MatTabsModule } from '@angular/material/tabs'
 
 @Component({
-  selector: 'app-login-vecino',
+  selector: 'app-login',
   standalone: true,
   imports: [
+    MatTabsModule,
     MatIconModule,
     MatButtonModule,
     MatInputModule,
@@ -21,10 +23,13 @@ import Swal from 'sweetalert2'
     ReactiveFormsModule,
     RouterModule
   ],
-  templateUrl: './login-vecino.component.html',
-  styleUrl: './login-vecino.component.scss'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
 })
-export class LoginVecinoComponent {
+export class LoginComponent {
+  loginAs = 0
+  userRole: string[] = ['VECINO', 'LOCAL ADHERIDO', 'RESPONSABLE']
+
   hide = true
 
   form: FormGroup
