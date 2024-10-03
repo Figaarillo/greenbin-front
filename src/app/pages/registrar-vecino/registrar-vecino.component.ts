@@ -22,7 +22,8 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     ReactiveFormsModule,
     MatButtonModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ],
   templateUrl: './registrar-vecino.component.html',
   styleUrl: './registrar-vecino.component.scss'
