@@ -37,8 +37,6 @@ export class LoginComponent {
   hide = true
 
   form: FormGroup
-  username: string = 'greenbin'
-  password: string = 'proyectofinal'
 
   constructor(
     private fb: FormBuilder,
@@ -53,11 +51,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (
-      this.form.valid &&
-      this.username == this.form.get('username')?.value &&
-      this.password == this.form.get('password')?.value
-    ) {
+    if (this.form.valid) {
       const login = this.setLoginObject()
       switch (this.loginAs) {
         case 1: //neighbor
@@ -74,7 +68,7 @@ export class LoginComponent {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Usuario o contraseña incorrecto'
+        text: 'Campos inválidos'
       })
     }
   }
@@ -101,9 +95,14 @@ export class LoginComponent {
     })
   }
   loginAsBusiness(login: Login) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Todavía no esta implementado'
+    }) /*
     this.businessService.login(login).subscribe(obj => {
       console.log(obj)
-    })
+    })*/
   }
   loginAsResponsible(login: Login) {
     this.responsibleService.login(login).subscribe(obj => {
