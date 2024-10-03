@@ -12,6 +12,7 @@ import { VecinoService } from '../../services/vecino/vecino.service'
 import { Login } from '../../services/interfaces/login'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
     FormsModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    CommonModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

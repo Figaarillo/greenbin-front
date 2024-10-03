@@ -74,7 +74,11 @@
             }
         </div>
     </div>
-    <div class="footer" [routerLink]="['/registrar-vecino']">
-        <p>No tengo un Usuario</p>
+    <div class="footer" [ngStyle]="(loginAs==1 || loginAs==2) ? {'cursor':'pointer'} : {}" [routerLink]="loginAs==1 ? ['/registrar-vecino'] : loginAs==2 ? ['/registrar-local'] : []">
+        @if(loginAs==1 || loginAs==2){
+            <p class="create-user">No tengo un Usuario</p>
+        }@else{
+            <p><b>GreenBin</b></p>
+        }
     </div>
 </div>
