@@ -1,0 +1,54 @@
+.header{
+    display: grid;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    height: 45%;
+    background-color: #4f973d;
+    border-radius: 0 0 10rem 10rem;
+    box-shadow: 0px 0px 40px #bebebe,
+             0px 0px 40px #ffffff;
+}
+mat-toolbar{
+    background-color: #ffffff00;
+    position: absolute;
+    top: 0;
+    color: #fff;
+}
+.body{
+    height: 45%;
+    padding: 0 10vw;
+}
+mat-list-item .listIcon{
+    background-color: rgb(41, 41, 41);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-footer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10%;
+    background-color: #4f973d;
+    padding: 0 10%;
+}
+
+.menu-footer button{
+    background-color: #7bc768;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+
+.header .select-container{
+    padding: 0 15%;
+}
+@media (max-width: 500px) {
+    .header .select-container{
+        padding: 0px 10%;
+    }
+}
