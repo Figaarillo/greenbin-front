@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Vecino } from '../interfaces/vecino'
+import { Login } from '../interfaces/login'
+import { LoginResponse } from '../interfaces/login-response'
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +20,9 @@ export class VecinoService {
   }
   get(id: string): Observable<Vecino> {
     return this.http.get<Vecino>(this.url + '/' + id)
+  }
+
+  login(object: Login): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
 }

@@ -3,7 +3,7 @@ import { Routes } from '@angular/router'
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'listar-entidades',
@@ -59,5 +59,10 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'home-responsible',
+    loadComponent: () =>
+      import('./pages/responsible-home/responsible-home.component').then(m => m.ResponsibleHomeComponent)
   }
 ]

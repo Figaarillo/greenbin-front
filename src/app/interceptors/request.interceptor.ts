@@ -28,6 +28,20 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       errorMessage: 'Error al editar el vecino, por favor revise los datos y vuelva a intentarlo',
       successMessage: 'El vecino se ha editado con éxito',
       routeToNavigate: ''
+    },
+    {
+      url: '/api/neighbor/auth/login',
+      method: 'POST',
+      errorMessage: 'Usuario o contraseña incorrecta',
+      successMessage: 'Bienvenido',
+      routeToNavigate: '/vecino'
+    },
+    {
+      url: '/api/responsible/auth/login',
+      method: 'POST',
+      errorMessage: 'Usuario o contraseña incorrecta',
+      successMessage: 'Bienvenido',
+      routeToNavigate: ''
     }
   ]
 
@@ -45,7 +59,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
           })
           swalWithBootstrapButtons
             .fire({
-              title: '¡Creado con éxito!',
+              title: '¡Genial!',
               text: shouldNotify.successMessage,
               icon: 'success'
             })

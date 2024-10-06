@@ -6,12 +6,14 @@ import { provideClientHydration } from '@angular/platform-browser'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { requestInterceptor } from './interceptors/request.interceptor'
+import { provideToastr } from 'ngx-toastr'
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withInterceptors([requestInterceptor])),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideToastr()
   ]
 }
