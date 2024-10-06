@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButton } from '@angular/material/button'
+import { MatButton, MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIcon } from '@angular/material/icon'
@@ -20,7 +20,7 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router'
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatButton,
+    MatButtonModule,
     MatFormFieldModule,
     MatIcon,
     MatInput,
