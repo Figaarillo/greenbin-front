@@ -35,6 +35,7 @@ export class RegistrarLocalComponent implements OnInit {
   hidePassword = true
   token = ''
   sign = ''
+  disabled: boolean = true
   constructor(
     private localService: LocalAdheridoService,
     private router: Router
@@ -50,12 +51,15 @@ export class RegistrarLocalComponent implements OnInit {
   passwordStateMatcher = new PasswordStateMatcher()
   formGroup = this._formBuilder.nonNullable.group(
     {
-      name: ['', Validators.required],
-      address: ['', Validators.required],
+      name: [{ value: '', disabled: this.disabled }, Validators.required],
+      address: [{ value: '', disabled: this.disabled }, Validators.required],
       cuit: ['', Validators.required],
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+      username: [{ value: '', disabled: this.disabled }, Validators.required],
+      email: [{ value: '', disabled: this.disabled }, [Validators.required, Validators.email]],
+      phoneNumber: [
+        { value: '', disabled: this.disabled },
+        [Validators.required, Validators.pattern('^[0-9]{10,15}$')]
+      ],
       password: [
         '',
         [
@@ -127,8 +131,45 @@ export class RegistrarLocalComponent implements OnInit {
   }
 
   cuitAuth(cuit: any) {
-    this.localService.authenthicateCuit(cuit, this.token, this.sign).subscribe(resp => {
-      console.log(resp)
+    console.log(cuit)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
     })
+    Swal.fire({
+      title: 'Cargando',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    })
+
+    Swal.showLoading()
+
+    this.localService.authenthicateCuit(cuit, this.token, this.sign).subscribe(
+      () => {
+        Swal.close()
+        swalWithBootstrapButtons.fire({
+          title: '¡Cuit validado con éxito!',
+
+          icon: 'success'
+        })
+        this.disabled = false
+
+        this.formGroup.get('name')?.enable()
+        this.formGroup.get('address')?.enable()
+        this.formGroup.get('username')?.enable()
+        this.formGroup.get('email')?.enable()
+        this.formGroup.get('phoneNumber')?.enable()
+      },
+      error => {
+        console.log(error)
+        swalWithBootstrapButtons.fire({
+          title: 'Ha ocurrido un error al validar su cuit.',
+          icon: 'error'
+        })
+      }
+    )
   }
 }

@@ -1,6 +1,17 @@
-<app-navbar [title]="title"></app-navbar>
+<app-navbar ></app-navbar>
 <div class="container mt-3">
+  <mat-toolbar>
+    <span style="margin: auto;">Registrar Comercio</span>
+  </mat-toolbar>
   <form class="form" [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Cuit</mat-label>
+      <input matInput placeholder="Cuit" type="text" formControlName="cuit" />
+      @if (formGroup.controls.cuit.hasError('required')) {
+        <mat-error>Ingrese el CUIT de su Comercio </mat-error>
+      }
+    </mat-form-field>
+    <button style="width: 100%; margin-top: 5px; margin-bottom: 1.5em;" class="btn btn-success"  (click)="cuitAuth(formGroup.get('cuit')?.value)">Validar cuit</button>
     <mat-form-field>
       <mat-label>Razon Social</mat-label>
 
@@ -12,19 +23,12 @@
 
     <mat-form-field>
       <mat-label>Dirección</mat-label>
-      <input matInput placeholder="Dirección" formControlName="address" />
+      <input matInput placeholder="Dirección" formControlName="address" [disabled]="disabled"/>
       @if (formGroup.controls.address.hasError('required')) {
         <mat-error>Ingrese la dirección de su Comercio </mat-error>
       }
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Cuit</mat-label>
-      <input matInput placeholder="Cuit" type="text" formControlName="cuit" />
-      @if (formGroup.controls.cuit.hasError('required')) {
-        <mat-error>Ingrese el CUIT de su Comercio </mat-error>
-      }
-    </mat-form-field>
 
     <mat-form-field>
       <mat-label>Nombre de Usuario</mat-label>
