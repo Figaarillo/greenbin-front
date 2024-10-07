@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButton } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -30,13 +30,19 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router'
   templateUrl: './registrar-local.component.html',
   styleUrl: './registrar-local.component.scss'
 })
-export class RegistrarLocalComponent {
+export class RegistrarLocalComponent implements OnInit {
   title: string = 'Registrarse'
   hidePassword = true
   constructor(
     private localService: LocalAdheridoService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.localService.authenticateAfip().subscribe(resp => {
+      console.log(resp)
+    })
+  }
   private readonly _formBuilder = inject(FormBuilder)
   passwordStateMatcher = new PasswordStateMatcher()
   formGroup = this._formBuilder.nonNullable.group(
