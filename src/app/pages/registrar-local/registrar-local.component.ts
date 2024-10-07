@@ -33,6 +33,8 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 export class RegistrarLocalComponent implements OnInit {
   title: string = 'Registrarse'
   hidePassword = true
+  token = ''
+  sign = ''
   constructor(
     private localService: LocalAdheridoService,
     private router: Router
@@ -40,7 +42,8 @@ export class RegistrarLocalComponent implements OnInit {
 
   ngOnInit(): void {
     this.localService.authenticateAfip().subscribe(resp => {
-      console.log(resp)
+      this.token = resp.token
+      this.sign = resp.sign
     })
   }
   private readonly _formBuilder = inject(FormBuilder)
@@ -121,5 +124,11 @@ export class RegistrarLocalComponent implements OnInit {
     this.hidePassword = !this.hidePassword
     const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
     passwordField.type = this.hidePassword ? 'password' : 'text'
+  }
+
+  cuitAuth(cuit: any) {
+    this.localService.authenthicateCuit(cuit, this.token, this.sign).subscribe(resp => {
+      console.log(resp)
+    })
   }
 }
