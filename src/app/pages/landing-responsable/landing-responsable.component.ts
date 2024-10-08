@@ -8,6 +8,8 @@ import { MatListModule } from '@angular/material/list'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
+import { Router } from '@angular/router'
+import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -33,4 +35,13 @@ export class LandingResponsableComponent {
     { id: 'tacos-2', name: 'Municerca' }
   ]
   ptoVerde = new FormControl(this.listPtoVerde[2].id)
+
+  constructor(
+    private router: Router,
+    private sesionService: SesionService
+  ) {}
+
+  editResponsible() {
+    this.router.navigate(['/modificar-responsable', this.sesionService.getUserId()])
+  }
 }

@@ -64,7 +64,7 @@
 
     <mat-form-field>
         <mat-label>Fecha de Nacimiento</mat-label>
-        <input type="date" matInput formControlName="birthdate">
+        <input type="date" matInput data-date-format="dd/mm/yyyy" formControlName="birthdate">
         @if (form.get('birthdate')!.invalid) {
           <mat-error>Ingrese una fecha de nacimiento válida</mat-error>
         }

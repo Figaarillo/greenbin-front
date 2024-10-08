@@ -1,8 +1,5 @@
-<app-navbar></app-navbar>
+<app-navbar [title]="'Editar Responsable'"></app-navbar>
 <div class="container mt-3">
-  <mat-toolbar>
-    <span>Modificar Responsable</span>
-  </mat-toolbar>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
@@ -49,8 +46,7 @@
           <mat-error>Ingrese un teléfono</mat-error>
         }
     </mat-form-field>
-    <button class="btn btn-success"  type="submit">Guardar</button>
-    <a type="button"  [routerLink]="['/listar-responsables']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
+    <button mat-raised-button class="w-100" type="submit">Guardar</button>
 
   </form>
   

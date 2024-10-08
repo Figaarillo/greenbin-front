@@ -67,6 +67,14 @@ export class RegistrarVecinoComponent {
     return null // Si es válida
   }
 
+  setDateFormat(): void {
+    const currentDate = new Date()
+    const day = ('0' + currentDate.getDate()).slice(-2)
+    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
+    const year = currentDate.getFullYear()
+    this.form.get('birthdate')?.setValue(`${day}/${month}/${year}`)
+  }
+
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword
     const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
@@ -75,6 +83,7 @@ export class RegistrarVecinoComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      this.setDateFormat()
       console.log(<Vecino>this.form.value)
       this.vecinoService.create(<Vecino>this.form.value).subscribe()
     }
