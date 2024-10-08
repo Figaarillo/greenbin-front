@@ -1,10 +1,17 @@
 .example-spacer {
-    flex: 1 1 auto;
-  }
+  flex: 1 1 auto;
+}
 
-  .mat-toolbar {
-   
-    color: #fff;
-    background: rgb(2,0,36);
-    background: linear-gradient(72deg, rgba(2,0,36,1) 0%, rgba(9,121,61,1) 35%);
-  }
+.mat-toolbar { 
+  color: #fff;
+  background: #4f973d;
+  position:sticky;
+  top: 0;
+  z-index: 1;
+}
+.back-button{
+  position:absolute;
+  color: #fff;
+  top: 7px;
+  left: 8px;
+}

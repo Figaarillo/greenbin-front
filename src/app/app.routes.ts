@@ -60,6 +60,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/landing-vecino/landing-vecino.component').then(m => m.LandingVecinoComponent)
   },
   {
+    path: 'responsable',
+    loadComponent: () =>
+      import('./pages/landing-responsable/landing-responsable.component').then(m => m.LandingResponsableComponent)
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   }

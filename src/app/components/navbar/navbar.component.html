@@ -1,9 +1,10 @@
+
 <mat-toolbar >
+  <button mat-icon-button [routerLink]="['/login']" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
     <span class="example-spacer"></span>
    <span>{{title}}</span>
    <span class="example-spacer"></span>
-   <button [routerLink]="['/login/vecino']" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>logout</mat-icon>
-  </button>
-  </mat-toolbar>
+</mat-toolbar>
   
