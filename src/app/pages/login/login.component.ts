@@ -60,10 +60,10 @@ export class LoginComponent {
           this.loginAsNeighbor(login)
           break
         case 2: //local
-          this.loginAsNeighbor(login)
+          this.loginAsBusiness(login)
           break
         case 3: //responsable
-          this.loginAsNeighbor(login)
+          this.loginAsResponsible(login)
           break
       }
     } else {
@@ -97,14 +97,9 @@ export class LoginComponent {
     })
   }
   loginAsBusiness(login: Login) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Todavía no esta implementado'
-    }) /*
     this.businessService.login(login).subscribe(obj => {
       console.log(obj)
-    })*/
+    })
   }
   loginAsResponsible(login: Login) {
     this.responsibleService.login(login).subscribe(obj => {

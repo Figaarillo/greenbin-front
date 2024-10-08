@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Responsable } from '../interfaces/responsaible'
 import { map } from 'rxjs'
+import { HttpHeaders } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
@@ -24,5 +25,14 @@ export class ResponsablesService {
   delete(id: string) {
     console.log(typeof id)
     return this.http.delete(`${this.url}/${id}`)
+  }
+
+  async roleValidator() {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
 }

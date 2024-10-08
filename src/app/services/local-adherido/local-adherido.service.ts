@@ -54,4 +54,12 @@ export class LocalAdheridoService {
     })
     return this.http.post<any>(this.url_afip_cuit, body, { headers })
   }
+  async roleValidator() {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
+  }
 }
