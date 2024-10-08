@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Vecino } from '../interfaces/vecino'
@@ -25,7 +25,12 @@ export class VecinoService {
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
-  roleValidator(token: string) {
-    return true
+  async roleValidator() {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
 }
