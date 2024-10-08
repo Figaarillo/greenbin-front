@@ -16,7 +16,16 @@
 
         <div class="header">
             <h1 style="color: #fff; font-weight: 900;">Bienvenido Manuel</h1>
-            <h3 style="color: #fff; font-weight: 900; font-size: xxx-large;">12389 pts</h3>
+            <div class="select-container">
+                <mat-form-field class="w-100">
+                    <mat-label>Punto Verde Actual</mat-label>
+                    <mat-select [formControl]="ptoVerde" name="ptoVerde">
+                        @for (pv of listPtoVerde; track pv) {
+                            <mat-option [value]="pv.id">{{pv.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
     
         <mat-drawer #buzon mode="over" [position]="'end'">
@@ -39,9 +48,9 @@
                 </mat-list-item>
                 <mat-divider></mat-divider>
                 <mat-list-item>
-                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
-                    <div matListItemTitle>-2500 pts</div>
-                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
+                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_upward</mat-icon></div>
+                    <div matListItemTitle>+2500 pts</div>
+                    <div matListItemLine>2 kilos de Carton</div>
                     <div matListItemLine>20/08/2024 20:18</div>
                 </mat-list-item>
             </mat-list>
@@ -49,16 +58,16 @@
         <div class="menu-footer">
             <div>
                 <button mat-mini-fab>
-                    <mat-icon>recycling</mat-icon>
+                    <mat-icon>settings</mat-icon>
                 </button>
             </div>
             <div>
                 <button mat-fab>
-                    <mat-icon>local_activity</mat-icon>
+                    <mat-icon>recycling</mat-icon>
                 </button>
             </div>
             <div>
-                <button mat-mini-fab (click)="editNeighbor()">
+                <button mat-mini-fab (click)="editResponsible()">
                     <mat-icon>account_circle</mat-icon>
                 </button>
             </div>

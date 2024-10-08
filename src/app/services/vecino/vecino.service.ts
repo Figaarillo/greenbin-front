@@ -13,7 +13,7 @@ export class VecinoService {
   private url: string = 'http://localhost:8080/api/neighbor'
 
   create(object: Vecino): Observable<Vecino> {
-    return this.http.post<Vecino>(this.url + '/signup', object)
+    return this.http.post<Vecino>(this.url, object)
   }
   update(object: Vecino, id: string): Observable<Vecino> {
     return this.http.put<Vecino>(this.url + '/' + id, object)

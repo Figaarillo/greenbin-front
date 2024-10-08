@@ -101,7 +101,6 @@ export class ModificarResponsableComponent {
         } else {
           swalWithBootstrapButtons.fire({
             title: 'Cancelado',
-
             icon: 'error'
           })
         }

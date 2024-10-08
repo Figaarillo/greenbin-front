@@ -16,11 +16,11 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
   }[] = [
     /* ACA ESPECIFICAR LAS RUTAS CON EL METODO EL CUAL NECESITA SER NOTIFICADO EL EXITO O ERROR */
     {
-      url: '/api/neighbor/signup',
+      url: '/api/neighbor',
       method: 'POST',
       errorMessage: 'Error al crear el vecino, por favor revise los datos y vuelva a intentarlo',
-      successMessage: 'El vecino se ha creado con éxito',
-      routeToNavigate: ''
+      successMessage: 'Bienvenido',
+      routeToNavigate: '/vecino'
     },
     {
       url: '/api/neighbor',
