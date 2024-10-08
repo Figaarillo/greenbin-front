@@ -1,1 +1,36 @@
-<p>registrar-punto-verde works!</p>
+<app-navbar [title]="'Registrar Punto Verde'"></app-navbar>
+<div class="container mt-3">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="name">
+      @if (form.get('name')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Dirección" formControlName="address">
+        @if (form.get('address')!.hasError('required')) {
+          <mat-error>Ingrese una dirección</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Coordenadas</mat-label>
+        <input matInput placeholder="Coordenadas" formControlName="coordinates">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
+
+  </form>
+  
+</div>
