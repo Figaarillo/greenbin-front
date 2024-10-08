@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButton, MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -30,23 +30,36 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router'
   templateUrl: './registrar-local.component.html',
   styleUrl: './registrar-local.component.scss'
 })
-export class RegistrarLocalComponent {
+export class RegistrarLocalComponent implements OnInit {
   title: string = 'Registrarse'
   hidePassword = true
+  token = ''
+  sign = ''
+  disabled: boolean = true
   constructor(
     private localService: LocalAdheridoService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.localService.authenticateAfip().subscribe(resp => {
+      this.token = resp.token
+      this.sign = resp.sign
+    })
+  }
   private readonly _formBuilder = inject(FormBuilder)
   passwordStateMatcher = new PasswordStateMatcher()
   formGroup = this._formBuilder.nonNullable.group(
     {
-      name: ['', Validators.required],
-      address: ['', Validators.required],
+      name: [{ value: '', disabled: this.disabled }, Validators.required],
+      address: [{ value: '', disabled: this.disabled }, Validators.required],
       cuit: ['', Validators.required],
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+      username: [{ value: '', disabled: this.disabled }, Validators.required],
+      email: [{ value: '', disabled: this.disabled }, [Validators.required, Validators.email]],
+      phoneNumber: [
+        { value: '', disabled: this.disabled },
+        [Validators.required, Validators.pattern('^[0-9]{10,15}$')]
+      ],
       password: [
         '',
         [
@@ -115,5 +128,48 @@ export class RegistrarLocalComponent {
     this.hidePassword = !this.hidePassword
     const passwordField = document.querySelector('input[formControlName="password"]') as HTMLInputElement
     passwordField.type = this.hidePassword ? 'password' : 'text'
+  }
+
+  cuitAuth(cuit: any) {
+    console.log(cuit)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+    Swal.fire({
+      title: 'Cargando',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    })
+
+    Swal.showLoading()
+
+    this.localService.authenthicateCuit(cuit, this.token, this.sign).subscribe(
+      () => {
+        Swal.close()
+        swalWithBootstrapButtons.fire({
+          title: '¡Cuit validado con éxito!',
+
+          icon: 'success'
+        })
+        this.disabled = false
+
+        this.formGroup.get('name')?.enable()
+        this.formGroup.get('address')?.enable()
+        this.formGroup.get('username')?.enable()
+        this.formGroup.get('email')?.enable()
+        this.formGroup.get('phoneNumber')?.enable()
+      },
+      error => {
+        console.log(error)
+        swalWithBootstrapButtons.fire({
+          title: 'Ha ocurrido un error al validar su cuit.',
+          icon: 'error'
+        })
+      }
+    )
   }
 }
