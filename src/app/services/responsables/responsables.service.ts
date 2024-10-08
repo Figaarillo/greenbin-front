@@ -25,4 +25,8 @@ export class ResponsablesService {
     console.log(typeof id)
     return this.http.delete(`${this.url}/${id}`)
   }
+
+  roleValidator(token: string) {
+    return true
+  }
 }

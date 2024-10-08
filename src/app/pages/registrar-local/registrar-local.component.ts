@@ -12,7 +12,7 @@ import { LocalAdherido } from '../../services/interfaces/local-adherido'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import Swal from 'sweetalert2'
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
-
+import jwt_decode from 'jwt-decode'
 @Component({
   selector: 'app-registrar-local',
   standalone: true,

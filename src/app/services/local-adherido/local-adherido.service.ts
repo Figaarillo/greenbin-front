@@ -54,4 +54,7 @@ export class LocalAdheridoService {
     })
     return this.http.post<any>(this.url_afip_cuit, body, { headers })
   }
+  roleValidator(token: string) {
+    return true
+  }
 }

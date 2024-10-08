@@ -25,4 +25,7 @@ export class VecinoService {
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
+  roleValidator(token: string) {
+    return true
+  }
 }
