@@ -4,11 +4,14 @@
 
 .mat-toolbar { 
   color: #fff;
-  background: rgba(9,121,61,0);
+  background: #4f973d;
+  position:sticky;
+  top: 0;
+  z-index: 1;
 }
 .back-button{
-  position:fixed;
+  position:absolute;
   color: #fff;
-  top: 10px;
-  left: 10px;
+  top: 7px;
+  left: 8px;
 }
