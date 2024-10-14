@@ -1,5 +1,5 @@
 <mat-toolbar class="mat-elevation-z3">
-    <button mat-icon-button (click)="sidenav.toggle()">
+    <button mat-icon-button  (click)="sidenav.toggle()">
         <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
         <mat-icon *ngIf="sidenav.opened">close</mat-icon>
     </button>
@@ -8,20 +8,7 @@
 <mat-sidenav-container>
 
     <mat-sidenav>
-        <mat-nav-list>
-            <mat-list-item>
-                <mat-icon>home</mat-icon>
-                home
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon>home</mat-icon>
-                home
-            </mat-list-item>
-            <mat-list-item>
-                <mat-icon>home</mat-icon>
-                home
-            </mat-list-item>
-        </mat-nav-list>
+      <app-sidenav></app-sidenav>
     </mat-sidenav>
 
     <mat-sidenav-content>
