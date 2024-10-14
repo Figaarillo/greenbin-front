@@ -1,17 +1,22 @@
-.example-spacer {
-  flex: 1 1 auto;
-}
+
 
 .mat-toolbar { 
   color: #fff;
   background: #4f973d;
-  position:sticky;
-  top: 0;
-  z-index: 1;
+
 }
-.back-button{
-  position:absolute;
-  color: #fff;
-  top: 7px;
-  left: 8px;
+
+mat-sidenav{
+  width: 200px;
+  border-right: none;
+  padding: 16px 0;
+}
+
+mat-sidenav-container{
+  height: calc(100vh - 65px);
+}
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
