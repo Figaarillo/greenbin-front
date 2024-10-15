@@ -25,6 +25,15 @@ export class VecinoService {
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
+
+  refreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken') || ''
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${refreshToken}`
+    })
+    return this.http.get<any>(this.url + '/auth/refresh-token', { headers })
+  }
+
   async roleValidator() {
     const token = localStorage.getItem('accessToken')
     const headers = new HttpHeaders({

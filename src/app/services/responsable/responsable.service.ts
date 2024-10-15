@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { Responsable } from '../interfaces/responsable'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Login } from '../interfaces/login'
 import { LoginResponse } from '../interfaces/login-response'
@@ -24,5 +24,13 @@ export class ResponsableService {
 
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
+  }
+
+  refreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken') || ''
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${refreshToken}`
+    })
+    return this.http.get<any>(this.url + '/auth/refresh-token', { headers })
   }
 }
