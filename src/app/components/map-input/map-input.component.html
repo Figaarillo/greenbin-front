@@ -1,6 +1,6 @@
 @if(markerOptions && markerOptions.content){
-    <google-map height="450px"
-    width="1000px"
+    <google-map
+    class="w-100"
     [center]="center"
     [zoom]="zoom"
     (mapClick)="selectCoords($event)"
