@@ -78,5 +78,9 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'test',
+    loadComponent: () => import('./components/map-view/map-view.component').then(m => m.MapViewComponent)
   }
 ]
