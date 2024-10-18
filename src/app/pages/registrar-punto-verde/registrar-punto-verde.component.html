@@ -20,14 +20,13 @@
     </mat-form-field>
 
     <mat-form-field>
-        <mat-label>Coordenadas</mat-label>
-        <input matInput placeholder="Coordenadas" formControlName="coordinates">
-    </mat-form-field>
-
-    <mat-form-field>
       <mat-label>Descripción</mat-label>
       <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
     </mat-form-field>
+
+    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px;">
+      <app-map-input [type]="'punto-verde'" (coordinates)="getCoordinates($event)"></app-map-input>
+    </div>
 
     <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
 
