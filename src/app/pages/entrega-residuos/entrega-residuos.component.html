@@ -1,15 +1,30 @@
 <app-navbar [title]="'Registrar Entrega'"></app-navbar>
+
+@if(!dniValidated){
+  <div class="container mt-3">
+<form [formGroup]="dniValidator"   (ngSubmit)="validateDni()">
+  
+  <mat-form-field>
+    <mat-label>DNI</mat-label>
+    <input type="number" matInput placeholder="DNI" formControlName="dni">
+    @if (dniValidator.get('dni')!.hasError('required')) {
+      <mat-error>Ingrese un DNI</mat-error>
+    }
+</mat-form-field>
+<button mat-raised-button class="w-100" [disabled]="dniValidator.invalid" type="submit">Validar DNI</button>
+</form>
+</div>
+}
+@else {
+
+
+
+
 <div class="container mt-3">
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <mat-form-field>
-        <mat-label>DNI</mat-label>
-        <input type="number" matInput placeholder="DNI" formControlName="dni">
-        @if (form.get('dni')!.hasError('required')) {
-          <mat-error>Ingrese un DNI</mat-error>
-        }
-    </mat-form-field>
+ 
 
     <mat-form-field>
         <mat-label>Categoria</mat-label>
@@ -18,15 +33,13 @@
                 <mat-option [value]="cat.id">{{cat.name}}</mat-option>
             }
         </mat-select>
-        <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint>
+        <!-- <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint> -->
     </mat-form-field>
 
     <mat-form-field>
         <mat-label>Kilos</mat-label>
-        <input type="number" matInput placeholder="DNI" formControlName="kilos">
-        @if (form.get('dni')!.hasError('required')) {
-          <mat-error>Ingrese un DNI</mat-error>
-        }
+        <input type="number" matInput placeholder="Peso en kilos" formControlName="kilos">
+      
     </mat-form-field>
 
     <button mat-raised-button color="accent" class="w-100" >Agregar</button>
@@ -48,4 +61,5 @@
   </form>
   
 </div>
-
+ 
+}
