@@ -9,6 +9,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatSelectModule } from '@angular/material/select'
 import Swal from 'sweetalert2'
+import { MatTableModule } from '@angular/material/table'
 import { VecinoService } from '../../services/vecino/vecino.service'
 
 @Component({
@@ -23,13 +24,15 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     ReactiveFormsModule,
     MatChipsModule,
     MatDividerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   templateUrl: './entrega-residuos.component.html',
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
-  dniValidated = false
+  dniValidated = true
+  totalPuntos = 0
   categorias: any[] = [
     {
       id: '1',
@@ -54,6 +57,7 @@ export class EntregaResiduosComponent {
   ]
   form!: FormGroup
   dniValidator!: FormGroup
+  detalle: { cantidad: number; residuo: string }[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -96,11 +100,22 @@ export class EntregaResiduosComponent {
         err => {
           Swal.close()
           swalWithBootstrapButtons.fire({
-            title: 'Ha ocurrido un error al validar su cuit.',
+            title: 'El usuario no existe.',
             icon: 'error'
           })
         }
       )
     }
+  }
+
+  aggResiduo() {
+    const cantidad = this.form.value.kilos
+    const residuoFiltrado = this.categorias.filter(resp => {
+      return resp.id == this.form.value.categoria
+    })
+    const residuo = residuoFiltrado[0].name
+    this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
+    console.log(this.form)
+    this.detalle.push({ cantidad, residuo })
   }
 }

@@ -42,18 +42,17 @@
       
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="w-100" >Agregar</button>
+    <button mat-raised-button  class="w-100" (click)="aggResiduo()" >Agregar</button>
 
     <div>
         <mat-divider></mat-divider>
         <mat-chip-set>
-            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
-            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
-            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
-            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+            @for (item of detalle; track item) {
+              <mat-chip class="w-100"><b>{{item.cantidad}} Kg de {{item.residuo}} </b> <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+            }
         </mat-chip-set>
         <mat-divider></mat-divider>
-        <h2>2000 Puntos Totales</h2>
+        <h2 style="text-align: center;">Total: {{totalPuntos}} </h2 >
     </div>
 
     <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
