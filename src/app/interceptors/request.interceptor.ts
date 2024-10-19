@@ -19,7 +19,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       url: '/api/neighbor',
       method: 'POST',
       errorMessage: 'Error al crear el vecino, por favor revise los datos y vuelva a intentarlo',
-      successMessage: 'Bienvenido',
+      successMessage: 'El vecino se ha creado con éxito',
       routeToNavigate: '/vecino'
     },
     {
@@ -41,6 +41,13 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       method: 'POST',
       errorMessage: 'Usuario o contraseña incorrecta',
       successMessage: 'Bienvenido',
+      routeToNavigate: ''
+    },
+    {
+      url: '/api/green-point',
+      method: 'POST',
+      errorMessage: 'Error al crear el punto verde, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'El punto verde se ha creado con éxito',
       routeToNavigate: ''
     }
   ]
