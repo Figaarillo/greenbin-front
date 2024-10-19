@@ -25,6 +25,10 @@ export class VecinoService {
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
+  validateDni(dni: string): Observable<any> {
+    return this.http.get<any>(this.url + '/validate/' + dni)
+  }
+
   async roleValidator() {
     const token = localStorage.getItem('accessToken')
     const headers = new HttpHeaders({
