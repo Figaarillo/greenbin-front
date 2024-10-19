@@ -57,7 +57,7 @@ export class EntregaResiduosComponent {
   ]
   form!: FormGroup
   dniValidator!: FormGroup
-  detalle: { cantidad: number; residuo: string }[] = []
+  detalle: { puntos: number; cantidad: number; residuo: string }[] = []
 
   constructor(
     private fb: FormBuilder,
@@ -114,8 +114,14 @@ export class EntregaResiduosComponent {
       return resp.id == this.form.value.categoria
     })
     const residuo = residuoFiltrado[0].name
+    const puntos = residuoFiltrado[0].points
     this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
     console.log(this.form)
-    this.detalle.push({ cantidad, residuo })
+    this.detalle.push({ puntos, cantidad, residuo })
+  }
+
+  delete(item: any) {
+    this.detalle = this.detalle.filter(detalle => detalle.residuo !== item.residuo)
+    this.totalPuntos = this.totalPuntos - item.cantidad * item.puntos
   }
 }

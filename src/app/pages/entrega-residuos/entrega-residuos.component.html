@@ -48,7 +48,7 @@
         <mat-divider></mat-divider>
         <mat-chip-set>
             @for (item of detalle; track item) {
-              <mat-chip class="w-100"><b>{{item.cantidad}} Kg de {{item.residuo}} </b> <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+              <mat-chip class="w-100"><b>{{item.cantidad}} Kg de {{item.residuo}} </b> <mat-icon matChipRemove (click)="delete(item)">cancel</mat-icon></mat-chip>
             }
         </mat-chip-set>
         <mat-divider></mat-divider>
