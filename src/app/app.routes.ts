@@ -29,6 +29,11 @@ export const routes: Routes = [
       import('./pages/modificar-entidad/modificar-entidad.component').then(m => m.ModificarEntidadComponent)
   },
   {
+    path: 'registrar-punto-verde',
+    loadComponent: () =>
+      import('./pages/registrar-punto-verde/registrar-punto-verde.component').then(m => m.RegistrarPuntoVerdeComponent)
+  },
+  {
     path: 'registrar-responsable',
     loadComponent: () =>
       import('./pages/registrar-responsable/registrar-responsable.component').then(m => m.RegistrarResponsableComponent)
@@ -65,7 +70,16 @@ export const routes: Routes = [
       import('./pages/landing-responsable/landing-responsable.component').then(m => m.LandingResponsableComponent)
   },
   {
+    path: 'entrega',
+    loadComponent: () =>
+      import('./pages/entrega-residuos/entrega-residuos.component').then(m => m.EntregaResiduosComponent)
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'test',
+    loadComponent: () => import('./components/map-view/map-view.component').then(m => m.MapViewComponent)
   }
 ]

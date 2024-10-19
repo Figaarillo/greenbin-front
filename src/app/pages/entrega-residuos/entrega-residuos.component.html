@@ -1,0 +1,51 @@
+<app-navbar [title]="'Registrar Entrega'"></app-navbar>
+<div class="container mt-3">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+        <mat-label>DNI</mat-label>
+        <input type="number" matInput placeholder="DNI" formControlName="dni">
+        @if (form.get('dni')!.hasError('required')) {
+          <mat-error>Ingrese un DNI</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoria" name="category">
+            @for (cat of categorias; track cat) {
+                <mat-option [value]="cat.id">{{cat.name}}</mat-option>
+            }
+        </mat-select>
+        <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Kilos</mat-label>
+        <input type="number" matInput placeholder="DNI" formControlName="kilos">
+        @if (form.get('dni')!.hasError('required')) {
+          <mat-error>Ingrese un DNI</mat-error>
+        }
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" class="w-100" >Agregar</button>
+
+    <div>
+        <mat-divider></mat-divider>
+        <mat-chip-set>
+            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+            <mat-chip class="w-100"><b>500</b> (5Kg de plastico) <mat-icon matChipRemove>cancel</mat-icon></mat-chip>
+        </mat-chip-set>
+        <mat-divider></mat-divider>
+        <h2>2000 Puntos Totales</h2>
+    </div>
+
+    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
+
+  </form>
+  
+</div>
+

@@ -1,0 +1,15 @@
+@if(markerOptions && markerOptions.content){
+    <google-map
+    class="w-100"
+    [center]="center"
+    [zoom]="zoom"
+    (mapClick)="selectCoords($event)"
+    [mapId]="'iuhd8q3hsdad'"
+    >
+    <map-advanced-marker [position]="position" [content]="markerOptions.content"></map-advanced-marker>
+
+    </google-map>
+    <!--
+    <p>{{position.lat}}</p>
+    <p>{{position.lng}}</p>-->
+}
