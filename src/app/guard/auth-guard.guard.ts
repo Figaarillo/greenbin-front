@@ -9,11 +9,9 @@ export const authGuardGuard: CanActivateFn = async (route, state) => {
   const responServices = inject(ResponsablesService)
 
   const router = inject(Router)
-  const token = localStorage.getItem('accessToken')
   let validate = false
   await responServices.roleValidator().then(
     (resp: any) => {
-      console.log('entraadajsk')
       if (resp.data.isValid) {
         validate = resp.data.isValid
       }
@@ -26,7 +24,6 @@ export const authGuardGuard: CanActivateFn = async (route, state) => {
   if (validate) {
     return true
   } else {
-    console.log('entra')
     router.navigateByUrl('/login')
     return false
   }
@@ -39,7 +36,6 @@ export const vecinoGuard: CanActivateFn = async (route, state) => {
   let validate = false
   await neighborServices.roleValidator().then(
     (resp: any) => {
-      console.log('entraadajsk')
       if (resp.data.isValid) {
         validate = resp.data.isValid
       }
@@ -52,7 +48,6 @@ export const vecinoGuard: CanActivateFn = async (route, state) => {
   if (validate) {
     return true
   } else {
-    console.log('entra')
     router.navigateByUrl('/login')
     return false
   }
@@ -61,11 +56,9 @@ export const localGuard: CanActivateFn = async (route, state) => {
   const localServices = inject(LocalAdheridoService)
 
   const router = inject(Router)
-  const token = localStorage.getItem('accessToken')
   let validate = false
   await localServices.roleValidator().then(
     (resp: any) => {
-      console.log('entraadajsk')
       if (resp.data.isValid) {
         validate = resp.data.isValid
       }
@@ -78,7 +71,6 @@ export const localGuard: CanActivateFn = async (route, state) => {
   if (validate) {
     return true
   } else {
-    console.log('entra')
     router.navigateByUrl('/login')
     return false
   }

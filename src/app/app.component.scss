@@ -1,0 +1,22 @@
+mat-toolbar{
+  
+    background: #4f973d;
+}
+
+mat-sidenav-container, mat-sidenav-content {
+  background-color: transparent !important;  // O el color que prefieras
+}
+
+mat-sidenav{
+    width: 200px;
+   
+}
+
+.content{
+    height: calc(100vh - 10vh);
+    border-radius: 10px;
+ 
+    max-width: 1520px;
+    
+}
+

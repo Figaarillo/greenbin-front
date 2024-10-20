@@ -1,0 +1,13 @@
+<div class="sidenav-header">
+    <img width="100" src="/assets/usericon.png">
+    <div class="header-text">
+        <h2>{{username}}</h2>
+        
+    </div>
+</div>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let item of menuItems()" (click)="item.label === 'Cerrar Sesión' ? logout() : navigateTo(item.route)">
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        <span>{{item.label}}</span>
+    </a>
+</mat-nav-list>
