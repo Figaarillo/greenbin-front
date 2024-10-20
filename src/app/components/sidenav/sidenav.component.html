@@ -6,8 +6,8 @@
     </div>
 </div>
 <mat-nav-list>
-    <a mat-list-item *ngFor="let item of menuItems()" >
+    <a mat-list-item *ngFor="let item of menuItems()" (click)="item.label === 'Cerrar Sesión' ? logout() : navigateTo(item.route)">
         <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-        <span >{{item.label}}</span>
+        <span>{{item.label}}</span>
     </a>
 </mat-nav-list>

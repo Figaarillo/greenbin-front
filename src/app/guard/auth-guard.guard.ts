@@ -9,7 +9,6 @@ export const authGuardGuard: CanActivateFn = async (route, state) => {
   const responServices = inject(ResponsablesService)
 
   const router = inject(Router)
-  const token = localStorage.getItem('accessToken')
   let validate = false
   await responServices.roleValidator().then(
     (resp: any) => {
@@ -57,7 +56,6 @@ export const localGuard: CanActivateFn = async (route, state) => {
   const localServices = inject(LocalAdheridoService)
 
   const router = inject(Router)
-  const token = localStorage.getItem('accessToken')
   let validate = false
   await localServices.roleValidator().then(
     (resp: any) => {

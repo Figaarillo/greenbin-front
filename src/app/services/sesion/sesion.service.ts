@@ -24,13 +24,9 @@ export class SesionService {
     return this.loggingSubject.value
   }
   login() {
-    console.log('se llama a esto')
-    this.loggingSubject.next(true)
+    localStorage.setItem('isLogged', 'true')
   }
 
-  logout() {
-    this.loggingSubject.next(false)
-  }
   setAccessToken(token: string) {
     localStorage.setItem('accessToken', token)
   }
