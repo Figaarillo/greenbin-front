@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 
 @Component({
@@ -8,9 +8,17 @@ import { GoogleMapsModule } from '@angular/google-maps'
   templateUrl: './map-input.component.html',
   styleUrl: './map-input.component.scss'
 })
-export class MapInputComponent {
+export class MapInputComponent implements AfterViewInit {
   @Input() type: string = 'punto-verde'
   @Output() coordinates = new EventEmitter<google.maps.LatLngLiteral>()
+
+  @ViewChild('inputMapContainer', { static: true }) contenedorPadre!: ElementRef
+  anchoVariable: number = 0
+
+  actualizarAncho() {
+    this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
+    //console.log("ancho actual "+this.anchoVariable)
+  }
 
   position = {
     lat: 0,
@@ -29,6 +37,11 @@ export class MapInputComponent {
       .importLibrary('marker')
       .then(() => {
         this.createMarker()
+        this.actualizarAncho()
+        const resizeObserver = new ResizeObserver(() => {
+          this.actualizarAncho()
+        })
+        resizeObserver.observe(this.contenedorPadre.nativeElement)
       })
       .catch(error => {
         console.error('Error al cargar la biblioteca de marcadores:', error)
