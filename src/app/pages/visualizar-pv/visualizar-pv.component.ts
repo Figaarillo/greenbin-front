@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
 import { CommonModule } from '@angular/common'
+import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 
 @Component({
   selector: 'app-visualizar-pv',
   standalone: true,
 
-  imports: [GoogleMapsModule, MatToolbarModule, MapInputComponent, CommonModule],
+  imports: [GoogleMapsModule, MatToolbarModule, MapInputComponent, CommonModule, ModalPvComponent],
   templateUrl: './visualizar-pv.component.html',
   styleUrl: './visualizar-pv.component.scss'
 })
 export class VisualizarPvComponent implements OnInit {
+  @ViewChild(ModalPvComponent) modal?: ModalPvComponent
+
   options: google.maps.MapOptions = {
     mapId: 'DEMO_MAP_ID',
     center: { lat: -32.40751, lng: -63.24016 },
@@ -37,6 +40,6 @@ export class VisualizarPvComponent implements OnInit {
   }
 
   console() {
-    alert('anda')
+    this.modal?.openModal()
   }
 }
