@@ -4,7 +4,8 @@
   
   <div class="container mt-3">
     <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
-        <google-map height="80vh" width="100%" [options]="options"> </google-map>
+        <google-map height="80vh" width="100%" [options]="options">
+            <map-advanced-marker  #markerElem="mapAdvancedMarker" *ngFor="let location of nzLocations"  [title]="'Punto Verde'"(mapClick)="console()" [content]="location.content" [position]="location"></map-advanced-marker> </google-map>
       </div>
   </div>
 
