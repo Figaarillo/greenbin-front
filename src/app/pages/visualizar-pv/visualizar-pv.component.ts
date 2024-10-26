@@ -31,9 +31,6 @@ export class VisualizarPvComponent implements OnInit {
 
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
-        console.log('$$$$$')
-        console.log(location)
-        console.log('$$$$$')
         let imgTag = document.createElement('img')
         imgTag.src = img
         imgTag.width = 24
@@ -43,7 +40,7 @@ export class VisualizarPvComponent implements OnInit {
     })
   }
 
-  abrirModal() {
-    this.modal?.openModal()
+  abrirModal(location: any) {
+    this.modal?.openModal(location)
   }
 }

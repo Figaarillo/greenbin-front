@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild, viewChild } from '@angular/core'
+import { PuntoVerde } from '../../services/interfaces/punto-verde'
 
 //@ts-ignore
 const $ = window['$']
@@ -11,8 +12,12 @@ const $ = window['$']
 })
 export class ModalPvComponent {
   @ViewChild('modal') modal?: ElementRef
-
-  openModal() {
+  data: any = {}
+  openModal(data: PuntoVerde) {
+    this.data = data
+    console.log('%%data')
+    console.log(this.data)
+    console.log('%%data')
     $(this.modal?.nativeElement).modal('show')
   }
 

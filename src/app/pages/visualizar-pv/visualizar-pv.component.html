@@ -5,7 +5,7 @@
   <div class="container mt-3">
     <div class="w-100 map-container" style="text-align: -webkit-center; margin-bottom: 22px">
         <google-map  class="rounded-map" height="80vh" width="100%" [options]="options" >
-            <map-advanced-marker  #markerElem="mapAdvancedMarker" *ngFor="let location of puntosVerdes"  [title]="'Punto Verde'"(mapClick)="abrirModal()" [content]="location.content"   [position]="{ lat: location.coordinates.latitude, lng: location.coordinates.longitude }"></map-advanced-marker> </google-map>
+            <map-advanced-marker  #markerElem="mapAdvancedMarker" *ngFor="let location of puntosVerdes"  [title]="'Punto Verde'"(mapClick)="abrirModal(location)" [content]="location.content"   [position]="{ lat: location.coordinates.latitude, lng: location.coordinates.longitude }"></map-advanced-marker> </google-map>
       </div>
   </div>
 
