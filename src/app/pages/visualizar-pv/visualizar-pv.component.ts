@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { Component, inject, OnInit, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
 import { CommonModule } from '@angular/common'
 import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
+import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 
 @Component({
   selector: 'app-visualizar-pv',
@@ -15,31 +16,34 @@ import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 })
 export class VisualizarPvComponent implements OnInit {
   @ViewChild(ModalPvComponent) modal?: ModalPvComponent
-
+  pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
     mapId: 'DEMO_MAP_ID',
     center: { lat: -32.40751, lng: -63.24016 },
     zoom: 14
   }
 
-  nzLocations: any[] = [
-    { lat: -32.415625641488475, lng: -63.23945804187315 },
-    { lat: -32.41533418604155, lng: -63.24143192091275 },
-    { lat: -32.41649757614851, lng: -63.241427618732054 }
-  ]
+  puntosVerdes: any[] = []
 
   ngOnInit() {
-    const img = 'assets/recycle.png'
-    this.nzLocations.forEach(location => {
-      let imgTag = document.createElement('img')
-      imgTag.src = img
-      imgTag.width = 24
-      imgTag.height = 24
-      location.content = imgTag
+    this.pvServices.list().subscribe((res: any) => {
+      this.puntosVerdes = res
+
+      const img = 'assets/recycle.png'
+      this.puntosVerdes.forEach(location => {
+        console.log('$$$$$')
+        console.log(location)
+        console.log('$$$$$')
+        let imgTag = document.createElement('img')
+        imgTag.src = img
+        imgTag.width = 24
+        imgTag.height = 24
+        location.content = imgTag
+      })
     })
   }
 
-  console() {
+  abrirModal() {
     this.modal?.openModal()
   }
 }
