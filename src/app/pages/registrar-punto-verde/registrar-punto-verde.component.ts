@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -32,6 +32,7 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 })
 export class RegistrarPuntoVerdeComponent {
   form: FormGroup
+  @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +45,10 @@ export class RegistrarPuntoVerdeComponent {
       longitude: ['', Validators.required],
       description: ['']
     })
+  }
+
+  coordsByAdress() {
+    this.mapCompnent.getByAddress(this.form.get('address')?.value)
   }
 
   getCoordinates(coordinates: google.maps.LatLngLiteral) {

@@ -13,20 +13,31 @@
 
     <mat-form-field>
         <mat-label>Dirección</mat-label>
-        <input matInput placeholder="Dirección" formControlName="address">
+        <input matInput placeholder="Dirección" formControlName="address" (blur)="coordsByAdress()">
         @if (form.get('address')!.hasError('required')) {
           <mat-error>Ingrese una dirección</mat-error>
         }
+        @if (form.get('address')!.valid) {
+          <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
+        }
     </mat-form-field>
 
+    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
+      <app-map-input [type]="'punto-verde'" (coordinates)="getCoordinates($event)"></app-map-input>
+    </div>
+    <!--
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <input matInput placeholder="phone" formControlName="phonenumber">
+      @if (form.get('phonenumber')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+    -->
     <mat-form-field>
       <mat-label>Descripción</mat-label>
       <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
     </mat-form-field>
-
-    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px;">
-      <app-map-input [type]="'punto-verde'" (coordinates)="getCoordinates($event)"></app-map-input>
-    </div>
 
     <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
 
