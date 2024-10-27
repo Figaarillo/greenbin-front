@@ -5,12 +5,22 @@ import { MapInputComponent } from '../../components/map-input/map-input.componen
 import { CommonModule } from '@angular/common'
 import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
+import { MatIconModule } from '@angular/material/icon'
+import { Router, RouterModule } from '@angular/router'
 
 @Component({
   selector: 'app-visualizar-pv',
   standalone: true,
 
-  imports: [GoogleMapsModule, MatToolbarModule, MapInputComponent, CommonModule, ModalPvComponent],
+  imports: [
+    GoogleMapsModule,
+    MatToolbarModule,
+    MapInputComponent,
+    CommonModule,
+    ModalPvComponent,
+    MatIconModule,
+    RouterModule
+  ],
   templateUrl: './visualizar-pv.component.html',
   styleUrl: './visualizar-pv.component.scss'
 })
