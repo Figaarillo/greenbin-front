@@ -4,7 +4,7 @@ import { authGuardGuard, vecinoGuard } from './guard/auth-guard.guard'
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'listar-entidades',

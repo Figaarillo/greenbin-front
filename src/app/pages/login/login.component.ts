@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core'
+
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
@@ -92,7 +93,9 @@ export class LoginComponent {
   }
 
   loginAsNeighbor(login: Login) {
-    this.neighborService.login(login).subscribe(obj => {})
+    this.neighborService.login(login).subscribe(obj => {
+      this.router.navigateByUrl('/vecino')
+    })
   }
   loginAsBusiness(login: Login) {
     this.businessService.login(login).subscribe(obj => {})

@@ -8,7 +8,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { Router } from '@angular/router'
+import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
@@ -23,7 +23,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
     MatToolbarModule,
     MatSelectModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
