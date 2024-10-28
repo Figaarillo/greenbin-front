@@ -60,12 +60,13 @@ export const routes: Routes = [
   },
   {
     path: 'vecino',
+    //canActivate: [vecinoGuard],
 
     loadComponent: () => import('./pages/landing-vecino/landing-vecino.component').then(m => m.LandingVecinoComponent)
   },
   {
     path: 'responsable',
-    canActivate: [authGuardGuard],
+    //canActivate: [authGuardGuard],
     loadComponent: () =>
       import('./pages/landing-responsable/landing-responsable.component').then(m => m.LandingResponsableComponent)
   },

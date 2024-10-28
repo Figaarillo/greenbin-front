@@ -7,20 +7,19 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
+
 @Component({
   selector: 'app-landing-vecino',
   standalone: true,
   imports: [
-    SidenavComponent,
-    NavbarComponent,
     MatButtonModule,
     MatIconModule,
     MatListModule,
     MatDividerModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    SidenavComponent
   ],
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'
