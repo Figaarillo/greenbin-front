@@ -1,5 +1,7 @@
 export interface PuntoVerde {
   name: string
+  email: string
+  phoneNumber: string
   description: string
   address: string
   coordinates: {
