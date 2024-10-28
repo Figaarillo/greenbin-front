@@ -25,7 +25,8 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component'
     MatSelectModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    SidenavComponent
+    SidenavComponent,
+    RouterModule
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
