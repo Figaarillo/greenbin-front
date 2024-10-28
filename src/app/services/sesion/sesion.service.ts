@@ -1,19 +1,30 @@
 import { Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
-
+import { BehaviorSubject } from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
   constructor() {}
-
+  private logging: boolean = false
+  private loggingSubject = new BehaviorSubject<boolean>(false)
+  isLogging$ = this.loggingSubject.asObservable()
   setLoginData(login: LoginResponse) {
     this.setAccessToken(login.accessToken)
     this.setRefreshToken(login.refreshToken)
     this.setUserId(login.id)
+    this.login()
+    console.log('logueandoando')
+    console.log(this.isLogging())
     console.log(localStorage.getItem('accessToken'))
     console.log(localStorage.getItem('refreshToken'))
     console.log(localStorage.getItem('userId'))
+  }
+  isLogging(): boolean {
+    return this.loggingSubject.value
+  }
+  login() {
+    localStorage.setItem('isLogged', 'true')
   }
 
   setAccessToken(token: string) {

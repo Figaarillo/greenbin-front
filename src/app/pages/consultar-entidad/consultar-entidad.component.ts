@@ -105,14 +105,12 @@ export class ConsultarEntidadComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    console.log('aka')
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
 
   nextPage() {
     if (this.page <= this.entidades.length) {
-      console.log('entra')
       this.nPage += 1
       this.page += this.cant
     }
