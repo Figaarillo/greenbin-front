@@ -5,13 +5,21 @@ import { MatListModule } from '@angular/material/list'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { Router } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-landing-vecino',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatListModule, MatDividerModule, MatSidenavModule, MatToolbarModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatDividerModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    RouterModule
+  ],
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'
 })

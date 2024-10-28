@@ -60,7 +60,7 @@ export const routes: Routes = [
   },
   {
     path: 'vecino',
-    canActivate: [vecinoGuard],
+    // canActivate: [vecinoGuard],
 
     loadComponent: () => import('./pages/landing-vecino/landing-vecino.component').then(m => m.LandingVecinoComponent)
   },
@@ -82,5 +82,9 @@ export const routes: Routes = [
   {
     path: 'test',
     loadComponent: () => import('./components/map-view/map-view.component').then(m => m.MapViewComponent)
+  },
+  {
+    path: 'puntos-verdes',
+    loadComponent: () => import('./pages/visualizar-pv/visualizar-pv.component').then(m => m.VisualizarPvComponent)
   }
 ]
