@@ -62,9 +62,9 @@ export class RegistrarPuntoVerdeComponent {
     if (this.form.valid) {
       const pv: PuntoVerde = {
         name: this.form.get('name')?.value,
-        description: this.form.get('description')?.value,
         phoneNumber: this.form.get('phoneNumber')?.value,
         email: this.form.get('email')?.value,
+        description: this.form.get('description')?.value,
         address: this.form.get('address')?.value,
         coordinates: {
           latitude: this.form.get('latitude')?.value,
