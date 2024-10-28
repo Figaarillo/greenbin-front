@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
+
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
@@ -35,7 +36,7 @@ import { CommonModule } from '@angular/common'
 export class LoginComponent {
   loginAs = 0
   userRole: string[] = ['VECINO', 'LOCAL ADHERIDO', 'RESPONSABLE']
-
+  router = inject(Router)
   hide = true
 
   form: FormGroup
@@ -93,17 +94,21 @@ export class LoginComponent {
 
   loginAsNeighbor(login: Login) {
     this.neighborService.login(login).subscribe(obj => {
-      console.log(obj)
+      this.router.navigateByUrl('/vecino')
     })
   }
   loginAsBusiness(login: Login) {
-    this.businessService.login(login).subscribe(obj => {
-      console.log(obj)
-    })
+    this.businessService.login(login).subscribe(obj => {})
   }
   loginAsResponsible(login: Login) {
     this.responsibleService.login(login).subscribe(obj => {
-      console.log(obj)
+      this.router.navigateByUrl('/responsable')
+      localStorage.setItem('rol', 'responsable')
+
+      const id = localStorage.getItem('userId') || ''
+      this.responsibleService.get(id).subscribe((resp: any) => {
+        localStorage.setItem('username', resp.data.username)
+      })
     })
   }
 }

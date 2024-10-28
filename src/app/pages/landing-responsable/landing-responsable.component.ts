@@ -10,6 +10,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -23,7 +24,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
     MatToolbarModule,
     MatSelectModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SidenavComponent
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'

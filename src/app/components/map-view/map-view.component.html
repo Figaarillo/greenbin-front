@@ -6,10 +6,10 @@
     [mapId]="'iuhd8q3hsdads'"
     >
     @for (pv of puntosVerdes; track pv) {
-        <map-advanced-marker [content]="getPuntoVerdeMarkerOptions(pv)"></map-advanced-marker>
+        <map-advanced-marker [options]="getPuntoVerdeMarkerOptions(pv)"></map-advanced-marker>
     }
     @for (la of localesAdheridos; track la) {
-        <map-advanced-marker [content]="getLocalAdheridoMarkerOptions(la)"></map-advanced-marker>
+        <map-advanced-marker [options]="getLocalAdheridoMarkerOptions(la)"></map-advanced-marker>
     }
     </google-map>
 </div>
