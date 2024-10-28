@@ -5,7 +5,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { Router } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 

@@ -1,0 +1,20 @@
+<mat-toolbar class="mat-elevation-z3" style="background-color: #2e7d32; display: flex; align-items: center;">
+    <button mat-icon-button [routerLink]="['/vecino']" style="background: none; border: none; box-shadow: none; padding: 0; margin: 0;">
+      <mat-icon style="color: white;">arrow_back</mat-icon>
+    </button>
+    <div style="flex-grow: 1; text-align: center;">
+      <span style="color: white; font-weight: bold;">Puntos verdes</span>
+    </div>
+  </mat-toolbar>
+  
+  
+  
+  <div class="container mt-3">
+    <div class="w-100 map-container" style="text-align: -webkit-center; margin-bottom: 22px">
+        <google-map  class="rounded-map" height="80vh" width="100%" [options]="options" >
+            <map-advanced-marker  #markerElem="mapAdvancedMarker" *ngFor="let location of puntosVerdes"  [title]="'Punto Verde'"(mapClick)="abrirModal(location)" [content]="location.content"   [position]="{ lat: location.coordinates.latitude, lng: location.coordinates.longitude }"></map-advanced-marker> </google-map>
+      </div>
+  </div>
+
+  <app-modal-pv></app-modal-pv>
+<!-- <google-map height="600px" width="800px" [options]="options"> </google-map> -->

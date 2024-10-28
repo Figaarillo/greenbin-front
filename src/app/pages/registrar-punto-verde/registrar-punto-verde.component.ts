@@ -41,6 +41,8 @@ export class RegistrarPuntoVerdeComponent {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       address: ['', [Validators.required, Validators.minLength(5)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+      email: ['', [Validators.required, Validators.email]],
       latitude: ['', Validators.required],
       longitude: ['', Validators.required],
       description: ['']
@@ -60,6 +62,8 @@ export class RegistrarPuntoVerdeComponent {
     if (this.form.valid) {
       const pv: PuntoVerde = {
         name: this.form.get('name')?.value,
+        phoneNumber: this.form.get('phoneNumber')?.value,
+        email: this.form.get('email')?.value,
         description: this.form.get('description')?.value,
         address: this.form.get('address')?.value,
         coordinates: {
