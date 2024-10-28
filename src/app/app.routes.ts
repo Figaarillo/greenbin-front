@@ -60,7 +60,7 @@ export const routes: Routes = [
   },
   {
     path: 'vecino',
-    canActivate: [vecinoGuard],
+    // canActivate: [vecinoGuard],
 
     loadComponent: () => import('./pages/landing-vecino/landing-vecino.component').then(m => m.LandingVecinoComponent)
   },
