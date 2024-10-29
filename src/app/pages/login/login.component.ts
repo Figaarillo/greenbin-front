@@ -94,6 +94,12 @@ export class LoginComponent {
 
   loginAsNeighbor(login: Login) {
     this.neighborService.login(login).subscribe(obj => {
+      localStorage.setItem('rol', 'vecino')
+
+      const id = localStorage.getItem('userId') || ''
+      this.neighborService.get(id).subscribe((resp: any) => {
+        localStorage.setItem('username', resp.data.username)
+      })
       this.router.navigateByUrl('/vecino')
     })
   }

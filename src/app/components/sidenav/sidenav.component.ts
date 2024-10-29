@@ -49,7 +49,7 @@ export class SidenavComponent implements OnInit {
       } else if (rol == 'vecino') {
         this.menuItems.set([
           { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
-          { icon: 'location_on', label: 'Puntos verdes', route: 'puntos-verdes' },
+          { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
           { icon: 'history', label: 'Historial entregas', route: 'contacto' },
 
           { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
@@ -81,7 +81,7 @@ export class SidenavComponent implements OnInit {
   }
 
   navigateTo(route: string) {
-    console.log('ss')
+    this.router.navigateByUrl(route)
   }
 
   // this.router.navigate([route]);
