@@ -22,7 +22,7 @@
 
 <div class="container mt-3">
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" >
 
     <mat-form-field appearance="fill">
       <mat-label>Fecha de Entrega</mat-label>
@@ -31,6 +31,15 @@
         type="date" 
         formControlName="fechaEntrega" 
         [value]="fechaActual | date: 'yyyy-MM-dd'" 
+        >  
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Vecino</mat-label>
+      <input 
+        matInput 
+        type="text" 
+        formControlName="vecino" 
+      
         >  
     </mat-form-field>
     <mat-form-field>
@@ -60,10 +69,10 @@
             }
         </mat-chip-set>
         <mat-divider></mat-divider>
-        <h2 style="text-align: center;">Total: {{totalPuntos}} </h2 >
+        <h2 style="text-align: center;">Total: {{totalPuntos}} Puntos. </h2 >
     </div>
 
-    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
+    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit" (click)="onSubmit(form)">Guardar</button>
 
   </form>
   
