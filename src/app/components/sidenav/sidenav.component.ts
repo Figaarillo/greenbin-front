@@ -77,6 +77,7 @@ export class SidenavComponent implements OnInit {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.removeItem('isLogged')
+    localStorage.removeItem('rol')
     this.router.navigateByUrl('login')
   }
 

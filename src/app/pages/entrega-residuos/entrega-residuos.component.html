@@ -1,9 +1,9 @@
-<app-navbar [title]="'Registrar Entrega'"></app-navbar>
+<app-navbar [title]="'Registrar Entrega'" [route]="'/responsable'"></app-navbar>
 
 @if(!dniValidated){
   <div class="container mt-3">
 <form [formGroup]="dniValidator"   (ngSubmit)="validateDni()">
-  
+  <h4 style="text-align: center;"> Ingrese el DNI del vecino para validarlo.</h4>
   <mat-form-field>
     <mat-label>DNI</mat-label>
     <input type="number" matInput placeholder="DNI" formControlName="dni">
@@ -24,8 +24,15 @@
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
- 
-
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha de Entrega</mat-label>
+      <input 
+        matInput 
+        type="date" 
+        formControlName="fechaEntrega" 
+        [value]="fechaActual | date: 'yyyy-MM-dd'" 
+        >  
+    </mat-form-field>
     <mat-form-field>
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoria" name="category">

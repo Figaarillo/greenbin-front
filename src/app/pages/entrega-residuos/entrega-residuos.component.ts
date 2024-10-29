@@ -35,6 +35,7 @@ import Swal from 'sweetalert2'
 export class EntregaResiduosComponent {
   dniValidated = false
   totalPuntos = 0
+  fechaActual: string = ''
   categorias: any[] = [
     {
       id: '1',
@@ -69,13 +70,17 @@ export class EntregaResiduosComponent {
     private fb: FormBuilder,
     private vecinoService: VecinoService
   ) {
+    this.fechaActual = new Date().toISOString().split('T')[0]
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
     })
-    this.form = this.fb.group({
+    ;(this.form = this.fb.group({
       categoria: [{}],
       kilos: ['']
-    })
+    })),
+      (this.form = this.fb.group({
+        fechaEntrega: [{ value: this.fechaActual, disabled: true }]
+      }))
   }
 
   onSubmit() {}
@@ -97,17 +102,20 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-      if (this.vecinoService.validateDni(dni)) {
+      if (dni == '42337809') {
         setTimeout(() => {
           Swal.close()
           this.dniValidated = true
         }, 1000)
       } else {
-        Swal.close()
-        swalWithBootstrapButtons.fire({
-          title: 'El usuario no existe.',
-          icon: 'error'
-        })
+        setTimeout(() => {
+          Swal.close()
+          this.dniValidated = false
+          swalWithBootstrapButtons.fire({
+            title: 'El usuario no existe.',
+            icon: 'error'
+          })
+        }, 1000)
       }
       // this.vecinoService.validateDni(dni).subscribe(
       //   res => {
