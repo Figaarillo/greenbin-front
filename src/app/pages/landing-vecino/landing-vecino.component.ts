@@ -19,7 +19,8 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component'
     MatDividerModule,
     MatSidenavModule,
     MatToolbarModule,
-    SidenavComponent
+    SidenavComponent,
+    RouterModule
   ],
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'

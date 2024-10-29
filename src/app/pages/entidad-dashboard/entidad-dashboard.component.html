@@ -1,0 +1,116 @@
+<input type="checkbox" id="sidebar-toggle">
+<div class="sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-flex">
+            <img src="assets/recycle.png" width="30px">
+            <div class="brand-icons">
+                <span class="las la-bell"></span>
+                <span class="las la-user-circle"></span>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-main">
+        <div class="sidebar-user">
+            <img src="assets/admin.png"  width="100px" alt="">
+            <div>
+                <h3>Santiago Giordano</h3>
+                <span>santigiopo3gmail.com</span>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-menu">
+        <div class="menu-head">
+            <span>Dashboard</span>
+        </div>
+        <ul>
+            <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar responsables</a></li>
+            <li><a href=""> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar responsable</a> </li>
+            <li><a href=""> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar puntos verdes</a> </li>
+           
+        </ul>
+    
+     
+    </div>
+</div>
+<div class="main-content">
+    <header>
+        <div class="menu-tog">
+            <label for="sidebar-toggle">
+                <span class="las la-bars"></span>
+            </label>
+        </div>
+        
+      
+    </header>
+    <main>
+        <div class="page-header">
+            <div>
+                <h1>
+                    analitycs dashboard
+                </h1>
+                <small>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</small>
+            </div>
+            <div class="header-actions">
+                <button>
+                    <span class="las la-file-export"></span>
+                    Export
+                </button>
+                <button>
+                    <span class="las la-tools"></span>
+                    Settings
+                </button>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card-single">
+                <div class="card-flex"> 
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Purchase</span>
+                            <small>Number of Purchase</small>
+
+                        </div>
+                        <h2>123123</h2>
+                        <small>2% blablabal</small>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-chart-line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-flex"> 
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Purchase</span>
+                            <small>Number of Purchase</small>
+
+                        </div>
+                        <h2>123123</h2>
+                        <small>2% blablabal</small>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-chart-line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-single">
+                <div class="card-flex"> 
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Purchase</span>
+                            <small>Number of Purchase</small>
+
+                        </div>
+                        <h2>123123</h2>
+                        <small>2% blablabal</small>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-chart-line"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<label for="sidebar-toggle" class="body-label"></label>

@@ -86,5 +86,10 @@ export const routes: Routes = [
   {
     path: 'puntos-verdes',
     loadComponent: () => import('./pages/visualizar-pv/visualizar-pv.component').then(m => m.VisualizarPvComponent)
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./pages/entidad-dashboard/entidad-dashboard.component').then(m => m.EntidadDashboardComponent)
   }
 ]

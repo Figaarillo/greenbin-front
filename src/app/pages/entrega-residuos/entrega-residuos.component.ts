@@ -31,7 +31,7 @@ import { VecinoService } from '../../services/vecino/vecino.service'
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
-  dniValidated = true
+  dniValidated = false
   totalPuntos = 0
   categorias: any[] = [
     {
@@ -91,20 +91,31 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-
-      this.vecinoService.validateDni(dni).subscribe(
-        res => {
+      if (this.vecinoService.validateDni(dni)) {
+        setTimeout(() => {
           Swal.close()
           this.dniValidated = true
-        },
-        err => {
-          Swal.close()
-          swalWithBootstrapButtons.fire({
-            title: 'El usuario no existe.',
-            icon: 'error'
-          })
-        }
-      )
+        }, 1000)
+      } else {
+        Swal.close()
+        swalWithBootstrapButtons.fire({
+          title: 'El usuario no existe.',
+          icon: 'error'
+        })
+      }
+      // this.vecinoService.validateDni(dni).subscribe(
+      //   res => {
+      //     Swal.close()
+      //     this.dniValidated = true
+      //   },
+      //   err => {
+      //     Swal.close()
+      //     swalWithBootstrapButtons.fire({
+      //       title: 'El usuario no existe.',
+      //       icon: 'error'
+      //     })
+      //   }
+      // )
     }
   }
 
