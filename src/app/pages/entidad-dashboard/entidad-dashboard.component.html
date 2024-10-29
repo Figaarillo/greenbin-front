@@ -13,7 +13,7 @@
         <div class="sidebar-user">
             <img src="assets/admin.png"  width="100px" alt="">
             <div>
-                <h3>Santiago Giordano</h3>
+                <h3>{{name}}</h3>
                 <span>santigiopo3gmail.com</span>
             </div>
         </div>
@@ -26,6 +26,7 @@
             <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar responsables</a></li>
             <li><a href=""> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar responsable</a> </li>
             <li><a href=""> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar puntos verdes</a> </li>
+            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar sesión</a> </li>
            
         </ul>
     
@@ -46,18 +47,18 @@
         <div class="page-header">
             <div>
                 <h1>
-                    analitycs dashboard
+                    Panel de administración.
                 </h1>
-                <small>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</small>
+                <!-- <small>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</small> -->
             </div>
             <div class="header-actions">
                 <button>
-                    <span class="las la-file-export"></span>
-                    Export
+                    <span class="las la-print"></span>
+                    Imprimir reporte
                 </button>
                 <button>
                     <span class="las la-tools"></span>
-                    Settings
+                    Soporte
                 </button>
             </div>
         </div>

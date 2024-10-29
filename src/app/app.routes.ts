@@ -91,5 +91,9 @@ export const routes: Routes = [
     path: 'admin',
     loadComponent: () =>
       import('./pages/entidad-dashboard/entidad-dashboard.component').then(m => m.EntidadDashboardComponent)
+  },
+  {
+    path: 'login-admin',
+    loadComponent: () => import('./pages/login-entidad/login-entidad.component').then(m => m.LoginEntidadComponent)
   }
 ]
