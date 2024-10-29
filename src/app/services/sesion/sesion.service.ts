@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular/common/http'
+import { IS_REFRESH_TOKEN_REQUEST } from '../../interceptors/httpContextToken'
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +29,7 @@ export class SesionService {
   login() {
     localStorage.setItem('isLogged', 'true')
   }
+  logout() {}
 
   setRole(role: string) {
     localStorage.setItem('role', role)
@@ -70,7 +72,7 @@ export class SesionService {
       Authorization: `Bearer ${this.getRefreshToken()}`
     })
     // contexto para peticiones que no deben pasar por los interceptors (se debe controlar esto en los interceptors)
-    const context = { excludeInterceptor: true } as any
+    const context = new HttpContext().set(IS_REFRESH_TOKEN_REQUEST, true)
     return this.http.get<any>(`${this.apiUrl}/${type}/auth/refresh-token`, { headers, context }).pipe(
       tap(response => {
         // Almacenar la respuesta en caso de éxito
