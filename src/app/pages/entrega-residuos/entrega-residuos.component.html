@@ -30,7 +30,8 @@
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoria" name="category">
             @for (cat of categorias; track cat) {
-                <mat-option [value]="cat.id">{{cat.name}}</mat-option>
+                
+                <mat-option  [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
             }
         </mat-select>
         <!-- <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint> -->

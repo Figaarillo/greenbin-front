@@ -8,9 +8,10 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatSelectModule } from '@angular/material/select'
-import Swal from 'sweetalert2'
 import { MatTableModule } from '@angular/material/table'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { CommonModule } from '@angular/common'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -25,7 +26,8 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     MatChipsModule,
     MatDividerModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    CommonModule
   ],
   templateUrl: './entrega-residuos.component.html',
   styleUrl: './entrega-residuos.component.scss'
@@ -37,22 +39,26 @@ export class EntregaResiduosComponent {
     {
       id: '1',
       name: 'carton',
-      points: 500
+      points: 500,
+      disabled: false
     },
     {
       id: '2',
       name: 'vidrio',
-      points: 3000
+      points: 3000,
+      disabled: false
     },
     {
       id: '3',
       name: 'plástico',
-      points: 1500
+      points: 1500,
+      disabled: false
     },
     {
       id: '4',
       name: 'metal',
-      points: 5000
+      points: 5000,
+      disabled: false
     }
   ]
   form!: FormGroup
@@ -120,19 +126,47 @@ export class EntregaResiduosComponent {
   }
 
   aggResiduo() {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+
     const cantidad = this.form.value.kilos
     const residuoFiltrado = this.categorias.filter(resp => {
       return resp.id == this.form.value.categoria
     })
     const residuo = residuoFiltrado[0].name
-    const puntos = residuoFiltrado[0].points
-    this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
-    console.log(this.form)
-    this.detalle.push({ puntos, cantidad, residuo })
+    if (residuoFiltrado[0].disabled) {
+      swalWithBootstrapButtons.fire({
+        title: 'Error',
+        text: 'Ya registraste este residuo.',
+        icon: 'error'
+      })
+    } else {
+      this.categorias = this.categorias.map(categoria => {
+        if (categoria.name === residuo) {
+          return { ...categoria, disabled: true }
+        }
+        return categoria
+      })
+      console.log(this.categorias)
+      const puntos = residuoFiltrado[0].points
+      this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
+      console.log(this.form)
+      this.detalle.push({ puntos, cantidad, residuo })
+    }
   }
 
   delete(item: any) {
     this.detalle = this.detalle.filter(detalle => detalle.residuo !== item.residuo)
     this.totalPuntos = this.totalPuntos - item.cantidad * item.puntos
+    this.categorias = this.categorias.map(categoria => {
+      if (categoria.name === item.residuo) {
+        return { ...categoria, disabled: false }
+      }
+      return categoria
+    })
   }
 }
