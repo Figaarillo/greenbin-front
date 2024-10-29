@@ -31,8 +31,10 @@ export type MenuItem = {
 })
 export class NavbarComponent {
   @Input() title: string = ''
+  @Input() route: string = ''
   @ViewChild(MatSidenav, { static: true })
   sidenav!: MatSidenav
+
   menuItems = signal<MenuItem[]>([
     {
       icon: 'analytics',
