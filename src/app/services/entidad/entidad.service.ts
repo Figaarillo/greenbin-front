@@ -24,12 +24,7 @@ export class EntidadService {
     return this.http.put<Entidad>(this.url + '/' + id, object)
   }
   get(id: string): Observable<Entidad> {
-    const headers = new HttpHeaders({
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYjk3ODUxZi02MDI0LTQ0ZDgtYmQ0OS1jMmRmN2NmMzJhMDEiLCJuYW1lIjoiTXVuaWNpcGFsaWRhZCB2bSIsImVtYWlsIjoidm1AZ21haWwuY29tIiwicm9sZSI6ImVudGl0eSIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MzAxNjk5MjUsImV4cCI6MTczMDE3MDUyNX0.WFxoBiGh2h6XXjDaD7oT2LWtwdoxWmnZYTVgCOYhONc'
-    })
-
-    return this.http.get<Entidad>(`${this.url}/${id}`, { headers })
+    return this.http.get<Entidad>(`${this.url}/${id}`)
   }
 
   list(offset: number, limit: number): Observable<Entidad[]> {
