@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Observable, tap } from 'rxjs'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+  private apiUrl = 'http://localhost:8080/api'
   private logging: boolean = false
   private loggingSubject = new BehaviorSubject<boolean>(false)
   isLogging$ = this.loggingSubject.asObservable()
@@ -27,6 +29,13 @@ export class SesionService {
     localStorage.setItem('isLogged', 'true')
   }
 
+  setRole(role: string) {
+    localStorage.setItem('role', role)
+  }
+  getRole() {
+    return localStorage.getItem('role')!
+  }
+
   setAccessToken(token: string) {
     localStorage.setItem('accessToken', token)
   }
@@ -44,5 +53,31 @@ export class SesionService {
   }
   getUserId(): string {
     return localStorage.getItem('userId')!
+  }
+
+  refreshToken() {
+    const role = this.getRole()
+    if (role && role.length > 0) {
+      this.sendRefreshToken(role)
+    } else {
+      //redirect to login
+    }
+  }
+
+  sendRefreshToken(type: string): Observable<any> {
+    // Agregar el header de Authorization con el token existente
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.getRefreshToken()}`
+    })
+    // contexto para peticiones que no deben pasar por los interceptors (se debe controlar esto en los interceptors)
+    const context = { excludeInterceptor: true } as any
+    return this.http.get<any>(`${this.apiUrl}/${type}/auth/refresh-token`, { headers, context }).pipe(
+      tap(response => {
+        // Almacenar la respuesta en caso de éxito
+        if (response) {
+          this.setAccessToken(response.data.accessToken)
+        }
+      })
+    )
   }
 }
