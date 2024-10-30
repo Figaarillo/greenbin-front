@@ -22,7 +22,7 @@ export class VecinoService {
     return this.http.get<Vecino>(this.url + '/' + id)
   }
 
-  login(object: Login): Observable<LoginResponse> {
+  login(object: Login): Observable<any> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
   validateDni(dni: string): Observable<any> {

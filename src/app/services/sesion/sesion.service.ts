@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
 import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular/common/http'
 import { IS_REFRESH_TOKEN_REQUEST } from '../../interceptors/httpContextToken'
+import { Router } from '@angular/router'
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
   private apiUrl = 'http://localhost:8080/api'
   private logging: boolean = false
   private loggingSubject = new BehaviorSubject<boolean>(false)
@@ -29,7 +33,10 @@ export class SesionService {
   login() {
     localStorage.setItem('isLogged', 'true')
   }
-  logout() {}
+  logout() {
+    localStorage.clear()
+    this.router.navigateByUrl('login')
+  }
 
   setRole(role: string) {
     localStorage.setItem('role', role)
@@ -62,7 +69,7 @@ export class SesionService {
     if (role && role.length > 0) {
       this.sendRefreshToken(role)
     } else {
-      //redirect to login
+      this.logout()
     }
   }
 
