@@ -22,7 +22,7 @@ export class ResponsableService {
     return this.http.get<Responsable>(this.url + '/' + id)
   }
 
-  login(object: Login): Observable<LoginResponse> {
+  login(object: Login): Observable<any> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
 }

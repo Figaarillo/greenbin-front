@@ -20,7 +20,7 @@ export class LocalAdheridoService {
     return this.http.post<LocalAdherido>(this.url, object)
   }
 
-  login(object: Login): Observable<LoginResponse> {
+  login(object: Login): Observable<any> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
 

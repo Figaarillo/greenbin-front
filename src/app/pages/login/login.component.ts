@@ -14,6 +14,7 @@ import { Login } from '../../services/interfaces/login'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { CommonModule } from '@angular/common'
+import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private neighborService: VecinoService,
     private businessService: LocalAdheridoService,
-    private responsibleService: ResponsableService
+    private responsibleService: ResponsableService,
+    private sesionService: SesionService
   ) {
     this.form = this.fb.group({
       username: ['', [Validators.required]],
@@ -94,17 +96,31 @@ export class LoginComponent {
 
   loginAsNeighbor(login: Login) {
     this.neighborService.login(login).subscribe(obj => {
-      this.router.navigateByUrl('/vecino')
+      this.sesionService.setAccessToken(obj.data.accessToken)
+      this.sesionService.setRefreshToken(obj.data.refreshToken)
+      this.sesionService.setUserId(obj.data.id)
+      this.sesionService.setRole('neighbor')
+      console.log(this.sesionService.getAccessToken())
+      //this.router.navigateByUrl('/vecino')
     })
   }
   loginAsBusiness(login: Login) {
-    this.businessService.login(login).subscribe(obj => {})
+    this.businessService.login(login).subscribe(obj => {
+      this.sesionService.setAccessToken(obj.data.accessToken)
+      this.sesionService.setRefreshToken(obj.data.refreshToken)
+      this.sesionService.setUserId(obj.data.id)
+      this.sesionService.setRole('reward-partner')
+      console.log(this.sesionService.getAccessToken())
+    })
   }
   loginAsResponsible(login: Login) {
     this.responsibleService.login(login).subscribe(obj => {
+      this.sesionService.setAccessToken(obj.data.accessToken)
+      this.sesionService.setRefreshToken(obj.data.refreshToken)
+      this.sesionService.setUserId(obj.data.id)
+      this.sesionService.setRole('responsible')
+      console.log(this.sesionService.getAccessToken())
       this.router.navigateByUrl('/responsable')
-      localStorage.setItem('rol', 'responsable')
-
       const id = localStorage.getItem('userId') || ''
       this.responsibleService.get(id).subscribe((resp: any) => {
         localStorage.setItem('username', resp.data.username)
