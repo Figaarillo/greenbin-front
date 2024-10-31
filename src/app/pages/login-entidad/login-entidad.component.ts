@@ -14,6 +14,7 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
 import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { EntidadService } from '../../services/entidad/entidad.service'
+import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-login-entidad',
@@ -41,7 +42,8 @@ export class LoginEntidadComponent {
 
   constructor(
     private fb: FormBuilder,
-    private entidadServ: EntidadService
+    private entidadServ: EntidadService,
+    private sesionService: SesionService
   ) {
     this.form = this.fb.group({
       username: ['', [Validators.required]],
@@ -55,10 +57,13 @@ export class LoginEntidadComponent {
         this.router.navigateByUrl('/admin')
         localStorage.setItem('rol', 'admin')
         console.log(obj)
+        this.sesionService.setAccessToken(obj.data.accessToken)
+        this.sesionService.setRefreshToken(obj.data.refreshToken)
+        this.sesionService.setUserId(obj.data.id)
 
         this.entidadServ.get(obj.data.id).subscribe((resp: any) => {
           console.log(resp.data.name)
-          localStorage.setItem('username', resp.data.name)
+          localStorage.setItem('entidadInfo', JSON.stringify(resp.data))
         })
       })
     }

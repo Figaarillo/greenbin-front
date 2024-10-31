@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { Vecino } from '../interfaces/vecino'
 import { Login } from '../interfaces/login'
 import { LoginResponse } from '../interfaces/login-response'
+import { VecinoUpdate } from '../interfaces/vecino_update'
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class VecinoService {
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url, object)
   }
-  update(object: Vecino, id: string): Observable<Vecino> {
-    return this.http.put<Vecino>(this.url + '/' + id, object)
+  update(object: VecinoUpdate, id: string): Observable<VecinoUpdate> {
+    return this.http.put<VecinoUpdate>(this.url + '/' + id, object)
   }
   get(id: string): Observable<Vecino> {
     return this.http.get<Vecino>(this.url + '/' + id)

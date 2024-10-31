@@ -100,6 +100,11 @@ export class LoginComponent {
       this.sesionService.setRefreshToken(obj.data.refreshToken)
       this.sesionService.setUserId(obj.data.id)
       this.sesionService.setRole('neighbor')
+      this.neighborService.get(obj.data.id).subscribe((resp: any) => {
+        console.log('veceino')
+        localStorage.setItem('usuarioInfo', JSON.stringify(resp.data))
+        console.log(resp)
+      })
       console.log(this.sesionService.getAccessToken())
       //this.router.navigateByUrl('/vecino')
     })

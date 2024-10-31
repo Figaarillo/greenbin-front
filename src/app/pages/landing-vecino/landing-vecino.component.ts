@@ -30,11 +30,15 @@ export class LandingVecinoComponent {
   @ViewChild(MatSidenav, { static: true })
   sidenav!: MatSidenav
   puntos: string = ''
+  name = ''
   constructor(
     private router: Router,
     private sesionService: SesionService
   ) {
-    this.puntos = localStorage.getItem('usuariopts') || ''
+    const info = localStorage.getItem('usuarioInfo') || ''
+    const usuarioInfo = JSON.parse(info)
+    this.puntos = usuarioInfo.points
+    this.name = usuarioInfo.firstname
   }
 
   editNeighbor() {

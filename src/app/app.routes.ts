@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router'
-import { authGuardGuard, vecinoGuard } from './guard/auth-guard.guard'
+import { authGuardGuard, entityGuard, isLogged, vecinoGuard } from './guard/auth-guard.guard'
+import { response } from 'express'
 
 export const routes: Routes = [
   {
@@ -8,11 +9,13 @@ export const routes: Routes = [
   },
   {
     path: 'listar-entidades',
+    canActivate: [isLogged],
     loadComponent: () =>
       import('./pages/consultar-entidad/consultar-entidad.component').then(m => m.ConsultarEntidadComponent)
   },
   {
     path: 'listar-responsables',
+    canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/consultar-responsables/consultar-responsables.component').then(
         m => m.ConsultarResponsablesComponent
@@ -20,26 +23,31 @@ export const routes: Routes = [
   },
   {
     path: 'registrar-entidad',
+    canActivate: [isLogged],
     loadComponent: () =>
       import('./pages/registrar-entidad/registrar-entidad.component').then(m => m.RegistrarEntidadComponent)
   },
   {
     path: 'modificar-entidad/:id', // Nota el parámetro :id'
+    canActivate: [isLogged],
     loadComponent: () =>
       import('./pages/modificar-entidad/modificar-entidad.component').then(m => m.ModificarEntidadComponent)
   },
   {
     path: 'registrar-punto-verde',
+    canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/registrar-punto-verde/registrar-punto-verde.component').then(m => m.RegistrarPuntoVerdeComponent)
   },
   {
     path: 'registrar-responsable',
+    canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/registrar-responsable/registrar-responsable.component').then(m => m.RegistrarResponsableComponent)
   },
   {
     path: 'modificar-responsable/:id',
+    canActivate: [isLogged, authGuardGuard, entityGuard],
     loadComponent: () =>
       import('./pages/modificar-responsable/modificar-responsable.component').then(m => m.ModificarResponsableComponent)
   },
@@ -50,6 +58,7 @@ export const routes: Routes = [
   },
   {
     path: 'modificar-vecino',
+    canActivate: [isLogged, vecinoGuard],
     loadComponent: () =>
       import('./pages/modificar-vecino/modificar-vecino.component').then(m => m.ModificarVecinoComponent)
   },
@@ -60,18 +69,21 @@ export const routes: Routes = [
   },
   {
     path: 'vecino',
+    canActivate: [isLogged, vecinoGuard],
     //canActivate: [vecinoGuard],
 
     loadComponent: () => import('./pages/landing-vecino/landing-vecino.component').then(m => m.LandingVecinoComponent)
   },
   {
     path: 'responsable',
+    canActivate: [isLogged, authGuardGuard],
     //canActivate: [authGuardGuard],
     loadComponent: () =>
       import('./pages/landing-responsable/landing-responsable.component').then(m => m.LandingResponsableComponent)
   },
   {
     path: 'entrega',
+    canActivate: [isLogged, authGuardGuard],
     loadComponent: () =>
       import('./pages/entrega-residuos/entrega-residuos.component').then(m => m.EntregaResiduosComponent)
   },
@@ -85,10 +97,12 @@ export const routes: Routes = [
   },
   {
     path: 'puntos-verdes',
+    canActivate: [isLogged, vecinoGuard],
     loadComponent: () => import('./pages/visualizar-pv/visualizar-pv.component').then(m => m.VisualizarPvComponent)
   },
   {
     path: 'admin',
+    canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/entidad-dashboard/entidad-dashboard.component').then(m => m.EntidadDashboardComponent)
   },

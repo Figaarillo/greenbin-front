@@ -1,12 +1,8 @@
-export interface Vecino {
-  id: string
+export interface VecinoUpdate {
   firstname: string
   lastname: string
   username: string
   email: string
-  password: string
-  birthdate: string
-  dni: string
   phoneNumber: string
   points: number
 }

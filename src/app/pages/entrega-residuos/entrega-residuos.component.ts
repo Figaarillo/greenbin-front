@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common'
 import Swal from 'sweetalert2'
 import { Router, RouterModule } from '@angular/router'
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
+import { ResponsableService } from '../../services/responsable/responsable.service'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -40,32 +41,40 @@ export class EntregaResiduosComponent {
   totalPuntos = 0
   fechaActual: string = ''
   route = inject(Router)
+  responsibleServ = inject(ResponsableService)
   categorias: any[] = [
     {
       id: '1',
-      name: 'carton',
-      points: 500,
+      name: 'CARTÓN',
+      points: 100,
       disabled: false
     },
     {
       id: '2',
-      name: 'vidrio',
-      points: 3000,
+      name: 'VIDRIO',
+      points: 150,
       disabled: false
     },
     {
       id: '3',
-      name: 'plástico',
-      points: 1500,
+      name: 'PLÁSTICO',
+      points: 120,
       disabled: false
     },
     {
       id: '4',
-      name: 'metal',
-      points: 5000,
+      name: 'LATA',
+      points: 100,
+      disabled: false
+    },
+    {
+      id: '5',
+      name: 'PAPEL',
+      points: 80,
       disabled: false
     }
   ]
+
   form!: FormGroup
   dniValidator!: FormGroup
   detalle: { puntos: number; cantidad: number; residuo: string }[] = []
@@ -96,34 +105,68 @@ export class EntregaResiduosComponent {
     })
 
     if (this.form.valid) {
-      console.log('detalle')
-      console.log(this.detalle)
-      let usuariopts = localStorage.getItem('usuariopts')
-      if (!usuariopts) {
-        usuariopts = '0'
-      }
-      const nuevosPuntos = parseInt(usuariopts) + this.totalPuntos
-      console.log(nuevosPuntos)
-      localStorage.setItem('usuariopts', nuevosPuntos.toString())
+      Swal.fire({
+        title: 'Cargando',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      })
 
-      swalWithBootstrapButtons
-        .fire({
-          text: 'Entrega registrada con éxito!.',
-          icon: 'success'
-        })
-        .then(() => {
-          this.route.navigateByUrl('/responsable')
-        })
+      Swal.showLoading()
+      this.vecinoService.get('ba605e0b-adbb-47c1-868e-2a12fd85b860').subscribe((resp: any) => {
+        const vecino = {
+          firstname: resp.data.firstname,
+          lastname: resp.data.lastname,
+          username: resp.data.username,
+          email: resp.data.email,
+          phoneNumber: resp.data.phoneNumber,
+          points: resp.data.points + this.totalPuntos
+        }
+        console.log('vecinoocc')
+        console.log(vecino)
+        this.vecinoService.update(vecino, 'ba605e0b-adbb-47c1-868e-2a12fd85b860').subscribe(
+          (updateResp: any) => {
+            console.log('Actualización exitosa', updateResp)
+
+            emailjs
+              .send(
+                'service_8zvqn0h',
+                'template_scqxmg9',
+                {
+                  puntos_asignados: this.totalPuntos
+                },
+                'ERADTS6Ll5n_u1NKh'
+              )
+              .then(
+                result => {
+                  console.log('Correo enviado con éxito:', result.text)
+                },
+                error => {
+                  console.error('Error al enviar el correo:', error)
+                }
+              )
+            Swal.close()
+            swalWithBootstrapButtons
+              .fire({
+                text: 'Entrega registrada con éxito!.',
+                icon: 'success'
+              })
+              .then(() => {
+                this.route.navigateByUrl('/responsable')
+              })
+          },
+          (error: any) => {
+            console.error('Error en la actualización', error)
+            Swal.close()
+
+            swalWithBootstrapButtons.fire({
+              title: 'Error al registrar la entrega.',
+              icon: 'error'
+            })
+          }
+        )
+      })
     } else {
-      console.log('entra else')
-      setTimeout(() => {
-        Swal.close()
-
-        swalWithBootstrapButtons.fire({
-          title: 'Error al registrar la entrega.',
-          icon: 'error'
-        })
-      }, 1000)
     }
   }
 

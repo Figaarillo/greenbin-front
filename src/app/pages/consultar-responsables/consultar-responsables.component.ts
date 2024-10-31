@@ -79,6 +79,7 @@ export class ConsultarResponsablesComponent implements OnInit {
 
   editResponsible(id: string) {
     this.router.navigate(['/modificar-responsable', id])
+    localStorage.setItem('respoEdit', 'true')
   }
   deleteResponsible(id: string) {
     const swalWithBootstrapButtons = Swal.mixin({

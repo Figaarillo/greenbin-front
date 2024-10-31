@@ -53,11 +53,16 @@
         <!-- <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint> -->
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Kilos</mat-label>
-        <input type="number" matInput placeholder="Peso en kilos" formControlName="kilos">
-      
+    <mat-form-field appearance="fill">
+      <mat-label>Peso aproximado</mat-label>
+      <input 
+        type="number" 
+        matInput 
+        placeholder="Peso aproximado en kilos" 
+        formControlName="kilos"
+      >
     </mat-form-field>
+    
 
     <button mat-raised-button  class="w-100" (click)="aggResiduo()" >Agregar</button>
 

@@ -47,7 +47,9 @@ export class SidenavComponent implements OnInit {
         { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
       ])
     } else if (rol == 'neighbor') {
-      this.username = 'Santiago Giordano'
+      const info = localStorage.getItem('usuarioInfo') || ''
+      const usuarioInfo = JSON.parse(info)
+      this.username = usuarioInfo.username
       this.menuItems.set([
         { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
         { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },

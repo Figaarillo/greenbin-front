@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -25,10 +25,10 @@ import Swal from 'sweetalert2'
   templateUrl: './modificar-responsable.component.html',
   styleUrl: './modificar-responsable.component.scss'
 })
-export class ModificarResponsableComponent {
+export class ModificarResponsableComponent implements OnInit {
   form!: FormGroup
   id: string | null = null
-
+  ruta = ''
   constructor(
     private fb: FormBuilder,
     private service: ResponsableService,
@@ -48,6 +48,15 @@ export class ModificarResponsableComponent {
       this.form.get('lastname')?.disable()
       this.form.get('firstname')?.disable()
     })
+  }
+
+  ngOnInit(): void {
+    const edit = localStorage.getItem('respoEdit') || ''
+    if (edit == 'true') {
+      this.ruta = '/admin'
+    } else {
+      this.ruta = '/responsable'
+    }
   }
   onSubmit() {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -79,7 +88,8 @@ export class ModificarResponsableComponent {
                     icon: 'success'
                   })
                   .then(() => {
-                    this.router.navigate(['/listar-responsables'])
+                    localStorage.setItem('respoEdit', 'false')
+                    this.router.navigate([this.ruta])
                   })
               },
               error => {
