@@ -9,6 +9,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { Vecino } from '../../services/interfaces/vecino'
 import { CommonModule } from '@angular/common'
+import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-modificar-vecino',
@@ -29,14 +30,18 @@ import { CommonModule } from '@angular/common'
 })
 export class ModificarVecinoComponent {
   form!: FormGroup
-  id: string | null = null
   constructor(
     private fb: FormBuilder,
     private service: VecinoService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sesionService: SesionService
   ) {
-    this.id = this.route.snapshot.paramMap.get('id')
-    this.service.get(this.id!).subscribe((obj: any) => {
+    //console.log(this.sesionService.getAccessToken())
+    //console.log(this.sesionService.getRefreshToken())
+    //console.log(this.sesionService.getRole())
+    //console.log(this.sesionService.getUserId())
+
+    this.service.get(this.sesionService.getUserId()).subscribe((obj: any) => {
       //console.log(obj.data)
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
@@ -49,8 +54,8 @@ export class ModificarVecinoComponent {
   }
 
   onSubmit() {
-    if (this.form.valid && this.id) {
-      this.service.update(<Vecino>this.form.value, this.id).subscribe()
+    if (this.form.valid) {
+      this.service.update(<Vecino>this.form.value, this.sesionService.getUserId()).subscribe()
     }
   }
 }

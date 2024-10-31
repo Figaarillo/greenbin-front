@@ -35,41 +35,33 @@ export class SidenavComponent implements OnInit {
     console.log('adklajdsk')
     console.log(this.sesionServ.isLogging())
     const isLogged = localStorage.getItem('isLogged') || ''
-    if (isLogged == 'true') {
-      console.log('aca')
-      this.username = localStorage.getItem('username') || 'Usuario'
-      const rol = localStorage.getItem('rol')
-      if (rol == 'responsable') {
-        this.menuItems.set([
-          { icon: 'recycling', label: 'Registrar entrega', route: 'home' },
-          { icon: 'history', label: 'Historial entregas', route: 'contacto' },
-          { icon: 'info', label: 'Contacto', route: 'contacto' },
-          { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
-        ])
-      } else if (rol == 'vecino') {
-        this.username = 'Santiago Giordano'
-        this.menuItems.set([
-          { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
-          { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
-          { icon: 'history', label: 'Historial entregas', route: 'contacto' },
 
-          { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
-        ])
-      } else if (rol == 'comercio') {
-        this.menuItems.set([
-          { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
-          { icon: 'confirmation_number', label: 'Mis cupones', route: 'puntos-verdes' },
-          { icon: 'info', label: 'Contacto', route: 'contacto' },
-
-          { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
-        ])
-      }
-    } else {
+    console.log('aca')
+    this.username = localStorage.getItem('username') || 'Usuario'
+    const rol = localStorage.getItem('role')
+    if (rol == 'responsible') {
       this.menuItems.set([
-        { icon: 'home', label: 'Home', route: 'home' },
-        { icon: 'info', label: 'Contacto', route: 'contacto' }
+        { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
+        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
+        { icon: 'info', label: 'Contacto', route: 'contacto' },
+        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+      ])
+    } else if (rol == 'neighbor') {
+      this.username = 'Santiago Giordano'
+      this.menuItems.set([
+        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
+        { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
+        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
 
-        // Otros elementos para usuarios logueados
+        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+      ])
+    } else if (rol == 'reward-partner') {
+      this.menuItems.set([
+        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
+        { icon: 'confirmation_number', label: 'Mis cupones', route: 'puntos-verdes' },
+        { icon: 'info', label: 'Contacto', route: 'contacto' },
+
+        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
       ])
     }
   }

@@ -49,7 +49,7 @@ export const routes: Routes = [
       import('./pages/registrar-vecino/registrar-vecino.component').then(m => m.RegistrarVecinoComponent)
   },
   {
-    path: 'modificar-vecino/:id', // Nota el parámetro :id'
+    path: 'modificar-vecino',
     loadComponent: () =>
       import('./pages/modificar-vecino/modificar-vecino.component').then(m => m.ModificarVecinoComponent)
   },

@@ -105,23 +105,7 @@ export class EntregaResiduosComponent {
       const nuevosPuntos = parseInt(usuariopts) + this.totalPuntos
       console.log(nuevosPuntos)
       localStorage.setItem('usuariopts', nuevosPuntos.toString())
-      emailjs
-        .send(
-          'service_8zvqn0h',
-          'template_scqxmg9',
-          {
-            puntos_asignados: this.totalPuntos
-          },
-          'ERADTS6Ll5n_u1NKh'
-        )
-        .then(
-          result => {
-            console.log('Correo enviado con éxito:', result.text)
-          },
-          error => {
-            console.error('Error al enviar el correo:', error)
-          }
-        )
+
       swalWithBootstrapButtons
         .fire({
           text: 'Entrega registrada con éxito!.',
