@@ -2,8 +2,8 @@
 
 .mat-toolbar { 
   color: #fff;
-  background: #4f973d;
-
+  background: #0000;//background: #4f973d;
+  position: relative;
 }
 
 mat-sidenav{
@@ -19,4 +19,15 @@ mat-sidenav-content {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.title{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.example-spacer {
+  flex: 1 1 auto;
 }
