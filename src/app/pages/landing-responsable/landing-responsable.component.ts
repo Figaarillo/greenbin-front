@@ -11,6 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
+import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
+import { PuntoVerde } from '../../services/interfaces/punto-verde'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -32,19 +34,27 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component'
   styleUrl: './landing-responsable.component.scss'
 })
 export class LandingResponsableComponent {
-  listPtoVerde: any[] = [
-    { id: 'steak-0', name: 'Escuela Juan Castillo' },
-    { id: 'pizza-1', name: 'Cooperativa' },
-    { id: 'tacos-2', name: 'Municerca' }
-  ]
-  ptoVerde = new FormControl(this.listPtoVerde[2].id)
+  listPtoVerde: PuntoVerde[] = []
+  ptoVerde = new FormControl()
+  nombre: string = ''
 
   constructor(
     private router: Router,
-    private sesionService: SesionService
-  ) {}
+    private sesionService: SesionService,
+    private pvService: PuntoVerdeService
+  ) {
+    this.nombre = this.formatearNombre(this.sesionService.getFirstname())
+    this.pvService.list().subscribe((res: any) => {
+      this.listPtoVerde = res
+    })
+  }
 
   editResponsible() {
     this.router.navigate(['/modificar-responsable', this.sesionService.getUserId()])
+  }
+
+  formatearNombre(value: string): string {
+    if (!value) return ''
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
   }
 }

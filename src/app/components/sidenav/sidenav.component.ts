@@ -23,62 +23,60 @@ export class SidenavComponent implements OnInit {
   router = inject(Router)
 
   menuItems = signal<MenuItem[]>([])
-  username = 'Usuario'
+  nombreCompleto = ''
+  username = ''
+  dni = ''
+  rol = ''
   ngOnInit() {
-    // Suscribirse al estado de autenticación
-    this.sesionServ.isLogging$.subscribe(isLoggedIn => {
-      this.setItems() // Actualizar el menú cuando cambie el estado
-    })
+    this.nombreCompleto =
+      this.formatearNombre(this.sesionServ.getFirstname()) + ' ' + this.formatearNombre(this.sesionServ.getLastname())
+    this.username = this.sesionServ.getUsername()
+    this.dni = this.sesionServ.getDni()
+    this.rol = this.sesionServ.getRole()
+    this.setItems()
+  }
+
+  formatearNombre(value: string): string {
+    if (!value) return ''
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
   }
 
   setItems() {
-    console.log('adklajdsk')
-    console.log(this.sesionServ.isLogging())
-    const isLogged = localStorage.getItem('isLogged') || ''
-
-    console.log('aca')
-    this.username = localStorage.getItem('username') || 'Usuario'
-    const rol = localStorage.getItem('role')
+    const rol = this.rol
     if (rol == 'responsible') {
       this.menuItems.set([
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
-        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
-        { icon: 'info', label: 'Contacto', route: 'contacto' },
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'history', label: 'Historial entregas', route: '/responsable' },
+        { icon: 'info', label: 'Contacto', route: '/responsable' },
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'neighbor') {
       const info = localStorage.getItem('usuarioInfo') || ''
       const usuarioInfo = JSON.parse(info)
       this.username = usuarioInfo.username
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-vecino' },
         { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
-        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
+        { icon: 'history', label: 'Historial entregas', route: '/vecino' },
 
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'reward-partner') {
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
-        { icon: 'confirmation_number', label: 'Mis cupones', route: 'puntos-verdes' },
-        { icon: 'info', label: 'Contacto', route: 'contacto' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/' },
+        { icon: 'confirmation_number', label: 'Mis cupones', route: '/puntos-verdes' },
+        { icon: 'info', label: 'Contacto', route: '/' },
 
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     }
   }
 
   logout() {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.removeItem('isLogged')
-    localStorage.removeItem('rol')
-    this.router.navigateByUrl('login')
+    this.sesionServ.logout()
   }
 
   navigateTo(route: string) {
     this.router.navigateByUrl(route)
   }
-
-  // this.router.navigate([route]);
 }

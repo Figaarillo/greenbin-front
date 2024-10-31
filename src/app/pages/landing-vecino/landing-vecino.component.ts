@@ -29,6 +29,7 @@ export class LandingVecinoComponent {
   title = 'GreenBin'
   @ViewChild(MatSidenav, { static: true })
   sidenav!: MatSidenav
+
   puntos: string = ''
   name = ''
   constructor(
@@ -41,7 +42,8 @@ export class LandingVecinoComponent {
     this.name = usuarioInfo.firstname
   }
 
-  editNeighbor() {
-    this.router.navigate(['/modificar-vecino', this.sesionService.getUserId()])
+  formatearNombre(value: string): string {
+    if (!value) return ''
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
   }
 }

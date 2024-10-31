@@ -37,6 +37,7 @@ export class ModificarResponsableComponent implements OnInit {
   ) {
     this.id = this.route.snapshot.paramMap.get('id')
     this.service.get(this.id!).subscribe((obj: any) => {
+      console.log(obj)
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
         lastname: [obj.data.lastname, [Validators.required, Validators.minLength(2)]],

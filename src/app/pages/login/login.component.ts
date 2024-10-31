@@ -106,6 +106,7 @@ export class LoginComponent {
         console.log(resp)
       })
       console.log(this.sesionService.getAccessToken())
+      this.sesionService.refreshUserData().subscribe()
       //this.router.navigateByUrl('/vecino')
     })
   }
@@ -116,6 +117,7 @@ export class LoginComponent {
       this.sesionService.setUserId(obj.data.id)
       this.sesionService.setRole('reward-partner')
       console.log(this.sesionService.getAccessToken())
+      this.sesionService.refreshUserData().subscribe()
     })
   }
   loginAsResponsible(login: Login) {
@@ -125,11 +127,7 @@ export class LoginComponent {
       this.sesionService.setUserId(obj.data.id)
       this.sesionService.setRole('responsible')
       console.log(this.sesionService.getAccessToken())
-      this.router.navigateByUrl('/responsable')
-      const id = localStorage.getItem('userId') || ''
-      this.responsibleService.get(id).subscribe((resp: any) => {
-        localStorage.setItem('username', resp.data.username)
-      })
+      this.sesionService.refreshUserData().subscribe()
     })
   }
 }

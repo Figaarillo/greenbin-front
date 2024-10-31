@@ -1,4 +1,4 @@
-<app-navbar [title]="'Editar Vecino'"></app-navbar>
+<app-navbar [title]="'Editar Vecino'"  [route]="'/vecino'"></app-navbar>
 <div class="container mt-3">
   @if (form) {
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
