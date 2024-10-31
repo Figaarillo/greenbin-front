@@ -13,6 +13,8 @@ export class SesionService {
     private router: Router
   ) {}
   private apiUrl = 'http://localhost:8080/api'
+
+  //borrar?
   private logging: boolean = false
   private loggingSubject = new BehaviorSubject<boolean>(false)
   isLogging$ = this.loggingSubject.asObservable()
@@ -33,9 +35,42 @@ export class SesionService {
   login() {
     localStorage.setItem('isLogged', 'true')
   }
+  ///--------
+
   logout() {
     localStorage.clear()
-    this.router.navigateByUrl('login')
+    this.router.navigateByUrl('/login')
+  }
+
+  setPoints(data: string) {
+    localStorage.setItem('points', data)
+  }
+  getPoints() {
+    localStorage.getItem('points')!
+  }
+  setFirstname(data: string) {
+    localStorage.setItem('firstname', data)
+  }
+  getFirstname() {
+    localStorage.getItem('firstname')!
+  }
+  setLastname(data: string) {
+    localStorage.setItem('lastname', data)
+  }
+  getLastname() {
+    localStorage.getItem('lastname')!
+  }
+  setDni(data: string) {
+    localStorage.setItem('dni', data)
+  }
+  getDni() {
+    localStorage.getItem('dni')!
+  }
+  setUsername(data: string) {
+    localStorage.setItem('username', data)
+  }
+  getUsername() {
+    localStorage.getItem('username')!
   }
 
   setRole(role: string) {
@@ -85,6 +120,21 @@ export class SesionService {
         // Almacenar la respuesta en caso de éxito
         if (response) {
           this.setAccessToken(response.data.accessToken)
+        }
+      })
+    )
+  }
+
+  refreshUserData() {
+    return this.http.get<any>(`${this.apiUrl}/${this.getRole()}/${this.getUserId()}`).pipe(
+      tap(response => {
+        // Almacenar la respuesta en caso de éxito
+        if (response) {
+          this.setDni(response.data.dni ?? null)
+          this.setFirstname(response.data.firstname ?? null)
+          this.setLastname(response.data.lastname ?? null)
+          this.setPoints(response.data.points != null ? response.data.points : null)
+          this.setUsername(response.data.username ?? null)
         }
       })
     )
