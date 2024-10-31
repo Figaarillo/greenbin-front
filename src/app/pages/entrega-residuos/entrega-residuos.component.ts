@@ -78,7 +78,8 @@ export class EntregaResiduosComponent {
   form!: FormGroup
   dniValidator!: FormGroup
   detalle: { puntos: number; cantidad: number; residuo: string }[] = []
-
+  idVeci = ''
+  nombreVecino = ''
   constructor(
     private fb: FormBuilder,
     private vecinoService: VecinoService
@@ -91,7 +92,7 @@ export class EntregaResiduosComponent {
       categoria: [{}, [Validators.required]],
       kilos: ['', [Validators.required]],
       fechaEntrega: [{ value: this.fechaActual, disabled: true }],
-      vecino: [{ value: 'Santiago Giordano', disabled: true }]
+      vecino: [{ value: this.nombreVecino, disabled: true }]
     })
   }
 
@@ -113,7 +114,7 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-      this.vecinoService.get('ba605e0b-adbb-47c1-868e-2a12fd85b860').subscribe((resp: any) => {
+      this.vecinoService.get(this.idVeci).subscribe((resp: any) => {
         const vecino = {
           firstname: resp.data.firstname,
           lastname: resp.data.lastname,
@@ -124,7 +125,7 @@ export class EntregaResiduosComponent {
         }
         console.log('vecinoocc')
         console.log(vecino)
-        this.vecinoService.update(vecino, 'ba605e0b-adbb-47c1-868e-2a12fd85b860').subscribe(
+        this.vecinoService.update(vecino, this.idVeci).subscribe(
           (updateResp: any) => {
             console.log('Actualización exitosa', updateResp)
 
@@ -133,7 +134,8 @@ export class EntregaResiduosComponent {
                 'service_8zvqn0h',
                 'template_scqxmg9',
                 {
-                  puntos_asignados: this.totalPuntos
+                  puntos_asignados: this.totalPuntos,
+                  email: resp.data.email
                 },
                 'ERADTS6Ll5n_u1NKh'
               )
@@ -177,6 +179,7 @@ export class EntregaResiduosComponent {
         cancelButton: 'btn btn-danger'
       }
     })
+
     if (this.dniValidator.valid) {
       const dni = this.dniValidator.value.dni
       Swal.fire({
@@ -187,21 +190,26 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-      if (dni == '42337809') {
-        setTimeout(() => {
+      this.vecinoService.validateDni(dni).subscribe(
+        resp => {
           Swal.close()
           this.dniValidated = true
-        }, 1000)
-      } else {
-        setTimeout(() => {
+          this.idVeci = resp.data.id
+          this.nombreVecino = resp.data.firstname + ' ' + resp.data.lastname
+          this.form.patchValue({ vecino: this.nombreVecino })
+          console.log('nombre')
+          console.log(this.nombreVecino)
+        },
+        error => {
           Swal.close()
           this.dniValidated = false
           swalWithBootstrapButtons.fire({
             title: 'El usuario no existe.',
             icon: 'error'
           })
-        }, 1000)
-      }
+        }
+      )
+
       // this.vecinoService.validateDni(dni).subscribe(
       //   res => {
       //     Swal.close()

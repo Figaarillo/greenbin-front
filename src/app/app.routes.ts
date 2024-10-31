@@ -47,7 +47,7 @@ export const routes: Routes = [
   },
   {
     path: 'modificar-responsable/:id',
-    canActivate: [isLogged, authGuardGuard, entityGuard],
+    canActivate: [isLogged],
     loadComponent: () =>
       import('./pages/modificar-responsable/modificar-responsable.component').then(m => m.ModificarResponsableComponent)
   },
