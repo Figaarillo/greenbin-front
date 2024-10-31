@@ -4,7 +4,7 @@ import { authGuardGuard, vecinoGuard } from './guard/auth-guard.guard'
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
     path: 'listar-entidades',
@@ -86,5 +86,14 @@ export const routes: Routes = [
   {
     path: 'puntos-verdes',
     loadComponent: () => import('./pages/visualizar-pv/visualizar-pv.component').then(m => m.VisualizarPvComponent)
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./pages/entidad-dashboard/entidad-dashboard.component').then(m => m.EntidadDashboardComponent)
+  },
+  {
+    path: 'login-admin',
+    loadComponent: () => import('./pages/login-entidad/login-entidad.component').then(m => m.LoginEntidadComponent)
   }
 ]

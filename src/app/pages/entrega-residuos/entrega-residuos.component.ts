@@ -8,9 +8,12 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatSelectModule } from '@angular/material/select'
-import Swal from 'sweetalert2'
 import { MatTableModule } from '@angular/material/table'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { CommonModule } from '@angular/common'
+import Swal from 'sweetalert2'
+import { Router, RouterModule } from '@angular/router'
+import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -25,34 +28,42 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     MatChipsModule,
     MatDividerModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './entrega-residuos.component.html',
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
-  dniValidated = true
+  dniValidated = false
   totalPuntos = 0
+  fechaActual: string = ''
+  route = inject(Router)
   categorias: any[] = [
     {
       id: '1',
       name: 'carton',
-      points: 500
+      points: 500,
+      disabled: false
     },
     {
       id: '2',
       name: 'vidrio',
-      points: 3000
+      points: 3000,
+      disabled: false
     },
     {
       id: '3',
       name: 'plástico',
-      points: 1500
+      points: 1500,
+      disabled: false
     },
     {
       id: '4',
       name: 'metal',
-      points: 5000
+      points: 5000,
+      disabled: false
     }
   ]
   form!: FormGroup
@@ -63,16 +74,58 @@ export class EntregaResiduosComponent {
     private fb: FormBuilder,
     private vecinoService: VecinoService
   ) {
+    this.fechaActual = new Date().toISOString().split('T')[0]
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
     })
     this.form = this.fb.group({
-      categoria: [{}],
-      kilos: ['']
+      categoria: [{}, [Validators.required]],
+      kilos: ['', [Validators.required]],
+      fechaEntrega: [{ value: this.fechaActual, disabled: true }],
+      vecino: [{ value: 'Santiago Giordano', disabled: true }]
     })
   }
 
-  onSubmit() {}
+  onSubmit(form: any) {
+    console.log(form)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+
+    if (this.form.valid) {
+      console.log('detalle')
+      console.log(this.detalle)
+      let usuariopts = localStorage.getItem('usuariopts')
+      if (!usuariopts) {
+        usuariopts = '0'
+      }
+      const nuevosPuntos = parseInt(usuariopts) + this.totalPuntos
+      console.log(nuevosPuntos)
+      localStorage.setItem('usuariopts', nuevosPuntos.toString())
+
+      swalWithBootstrapButtons
+        .fire({
+          text: 'Entrega registrada con éxito!.',
+          icon: 'success'
+        })
+        .then(() => {
+          this.route.navigateByUrl('/responsable')
+        })
+    } else {
+      console.log('entra else')
+      setTimeout(() => {
+        Swal.close()
+
+        swalWithBootstrapButtons.fire({
+          title: 'Error al registrar la entrega.',
+          icon: 'error'
+        })
+      }, 1000)
+    }
+  }
 
   validateDni() {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -91,37 +144,80 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-
-      this.vecinoService.validateDni(dni).subscribe(
-        res => {
+      if (dni == '42337809') {
+        setTimeout(() => {
           Swal.close()
           this.dniValidated = true
-        },
-        err => {
+        }, 1000)
+      } else {
+        setTimeout(() => {
           Swal.close()
+          this.dniValidated = false
           swalWithBootstrapButtons.fire({
             title: 'El usuario no existe.',
             icon: 'error'
           })
-        }
-      )
+        }, 1000)
+      }
+      // this.vecinoService.validateDni(dni).subscribe(
+      //   res => {
+      //     Swal.close()
+      //     this.dniValidated = true
+      //   },
+      //   err => {
+      //     Swal.close()
+      //     swalWithBootstrapButtons.fire({
+      //       title: 'El usuario no existe.',
+      //       icon: 'error'
+      //     })
+      //   }
+      // )
     }
   }
 
   aggResiduo() {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success ',
+        cancelButton: 'btn btn-danger'
+      }
+    })
+
     const cantidad = this.form.value.kilos
     const residuoFiltrado = this.categorias.filter(resp => {
       return resp.id == this.form.value.categoria
     })
     const residuo = residuoFiltrado[0].name
-    const puntos = residuoFiltrado[0].points
-    this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
-    console.log(this.form)
-    this.detalle.push({ puntos, cantidad, residuo })
+    if (residuoFiltrado[0].disabled) {
+      swalWithBootstrapButtons.fire({
+        title: 'Error',
+        text: 'Ya registraste este residuo.',
+        icon: 'error'
+      })
+    } else {
+      console.log('entra')
+      this.categorias = this.categorias.map(categoria => {
+        if (categoria.name === residuo) {
+          return { ...categoria, disabled: true }
+        }
+        return categoria
+      })
+      console.log(this.categorias)
+      const puntos = residuoFiltrado[0].points
+      this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
+      console.log(this.form)
+      this.detalle.push({ puntos, cantidad, residuo })
+    }
   }
 
   delete(item: any) {
     this.detalle = this.detalle.filter(detalle => detalle.residuo !== item.residuo)
     this.totalPuntos = this.totalPuntos - item.cantidad * item.puntos
+    this.categorias = this.categorias.map(categoria => {
+      if (categoria.name === item.residuo) {
+        return { ...categoria, disabled: false }
+      }
+      return categoria
+    })
   }
 }

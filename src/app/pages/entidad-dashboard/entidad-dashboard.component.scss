@@ -1,0 +1,282 @@
+*{
+ 
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+}
+
+.sidebar{
+    width: 280px;
+    position:fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    padding: 1rem 1.5rem;
+    background:#cbded1;
+  
+    z-index: 20;
+    transition: left 300ms;
+}
+.sidebar-brand{
+    height: 70px;
+
+}
+
+.sidebar-user h3{
+    font-size: 1rem;
+}
+
+
+sidebar-menu{
+    margin-top: 2rem;
+
+}
+
+
+.menu-head{
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    color: #00024b;
+}
+
+.sidebar-menu ul{
+    margin-bottom: 2rem;
+}
+
+.sidebar-menu li{
+    margin-bottom: .8rem;
+    
+}
+
+.sidebar-menu li a{
+    color: black;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.sidebar-user span{
+    font-size: .85rem;
+
+}
+.sidebar-menu li a span{
+    display: inline-block;
+    margin-right: 0.8rem;
+ 
+}
+
+.sidebar-user{
+    margin: 1rem 0rem 1rem 0rem;
+    text-align: center;
+}
+
+.sidebar-user img{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px solid black;
+ 
+}
+
+
+.brand-icons span{
+    font-size: 1.5rem;
+    margin-left: .5rem;
+
+}
+.main-content{
+    margin-left: 280px;
+    transition: margin-left 300ms;
+
+}
+main{
+    padding: 1.5rem;
+    background: #f1f5f9;
+    min-height: calc(100vh - 70px);
+}
+
+.page-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.brand-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header{
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1.5rem;
+   
+
+    transition: left 300ms;
+}
+
+.menu-tog label{
+    height: 60px;
+   width: 60px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;   
+    border-radius: 50%;  
+}
+.menu-tog label:hover{
+   background: #efefef;
+   
+}
+
+.header-icons span{
+    display: inline-block;
+    margin-left: .7rem;
+    font-size: 1.4rem;
+
+}
+
+.header-actions button{
+outline: none;
+background: #5850ec;
+border: none;
+padding: .6rem 1rem;
+margin-left: 1rem;
+border-radius: 3px;
+font-weight: 600;
+}
+
+.cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 3rem;
+    margin-top: 2rem;
+}
+
+.card-single{
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 3px 3px 6px rgb(0,0,0,0.4);
+    border-radius: 4px;
+}
+
+.card-flex{
+    display: grid;
+    grid-template-columns: 70% auto;
+    align-items: center;
+}
+
+.card-head span{
+    display: block;
+    text-transform: uppercase;
+    color: #555;
+    font-size: .9rem;
+
+}
+
+.card-head small{
+    font-weight: 600;
+    color: #555;
+}
+
+.card-info h2{
+    font-size: 2.2rem;
+    color: #333;
+
+}
+
+.card-chart span{
+    font-size: 5rem;
+}
+
+.card-chart span{
+color: seagreen;
+}
+
+#sidebar-toggle{
+display: none;
+}
+
+.body-label{
+    position: fixed;
+    height: 100%;
+    width: calc(100% - 280px);
+    z-index: 30;
+    right: -100%;
+    top: 0;
+
+}
+
+#sidebar-toggle:checked ~ .sidebar{
+    left: -100%;
+
+}
+
+#sidebar-toggle:checked ~ header{
+    left: -100%;
+
+}
+#sidebar-toggle:checked ~ .main-content{
+    margin-left: 0;
+
+}
+
+@media only screen and (max-width: 1124px){
+    .sidebar{
+        left: -100%;
+        z-index: 30;
+    }
+
+    .main-content{
+        margin-left: 0;
+    }
+    header{
+        left: 0;
+        width: 100%;
+    }
+    #sidebar-toggle:checked ~ .sidebar{
+
+        left: 0;
+        
+    }
+    #sidebar-toggle:checked ~ .body-label{
+
+        right: 0;
+        
+    }
+    .cards{
+        grid-template-columns: repeat(2, 1fr);
+       }
+  
+}
+
+
+
+@media only screen and (max-width: 766px){
+    .cards{
+        grid-template-columns: 100%;
+       }
+    
+       .page-header{
+        display: block;
+       }
+       .header-actions{
+        margin-top: 1rem;
+        text-align: right;
+       }
+       .header-actions button:first-child{
+        margin-left: 0rem;
+       }
+}
+
+body{
+    overflow-x: hidden;
+}
