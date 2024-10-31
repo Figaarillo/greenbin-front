@@ -8,6 +8,9 @@ $my-custom-typography: mat.define-typography-config(
   $font-family: 'Mulish, sans-serif',
 );
 @include mat.all-component-typographies($my-custom-typography);
+.mdc-text-field--filled {
+  border-radius: 3rem !important;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: "Mulish", sans-serif; background: #61c98e;}
