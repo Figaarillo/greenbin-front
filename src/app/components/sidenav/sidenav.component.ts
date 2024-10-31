@@ -46,29 +46,27 @@ export class SidenavComponent implements OnInit {
     if (rol == 'responsible') {
       this.menuItems.set([
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
-        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
-        { icon: 'info', label: 'Contacto', route: 'contacto' },
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'history', label: 'Historial entregas', route: '/responsable' },
+        { icon: 'info', label: 'Contacto', route: '/responsable' },
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'neighbor') {
       this.username = 'Santiago Giordano'
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-vecino' },
         { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
-        { icon: 'history', label: 'Historial entregas', route: 'contacto' },
+        { icon: 'history', label: 'Historial entregas', route: '/vecino' },
 
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'reward-partner') {
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: 'contacto' },
-        { icon: 'confirmation_number', label: 'Mis cupones', route: 'puntos-verdes' },
-        { icon: 'info', label: 'Contacto', route: 'contacto' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/' },
+        { icon: 'confirmation_number', label: 'Mis cupones', route: '/puntos-verdes' },
+        { icon: 'info', label: 'Contacto', route: '/' },
 
-        { icon: 'close', label: 'Cerrar Sesión', route: 'home' }
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
-    } else {
-      alert('nada')
     }
   }
 
