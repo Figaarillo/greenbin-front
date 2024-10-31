@@ -46,31 +46,31 @@ export class SesionService {
     localStorage.setItem('points', data)
   }
   getPoints() {
-    localStorage.getItem('points')!
+    return localStorage.getItem('points')!
   }
   setFirstname(data: string) {
     localStorage.setItem('firstname', data)
   }
   getFirstname() {
-    localStorage.getItem('firstname')!
+    return localStorage.getItem('firstname')!
   }
   setLastname(data: string) {
     localStorage.setItem('lastname', data)
   }
   getLastname() {
-    localStorage.getItem('lastname')!
+    return localStorage.getItem('lastname')!
   }
   setDni(data: string) {
     localStorage.setItem('dni', data)
   }
   getDni() {
-    localStorage.getItem('dni')!
+    return localStorage.getItem('dni')!
   }
   setUsername(data: string) {
     localStorage.setItem('username', data)
   }
   getUsername() {
-    localStorage.getItem('username')!
+    return localStorage.getItem('username')!
   }
 
   setRole(role: string) {
