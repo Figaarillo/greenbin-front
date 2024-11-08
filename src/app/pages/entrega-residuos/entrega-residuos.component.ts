@@ -16,6 +16,8 @@ import { Router, RouterModule } from '@angular/router'
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
 import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
+import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
+import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -38,54 +40,24 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
-  dniValidated = true
+  dniValidated = false
   totalPuntos = 0
   fechaActual: string = ''
   route = inject(Router)
   categories: any[] = []
   responsibleServ = inject(ResponsableService)
-  categorias: any[] = [
-    {
-      id: '1',
-      name: 'CARTÓN',
-      points: 100,
-      disabled: false
-    },
-    {
-      id: '2',
-      name: 'VIDRIO',
-      points: 150,
-      disabled: false
-    },
-    {
-      id: '3',
-      name: 'PLÁSTICO',
-      points: 120,
-      disabled: false
-    },
-    {
-      id: '4',
-      name: 'LATA',
-      points: 100,
-      disabled: false
-    },
-    {
-      id: '5',
-      name: 'PAPEL',
-      points: 80,
-      disabled: false
-    }
-  ]
 
   form!: FormGroup
   dniValidator!: FormGroup
-  detalle: { puntos: number; cantidad: number; residuo: string }[] = []
+  detalle: { puntos: number; cantidad: number; residuo: string; id: string }[] = []
   idVeci = ''
+  emailVecino = ''
   nombreVecino = ''
   constructor(
     private fb: FormBuilder,
     private vecinoService: VecinoService,
-    private wasteCatServ: WasteCategoryService
+    private wasteCatServ: WasteCategoryService,
+    private wasteDelServ: WasteDeliveryService
   ) {
     this.wasteCatServ.list(0, 100).subscribe(resp => {
       this.categories = resp.map((category: any) => ({
@@ -124,61 +96,63 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-      this.vecinoService.get(this.idVeci).subscribe((resp: any) => {
-        const vecino = {
-          firstname: resp.data.firstname,
-          lastname: resp.data.lastname,
-          username: resp.data.username,
-          email: resp.data.email,
-          phoneNumber: resp.data.phoneNumber,
-          points: resp.data.points + this.totalPuntos
-        }
-        console.log('vecinoocc')
-        console.log(vecino)
-        this.vecinoService.update(vecino, this.idVeci).subscribe(
-          (updateResp: any) => {
-            console.log('Actualización exitosa', updateResp)
 
-            emailjs
-              .send(
-                'service_8zvqn0h',
-                'template_scqxmg9',
-                {
-                  puntos_asignados: this.totalPuntos,
-                  email: resp.data.email,
-                  nombre: resp.data.firstname
-                },
-                'ERADTS6Ll5n_u1NKh'
-              )
-              .then(
-                result => {
-                  console.log('Correo enviado con éxito:', result.text)
-                },
-                error => {
-                  console.error('Error al enviar el correo:', error)
-                }
-              )
-            Swal.close()
-            swalWithBootstrapButtons
-              .fire({
-                text: 'Entrega registrada con éxito!.',
-                icon: 'success'
-              })
-              .then(() => {
-                this.route.navigateByUrl('/responsable')
-              })
-          },
-          (error: any) => {
-            console.error('Error en la actualización', error)
-            Swal.close()
+      const responsibleId = localStorage.getItem('userId') || ''
+      const greenPoint = localStorage.getItem('puntoVerde') || ''
+      const wasteDelivery: WasteDelivery = {
+        responsible: responsibleId,
+        neighbor: this.idVeci,
+        greenPoint: greenPoint,
 
-            swalWithBootstrapButtons.fire({
-              title: 'Error al registrar la entrega.',
-              icon: 'error'
+        wastes: this.detalle.map(detalle => ({
+          category: detalle.id,
+          weight: detalle.cantidad
+        }))
+      }
+
+      this.wasteDelServ.create(wasteDelivery).subscribe(
+        (resp: any) => {
+          console.log('Entrega exitosa', resp)
+
+          emailjs
+            .send(
+              'service_8zvqn0h',
+              'template_scqxmg9',
+              {
+                puntos_asignados: this.totalPuntos,
+                email: this.emailVecino,
+                nombre: this.nombreVecino
+              },
+              'ERADTS6Ll5n_u1NKh'
+            )
+            .then(
+              result => {
+                console.log('Correo enviado con éxito:', result.text)
+              },
+              error => {
+                console.error('Error al enviar el correo:', error)
+              }
+            )
+          Swal.close()
+          swalWithBootstrapButtons
+            .fire({
+              text: 'Entrega registrada con éxito!.',
+              icon: 'success'
             })
-          }
-        )
-      })
+            .then(() => {
+              this.route.navigateByUrl('/responsable')
+            })
+        },
+        (error: any) => {
+          console.error('Error en la actualización', error)
+          Swal.close()
+
+          swalWithBootstrapButtons.fire({
+            title: 'Error al registrar la entrega.',
+            icon: 'error'
+          })
+        }
+      )
     } else {
     }
   }
@@ -206,10 +180,12 @@ export class EntregaResiduosComponent {
           Swal.close()
           this.dniValidated = true
           this.idVeci = resp.data.id
+          this.emailVecino = resp.data.email
           this.nombreVecino = resp.data.firstname + ' ' + resp.data.lastname
           this.form.patchValue({ vecino: this.nombreVecino })
           console.log('nombre')
           console.log(this.nombreVecino)
+          console.log(this.idVeci)
         },
         error => {
           Swal.close()
@@ -220,20 +196,6 @@ export class EntregaResiduosComponent {
           })
         }
       )
-
-      // this.vecinoService.validateDni(dni).subscribe(
-      //   res => {
-      //     Swal.close()
-      //     this.dniValidated = true
-      //   },
-      //   err => {
-      //     Swal.close()
-      //     swalWithBootstrapButtons.fire({
-      //       title: 'El usuario no existe.',
-      //       icon: 'error'
-      //     })
-      //   }
-      // )
     }
   }
 
@@ -266,9 +228,12 @@ export class EntregaResiduosComponent {
       })
       console.log(this.categories)
       const puntos = residuoFiltrado[0].pointsPerWeight
+      const id = residuoFiltrado[0].id
       this.totalPuntos = this.totalPuntos + residuoFiltrado[0].pointsPerWeight * cantidad
       console.log(this.form)
-      this.detalle.push({ puntos, cantidad, residuo })
+      this.detalle.push({ puntos, cantidad, residuo, id })
+      console.log('%%detalle')
+      console.log(this.detalle)
     }
   }
 

@@ -49,6 +49,12 @@ export class LandingResponsableComponent {
     })
   }
 
+  onChange(event: any) {
+    console.log('adjk')
+    console.log(event.value)
+    localStorage.setItem('puntoVerde', event.value)
+  }
+
   editResponsible() {
     this.router.navigate(['/modificar-responsable', this.sesionService.getUserId()])
   }
