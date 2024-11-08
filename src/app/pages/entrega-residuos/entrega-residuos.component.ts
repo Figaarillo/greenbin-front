@@ -135,7 +135,8 @@ export class EntregaResiduosComponent {
                 'template_scqxmg9',
                 {
                   puntos_asignados: this.totalPuntos,
-                  email: resp.data.email
+                  email: resp.data.email,
+                  nombre: resp.data.firstname
                 },
                 'ERADTS6Ll5n_u1NKh'
               )

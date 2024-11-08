@@ -25,21 +25,22 @@
   <form [formGroup]="form" >
 
     <mat-form-field appearance="fill">
-      <mat-label>Fecha de Entrega</mat-label>
+      <mat-label style="color: black;">Fecha de Entrega</mat-label>
       <input 
         matInput 
         type="date" 
         formControlName="fechaEntrega" 
         [value]="fechaActual | date: 'yyyy-MM-dd'" 
+        style="color: black;"
         >  
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Vecino</mat-label>
+      <mat-label style="color: black;">Vecino</mat-label>
       <input 
         matInput 
         type="text" 
         formControlName="vecino" 
-      
+        style="color: black;"
         >  
     </mat-form-field>
     <mat-form-field>
