@@ -44,6 +44,13 @@ export class EntidadService {
   login(object: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
+  async roleValidator() {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
 
+    return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
+  }
   private transforDataToEntity() {}
 }

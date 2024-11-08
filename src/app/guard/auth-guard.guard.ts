@@ -4,6 +4,21 @@ import { ResponsablesService } from '../services/responsables/responsables.servi
 import { VecinoService } from '../services/vecino/vecino.service'
 import { LocalAdheridoService } from '../services/local-adherido/local-adherido.service'
 import { visitAll } from '@angular/compiler'
+import { SesionService } from '../services/sesion/sesion.service'
+import { EntidadService } from '../services/entidad/entidad.service'
+
+export const isLogged: CanActivateFn = async (route, state) => {
+  const router = inject(Router)
+  const sesionService = inject(SesionService)
+  const token = sesionService.getAccessToken()
+  const refresh = sesionService.getRefreshToken()
+  if (token && refresh) {
+    return true
+  } else {
+    router.navigateByUrl('')
+    return false
+  }
+}
 
 export const authGuardGuard: CanActivateFn = async (route, state) => {
   const responServices = inject(ResponsablesService)
@@ -72,6 +87,29 @@ export const localGuard: CanActivateFn = async (route, state) => {
     return true
   } else {
     router.navigateByUrl('/login')
+    return false
+  }
+}
+export const entityGuard: CanActivateFn = async (route, state) => {
+  const entityServices = inject(EntidadService)
+
+  const router = inject(Router)
+  let validate = false
+  await entityServices.roleValidator().then(
+    (resp: any) => {
+      if (resp.data.isValid) {
+        validate = resp.data.isValid
+      }
+    },
+    error => {
+      validate = false
+    }
+  )
+
+  if (validate) {
+    return true
+  } else {
+    router.navigateByUrl('')
     return false
   }
 }
