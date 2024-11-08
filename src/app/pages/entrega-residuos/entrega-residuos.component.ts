@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common'
 import Swal from 'sweetalert2'
 import { Router, RouterModule } from '@angular/router'
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
+import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -36,10 +37,11 @@ import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
-  dniValidated = false
+  dniValidated = true
   totalPuntos = 0
   fechaActual: string = ''
   route = inject(Router)
+  categories: any[] = []
   categorias: any[] = [
     {
       id: '1',
@@ -72,8 +74,16 @@ export class EntregaResiduosComponent {
 
   constructor(
     private fb: FormBuilder,
-    private vecinoService: VecinoService
+    private vecinoService: VecinoService,
+    private wasteCatServ: WasteCategoryService
   ) {
+    this.wasteCatServ.list(0, 100).subscribe(resp => {
+      this.categories = resp.map((category: any) => ({
+        ...category,
+        disabled: false
+      }))
+      console.log(this.categories)
+    })
     this.fechaActual = new Date().toISOString().split('T')[0]
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
