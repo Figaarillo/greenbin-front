@@ -7,4 +7,8 @@ export interface LocalAdherido {
   password: string
   username: string
   phoneNumber: string
+  coordinates: {
+    latitude: number
+    longitude: number
+  }
 }
