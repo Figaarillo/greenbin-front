@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
@@ -10,7 +10,7 @@ import { LocalAdherido } from '../../services/interfaces/local-adherido'
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
 })
-export class MapViewComponent {
+export class MapViewComponent implements AfterViewInit {
   @Input() puntosVerdes: PuntoVerde[] = []
   @Input() localesAdheridos: LocalAdherido[] = []
 
@@ -34,7 +34,23 @@ export class MapViewComponent {
   PuntoVerdeIcon = document.createElement('span')
   PuntoVerdePinElement!: google.maps.marker.PinElement
 
-  constructor() {
+  ngAfterViewInit() {
+    google.maps
+      .importLibrary('marker')
+      .then(() => {
+        this.createMarker()
+        this.actualizarAncho()
+        const resizeObserver = new ResizeObserver(() => {
+          this.actualizarAncho()
+        })
+        resizeObserver.observe(this.contenedorPadre.nativeElement)
+      })
+      .catch(error => {
+        console.error('Error al cargar la biblioteca de marcadores:', error)
+      })
+  }
+
+  createMarker() {
     this.localAdheridoIcon.className = 'material-icons'
     this.localAdheridoIcon.style.color = '#FFFFFF' // Color del icono
     this.localAdheridoIcon.innerText = 'store' // Nombre del icono}
@@ -70,13 +86,19 @@ export class MapViewComponent {
 
   getLocalAdheridoMarkerOptions(localAdherido: LocalAdherido): google.maps.marker.AdvancedMarkerElementOptions {
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
-      /*
       position: {
         lat: localAdherido.coordinates.latitude,
         lng: localAdherido.coordinates.longitude
-      },*/
+      },
       content: this.localAdheridoPinElement.element //el pin element da el estilo al marcador
     }
     return markerOptions
+  }
+
+  coordToPosition(obj: PuntoVerde | LocalAdherido) {
+    return {
+      lat: obj.coordinates.latitude,
+      lng: obj.coordinates.longitude
+    }
   }
 }

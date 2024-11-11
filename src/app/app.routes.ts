@@ -95,5 +95,10 @@ export const routes: Routes = [
   {
     path: 'login-admin',
     loadComponent: () => import('./pages/login-entidad/login-entidad.component').then(m => m.LoginEntidadComponent)
+  },
+  {
+    path: 'cupones',
+    loadComponent: () =>
+      import('./pages/catalogo-cupones/catalogo-cupones.component').then(m => m.CatalogoCuponesComponent)
   }
 ]

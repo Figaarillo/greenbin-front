@@ -1,0 +1,26 @@
+  <!-- Modal -->
+  <div #modal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Titulo del Cupón </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="m-0"><b>Local: </b>{{local.name}}</p>
+          <p class="m-0"><b>Dirección: </b>{{local.address}}</p>
+          <p class="m-0"><b>Teléfono: </b>{{local.phoneNumber}}</p>
+          <p><b>Email: </b>{{local.email}}</p>
+          <div *ngIf="localAdehrido.length == 1">
+            <app-map-view [localesAdheridos]="localAdehrido"></app-map-view>
+          </div>
+          <p class="mb-0 mt-3"><b>Sobre el Cupón</b></p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem labore odit dicta, saepe accusantium iure facilis, possimus mollitia doloribus, consectetur soluta reprehenderit quaerat voluptatibus sunt laboriosam exercitationem iste aliquid placeat!</p>
+        </div>
+        <div class="modal-footer">
+          <b>Costo: 500 puntos </b>
+          <button type="button" class="btn btn-success">Canjear</button><!--data-bs-dismiss="modal"-->
+        </div>
+      </div>
+    </div>
+</div>
