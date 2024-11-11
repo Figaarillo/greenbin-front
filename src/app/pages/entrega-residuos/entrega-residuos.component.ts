@@ -14,6 +14,10 @@ import { CommonModule } from '@angular/common'
 import Swal from 'sweetalert2'
 import { Router, RouterModule } from '@angular/router'
 import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
+import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
+import { ResponsableService } from '../../services/responsable/responsable.service'
+import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
+import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -40,40 +44,28 @@ export class EntregaResiduosComponent {
   totalPuntos = 0
   fechaActual: string = ''
   route = inject(Router)
-  categorias: any[] = [
-    {
-      id: '1',
-      name: 'carton',
-      points: 500,
-      disabled: false
-    },
-    {
-      id: '2',
-      name: 'vidrio',
-      points: 3000,
-      disabled: false
-    },
-    {
-      id: '3',
-      name: 'plástico',
-      points: 1500,
-      disabled: false
-    },
-    {
-      id: '4',
-      name: 'metal',
-      points: 5000,
-      disabled: false
-    }
-  ]
+  categories: any[] = []
+  responsibleServ = inject(ResponsableService)
+
   form!: FormGroup
   dniValidator!: FormGroup
-  detalle: { puntos: number; cantidad: number; residuo: string }[] = []
-
+  detalle: { puntos: number; cantidad: number; residuo: string; id: string }[] = []
+  idVeci = ''
+  emailVecino = ''
+  nombreVecino = ''
   constructor(
     private fb: FormBuilder,
-    private vecinoService: VecinoService
+    private vecinoService: VecinoService,
+    private wasteCatServ: WasteCategoryService,
+    private wasteDelServ: WasteDeliveryService
   ) {
+    this.wasteCatServ.list(0, 100).subscribe(resp => {
+      this.categories = resp.map((category: any) => ({
+        ...category,
+        disabled: false
+      }))
+      console.log(this.categories)
+    })
     this.fechaActual = new Date().toISOString().split('T')[0]
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
@@ -82,7 +74,7 @@ export class EntregaResiduosComponent {
       categoria: [{}, [Validators.required]],
       kilos: ['', [Validators.required]],
       fechaEntrega: [{ value: this.fechaActual, disabled: true }],
-      vecino: [{ value: 'Santiago Giordano', disabled: true }]
+      vecino: [{ value: this.nombreVecino, disabled: true }]
     })
   }
 
@@ -96,34 +88,72 @@ export class EntregaResiduosComponent {
     })
 
     if (this.form.valid) {
-      console.log('detalle')
-      console.log(this.detalle)
-      let usuariopts = localStorage.getItem('usuariopts')
-      if (!usuariopts) {
-        usuariopts = '0'
+      Swal.fire({
+        title: 'Cargando',
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      })
+
+      Swal.showLoading()
+
+      const responsibleId = localStorage.getItem('userId') || ''
+      const greenPoint = localStorage.getItem('puntoVerde') || ''
+      const wasteDelivery: WasteDelivery = {
+        responsible: responsibleId,
+        neighbor: this.idVeci,
+        greenPoint: greenPoint,
+
+        wastes: this.detalle.map(detalle => ({
+          category: detalle.id,
+          weight: detalle.cantidad
+        }))
       }
-      const nuevosPuntos = parseInt(usuariopts) + this.totalPuntos
-      console.log(nuevosPuntos)
-      localStorage.setItem('usuariopts', nuevosPuntos.toString())
 
-      swalWithBootstrapButtons
-        .fire({
-          text: 'Entrega registrada con éxito!.',
-          icon: 'success'
-        })
-        .then(() => {
-          this.route.navigateByUrl('/responsable')
-        })
+      this.wasteDelServ.create(wasteDelivery).subscribe(
+        (resp: any) => {
+          console.log('Entrega exitosa', resp)
+
+          emailjs
+            .send(
+              'service_8zvqn0h',
+              'template_scqxmg9',
+              {
+                puntos_asignados: this.totalPuntos,
+                email: this.emailVecino,
+                nombre: this.nombreVecino
+              },
+              'ERADTS6Ll5n_u1NKh'
+            )
+            .then(
+              result => {
+                console.log('Correo enviado con éxito:', result.text)
+              },
+              error => {
+                console.error('Error al enviar el correo:', error)
+              }
+            )
+          Swal.close()
+          swalWithBootstrapButtons
+            .fire({
+              text: 'Entrega registrada con éxito!.',
+              icon: 'success'
+            })
+            .then(() => {
+              this.route.navigateByUrl('/responsable')
+            })
+        },
+        (error: any) => {
+          console.error('Error en la actualización', error)
+          Swal.close()
+
+          swalWithBootstrapButtons.fire({
+            title: 'Error al registrar la entrega.',
+            icon: 'error'
+          })
+        }
+      )
     } else {
-      console.log('entra else')
-      setTimeout(() => {
-        Swal.close()
-
-        swalWithBootstrapButtons.fire({
-          title: 'Error al registrar la entrega.',
-          icon: 'error'
-        })
-      }, 1000)
     }
   }
 
@@ -134,6 +164,7 @@ export class EntregaResiduosComponent {
         cancelButton: 'btn btn-danger'
       }
     })
+
     if (this.dniValidator.valid) {
       const dni = this.dniValidator.value.dni
       Swal.fire({
@@ -144,34 +175,27 @@ export class EntregaResiduosComponent {
       })
 
       Swal.showLoading()
-      if (dni == '42337809') {
-        setTimeout(() => {
+      this.vecinoService.validateDni(dni).subscribe(
+        resp => {
           Swal.close()
           this.dniValidated = true
-        }, 1000)
-      } else {
-        setTimeout(() => {
+          this.idVeci = resp.data.id
+          this.emailVecino = resp.data.email
+          this.nombreVecino = resp.data.firstname + ' ' + resp.data.lastname
+          this.form.patchValue({ vecino: this.nombreVecino })
+          console.log('nombre')
+          console.log(this.nombreVecino)
+          console.log(this.idVeci)
+        },
+        error => {
           Swal.close()
           this.dniValidated = false
           swalWithBootstrapButtons.fire({
             title: 'El usuario no existe.',
             icon: 'error'
           })
-        }, 1000)
-      }
-      // this.vecinoService.validateDni(dni).subscribe(
-      //   res => {
-      //     Swal.close()
-      //     this.dniValidated = true
-      //   },
-      //   err => {
-      //     Swal.close()
-      //     swalWithBootstrapButtons.fire({
-      //       title: 'El usuario no existe.',
-      //       icon: 'error'
-      //     })
-      //   }
-      // )
+        }
+      )
     }
   }
 
@@ -184,7 +208,7 @@ export class EntregaResiduosComponent {
     })
 
     const cantidad = this.form.value.kilos
-    const residuoFiltrado = this.categorias.filter(resp => {
+    const residuoFiltrado = this.categories.filter(resp => {
       return resp.id == this.form.value.categoria
     })
     const residuo = residuoFiltrado[0].name
@@ -196,24 +220,27 @@ export class EntregaResiduosComponent {
       })
     } else {
       console.log('entra')
-      this.categorias = this.categorias.map(categoria => {
+      this.categories = this.categories.map(categoria => {
         if (categoria.name === residuo) {
           return { ...categoria, disabled: true }
         }
         return categoria
       })
-      console.log(this.categorias)
-      const puntos = residuoFiltrado[0].points
-      this.totalPuntos = this.totalPuntos + residuoFiltrado[0].points * cantidad
+      console.log(this.categories)
+      const puntos = residuoFiltrado[0].pointsPerWeight
+      const id = residuoFiltrado[0].id
+      this.totalPuntos = this.totalPuntos + residuoFiltrado[0].pointsPerWeight * cantidad
       console.log(this.form)
-      this.detalle.push({ puntos, cantidad, residuo })
+      this.detalle.push({ puntos, cantidad, residuo, id })
+      console.log('%%detalle')
+      console.log(this.detalle)
     }
   }
 
   delete(item: any) {
     this.detalle = this.detalle.filter(detalle => detalle.residuo !== item.residuo)
     this.totalPuntos = this.totalPuntos - item.cantidad * item.puntos
-    this.categorias = this.categorias.map(categoria => {
+    this.categories = this.categories.map(categoria => {
       if (categoria.name === item.residuo) {
         return { ...categoria, disabled: false }
       }

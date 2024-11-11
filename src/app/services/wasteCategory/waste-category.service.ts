@@ -1,0 +1,24 @@
+import { HttpClient } from '@angular/common/http'
+import { Injectable, inject } from '@angular/core'
+import { Observable } from 'rxjs'
+import { WasteCategory } from '../interfaces/wasteCategory'
+
+import { map } from 'rxjs'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class WasteCategoryService {
+  private http = inject(HttpClient)
+  private url: string = 'http://localhost:8080/api/waste-category'
+
+  constructor() {}
+  list(offset: number, limit: number): Observable<WasteCategory[]> {
+    return this.http.get<WasteCategory[]>(`${this.url}?offset=${offset}&limit=${limit}`).pipe(
+      map((resp: any) => {
+        console.log(resp.data)
+        return resp.data
+      })
+    )
+  }
+}

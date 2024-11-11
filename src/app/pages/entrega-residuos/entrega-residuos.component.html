@@ -25,27 +25,28 @@
   <form [formGroup]="form" >
 
     <mat-form-field appearance="fill">
-      <mat-label>Fecha de Entrega</mat-label>
+      <mat-label style="color: black;">Fecha de Entrega</mat-label>
       <input 
         matInput 
         type="date" 
         formControlName="fechaEntrega" 
         [value]="fechaActual | date: 'yyyy-MM-dd'" 
+        style="color: black;"
         >  
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Vecino</mat-label>
+      <mat-label style="color: black;">Vecino</mat-label>
       <input 
         matInput 
         type="text" 
         formControlName="vecino" 
-      
+        style="color: black;"
         >  
     </mat-form-field>
     <mat-form-field>
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoria" name="category">
-            @for (cat of categorias; track cat) {
+            @for (cat of categories; track cat) {
                 
                 <mat-option  [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
             }
@@ -53,11 +54,16 @@
         <!-- <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint> -->
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Kilos</mat-label>
-        <input type="number" matInput placeholder="Peso en kilos" formControlName="kilos">
-      
+    <mat-form-field appearance="fill">
+      <mat-label>Peso aproximado</mat-label>
+      <input 
+        type="number" 
+        matInput 
+        placeholder="Peso aproximado en kilos" 
+        formControlName="kilos"
+      >
     </mat-form-field>
+    
 
     <button mat-raised-button  class="w-100" (click)="aggResiduo()" >Agregar</button>
 

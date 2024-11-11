@@ -15,11 +15,13 @@
         </mat-toolbar>
 
         <div class="header">
-            <h1 style="color: #fff; font-weight: 900;">Bienvenido {{nombre}}</h1>
-            <div class="select-container">
+            <h1 style="color: #fff; font-weight: 900;">
+                Hola, {{nombre}}! Seleccione su punto verde.
+             </h1>
+                         <div class="select-container">
                 <mat-form-field class="w-100">
                     <mat-label>Punto Verde Actual</mat-label>
-                    <mat-select [formControl]="ptoVerde" name="ptoVerde">
+                    <mat-select [formControl]="ptoVerde" name="ptoVerde" (selectionChange)="onChange($event)" >
                         @for (pv of listPtoVerde; track pv) {
                             <mat-option [value]="pv.id">{{pv.name}}</mat-option>
                         }

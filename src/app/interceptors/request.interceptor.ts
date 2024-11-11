@@ -16,6 +16,20 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
   }[] = [
     /* ACA ESPECIFICAR LAS RUTAS CON EL METODO EL CUAL NECESITA SER NOTIFICADO EL EXITO O ERROR */
     {
+      url: '/api/neighbor',
+      method: 'POST',
+      errorMessage: 'Error al crear el vecino, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'El vecino se ha creado con éxito',
+      routeToNavigate: '/vecino'
+    },
+    // {
+    //   url: '/api/neighbor',
+    //   method: 'PUT',
+    //   errorMessage: 'Error al editar el vecino, por favor revise los datos y vuelva a intentarlo',
+    //   successMessage: 'El vecino se ha editado con éxito',
+    //   routeToNavigate: ''
+    // },
+    {
       url: '/api/neighbor/auth/login',
       method: 'POST',
       errorMessage: 'Usuario o contraseña incorrecta',

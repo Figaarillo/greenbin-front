@@ -31,13 +31,15 @@ export class LandingVecinoComponent {
   sidenav!: MatSidenav
 
   puntos: string = ''
-  nombre: string = ''
+  name = ''
   constructor(
     private router: Router,
     private sesionService: SesionService
   ) {
-    this.puntos = sesionService.getPoints()
-    this.nombre = this.formatearNombre(sesionService.getFirstname())
+    const info = localStorage.getItem('usuarioInfo') || ''
+    const usuarioInfo = JSON.parse(info)
+    this.puntos = usuarioInfo.points
+    this.name = usuarioInfo.firstname
   }
 
   formatearNombre(value: string): string {
