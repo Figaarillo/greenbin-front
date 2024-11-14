@@ -1,6 +1,42 @@
-#hero {
-  background: linear-gradient(rgba(78, 87, 212, 0.507), rgba(78, 87, 212, 0.438)),
-    url('../../../assets/recilaje.jpg');
+#first-section{
+  background: #d4ecd6;
+  padding: 0 10%;
+}
+#section-content{
+  z-index: 10;
+}
+.presentacion > h1{
+  font-size: 3rem;
+    font-weight: 900;
+}
+#banner {
+  width: 100vw;
+  height: 70vw;
+  max-width: 1000px;
+  max-height: 700px;
+  background: url('../../../assets/mundo.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  transform: scaleX(-1);
+}
+.info-card{
+  background-color: #fff;
+  border-radius: .5rem;
+  padding: 10%;
+  margin: 0 2vw;
+}
+.card-dato{
+  font-weight: 900;
+    font-size: 2.5rem;
+}
+.card-titulo{
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.card-descripcion{
+    color: #555;
+}
+
+.color-texto-resaltado{
+  color: #54995f;
 }

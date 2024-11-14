@@ -1,43 +1,52 @@
+<section id="first-section" class="w-100 h-100 position-relative d-flex">
 
-    
-     <nav class="navbar navbar-expand-lg bg-white sticky-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img  class="img2" style="width: 20vh;" alt="">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-       
-           
-              <li class="nav-item">
-                <a class="nav-link"  [routerLink]="['/login-admin']">Iniciar sesión admin</a>
-                
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"  [routerLink]="['/login']">Iniciar sesión</a>
-                
-              </li>
-             
-             
-            </ul>
-            <!-- <a class="btn btn-brand ">Login</a> -->
+  <div id="nav" class="top-0 l-0  position-absolute py-3">
+    <div class="d-flex align-items-center gap-3 color-texto-resaltado">
+      <mat-icon fontIcon="home"></mat-icon>
+      <h3 class="m-0 fw-bold">GreenBin</h3>
+    </div>
+  </div>
+
+  <div id="section-content" class="text-center position-relative m-auto pb-4">
+    <div class="presentacion">
+      <h1>Recicla tu basura</h1>
+      <h1>junto con</h1>
+      <h1 class="color-texto-resaltado">GREENBIN</h1>
+      <p>Somos una comunidad con ganas de fomentar el reciclado y queremos invitarte a formar parte</p>
+    </div>
+    <div class="datos">
+      <div class="row m-0">
+        <div class="col">
+          <div class="card-info bg-light">
+            <p class="m-0 card-dato color-texto-resaltado">5%</p>
+            <p class="m-0 card-titulo">titulo</p>
+            <p class="m-0 card-descripcion">descripcion un poco mas detallada</p>
           </div>
         </div>
-      </nav>
-    
-      <!--Hero-->
-      <section id="hero" class="min-vh-100 d-flex align-items-center text-center" >
-        <div class="container"  >
-            <div class="row">
-                <div class="col-12" >
-                    <h1 class="text-uppercase text-white fw-semibold display-1" style="font-size: 3em;" >GREENBIN</h1>
-                    <h5 class="text-white mt-2 mb-4" >Proyecto Final</h5>
-                   
-                </div>
-            </div>
+        <div class="col">
+          <div class="card-info bg-light">
+            <p class="m-0 card-dato color-texto-resaltado">5%</p>
+            <p class="m-0 card-titulo">titulo</p>
+            <p class="m-0 card-descripcion">descripcion un poco mas detallada</p>
+          </div>
         </div>
-    </section>
+        <div class="col">
+          <div class="card-info bg-light">
+            <p class="m-0 card-dato color-texto-resaltado">5%</p>
+            <p class="m-0 card-titulo">titulo</p>
+            <p class="m-0 card-descripcion">descripcion un poco mas detallada</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="acciones" class="mt-4">
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-success">Ingresar</button>
+        <button class="btn btn-light">Administrador</button>
+      </div>
+    </div>
+  </div>
+  <div id="banner" class="bottom-0 end-0 position-absolute">
     
+  </div>
+</section>
