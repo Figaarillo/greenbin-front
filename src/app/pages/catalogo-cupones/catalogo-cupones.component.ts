@@ -105,7 +105,7 @@ const CUPONES: any[] = [
 export class CatalogoCuponesComponent {
   @ViewChild(ModalCuponComponent) modal?: ModalCuponComponent
   dataSource: MatTableDataSource<any> = new MatTableDataSource(CUPONES)
-
+  puntos = 0
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
@@ -113,6 +113,11 @@ export class CatalogoCuponesComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }*/
+  }
+  constructor() {
+    const info = localStorage.getItem('usuarioInfo') || ''
+    const usuarioInfo = JSON.parse(info)
+    this.puntos = usuarioInfo.points
   }
 
   abrirModal(cupon: any) {

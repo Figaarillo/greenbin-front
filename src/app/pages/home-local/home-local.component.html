@@ -15,8 +15,7 @@
             </button>
         </mat-toolbar>
         <div class="header">
-            <h1 style="color: #fff; font-weight: 900;">Hola, {{name}}! 🎉</h1>
-            <h2 style="color: #fff; font-weight: 900; font-size: 1.5rem;">Tenes acumulado un total de {{puntos}} puntos.💪</h2>
+            <h1 style="color: #fff; font-weight: 900;">Hola,BurgerRica 🎉</h1>
         </div>
         <mat-drawer #buzon mode="over" [position]="'end'">
             <p>Buzón</p>
@@ -32,7 +31,7 @@
                 <div mat-subheader>Historial</div>
                 <mat-list-item>
                     <div class="listIcon" matListItemAvatar><mat-icon>arrow_upward</mat-icon></div>
-                    <div matListItemTitle>+6000 pts</div>
+                    <div matListItemTitle>+6pts</div>
                     <div matListItemLine>2 kilos de Plástico</div>
                     <div matListItemLine>24/08/2024 17:52</div>
                 </mat-list-item>
@@ -43,25 +42,21 @@
                     <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
                     <div matListItemLine>20/08/2024 20:18</div>
                 </mat-list-item>
+                <mat-list-item>
+                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
+                    <div matListItemTitle>-2500 pts</div>
+                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
+                     <div matListItemLine>20/08/2024 20:18</div>
+                </mat-list-item>
+                <mat-list-item>
+                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
+                    <div matListItemTitle>-2500 pts</div>
+                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
+                    <div matListItemLine>20/08/2024 20:18</div>
+                </mat-list-item>
             </mat-list>
         </div>
-        <div class="menu-footer">
-            <div>
-                <button mat-mini-fab [routerLink]="['/puntos-verdes']">
-                    <mat-icon>recycling</mat-icon>
-                </button>
-            </div>
-            <div>
-                <button mat-fab [routerLink]="['/cupones']">
-                    <mat-icon>local_activity</mat-icon>
-                </button>
-            </div>
-            <div>
-                <button mat-mini-fab [routerLink]="['/modificar-vecino']">
-                    <mat-icon>account_circle</mat-icon>
-                </button>
-            </div>
-        </div>
+       
     
     </mat-drawer-container>
 

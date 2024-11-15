@@ -112,6 +112,7 @@ export class LoginComponent {
   }
   loginAsBusiness(login: Login) {
     this.businessService.login(login).subscribe(obj => {
+      console.log(obj)
       this.sesionService.setAccessToken(obj.data.accessToken)
       this.sesionService.setRefreshToken(obj.data.refreshToken)
       this.sesionService.setUserId(obj.data.id)

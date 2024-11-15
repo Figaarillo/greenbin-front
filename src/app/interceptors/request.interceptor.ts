@@ -44,6 +44,13 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       routeToNavigate: '/responsable'
     },
     {
+      url: '/api/reward-partner/auth/login',
+      method: 'POST',
+      errorMessage: 'Usuario o contraseña incorrecta',
+      successMessage: 'Bienvenido',
+      routeToNavigate: '/local'
+    },
+    {
       url: '/api/green-point',
       method: 'POST',
       errorMessage: 'Error al crear el punto verde, por favor revise los datos y vuelva a intentarlo',

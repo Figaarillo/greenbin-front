@@ -8,7 +8,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
       </mat-form-field>
 
-      <h4 class="text-center">Saldo: 9000 puntos</h4>
+      <h4 class="text-center">Saldo: {{puntos}} puntos</h4>
       
       <div class="catalog">
         @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
