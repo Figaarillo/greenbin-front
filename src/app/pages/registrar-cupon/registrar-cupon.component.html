@@ -1,0 +1,30 @@
+<app-navbar class="" [title]="'Registrar Cupón'" [route]="'/admin'"></app-navbar>
+<div class="container mt-5">
+    
+    <form >
+        <mat-form-field >
+            <mat-label>Titulo</mat-label>
+            <input matInput type="text" formControlName="titulo">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Descripción</mat-label>
+            <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Descuento</mat-label>
+            <input matInput type="text" formControlName="descuento" placeholder="Ejemplo: 10%">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Costo</mat-label>
+            <input matInput type="number" formControlName="costo" placeholder="Ejemplo: 800">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Días de vigencia</mat-label>
+            <input matInput type="number" formControlName="diasVigente" placeholder="Ejemplo: 15">
+        </mat-form-field>
+        <button  mat-raised-button  class="rounded-button" >Registrar cupón</button>
+    </form>
+
+
+</div>
+

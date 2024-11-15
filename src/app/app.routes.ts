@@ -120,5 +120,11 @@ export const routes: Routes = [
     path: 'local',
 
     loadComponent: () => import('./pages/home-local/home-local.component').then(m => m.HomeLocalComponent)
+  },
+  {
+    path: 'registrar-cupon',
+
+    loadComponent: () =>
+      import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
   }
 ]
