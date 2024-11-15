@@ -65,6 +65,7 @@ export class SidenavComponent implements OnInit {
       this.menuItems.set([
         { icon: 'account_circle', label: 'Mi perfil', route: '/' },
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/puntos-verdes' },
+        { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
         { icon: 'info', label: 'Contacto', route: '/' },
 
         { icon: 'close', label: 'Cerrar Sesión', route: '' }

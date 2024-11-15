@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router'
-import { authGuardGuard, entityGuard, isLogged, vecinoGuard } from './guard/auth-guard.guard'
+import { authGuardGuard, entityGuard, isLogged, localGuard, vecinoGuard } from './guard/auth-guard.guard'
 import { response } from 'express'
 
 export const routes: Routes = [
@@ -118,12 +118,12 @@ export const routes: Routes = [
   },
   {
     path: 'local',
-
+    canActivate: [isLogged, localGuard],
     loadComponent: () => import('./pages/home-local/home-local.component').then(m => m.HomeLocalComponent)
   },
   {
     path: 'registrar-cupon',
-
+    canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
   }
