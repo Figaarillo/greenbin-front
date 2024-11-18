@@ -11,4 +11,5 @@ export interface LocalAdherido {
     latitude: number
     longitude: number
   }
+  entityId?: string
 }

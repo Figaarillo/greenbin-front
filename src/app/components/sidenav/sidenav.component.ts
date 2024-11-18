@@ -34,6 +34,9 @@ export class SidenavComponent implements OnInit {
     this.dni = this.sesionServ.getDni()
     this.rol = this.sesionServ.getRole()
     this.setItems()
+    console.log('$$$')
+    console.log(this.dni)
+    console.log(this.nombreCompleto)
   }
 
   formatearNombre(value: string): string {
