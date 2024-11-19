@@ -7,4 +7,5 @@ export interface Responsable {
   password: string
   dni: string
   phoneNumber: string
+  entityId?: string
 }

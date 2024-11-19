@@ -73,9 +73,11 @@ export class RegistrarResponsableComponent {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid) {
+            const id = localStorage.getItem('userId')
+            const formData = { ...this.form.value, entityId: id }
             console.log('entra')
             console.log(this.form.value)
-            this.service.create(<Responsable>this.form.value).subscribe(
+            this.service.create(formData).subscribe(
               () => {
                 swalWithBootstrapButtons
                   .fire({
