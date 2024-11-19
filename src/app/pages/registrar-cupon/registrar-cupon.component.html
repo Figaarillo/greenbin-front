@@ -1,0 +1,45 @@
+<app-navbar class="" [title]="'Registrar Cupón'" [route]="'/local'"></app-navbar>
+<div class="container mt-5">
+    
+    <form [formGroup]="formGroup" (ngSubmit)="registrarCupon()" >
+        <mat-form-field >
+            <mat-label>Título</mat-label>
+            <input matInput type="text" formControlName="titulo">
+            @if (formGroup.controls.titulo.hasError('required')) {
+                <mat-error>Este campo es obligatorio.</mat-error>
+              }
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Descripción</mat-label>
+            <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+            @if (formGroup.controls.description.hasError('required')) {
+                <mat-error>Este campo es obligatorio.</mat-error>
+              }
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Descuento</mat-label>
+            <input matInput type="text" formControlName="descuento" placeholder="Ejemplo: 10%">
+            @if (formGroup.controls.descuento.hasError('required')) {
+                <mat-error>Este campo es obligatorio.</mat-error>
+              }
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Costo</mat-label>
+            <input matInput type="number" formControlName="costo" placeholder="Ejemplo: 800">
+            @if (formGroup.controls.costo.hasError('required')) {
+                <mat-error>Este campo es obligatorio.</mat-error>
+              }
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Días de vigencia</mat-label>
+            <input matInput type="number" formControlName="diasVigente" placeholder="Ejemplo: 15">
+            @if (formGroup.controls.diasVigente.hasError('required')) {
+                <mat-error>Este campo es obligatorio.</mat-error>
+              }
+        </mat-form-field>
+        <button  mat-raised-button  class="rounded-button" >Registrar cupón</button>
+    </form>
+
+
+</div>
+
