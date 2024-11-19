@@ -112,7 +112,13 @@ export const routes: Routes = [
   },
   {
     path: 'cupones',
+    canActivate: [isLogged, vecinoGuard],
     loadComponent: () =>
       import('./pages/catalogo-cupones/catalogo-cupones.component').then(m => m.CatalogoCuponesComponent)
+  },
+  {
+    path: 'local',
+
+    loadComponent: () => import('./pages/home-local/home-local.component').then(m => m.HomeLocalComponent)
   }
 ]
