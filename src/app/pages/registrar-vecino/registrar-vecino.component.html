@@ -39,6 +39,14 @@
           <mat-error>Ingrese un email</mat-error>
         }
     </mat-form-field>
+    <mat-form-field >
+      <mat-label>Selecciona tu ciudad</mat-label>
+      <mat-select #mySelect  (selectionChange)="onSelectChange($event.value)" formControlName="entityId">
+        <mat-option *ngFor="let entity of entities" [value]="entity.id" >
+          {{ entity.name }} - {{entity.city}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field>
       <mat-label>Contraseña</mat-label>

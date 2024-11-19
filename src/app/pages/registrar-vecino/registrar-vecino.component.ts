@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -9,6 +9,10 @@ import { RouterModule } from '@angular/router'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Vecino } from '../../services/interfaces/vecino'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { EntidadService } from '../../services/entidad/entidad.service'
+import { Entidad } from '../../services/interfaces/entidad'
+import { MatSelectModule } from '@angular/material/select'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-registrar-vecino',
@@ -23,24 +27,28 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     MatButtonModule,
     RouterModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    CommonModule
   ],
   templateUrl: './registrar-vecino.component.html',
   styleUrl: './registrar-vecino.component.scss'
 })
-export class RegistrarVecinoComponent {
+export class RegistrarVecinoComponent implements OnInit {
   form: FormGroup
   hidePassword = true
-
+  entities: Entidad[] = []
   constructor(
     private fb: FormBuilder,
-    private vecinoService: VecinoService
+    private vecinoService: VecinoService,
+    private entityServices: EntidadService
   ) {
     this.form = this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(2)]],
       lastname: ['', [Validators.required, Validators.minLength(2)]],
       username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
+      entityId: ['', [Validators.required]],
       password: [
         '',
         [
@@ -55,7 +63,16 @@ export class RegistrarVecinoComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]]
     })
   }
-
+  entitySelect = ''
+  ngOnInit(): void {
+    this.entityServices.list(0, 100).subscribe((resp: any) => {
+      console.log('resp')
+      console.log(resp)
+      this.entities = resp
+      console.log('%%%')
+      console.log(this.entities)
+    })
+  }
   // Validador para que la fecha de nacimiento sea menor a la actual
   dateValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const inputDate = new Date(control.value)
@@ -81,6 +98,9 @@ export class RegistrarVecinoComponent {
     passwordField.type = this.hidePassword ? 'password' : 'text'
   }
 
+  onSelectChange(value: string) {
+    this.entitySelect = value
+  }
   onSubmit() {
     if (this.form.valid) {
       this.setDateFormat()
