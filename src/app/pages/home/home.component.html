@@ -11,37 +11,37 @@
     <div class="presentacion">
       <h1>Recicla tu basura junto con</h1>
       <h1 class="color-texto-resaltado">GREENBIN</h1>
-      <p>Somos una comunidad con ganas de fomentar el reciclado y queremos invitarte a formar parte</p>
+      <p>Lleva tu basura, gana puntos y canjéalos por beneficios, ¿Qué esperas para formar parte?</p>
     </div>
     <div class="datos py-3">
       <div class="row m-0">
         <div class="col">
-          <div class="card-info">
+          <div class="card-info h-100">
             <p class="m-0 card-dato color-texto-resaltado">+4000</p>
             <p class="m-0 card-titulo">Usuarios</p>
             <p class="m-0 card-descripcion">Ya están reciclando con nosotros</p>
           </div>
         </div>
         <div class="col">
-          <div class="card-info">
+          <div class="card-info h-100">
             <p class="m-0 card-dato color-texto-resaltado">+10</p>
             <p class="m-0 card-titulo">Localidades</p>
             <p class="m-0 card-descripcion">Se unieron a nuestro movimiento</p>
           </div>
         </div>
         <div class="col">
-          <div class="card-info">
+          <div class="card-info h-100">
             <p class="m-0 card-dato color-texto-resaltado">+40Tn</p>
             <p class="m-0 card-titulo">CO₂</p>
-            <p class="m-0 card-descripcion">llevamos reciclados asda asdasdasd</p>
+            <p class="m-0 card-descripcion">ayudamos a reducir en el ambiente</p>
           </div>
         </div>
       </div>
     </div>
     <div id="acciones" class="mt-4">
       <div class="buttons-container d-flex justify-content-center">
-        <button class="btn btn-success">Ingresar</button>
-        <button class="btn btn-light">Administrador</button>
+        <button class="btn btn-success" [routerLink]="['/login']">Ingresar</button>
+        <button class="btn btn-light" [routerLink]="['/login-admin']">Administrador</button>
       </div>
     </div>
   </div>
