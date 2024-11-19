@@ -24,6 +24,10 @@ export class LocalAdheridoService {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
 
+  get(id: string): Observable<LocalAdherido> {
+    return this.http.get<LocalAdherido>(this.url + '/' + id)
+  }
+
   authenticateAfip(): Observable<any> {
     const body = {
       environment: 'dev',

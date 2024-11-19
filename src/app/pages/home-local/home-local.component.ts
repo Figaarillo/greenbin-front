@@ -26,4 +26,12 @@ import { MatCardModule } from '@angular/material/card'
   templateUrl: './home-local.component.html',
   styleUrl: './home-local.component.scss'
 })
-export class HomeLocalComponent {}
+export class HomeLocalComponent {
+  name
+  constructor() {
+    const info = localStorage.getItem('usuarioInfo') || ''
+    const usuarioInfo = JSON.parse(info)
+
+    this.name = usuarioInfo.name
+  }
+}

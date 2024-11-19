@@ -1,8 +1,12 @@
 <div class="h-100 w-100">
    
     <div class="home-container d-flex align-items-center" style="margin-top: 10px;">
-        <mat-icon [routerLink]="''" style="font-size: 25px; margin-right: 5px; cursor: pointer;">home</mat-icon>
-        <span class="home-text" style="font-size: 18px; cursor: pointer;">Home</span>
+      
+        @if(loginAs==0){
+            <mat-icon [routerLink]="''" style="font-size: 25px; margin-right: 5px; cursor: pointer;">home</mat-icon>
+            <span class="home-text" style="font-size: 18px; cursor: pointer;">Home</span>
+
+        }
     </div>
  
     <div class="body">
