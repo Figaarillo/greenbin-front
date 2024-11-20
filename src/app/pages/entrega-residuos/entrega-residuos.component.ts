@@ -98,17 +98,20 @@ export class EntregaResiduosComponent {
       Swal.showLoading()
 
       const responsibleId = localStorage.getItem('userId') || ''
+      console.log('responsable')
+      console.log(responsibleId)
       const greenPoint = localStorage.getItem('puntoVerde') || ''
       const wasteDelivery: WasteDelivery = {
-        responsible: responsibleId,
-        neighbor: this.idVeci,
-        greenPoint: greenPoint,
+        responsibleId: responsibleId,
+        neighborId: this.idVeci,
+        greenPointId: greenPoint,
 
         wastes: this.detalle.map(detalle => ({
-          category: detalle.id,
+          categoryId: detalle.id,
           weight: detalle.cantidad
         }))
       }
+      console.log(wasteDelivery)
 
       this.wasteDelServ.create(wasteDelivery).subscribe(
         (resp: any) => {
