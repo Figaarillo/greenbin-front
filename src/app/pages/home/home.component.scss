@@ -30,9 +30,11 @@ h1.color-texto-resaltado{
   background-repeat: no-repeat;
   transform: scaleX(-1);
 }
+
 .row{
   flex-wrap: nowrap;
 }
+
 .card-info{
   background-color: #fff;
   border-radius: .5rem;
@@ -132,6 +134,7 @@ h1.color-texto-resaltado{
   }
   .card-descripcion{
     font-size: 0.6rem;
+
   }
   .datos .col{
     padding: 0;

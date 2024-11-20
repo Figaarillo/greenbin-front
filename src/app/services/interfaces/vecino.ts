@@ -9,4 +9,5 @@ export interface Vecino {
   dni: string
   phoneNumber: string
   points: number
+  entityId?: string
 }
