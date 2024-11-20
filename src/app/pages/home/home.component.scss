@@ -30,6 +30,11 @@ h1.color-texto-resaltado{
   background-repeat: no-repeat;
   transform: scaleX(-1);
 }
+
+.row{
+  flex-wrap: nowrap;
+}
+
 .card-info{
   background-color: #fff;
   border-radius: .5rem;
@@ -72,7 +77,22 @@ h1.color-texto-resaltado{
   gap: 20px;
 }
 
-@media only screen and (max-width: 470px) {
+@media only screen and (max-width: 1050px) {
+  .card-info{
+    margin: 0 0 3vw 0;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .card-dato{
+    font-size: 2.3rem;
+  }
+  .card-titulo{
+    font-size: 1.3rem;
+  }
+  .card-descripcion{
+    font-size: 0.9rem;
+  }
   #section-content{
     padding: 0;
   }
@@ -85,17 +105,36 @@ h1.color-texto-resaltado{
   .presentacion p{
     font-size: 0.9rem;
   }
+}
+
+@media only screen and (max-width: 650px) {
   .card-dato{
-      font-size: 2rem;
+    font-size: 1.7rem;
   }
   .card-titulo{
-    font-size: 1.2rem;
+    font-size: 0.9rem;
   }
   .card-descripcion{
-    font-size: 0.8rem;
+    font-size: 0.6rem;
   }
   .card-info{
+    max-width: 200px;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  .card-info{
     margin: 0 1vw;
+  }
+  .card-dato{
+    font-size: 1rem;
+  }
+  .card-titulo{
+    font-size: 0.7rem;
+  }
+  .card-descripcion{
+    font-size: 0.6rem;
+
   }
   .datos .col{
     padding: 0;
