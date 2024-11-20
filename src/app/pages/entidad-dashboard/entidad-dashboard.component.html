@@ -65,36 +65,19 @@
         <div class="cards">
             <div class="card-single">
                 <div class="card-flex"> 
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Estadítica</span>
-                            <small>Cantidad de residuos recolectados este mes</small>
-
-                        </div>
-                        <h2>20kilos</h2>
-                        <!-- <small>2% blablabal</small> -->
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-recycle" ></span>
-                    </div>
+                    
+                    <iframe
+                    [src]="'http://localhost:3000/public/dashboard/ca28c477-b2d9-4738-9940-d85d374d42b7?id=' + entidadId | safeUrl"
+                    frameborder="0"
+                    width="800"
+                    height="500"
+                    allowtransparency
+                  ></iframe>
+                  
+                  
                 </div>
             </div>
-            <div class="card-single">
-                <div class="card-flex"> 
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Estadística</span>
-                            <small>Cantidad de usuarios activos</small>
-
-                        </div>
-                        <h2>500</h2>
-                        
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-chart-line"></span>
-                    </div>
-                </div>
-            </div>
+           
             <!-- <div class="card-single">
                 <div class="card-flex"> 
                     <div class="card-info">
