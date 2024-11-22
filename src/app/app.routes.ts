@@ -129,7 +129,7 @@ export const routes: Routes = [
   },
   {
     path: 'lista-cupones',
-    canActivate: [isLogged, localGuard],
+    //canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/mis-cupones-local/mis-cupones-local.component').then(m => m.MisCuponesLocalComponent)
   }

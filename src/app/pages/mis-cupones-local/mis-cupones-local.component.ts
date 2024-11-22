@@ -111,4 +111,11 @@ export class MisCuponesLocalComponent {
     const usuarioInfo = JSON.parse(info)
     this.puntos = usuarioInfo.points
   }
+
+  edit(cupon: any) {
+    alert('link a editar cupon')
+  }
+  delete(cupon: any) {
+    alert('borrar cupon')
+  }
 }
