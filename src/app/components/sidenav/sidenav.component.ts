@@ -59,6 +59,7 @@ export class SidenavComponent implements OnInit {
       this.username = usuarioInfo.username
       this.menuItems.set([
         { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-vecino' },
+        { icon: 'local_activity', label: 'Mis Cupones', route: '/mis-cupones' },
         { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
         { icon: 'history', label: 'Historial entregas', route: '/vecino' },
 
