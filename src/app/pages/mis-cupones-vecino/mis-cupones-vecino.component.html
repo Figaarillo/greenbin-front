@@ -1,1 +1,37 @@
-<p>mis-cupones-vecino works!</p>
+<app-navbar [title]="'Mis Cupones'"  [route]="'/vecino'"></app-navbar>
+
+  
+  <div class="container mt-3">
+    
+      <mat-form-field class="w-100">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
+      </mat-form-field>
+
+      <h4 class="text-center">Total: {{puntos}} cupones</h4>
+      
+      <div class="catalog">
+        @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
+          <div>
+            <h5><b>Aquí veras los cupones que intercambies por puntos</b></h5>
+          </div>
+        }
+        @for (data of dataSource.filteredData; track data) {
+          <div class="my-2 cupon-container">
+            <mat-card (click)="abrirModal(data)">
+                <mat-card-header>
+                    <mat-card-title>{{data.titulo}} <i>({{data.descuento}})</i></mat-card-title>
+                    <mat-card-subtitle>{{data.descripcion}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <span class="px-2 price"><b>Costo: 800 puntos</b></span>
+                </mat-card-content>
+            </mat-card>
+          </div>
+        }
+      </div>
+      
+
+  </div>
+
+  <app-modal-cupon></app-modal-cupon>
