@@ -97,7 +97,10 @@ export class RegistrarLocalComponent implements OnInit {
 
     if (this.formGroup.valid) {
       console.log('entra')
-      this.localService.create(<LocalAdherido>this.formGroup.value).subscribe(
+      let localToSave = <LocalAdherido>this.formGroup.value
+      localToSave.coordinates.latitude = this.formGroup.get('latitude')?.value!
+      localToSave.coordinates.longitude = this.formGroup.get('longitude')?.value!
+      this.localService.create(localToSave).subscribe(
         () => {
           swalWithBootstrapButtons
             .fire({
