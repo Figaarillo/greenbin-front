@@ -5,6 +5,7 @@ export interface PuntoVerde {
   phoneNumber: string
   description: string
   address: string
+  entityId?: string
   coordinates: {
     latitude: number
     longitude: number
