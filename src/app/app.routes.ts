@@ -22,6 +22,14 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'listar-puntos-verdes',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/consultar-puntos-verdes/consultar-puntos-verdes.component').then(
+        m => m.ConsultarPuntosVerdesComponent
+      )
+  },
+  {
     path: 'registrar-entidad',
     canActivate: [isLogged],
     loadComponent: () =>
