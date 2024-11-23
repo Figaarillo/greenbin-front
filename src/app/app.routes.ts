@@ -136,9 +136,11 @@ export const routes: Routes = [
       import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
   },
   {
+
     path: 'mis-cupones',
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/mis-cupones-vecino/mis-cupones-vecino.component').then(m => m.MisCuponesVecinoComponent)
+
   }
 ]
