@@ -25,7 +25,6 @@
         <ul>
             <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar responsables</a></li>
             <li><a [routerLink]="['/registrar-responsable']"> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar responsable</a> </li>
-            <li><a [routerLink]="['/listar-puntos-verdes']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Listar puntos verdes</a> </li>
             <li><a [routerLink]="['/registrar-punto-verde']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar puntos verdes</a> </li>
             <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar sesión</a> </li>
            
@@ -66,9 +65,9 @@
         <div class="cards">
             <div class="card-single">
                 <div class="card-flex"> 
-                    
+                  
                     <iframe
-                    [src]="'http://localhost:3000/public/dashboard/ca28c477-b2d9-4738-9940-d85d374d42b7?id=' + entidadId | safeUrl"
+                    [src]="iframeUrl | safeUrl"
                     frameborder="0"
                     width="800"
                     height="500"

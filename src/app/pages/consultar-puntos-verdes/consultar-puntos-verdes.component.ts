@@ -63,7 +63,7 @@ export class ConsultarPuntosVerdesComponent {
           })
           .then(result => {
             if (result.isConfirmed) {
-              this.router.navigate(['/admin']) // Navega al home si se cancela
+              this.router.navigate(['/entidad']) // Navega al home si se cancela
             }
           })
       }
