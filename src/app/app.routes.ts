@@ -22,6 +22,14 @@ export const routes: Routes = [
       )
   },
   {
+    path: 'listar-puntos-verdes',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/consultar-puntos-verdes/consultar-puntos-verdes.component').then(
+        m => m.ConsultarPuntosVerdesComponent
+      )
+  },
+  {
     path: 'registrar-entidad',
     canActivate: [isLogged],
     loadComponent: () =>
@@ -126,5 +134,13 @@ export const routes: Routes = [
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
+  },
+  {
+
+    path: 'mis-cupones',
+    canActivate: [isLogged, localGuard],
+    loadComponent: () =>
+      import('./pages/mis-cupones-vecino/mis-cupones-vecino.component').then(m => m.MisCuponesVecinoComponent)
+
   }
 ]

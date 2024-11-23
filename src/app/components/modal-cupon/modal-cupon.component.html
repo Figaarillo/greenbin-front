@@ -18,8 +18,13 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem labore odit dicta, saepe accusantium iure facilis, possimus mollitia doloribus, consectetur soluta reprehenderit quaerat voluptatibus sunt laboriosam exercitationem iste aliquid placeat!</p>
         </div>
         <div class="modal-footer">
-          <b>Costo: 500 puntos </b>
-          <button type="button" class="btn btn-success">Canjear</button><!--data-bs-dismiss="modal"-->
+          @if(transaction){
+            Este cupón vence el dia:<b> 15/01/2025 </b>
+          }
+          @else{
+            <b>Costo: 500 puntos </b>
+            <button type="button" class="btn btn-success">Canjear</button><!--data-bs-dismiss="modal"-->
+          }
         </div>
       </div>
     </div>

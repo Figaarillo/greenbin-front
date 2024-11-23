@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButton, MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -13,6 +13,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 import Swal from 'sweetalert2'
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import jwt_decode from 'jwt-decode'
+import { MapInputComponent } from '../../components/map-input/map-input.component'
 @Component({
   selector: 'app-registrar-local',
   standalone: true,
@@ -25,7 +26,8 @@ import jwt_decode from 'jwt-decode'
     MatIcon,
     MatInput,
     NavbarComponent,
-    MatToolbar
+    MatToolbar,
+    MapInputComponent
   ],
   templateUrl: './registrar-local.component.html',
   styleUrl: './registrar-local.component.scss'
@@ -36,6 +38,7 @@ export class RegistrarLocalComponent implements OnInit {
   token = ''
   sign = ''
   disabled: boolean = true
+  @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
   constructor(
     private localService: LocalAdheridoService,
     private router: Router
@@ -69,10 +72,20 @@ export class RegistrarLocalComponent implements OnInit {
           )
         ]
       ],
+      latitude: [-99999, [Validators.required, Validators.min(-999)]],
+      longitude: [-99999, [Validators.required, Validators.min(-999)]],
       confirmPassword: ['', Validators.required]
     },
     { validators: confirmPasswordValidator }
   )
+
+  coordsByAdress() {
+    this.mapCompnent.getByAddress(this.formGroup.get('address')?.value!)
+  }
+  getCoordinates(coordinates: google.maps.LatLngLiteral) {
+    this.formGroup.get('latitude')?.setValue(coordinates.lat)
+    this.formGroup.get('longitude')?.setValue(coordinates.lng)
+  }
 
   register() {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -84,7 +97,10 @@ export class RegistrarLocalComponent implements OnInit {
 
     if (this.formGroup.valid) {
       console.log('entra')
-      this.localService.create(<LocalAdherido>this.formGroup.value).subscribe(
+      let localToSave = <LocalAdherido>this.formGroup.value
+      localToSave.coordinates.latitude = this.formGroup.get('latitude')?.value!
+      localToSave.coordinates.longitude = this.formGroup.get('longitude')?.value!
+      this.localService.create(localToSave).subscribe(
         () => {
           swalWithBootstrapButtons
             .fire({

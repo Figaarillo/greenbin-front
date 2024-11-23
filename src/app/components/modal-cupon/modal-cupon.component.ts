@@ -15,6 +15,7 @@ const $ = window['$']
 export class ModalCuponComponent {
   @ViewChild('modal') modal?: ElementRef
   cupon: any = {}
+  transaction?: any
   localAdehrido: LocalAdherido[] = []
   local: LocalAdherido = {
     id: 'string',
@@ -33,6 +34,14 @@ export class ModalCuponComponent {
 
   openModal(cupon: any) {
     this.cupon = cupon
+    this.transaction = undefined
+    this.setLocalAdherido()
+    $(this.modal?.nativeElement).modal('show')
+  }
+
+  openModalTransactionMode(cupon: any, transaction: any) {
+    this.cupon = cupon
+    this.transaction = transaction
     this.setLocalAdherido()
     $(this.modal?.nativeElement).modal('show')
   }
