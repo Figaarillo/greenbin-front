@@ -1,0 +1,23 @@
+.mat-mdc-table, .mat-mdc-paginator{
+    background-color: transparent;
+}
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.cupon-container{
+    display: flex
+}
+.cupon-container mat-card{
+    max-width: 800px;
+    margin: auto;
+    width: 100%;
+}
+.price{
+    background-color: #176100 !important;
+    border: 2px solid #176100 !important;
+    color: #ffffff !important;
+    border-radius: 2rem !important;
+}

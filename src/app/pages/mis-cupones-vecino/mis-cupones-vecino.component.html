@@ -1,4 +1,4 @@
-<app-navbar [title]="'Catalogo de Cupones'"  [route]="'/vecino'"></app-navbar>
+<app-navbar [title]="'Mis Cupones'"  [route]="'/vecino'"></app-navbar>
 
   
   <div class="container mt-3">
@@ -8,12 +8,12 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
       </mat-form-field>
 
-      <h4 class="text-center">Saldo: {{puntos}} puntos</h4>
+      <h4 class="text-center">Total: {{puntos}} cupones</h4>
       
       <div class="catalog">
         @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
           <div>
-            <h5><b>No se encontraron cupones</b></h5>
+            <h5><b>Aquí veras los cupones que intercambies por puntos</b></h5>
           </div>
         }
         @for (data of dataSource.filteredData; track data) {

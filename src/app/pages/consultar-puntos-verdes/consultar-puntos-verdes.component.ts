@@ -1,45 +1,38 @@
-import { Component, inject, OnInit } from '@angular/core'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
-import { Column } from '../../services/interfaces/columns'
-import { ResponsablesService } from '../../services/responsables/responsables.service'
-import { TableComponent } from '../../components/table/table.component'
-import { Responsable } from '../../services/interfaces/responsaible'
-import Swal from 'sweetalert2'
+import { Component, inject } from '@angular/core'
+import { PuntoVerde } from '../../services/interfaces/punto-verde'
+import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { Router } from '@angular/router'
+import Swal from 'sweetalert2'
+import { Column } from '../../services/interfaces/columns'
+import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { TableComponent } from '../../components/table/table.component'
+
 @Component({
-  selector: 'app-consultar-responsables',
+  selector: 'app-consultar-puntos-verdes',
   standalone: true,
   imports: [NavbarComponent, TableComponent],
-  templateUrl: './consultar-responsables.component.html',
-  styleUrl: './consultar-responsables.component.scss'
+  templateUrl: './consultar-puntos-verdes.component.html',
+  styleUrl: './consultar-puntos-verdes.component.scss'
 })
-export class ConsultarResponsablesComponent implements OnInit {
-  private respService = inject(ResponsablesService)
+export class ConsultarPuntosVerdesComponent {
+  private service = inject(PuntoVerdeService)
   columns: Column[] = []
-  title: string = 'Listar Responsables'
-  responsibles: Responsable[] = []
+  title: string = 'Listar Puntos Verdes'
+  puntosVerdes: PuntoVerde[] = []
   constructor(private router: Router) {}
   ngOnInit(): void {
     this.columns = [
       {
-        key: 'firstname',
+        key: 'name',
         label: 'Nombre'
       },
       {
-        key: 'lastname',
-        label: 'Apellido'
-      },
-      {
-        key: 'username',
-        label: 'Usuario'
+        key: 'address',
+        label: 'Dirección'
       },
       {
         key: 'email',
         label: 'Email'
-      },
-      {
-        key: 'dni',
-        label: 'DNI'
       },
       {
         key: 'phoneNumber',
@@ -50,12 +43,12 @@ export class ConsultarResponsablesComponent implements OnInit {
         label: 'Acciones'
       }
     ]
-    this.listRespo()
+    this.getItems()
   }
-  listRespo() {
-    this.respService.list(0, 100).subscribe({
+  getItems() {
+    this.service.list().subscribe({
       next: (response: any) => {
-        this.responsibles = response
+        this.puntosVerdes = response
       },
       error: err => {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -70,18 +63,21 @@ export class ConsultarResponsablesComponent implements OnInit {
           })
           .then(result => {
             if (result.isConfirmed) {
-              this.router.navigate(['/entidad']) // Navega al home si se cancela
+              this.router.navigate(['/admin']) // Navega al home si se cancela
             }
           })
       }
     })
   }
 
-  editResponsible(id: string) {
-    this.router.navigate(['/modificar-responsable', id])
-    localStorage.setItem('respoEdit', 'true')
+  edit(id: string) {
+    alert('a editar punto verde')
+    //this.router.navigate(['/modificar-responsable', id])
+    //localStorage.setItem('respoEdit', 'true')
   }
-  deleteResponsible(id: string) {
+  delete(id: string) {
+    alert('a eliminar punto verde')
+    /*
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',
@@ -90,7 +86,7 @@ export class ConsultarResponsablesComponent implements OnInit {
     })
     swalWithBootstrapButtons
       .fire({
-        title: '¿Estas seguro que desea eliminar este Responsable?',
+        title: '¿Estas seguro que desea eliminar este Punto Verde?',
         text: 'No podras revertirlo.',
         icon: 'warning',
         showCancelButton: true,
@@ -99,7 +95,7 @@ export class ConsultarResponsablesComponent implements OnInit {
       })
       .then(result => {
         if (result.isConfirmed) {
-          this.respService.delete(id).subscribe(
+          this.service.delete(id).subscribe(
             () => {
               swalWithBootstrapButtons
                 .fire({
@@ -109,7 +105,7 @@ export class ConsultarResponsablesComponent implements OnInit {
                 })
                 .then(() => {
                   console.log('eliminado')
-                  this.listRespo()
+                  this.getItems()
                 })
             },
             error => {
@@ -123,6 +119,6 @@ export class ConsultarResponsablesComponent implements OnInit {
             icon: 'error'
           })
         }
-      })
+      })*/
   }
 }

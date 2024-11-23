@@ -1,0 +1,4 @@
+<app-navbar [title]="'Listar Puntos Verdes'" [route]="'/admin'"></app-navbar> 
+
+
+  <app-table [columns]="columns" [title]="title" [tableData]="puntosVerdes" (delete)="delete($event)" (edit)="edit($event)"></app-table>

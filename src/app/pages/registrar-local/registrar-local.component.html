@@ -20,12 +20,19 @@
 
     <mat-form-field>
       <mat-label>Dirección</mat-label>
-      <input matInput placeholder="Dirección" formControlName="address" [disabled]="disabled"/>
+      <input matInput placeholder="Dirección" formControlName="address" [disabled]="disabled"><!-- (blur)="coordsByAdress()"-->
       @if (formGroup.controls.address.hasError('required')) {
-        <mat-error>Ingrese la dirección de su Comercio </mat-error>
+        <mat-error>Ingrese una dirección</mat-error>
+      }
+      @if (formGroup.controls.address.valid) {
+        <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
       }
     </mat-form-field>
+    <button mat-flat-button color="accent" type="button" (click)="coordsByAdress()" [disabled]="!formGroup.controls.address.valid">Localizar</button>
 
+    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
+      <app-map-input [type]="'local'" (coordinates)="getCoordinates($event)"></app-map-input>
+    </div>
 
     <mat-form-field>
       <mat-label>Nombre de Usuario</mat-label>
