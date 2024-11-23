@@ -54,7 +54,7 @@ export class ModificarResponsableComponent implements OnInit {
   ngOnInit(): void {
     const edit = localStorage.getItem('respoEdit') || ''
     if (edit == 'true') {
-      this.ruta = '/admin'
+      this.ruta = '/entidad'
     } else {
       this.ruta = '/responsable'
     }
