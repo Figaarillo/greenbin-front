@@ -109,7 +109,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/visualizar-pv/visualizar-pv.component').then(m => m.VisualizarPvComponent)
   },
   {
-    path: 'admin',
+    path: 'entidad',
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/entidad-dashboard/entidad-dashboard.component').then(m => m.EntidadDashboardComponent)
@@ -136,11 +136,9 @@ export const routes: Routes = [
       import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
   },
   {
-
     path: 'mis-cupones',
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/mis-cupones-vecino/mis-cupones-vecino.component').then(m => m.MisCuponesVecinoComponent)
-
   }
 ]
