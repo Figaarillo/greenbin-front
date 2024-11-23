@@ -25,7 +25,6 @@
         <ul>
             <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar responsables</a></li>
             <li><a [routerLink]="['/registrar-responsable']"> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar responsable</a> </li>
-            <li><a [routerLink]="['/listar-puntos-verdes']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Listar puntos verdes</a> </li>
             <li><a [routerLink]="['/registrar-punto-verde']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar puntos verdes</a> </li>
             <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar sesión</a> </li>
            
@@ -66,36 +65,19 @@
         <div class="cards">
             <div class="card-single">
                 <div class="card-flex"> 
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Estadítica</span>
-                            <small>Cantidad de residuos recolectados este mes</small>
-
-                        </div>
-                        <h2>20kilos</h2>
-                        <!-- <small>2% blablabal</small> -->
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-recycle" ></span>
-                    </div>
+                  
+                    <iframe
+                    [src]="iframeUrl | safeUrl"
+                    frameborder="0"
+                    width="800"
+                    height="500"
+                    allowtransparency
+                  ></iframe>
+                  
+                  
                 </div>
             </div>
-            <div class="card-single">
-                <div class="card-flex"> 
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Estadística</span>
-                            <small>Cantidad de usuarios activos</small>
-
-                        </div>
-                        <h2>500</h2>
-                        
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-chart-line"></span>
-                    </div>
-                </div>
-            </div>
+           
             <!-- <div class="card-single">
                 <div class="card-flex"> 
                     <div class="card-info">
