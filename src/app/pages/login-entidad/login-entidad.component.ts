@@ -54,7 +54,7 @@ export class LoginEntidadComponent {
     if (this.form.valid) {
       const login = this.setLoginObject()
       this.entidadServ.login(login).subscribe((obj: any) => {
-        this.router.navigateByUrl('/admin')
+        this.router.navigateByUrl('/entidad')
         localStorage.setItem('rol', 'admin')
         console.log(obj)
         this.sesionService.setAccessToken(obj.data.accessToken)
