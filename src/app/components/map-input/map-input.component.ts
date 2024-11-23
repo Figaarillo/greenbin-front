@@ -119,7 +119,7 @@ export class MapInputComponent implements AfterViewInit {
       glyph: icon, //'♻️',
       glyphColor: '#FFFFFF',
       scale: 1.5,
-      borderColor: '#19cb26'
+      borderColor: '#1124a2'
     })
     return pinElement
   }
