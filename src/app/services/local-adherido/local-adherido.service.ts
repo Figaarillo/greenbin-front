@@ -69,7 +69,7 @@ export class LocalAdheridoService {
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
 
-  createCupon(coupon: Coupon): Observable<Coupon> {
-    return this.http.post<Coupon>(this.urlCoupon + '/', coupon)
+  createCupon(coupon: any): Observable<any> {
+    return this.http.post<any>(this.urlCoupon, coupon)
   }
 }

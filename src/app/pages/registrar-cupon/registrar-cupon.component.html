@@ -18,7 +18,7 @@
         </mat-form-field>
         <mat-form-field >
             <mat-label>Descuento</mat-label>
-            <input matInput type="text" formControlName="descuento" placeholder="Ejemplo: 10%">
+            <input matInput type="number" formControlName="descuento" placeholder="Ejemplo: 10">
             @if (formGroup.controls.descuento.hasError('required')) {
                 <mat-error>Este campo es obligatorio.</mat-error>
               }
