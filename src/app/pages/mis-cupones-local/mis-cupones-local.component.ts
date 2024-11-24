@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Coupon } from '../../services/interfaces/coupon'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import { SesionService } from '../../services/sesion/sesion.service'
 
 @Component({
   selector: 'app-mis-cupones-local',
@@ -32,18 +33,23 @@ export class MisCuponesLocalComponent {
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   puntos = 0
   items: Coupon[] = []
+  localId: string = ''
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
-  constructor(private service: LocalAdheridoService) {
+  constructor(
+    private service: LocalAdheridoService,
+    private sesionService: SesionService
+  ) {
+    this.localId = this.sesionService.getUserId()
     this.getItems()
   }
 
   getItems() {
     this.service.listCupon().subscribe(obj => {
       this.items = <Coupon[]>obj.data
-      this.dataSource = new MatTableDataSource(this.items)
+      this.dataSource = new MatTableDataSource(this.items.filter(c => c.rewardPartnerId != this.localId))
       console.log(this.items)
     })
   }
