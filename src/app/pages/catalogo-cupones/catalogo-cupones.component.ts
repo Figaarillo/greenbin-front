@@ -64,6 +64,8 @@ export class CatalogoCuponesComponent {
   }
 
   abrirModal(cupon: Coupon) {
+    console.log('VOY A ENVIAR ESTP')
+    console.log(cupon)
     this.modal?.openModal(cupon)
   }
 }

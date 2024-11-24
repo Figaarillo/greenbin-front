@@ -15,7 +15,8 @@ export class MapViewComponent implements AfterViewInit {
   @Input() localesAdheridos: LocalAdherido[] = []
 
   zoom = 13
-  center: google.maps.LatLngLiteral = {
+
+  @Input() center: google.maps.LatLngLiteral = {
     //centro, puesto a mano las coordenadas de vm
     lat: -32.414964,
     lng: -63.242764
@@ -85,6 +86,8 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   getLocalAdheridoMarkerOptions(localAdherido: LocalAdherido): google.maps.marker.AdvancedMarkerElementOptions {
+    console.log('soy el mapview')
+    console.log(localAdherido)
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
       position: {
         lat: localAdherido.coordinates.latitude,
@@ -96,9 +99,18 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   coordToPosition(obj: PuntoVerde | LocalAdherido) {
+    console.log('soy el mapview')
+    console.log(obj)
     return {
       lat: obj.coordinates.latitude,
       lng: obj.coordinates.longitude
+    }
+  }
+
+  setCenter(lat: number, lng: number) {
+    this.center = {
+      lat: lat,
+      lng: lng
     }
   }
 }
