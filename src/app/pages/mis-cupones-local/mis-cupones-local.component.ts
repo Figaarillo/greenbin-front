@@ -49,7 +49,7 @@ export class MisCuponesLocalComponent {
   getItems() {
     this.service.listCupon().subscribe(obj => {
       this.items = <Coupon[]>obj.data
-      this.dataSource = new MatTableDataSource(this.items.filter(c => c.rewardPartnerId != this.localId))
+      this.dataSource = new MatTableDataSource(this.items.filter(c => c.rewardPartner != this.localId))
       console.log(this.items)
     })
   }
