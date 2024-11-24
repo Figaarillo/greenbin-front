@@ -13,7 +13,7 @@ import { LoginResponse } from '../interfaces/login-response'
 export class EntidadService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/entity'
-  private apiUrl = 'http://localhost:8080/metabase-dashboard'
+  private apiUrl = 'http://localhost:8080/metabase'
   create(object: Entidad): Observable<Entidad> {
     return this.http.post<Entidad>(this.url, object)
   }
@@ -53,6 +53,7 @@ export class EntidadService {
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
   private transforDataToEntity() {}
+
   getMetabaseIframeUrl(id: string): Observable<{ iframeUrl: string }> {
     return this.http.get<{ iframeUrl: string }>(`${this.apiUrl}?id=${id}`)
   }

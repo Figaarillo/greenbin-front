@@ -8,6 +8,7 @@ import { SafeUrlPipe } from '../../safe-url.pipe'
   selector: 'app-entidad-dashboard',
   standalone: true,
   imports: [MatSidenavModule, RouterModule, SafeUrlPipe],
+
   templateUrl: './entidad-dashboard.component.html',
   styleUrl: './entidad-dashboard.component.scss'
 })

@@ -140,5 +140,10 @@ export const routes: Routes = [
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/mis-cupones-vecino/mis-cupones-vecino.component').then(m => m.MisCuponesVecinoComponent)
+  },
+  {
+    path: 'mis-reciclados',
+    //canActivate: [isLogged, localGuard],
+    loadComponent: () => import('./pages/mis-reciclados/mis-reciclados.component').then(m => m.MisRecicladosComponent)
   }
 ]

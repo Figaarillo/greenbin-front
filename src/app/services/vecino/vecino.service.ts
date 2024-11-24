@@ -12,6 +12,7 @@ import { VecinoUpdate } from '../interfaces/vecino_update'
 export class VecinoService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/neighbor'
+  private apiUrl = 'http://localhost:8080/metabase/neighbor'
 
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url, object)
@@ -37,5 +38,8 @@ export class VecinoService {
     })
 
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
+  }
+  getMetabaseIframeUrl(id: string): Observable<{ iframeUrl: string }> {
+    return this.http.get<{ iframeUrl: string }>(`${this.apiUrl}?id=${id}`)
   }
 }

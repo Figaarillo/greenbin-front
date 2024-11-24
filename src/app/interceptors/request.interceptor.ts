@@ -70,6 +70,13 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       errorMessage: 'Error al editar el vecino, por favor revise los datos y vuelva a intentarlo',
       successMessage: 'El vecino se ha editado con éxito',
       routeToNavigate: ''
+    },
+    {
+      url: '/api/coupon',
+      method: 'POST',
+      errorMessage: 'Error al crear el cupón, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'El cupón se ha creado con éxito',
+      routeToNavigate: '/local'
     }
   ]
 

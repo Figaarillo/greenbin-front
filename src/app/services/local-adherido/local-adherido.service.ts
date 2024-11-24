@@ -4,6 +4,7 @@ import { LocalAdherido } from '../interfaces/local-adherido'
 import { Observable } from 'rxjs'
 import { Login } from '../interfaces/login'
 import { LoginResponse } from '../interfaces/login-response'
+import { Coupon } from '../interfaces/coupon'
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class LocalAdheridoService {
 
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/reward-partner'
+  private urlCoupon: string = 'http://localhost:8080/api/coupon'
   private url_afip_auth = 'https://app.afipsdk.com/api/v1/afip/auth'
   private url_afip_cuit = 'https://app.afipsdk.com/api/v1/afip/requests'
 
@@ -65,5 +67,9 @@ export class LocalAdheridoService {
     })
 
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
+  }
+
+  createCupon(coupon: any): Observable<any> {
+    return this.http.post<any>(this.urlCoupon, coupon)
   }
 }
