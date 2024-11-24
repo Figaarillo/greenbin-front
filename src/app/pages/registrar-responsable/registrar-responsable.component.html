@@ -1,8 +1,6 @@
-<app-navbar [route]="'/entidad'"></app-navbar>
+<app-navbar [route]="'/entidad'" [title]="'Registrar Responsable'"></app-navbar>
 <div class="container mt-3">
-  <mat-toolbar>
-    <span>Registrar Responsable</span>
-  </mat-toolbar>
+  
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
