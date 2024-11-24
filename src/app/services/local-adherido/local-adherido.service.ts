@@ -72,4 +72,8 @@ export class LocalAdheridoService {
   createCupon(coupon: any): Observable<any> {
     return this.http.post<any>(this.urlCoupon, coupon)
   }
+
+  listCupon(): Observable<any> {
+    return this.http.get<any>(this.urlCoupon)
+  }
 }

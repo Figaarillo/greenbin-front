@@ -18,12 +18,20 @@
           <div class="my-2 cupon-container">
             <mat-card>
                 <mat-card-header>
-                    <mat-card-title>{{data.titulo}} <i>({{data.descuento}})</i></mat-card-title>
-                    <mat-card-subtitle>{{data.descripcion}}</mat-card-subtitle>
+                    <mat-card-title>{{data.title}} <i>({{data.discount}}%)</i></mat-card-title>
+                    <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content class="d-flex justify-content-between">
                     <div>
-                        <span class="px-2 price"><b>Costo: 800 puntos</b></span>
+                        <div>
+                          <span class="px-2 price"><b>Costo: {{data.costInPoints}} puntos</b></span>
+                        </div>
+                        @if(data.isAvailable){
+                          <span class="px-2 available">Disponible</span>
+                        }
+                        @else{
+                          <span class="px-2 unavailable">No Disponible</span>
+                        }
                     </div>
                     <div>
                         <button class="btn btn-primary rounded-pill d-inline-flex p-2" (click)="edit(data)"><mat-icon>add</mat-icon> Ver Mas</button>
