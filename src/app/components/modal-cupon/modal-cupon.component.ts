@@ -4,6 +4,8 @@ import { MapViewComponent } from '../map-view/map-view.component'
 import { CommonModule } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { Coupon } from '../../services/interfaces/coupon'
+import { SesionService } from '../../services/sesion/sesion.service'
+import { VecinoService } from '../../services/vecino/vecino.service'
 
 //@ts-ignore
 const $ = window['$']
@@ -20,6 +22,7 @@ export class ModalCuponComponent {
     lat: 0,
     lng: 0
   }
+  misPuntos: number = 0
   cupon?: Coupon
   transaction?: any
   localAdherido: LocalAdherido[] = []
@@ -38,7 +41,13 @@ export class ModalCuponComponent {
     }
   }
 
-  constructor(private service: LocalAdheridoService) {}
+  constructor(
+    private service: LocalAdheridoService,
+    private sesionService: SesionService,
+    private neighborService: VecinoService
+  ) {
+    this.misPuntos = Number(this.sesionService.getPoints())
+  }
 
   openModal(cupon: Coupon) {
     this.localAdherido = []
@@ -72,5 +81,11 @@ export class ModalCuponComponent {
 
   closeModal() {
     $(this.modal?.nativeElement).modal('hide')
+  }
+
+  getCoupon() {
+    if (this.cupon) {
+      this.neighborService.buyCoupon(this.cupon?.id, this.sesionService.getUserId()).subscribe()
+    }
   }
 }

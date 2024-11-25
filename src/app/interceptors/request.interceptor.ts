@@ -77,6 +77,14 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       errorMessage: 'Error al crear el cupón, por favor revise los datos y vuelva a intentarlo',
       successMessage: 'El cupón se ha creado con éxito',
       routeToNavigate: '/local'
+    },
+    {
+      url: '/api/redeem-coupon',
+      method: 'POST',
+      errorMessage:
+        'Error al comprar el cupón, por favor revise los datos y vuelva a intentarlo. Recuerda que puedes canjear solo 1 vez el cupón.',
+      successMessage: 'El cupón se ha comprado con éxito',
+      routeToNavigate: ''
     }
   ]
 
