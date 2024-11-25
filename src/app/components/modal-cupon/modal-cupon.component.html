@@ -24,7 +24,7 @@
           }
           @else{
             <b>Costo: {{cupon?.costInPoints}} puntos </b>
-            <button type="button" class="btn btn-success" (click)="getCoupon()" [disabled]="cupon ? (misPuntos < cupon.costInPoints) : true">Canjear</button><!--data-bs-dismiss="modal"-->
+            <button type="button" class="btn btn-success" (click)="getCoupon()" data-bs-dismiss="modal" [disabled]="cupon ? (misPuntos < cupon.costInPoints) : true">Canjear</button><!--data-bs-dismiss="modal"-->
           }
         </div>
       </div>

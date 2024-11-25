@@ -49,6 +49,6 @@ export class VecinoService {
       couponId: couponId,
       neighborId: neighborId
     }
-    return this.http.post<any>(this.couponUrl, { body })
+    return this.http.post<any>(this.couponUrl, body)
   }
 }
