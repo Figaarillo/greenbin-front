@@ -48,6 +48,7 @@ export class LandingVecinoComponent implements OnInit {
   ngOnInit(): void {
     this.vecinoServ.get(this.id).subscribe((resp: any) => {
       this.puntos = resp.data.points
+      localStorage.setItem('points', this.puntos)
     })
   }
 
