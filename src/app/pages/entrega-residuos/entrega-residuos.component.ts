@@ -116,7 +116,7 @@ export class EntregaResiduosComponent {
       this.wasteDelServ.create(wasteDelivery).subscribe(
         (resp: any) => {
           console.log('Entrega exitosa', resp)
-
+          /*
           emailjs
             .send(
               'service_8zvqn0h',
@@ -135,7 +135,7 @@ export class EntregaResiduosComponent {
               error => {
                 console.error('Error al enviar el correo:', error)
               }
-            )
+            )*/
           Swal.close()
           swalWithBootstrapButtons
             .fire({
