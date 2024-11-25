@@ -26,8 +26,8 @@ export class LocalAdheridoService {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
 
-  get(id: string): Observable<LocalAdherido> {
-    return this.http.get<LocalAdherido>(this.url + '/' + id)
+  get(id: string): Observable<any> {
+    return this.http.get<any>(this.url + '/' + id)
   }
 
   authenticateAfip(): Observable<any> {
@@ -71,5 +71,9 @@ export class LocalAdheridoService {
 
   createCupon(coupon: any): Observable<any> {
     return this.http.post<any>(this.urlCoupon, coupon)
+  }
+
+  listCupon(): Observable<any> {
+    return this.http.get<any>(this.urlCoupon)
   }
 }

@@ -137,9 +137,15 @@ export const routes: Routes = [
   },
   {
     path: 'mis-cupones',
-    canActivate: [isLogged, localGuard],
+    canActivate: [isLogged, vecinoGuard],
     loadComponent: () =>
       import('./pages/mis-cupones-vecino/mis-cupones-vecino.component').then(m => m.MisCuponesVecinoComponent)
+  },
+  {
+    path: 'cupones-ofrecidos',
+    canActivate: [isLogged, localGuard],
+    loadComponent: () =>
+      import('./pages/mis-cupones-local/mis-cupones-local.component').then(m => m.MisCuponesLocalComponent)
   },
   {
     path: 'mis-reciclados',

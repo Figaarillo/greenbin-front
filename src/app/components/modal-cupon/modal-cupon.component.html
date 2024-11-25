@@ -3,7 +3,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Titulo del Cupón </h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{cupon?.title}}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -11,18 +11,19 @@
           <p class="m-0"><b>Dirección: </b>{{local.address}}</p>
           <p class="m-0"><b>Teléfono: </b>{{local.phoneNumber}}</p>
           <p><b>Email: </b>{{local.email}}</p>
-          <div *ngIf="localAdehrido.length == 1">
-            <app-map-view [localesAdheridos]="localAdehrido"></app-map-view>
+          <div *ngIf="localAdherido.length == 1">
+            <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter"></app-map-view>
           </div>
           <p class="mb-0 mt-3"><b>Sobre el Cupón</b></p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem labore odit dicta, saepe accusantium iure facilis, possimus mollitia doloribus, consectetur soluta reprehenderit quaerat voluptatibus sunt laboriosam exercitationem iste aliquid placeat!</p>
+          <p>{{cupon?.discount}}% de descuento. {{cupon?.description}}</p>
+          <p><i>Este cupón estará disponible por {{cupon?.validDays}} días después de canjearlo</i></p>
         </div>
         <div class="modal-footer">
           @if(transaction){
             Este cupón vence el dia:<b> 15/01/2025 </b>
           }
           @else{
-            <b>Costo: 500 puntos </b>
+            <b>Costo: {{cupon?.costInPoints}} puntos </b>
             <button type="button" class="btn btn-success">Canjear</button><!--data-bs-dismiss="modal"-->
           }
         </div>

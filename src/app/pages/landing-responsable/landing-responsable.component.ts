@@ -13,6 +13,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
+import Swal from 'sweetalert2'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -28,7 +30,8 @@ import { PuntoVerde } from '../../services/interfaces/punto-verde'
     MatFormFieldModule,
     ReactiveFormsModule,
     SidenavComponent,
-    RouterModule
+    RouterModule,
+    CommonModule
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
@@ -37,7 +40,7 @@ export class LandingResponsableComponent {
   listPtoVerde: PuntoVerde[] = []
   ptoVerde = new FormControl()
   nombre: string = ''
-
+  pvSelec: string = ''
   constructor(
     private router: Router,
     private sesionService: SesionService,
@@ -47,16 +50,31 @@ export class LandingResponsableComponent {
     this.pvService.list().subscribe((res: any) => {
       this.listPtoVerde = res
     })
+    const ptoVerdeSeleccionado = localStorage.getItem('puntoVerde') || ''
+    this.pvSelec = ptoVerdeSeleccionado
+    this.ptoVerde = new FormControl(ptoVerdeSeleccionado)
   }
 
   onChange(event: any) {
     console.log('adjk')
     console.log(event.value)
     localStorage.setItem('puntoVerde', event.value)
+    this.pvSelec = event.value
   }
 
   editResponsible() {
     this.router.navigate(['/modificar-responsable', this.sesionService.getUserId()])
+  }
+  routeEntrega() {
+    if (this.pvSelec != '') {
+      this.router.navigate(['/entrega'])
+    } else {
+      Swal.fire({
+        title: 'Tienes que seleccionar un punto verde.',
+
+        icon: 'error'
+      })
+    }
   }
 
   formatearNombre(value: string): string {

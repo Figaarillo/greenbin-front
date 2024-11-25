@@ -60,6 +60,9 @@ export class RegistrarPuntoVerdeComponent {
 
   onSubmit() {
     if (this.form.valid) {
+      const info = localStorage.getItem('entidadInfo') || ''
+      const entidadInfo = JSON.parse(info)
+
       const pv: PuntoVerde = {
         name: this.form.get('name')?.value,
         phoneNumber: this.form.get('phoneNumber')?.value,
@@ -69,7 +72,8 @@ export class RegistrarPuntoVerdeComponent {
         coordinates: {
           latitude: this.form.get('latitude')?.value,
           longitude: this.form.get('longitude')?.value
-        }
+        },
+        entityId: entidadInfo.id
       }
       console.log(<PuntoVerde>pv)
       this.service.create(<PuntoVerde>pv).subscribe()
