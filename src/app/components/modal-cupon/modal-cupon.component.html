@@ -20,7 +20,7 @@
         </div>
         <div class="modal-footer">
           @if(transaction){
-            Este cupón vence el dia:<b> 15/01/2025 </b>
+            Este cupón vence el dia:<b> {{diaVto | date:'dd/MM/yyyy'}} </b>
           }
           @else{
             <b>Costo: {{cupon?.costInPoints}} puntos </b>

@@ -8,7 +8,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
       </mat-form-field>
 
-      <h4 class="text-center">Total: {{puntos}} cupones</h4>
+      <h4 class="text-center">Total: {{dataSource.data.length}} cupones</h4>
       
       <div class="catalog">
         @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
@@ -20,11 +20,11 @@
           <div class="my-2 cupon-container">
             <mat-card (click)="abrirModal(data)">
                 <mat-card-header>
-                    <mat-card-title>{{data.titulo}} <i>({{data.descuento}})</i></mat-card-title>
-                    <mat-card-subtitle>{{data.descripcion}}</mat-card-subtitle>
+                    <mat-card-title>{{data.title}} <i>({{data.discount}})</i></mat-card-title>
+                    <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                  <span class="px-2 price"><b>Costo: 800 puntos</b></span>
+                  <span class="px-2 price"><b>Costo: {{data.costInPoints}} puntos</b></span>
                 </mat-card-content>
             </mat-card>
           </div>
@@ -33,5 +33,4 @@
       
 
   </div>
-
   <app-modal-cupon></app-modal-cupon>

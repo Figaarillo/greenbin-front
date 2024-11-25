@@ -139,4 +139,20 @@ export class SesionService {
       })
     )
   }
+
+  //MOKEO DE CUPONES CANJEADOS
+  addCupon(id: string) {
+    let array = this.getCupones()
+    array.push(id)
+    localStorage.setItem('cupones', JSON.stringify(array))
+  }
+  getCupones() {
+    const retrievedData = localStorage.getItem('cupones')
+    if (retrievedData) {
+      const myArrayFromStorage: string[] = JSON.parse(retrievedData)
+      console.log(myArrayFromStorage) // ['item1', 'item2', 'item3']
+      return myArrayFromStorage
+    }
+    return []
+  }
 }
