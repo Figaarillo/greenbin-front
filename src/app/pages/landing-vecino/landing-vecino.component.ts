@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterModule } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
+import { VecinoService } from '../../services/vecino/vecino.service'
 
 @Component({
   selector: 'app-landing-vecino',
@@ -25,21 +26,30 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component'
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'
 })
-export class LandingVecinoComponent {
+export class LandingVecinoComponent implements OnInit {
   title = 'GreenBin'
   @ViewChild(MatSidenav, { static: true })
   sidenav!: MatSidenav
-
+  id = ''
   puntos: string = ''
   name = ''
   constructor(
     private router: Router,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private vecinoServ: VecinoService
   ) {
     const info = localStorage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
-    this.puntos = usuarioInfo.points
+
     this.name = usuarioInfo.firstname
+    this.id = usuarioInfo.id
+  }
+
+  ngOnInit(): void {
+    this.vecinoServ.get(this.id).subscribe((resp: any) => {
+      this.puntos = resp.data.points
+      localStorage.setItem('points', this.puntos)
+    })
   }
 
   formatearNombre(value: string): string {

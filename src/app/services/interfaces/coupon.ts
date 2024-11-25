@@ -6,5 +6,6 @@ export interface Coupon {
   isAvailable: boolean
   validDays: number
   costInPoints: number
-  rewardPartner: string
+  rewardPartner?: string
+  rewardPartnerId?: string
 }

@@ -55,7 +55,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       method: 'POST',
       errorMessage: 'Error al crear el punto verde, por favor revise los datos y vuelva a intentarlo',
       successMessage: 'El punto verde se ha creado con éxito',
-      routeToNavigate: ''
+      routeToNavigate: '/entidad'
     },
     {
       url: '/api/neighbor',

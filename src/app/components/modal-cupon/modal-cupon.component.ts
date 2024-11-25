@@ -52,7 +52,7 @@ export class ModalCuponComponent {
   openModal(cupon: Coupon) {
     this.localAdherido = []
     this.cupon = cupon
-    this.service.get(cupon.rewardPartner).subscribe(obj => {
+    this.service.get(cupon.rewardPartner || '').subscribe(obj => {
       this.local = obj.data
       this.localAdherido.push(this.local)
       this.mapCenter = {

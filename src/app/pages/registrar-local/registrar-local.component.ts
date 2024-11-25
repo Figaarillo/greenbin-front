@@ -14,6 +14,10 @@ import Swal from 'sweetalert2'
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import jwt_decode from 'jwt-decode'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
+import { EntidadService } from '../../services/entidad/entidad.service'
+import { Entidad } from '../../services/interfaces/entidad'
+import { MatSelectModule } from '@angular/material/select'
+import { CommonModule } from '@angular/common'
 @Component({
   selector: 'app-registrar-local',
   standalone: true,
@@ -27,7 +31,9 @@ import { MapInputComponent } from '../../components/map-input/map-input.componen
     MatInput,
     NavbarComponent,
     MatToolbar,
-    MapInputComponent
+    MapInputComponent,
+    MatSelectModule,
+    CommonModule
   ],
   templateUrl: './registrar-local.component.html',
   styleUrl: './registrar-local.component.scss'
@@ -37,17 +43,27 @@ export class RegistrarLocalComponent implements OnInit {
   hidePassword = true
   token = ''
   sign = ''
+  entitySelect = ''
+  entities: Entidad[] = []
   disabled: boolean = true
   @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
   constructor(
     private localService: LocalAdheridoService,
-    private router: Router
+    private router: Router,
+    private entityServices: EntidadService
   ) {}
 
   ngOnInit(): void {
     this.localService.authenticateAfip().subscribe(resp => {
       this.token = resp.token
       this.sign = resp.sign
+    })
+    this.entityServices.list(0, 100).subscribe((resp: any) => {
+      console.log('resp')
+      console.log(resp)
+      this.entities = resp
+      console.log('%%%')
+      console.log(this.entities)
     })
   }
   private readonly _formBuilder = inject(FormBuilder)
@@ -83,6 +99,9 @@ export class RegistrarLocalComponent implements OnInit {
     this.mapCompnent.getByAddress(this.formGroup.get('address')?.value!)
   }
   getCoordinates(coordinates: google.maps.LatLngLiteral) {
+    console.log('$$')
+    console.log(coordinates)
+    console.log('$$$$$$')
     this.formGroup.get('latitude')?.setValue(coordinates.lat)
     this.formGroup.get('longitude')?.setValue(coordinates.lng)
   }
@@ -96,10 +115,13 @@ export class RegistrarLocalComponent implements OnInit {
     })
 
     if (this.formGroup.valid) {
-      console.log('entra')
+      console.log(this.formGroup.value)
       let localToSave = <LocalAdherido>this.formGroup.value
-      localToSave.coordinates.latitude = this.formGroup.get('latitude')?.value!
-      localToSave.coordinates.longitude = this.formGroup.get('longitude')?.value!
+      localToSave.coordinates = {
+        latitude: this.formGroup.get('latitude')?.value!,
+        longitude: this.formGroup.get('longitude')?.value!
+      }
+      localToSave.entityId = this.entitySelect
       this.localService.create(localToSave).subscribe(
         () => {
           swalWithBootstrapButtons
@@ -187,5 +209,8 @@ export class RegistrarLocalComponent implements OnInit {
         })
       }
     )
+  }
+  onSelectChange(value: string) {
+    this.entitySelect = value
   }
 }
