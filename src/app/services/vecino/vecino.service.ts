@@ -13,6 +13,7 @@ export class VecinoService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/neighbor'
   private apiUrl = 'http://localhost:8080/metabase/neighbor'
+  private couponUrl = 'http://localhost:8080/api/redeem-coupon'
 
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url, object)
@@ -41,5 +42,13 @@ export class VecinoService {
   }
   getMetabaseIframeUrl(id: string): Observable<{ iframeUrl: string }> {
     return this.http.get<{ iframeUrl: string }>(`${this.apiUrl}?id=${id}`)
+  }
+
+  buyCoupon(couponId: string, neighborId: string) {
+    const body = {
+      couponId: couponId,
+      neighborId: neighborId
+    }
+    return this.http.post<any>(this.couponUrl, body)
   }
 }
