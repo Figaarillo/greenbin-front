@@ -64,10 +64,13 @@ export class ModalCuponComponent {
     $(this.modal?.nativeElement).modal('show')
   }
 
+  diaVto: Date = new Date()
   openModalTransactionMode(cupon: any, transaction: any) {
     this.localAdherido = []
     this.cupon = cupon
     this.transaction = transaction
+    const hoy = new Date()
+    this.diaVto = new Date(hoy.setDate(hoy.getDate() + this.cupon!.validDays))
     this.service.get(cupon.rewardPartner).subscribe(obj => {
       this.local = obj.data
       this.localAdherido.push(this.local)
@@ -85,7 +88,10 @@ export class ModalCuponComponent {
 
   getCoupon() {
     if (this.cupon) {
-      this.neighborService.buyCoupon(this.cupon?.id, this.sesionService.getUserId()).subscribe()
+      const id = this.cupon.id
+      this.neighborService.buyCoupon(this.cupon.id, this.sesionService.getUserId()).subscribe(obj => {
+        this.sesionService.addCupon(id)
+      })
     }
   }
 }
