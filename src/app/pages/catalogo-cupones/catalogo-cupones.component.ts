@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'
 import { MatSortModule } from '@angular/material/sort'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { RouterModule } from '@angular/router'
@@ -37,16 +36,12 @@ export class CatalogoCuponesComponent {
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   puntos = 0
   items: Coupon[] = []
-  localId: string = ''
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
-    /*
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }*/
   }
+
   constructor(
     private service: LocalAdheridoService,
     private sesionService: SesionService
@@ -59,13 +54,15 @@ export class CatalogoCuponesComponent {
     this.service.listCupon().subscribe(obj => {
       this.items = <Coupon[]>obj.data
       this.dataSource = new MatTableDataSource(this.items.filter(c => c.isAvailable))
-      console.log(this.items)
     })
   }
 
   abrirModal(cupon: Coupon) {
-    console.log('VOY A ENVIAR ESTP')
-    console.log(cupon)
     this.modal?.openModal(cupon)
+  }
+
+  // FIX: recibe los puntos actualizados desde el modal y los refleja en pantalla
+  onCuponCanjeado(puntosRestantes: number) {
+    this.puntos = puntosRestantes
   }
 }

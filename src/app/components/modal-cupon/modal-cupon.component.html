@@ -1,32 +1,65 @@
-  <!-- Modal -->
-  <div #modal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">{{cupon?.title}}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal -->
+<div #modal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{cupon?.title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="m-0"><b>Local: </b>{{local.name}}</p>
+        <p class="m-0"><b>Dirección: </b>{{local.address}}</p>
+        <p class="m-0"><b>Teléfono: </b>{{local.phoneNumber}}</p>
+        <p><b>Email: </b>{{local.email}}</p>
+        <div *ngIf="localAdherido.length == 1">
+          <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter"></app-map-view>
         </div>
-        <div class="modal-body">
-          <p class="m-0"><b>Local: </b>{{local.name}}</p>
-          <p class="m-0"><b>Dirección: </b>{{local.address}}</p>
-          <p class="m-0"><b>Teléfono: </b>{{local.phoneNumber}}</p>
-          <p><b>Email: </b>{{local.email}}</p>
-          <div *ngIf="localAdherido.length == 1">
-            <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter"></app-map-view>
-          </div>
-          <p class="mb-0 mt-3"><b>Sobre el Cupón</b></p>
-          <p>{{cupon?.discount}}% de descuento. {{cupon?.description}}</p>
-          <p><i>Este cupón estará disponible por {{cupon?.validDays}} días después de canjearlo</i></p>
+        <p class="mb-0 mt-3"><b>Sobre el Cupón</b></p>
+        <p>{{cupon?.discount}}% de descuento. {{cupon?.description}}</p>
+        <p><i>Este cupón estará disponible por {{cupon?.validDays}} días después de canjearlo</i></p>
+
+        <!-- CÓDIGO DE CANJE: se muestra después de canjear -->
+        <div *ngIf="codigoCanje" class="codigo-canje-container mt-3 p-3 text-center border rounded bg-light">
+          <p class="mb-1"><b>¡Cupón adquirido con éxito!</b></p>
+          <p class="mb-1 text-muted" style="font-size: 0.85rem;">Mostrá este código en el local:</p>
+          <h2 class="codigo-canje fw-bold text-success letter-spacing-wide">{{ codigoCanje }}</h2>
+          <p class="mt-1 text-muted" style="font-size: 0.8rem;">Vence el: <b>{{ diaVto | date:'dd/MM/yyyy' }}</b></p>
         </div>
-        <div class="modal-footer">
-          @if(transaction){
-            Este cupón vence el dia:<b> {{diaVto | date:'dd/MM/yyyy'}} </b>
-          }
-          @else{
-            <b>Costo: {{cupon?.costInPoints}} puntos </b>
-            <button type="button" class="btn btn-success" (click)="getCoupon()" data-bs-dismiss="modal" [disabled]="cupon ? (misPuntos < cupon.costInPoints) : true">Canjear</button><!--data-bs-dismiss="modal"-->
-          }
-        </div>
+
+      </div>
+      <div class="modal-footer">
+
+        <!-- Modo transacción ya existente (mis cupones) -->
+        @if(transaction && !codigoCanje){
+          Este cupón vence el dia:<b> {{diaVto | date:'dd/MM/yyyy'}} </b>
+          <button 
+            type="button" 
+            class="btn btn-outline-success"
+            (click)="mostrarCodigoExistente()">
+            Ver código
+          </button>
+        }
+
+        <!-- Modo catálogo: todavía no canjeó -->
+        @if(!transaction && !codigoCanje){
+          <b>Costo: {{cupon?.costInPoints}} puntos </b>
+          <button 
+            type="button" 
+            class="btn btn-success" 
+            (click)="getCoupon()" 
+            [disabled]="(cupon ? (misPuntos < cupon.costInPoints) : true) || cargando">
+            {{ cargando ? 'Canjeando...' : 'Canjear' }}
+          </button>
+        }
+
+        <!-- Después de canjear: solo cerrar -->
+        @if(codigoCanje){
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cerrarYActualizar()">
+            Cerrar
+          </button>
+        }
+
       </div>
     </div>
+  </div>
 </div>
