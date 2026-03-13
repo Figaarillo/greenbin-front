@@ -4,12 +4,13 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { ActivatedRoute, RouterModule } from '@angular/router'
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { Vecino } from '../../services/interfaces/vecino'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { MatIconModule } from '@angular/material/icon'
 
 @Component({
   selector: 'app-modificar-vecino',
@@ -23,7 +24,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
     ReactiveFormsModule,
     MatButtonModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
   templateUrl: './modificar-vecino.component.html',
   styleUrl: './modificar-vecino.component.scss'
@@ -56,6 +58,14 @@ export class ModificarVecinoComponent {
   onSubmit() {
     if (this.form.valid) {
       this.service.update(<Vecino>this.form.value, this.sesionService.getUserId()).subscribe()
+    }
+  }
+
+  onDelete() {
+    if (confirm('¿Estás seguro que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+      this.service.delete(this.sesionService.getUserId()).subscribe(() => {
+        this.sesionService.logout()
+      })
     }
   }
 }
