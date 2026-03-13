@@ -85,10 +85,17 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
         'Error al comprar el cupón, por favor revise los datos y vuelva a intentarlo. Recuerda que puedes canjear solo 1 vez el cupón.',
       successMessage: 'El cupón se ha comprado con éxito',
       routeToNavigate: ''
+    },
+    {
+      url: '/api/coupon-transaction/use',
+      method: 'POST',
+      errorMessage: 'Código inválido o cupón no disponible.',
+      successMessage: 'Cupón utilizado con éxito',
+      routeToNavigate: ''
     }
   ]
 
-  const shouldNotify = routesToNotify.find(route => req.url.includes(apiUrl + route.url) && req.method === route.method)
+  const shouldNotify = routesToNotify.find(route => req.url === apiUrl + route.url && req.method === route.method)
 
   return next(req).pipe(
     tap({

@@ -71,7 +71,7 @@ export class SidenavComponent implements OnInit {
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/cupones-ofrecidos' },
         { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
         { icon: 'info', label: 'Contacto', route: '/' },
-
+        { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/usar-cupon' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     }

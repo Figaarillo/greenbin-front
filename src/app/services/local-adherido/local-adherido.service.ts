@@ -92,4 +92,8 @@ export class LocalAdheridoService {
     })
     return this.http.delete<any>(this.url + '/' + id, { headers })
   }
+
+  useCoupon(payload: { code: string; rewardPartnerId: string; totalAmount: number }): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/api/coupon-transaction/use', payload)
+  }
 }
