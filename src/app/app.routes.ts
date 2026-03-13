@@ -151,5 +151,11 @@ export const routes: Routes = [
     path: 'mis-reciclados',
     //canActivate: [isLogged, localGuard],
     loadComponent: () => import('./pages/mis-reciclados/mis-reciclados.component').then(m => m.MisRecicladosComponent)
+  },
+  {
+    path: 'modificar-local',
+    canActivate: [isLogged, localGuard],
+    loadComponent: () =>
+      import('./pages/modificar-local/modificar-local.component').then(m => m.ModificarLocalComponent)
   }
 ]
