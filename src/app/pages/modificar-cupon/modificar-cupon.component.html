@@ -1,0 +1,50 @@
+<app-navbar [title]="'Modificar Cupón'" [route]="'/cupones-ofrecidos'"></app-navbar>
+<div class="container mt-3">
+  @if (form) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="w-100">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title">
+      @if (form.get('title')!.hasError('required')) {
+        <mat-error>Ingrese un título</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      @if (form.get('description')!.hasError('required')) {
+        <mat-error>Ingrese una descripción</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Descuento (%)</mat-label>
+      <input type="number" matInput formControlName="discount">
+      @if (form.get('discount')!.hasError('required')) {
+        <mat-error>Ingrese un descuento</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Costo en puntos</mat-label>
+      <input type="number" matInput formControlName="costInPoints">
+      @if (form.get('costInPoints')!.hasError('required')) {
+        <mat-error>Ingrese el costo</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Días de vigencia</mat-label>
+      <input type="number" matInput formControlName="validDays">
+      @if (form.get('validDays')!.hasError('required')) {
+        <mat-error>Ingrese los días de vigencia</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="w-100" type="submit">Guardar cambios</button>
+
+  </form>
+  }
+</div>
