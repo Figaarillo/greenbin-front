@@ -51,4 +51,16 @@ export class VecinoService {
     }
     return this.http.post<any>(this.couponUrl, body)
   }
+
+  getMyTransactions(neighborId: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/api/coupon-transaction/neighbor/${neighborId}`)
+  }
+
+  delete(id: string): Observable<any> {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.delete<any>(this.url + '/' + id, { headers })
+  }
 }

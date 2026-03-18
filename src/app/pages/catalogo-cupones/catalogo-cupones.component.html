@@ -1,37 +1,37 @@
-<app-navbar [title]="'Catálogo de Cupones'"  [route]="'/vecino'"></app-navbar>
+<app-navbar [title]="'Catálogo de Cupones'" [route]="'/vecino'"></app-navbar>
 
-  
-  <div class="container mt-3">
-    
-      <mat-form-field class="w-100">
-        <mat-label>Buscar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
-      </mat-form-field>
+<div class="container mt-3">
 
-      <h4 class="text-center">Saldo: {{puntos}} puntos</h4>
-      
-      <div class="catalog">
-        @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
-          <div>
-            <h5><b>No se encontraron cupones</b></h5>
-          </div>
-        }
-        @for (data of dataSource.filteredData; track data) {
-          <div class="my-2 cupon-container">
-            <mat-card (click)="abrirModal(data)">
-                <mat-card-header>
-                    <mat-card-title>{{data.title}} <i>({{data.discount}})</i></mat-card-title>
-                    <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <span class="px-2 price"><b>Costo: {{data.costInPoints}} puntos</b></span>
-                </mat-card-content>
-            </mat-card>
-          </div>
-        }
+  <mat-form-field class="w-100">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
+  </mat-form-field>
+
+  <!-- FIX: puntos se actualizan en tiempo real al canjear -->
+  <h4 class="text-center">Saldo: {{puntos}} puntos</h4>
+
+  <div class="catalog">
+    @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
+      <div>
+        <h5><b>No se encontraron cupones</b></h5>
       </div>
-      
-
+    }
+    @for (data of dataSource.filteredData; track data) {
+      <div class="my-2 cupon-container">
+        <mat-card (click)="abrirModal(data)">
+          <mat-card-header>
+            <mat-card-title>{{data.title}} <i>({{data.discount}})</i></mat-card-title>
+            <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <span class="px-2 price"><b>Costo: {{data.costInPoints}} puntos</b></span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
   </div>
 
-  <app-modal-cupon></app-modal-cupon>
+</div>
+
+<!-- FIX: escuchar el evento (cuponCanjeado) para actualizar puntos en pantalla -->
+<app-modal-cupon (cuponCanjeado)="onCuponCanjeado($event)"></app-modal-cupon>

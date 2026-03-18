@@ -76,4 +76,20 @@ export class LocalAdheridoService {
   listCupon(): Observable<any> {
     return this.http.get<any>(this.urlCoupon)
   }
+
+  update(object: any, id: string): Observable<any> {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.put<any>(this.url + '/' + id, object, { headers })
+  }
+
+  delete(id: string): Observable<any> {
+    const token = localStorage.getItem('accessToken')
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    return this.http.delete<any>(this.url + '/' + id, { headers })
+  }
 }

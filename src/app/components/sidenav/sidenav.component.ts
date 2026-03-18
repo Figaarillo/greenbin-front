@@ -67,7 +67,7 @@ export class SidenavComponent implements OnInit {
       ])
     } else if (rol == 'reward-partner') {
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: '/' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-local' },
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/cupones-ofrecidos' },
         { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
         { icon: 'info', label: 'Contacto', route: '/' },
