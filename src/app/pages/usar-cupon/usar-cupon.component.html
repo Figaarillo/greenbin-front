@@ -1,0 +1,66 @@
+<app-navbar [title]="'Usar Cupón'" [route]="'/local'"></app-navbar>
+<div class="container mt-3">
+
+  @if (!resultado) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="w-100">
+      <mat-label>Código del cupón</mat-label>
+      <input matInput placeholder="ABC123" formControlName="code" maxlength="6">
+      @if (form.get('code')!.hasError('required')) {
+        <mat-error>Ingrese el código</mat-error>
+      }
+      @if (form.get('code')!.hasError('minlength')) {
+        <mat-error>El código debe tener 6 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Monto total de la compra</mat-label>
+      <span matTextPrefix>$ &nbsp;</span>
+      <input type="number" matInput placeholder="5000" formControlName="totalAmount">
+      @if (form.get('totalAmount')!.hasError('required')) {
+        <mat-error>Ingrese el monto</mat-error>
+      }
+      @if (form.get('totalAmount')!.hasError('min')) {
+        <mat-error>El monto debe ser mayor a 0</mat-error>
+      }
+    </mat-form-field>
+
+    @if (error) {
+      <p class="error-msg">{{ error }}</p>
+    }
+
+    <button mat-raised-button color="primary" class="w-100" type="submit" [disabled]="cargando">
+      @if (cargando) { Validando... } @else { Validar cupón }
+    </button>
+
+  </form>
+  }
+
+  @if (resultado !== null) {
+  <mat-card class="resultado-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar color="primary">check_circle</mat-icon>
+      <mat-card-title>¡Cupón válido!</mat-card-title>
+      <mat-card-subtitle>{{ resultado.couponTitle }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="detalle">
+        <span>Descuento aplicado:</span>
+        <strong>{{ resultado.discount }}%</strong>
+      </div>
+      <div class="detalle">
+        <span>Total a cobrar:</span>
+        <strong class="precio-final">$ {{ resultado.finalAmount | number:'1.2-2' }}</strong>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" class="w-100" (click)="reset()">
+        <mat-icon>qr_code_scanner</mat-icon> Validar otro cupón
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  }
+
+</div>

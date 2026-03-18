@@ -21,3 +21,24 @@
     color: #ffffff !important;
     border-radius: 2rem !important;
 }
+.estado {
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.estado-adquirido {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.estado-usado {
+    background-color: #eeeeee;
+    color: #616161;
+}
+
+.estado-vencido {
+    background-color: #ffebee;
+    color: #c62828;
+}

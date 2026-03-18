@@ -71,7 +71,15 @@ export class SidenavComponent implements OnInit {
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/cupones-ofrecidos' },
         { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
         { icon: 'info', label: 'Contacto', route: '/' },
-
+        { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/usar-cupon' },
+        { icon: 'close', label: 'Cerrar Sesión', route: '' }
+      ])
+    } else if (rol == 'entity') {
+      this.menuItems.set([
+        { icon: 'business', label: 'Dashboard', route: '/entidad' },
+        { icon: 'people', label: 'Listar Vecinos', route: '/consultar-vecinos' },
+        { icon: 'supervised_user_circle', label: 'Listar Responsables', route: '/consultar-responsables' },
+        { icon: 'store', label: 'Listar Locales', route: '/consultar-puntos-verdes' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     }

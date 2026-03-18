@@ -10,13 +10,15 @@ import { RouterModule } from '@angular/router'
 import { ModalCuponComponent } from '../../components/modal-cupon/modal-cupon.component'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SesionService } from '../../services/sesion/sesion.service'
-import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
-import { Coupon } from '../../services/interfaces/coupon'
+import { VecinoService } from '../../services/vecino/vecino.service'
+import { CouponTransaction } from '../../services/interfaces/coupon'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-mis-cupones-vecino',
   standalone: true,
   imports: [
+    CommonModule,
     MatFormFieldModule,
     ModalCuponComponent,
     MatIconModule,
@@ -33,35 +35,34 @@ import { Coupon } from '../../services/interfaces/coupon'
 })
 export class MisCuponesVecinoComponent {
   @ViewChild(ModalCuponComponent) modal?: ModalCuponComponent
-  dataSource: MatTableDataSource<any> = new MatTableDataSource()
+  dataSource: MatTableDataSource<CouponTransaction> = new MatTableDataSource()
   puntos = 0
-  cuponesId: string[] = []
+  transactions: CouponTransaction[] = []
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
+
   constructor(
     private sesionService: SesionService,
-    private service: LocalAdheridoService
+    private vecinoService: VecinoService
   ) {
     const info = localStorage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
     this.puntos = usuarioInfo.points
-    this.cuponesId = this.sesionService.getCupones()
     this.getItems()
   }
 
-  cupones: Coupon[] = []
   getItems() {
-    this.service.listCupon().subscribe(obj => {
-      this.cupones = <Coupon[]>obj.data
-      let filterCupones = this.cupones.filter(obj => this.cuponesId.includes(obj.id))
-      this.dataSource = new MatTableDataSource(filterCupones)
-      //this.dataSource.data.length
+    const neighborId = this.sesionService.getUserId()
+    this.vecinoService.getMyTransactions(neighborId).subscribe(obj => {
+      this.transactions = <CouponTransaction[]>obj.data
+      this.dataSource = new MatTableDataSource(this.transactions)
     })
   }
 
-  abrirModal(cupon: any) {
-    this.modal?.openModalTransactionMode(cupon, {})
+  abrirModal(transaction: CouponTransaction) {
+    this.modal?.openModalTransactionMode(transaction.coupon, transaction)
   }
 }
