@@ -96,4 +96,16 @@ export class LocalAdheridoService {
   useCoupon(payload: { code: string; rewardPartnerId: string; totalAmount: number }): Observable<any> {
     return this.http.post<any>('http://localhost:8080/api/coupon-transaction/use', payload)
   }
+
+  getCupon(id: string): Observable<any> {
+    return this.http.get<any>(this.urlCoupon + '/' + id)
+  }
+
+  updateCupon(payload: any, id: string): Observable<any> {
+    return this.http.put<any>(this.urlCoupon + '/' + id, payload)
+  }
+
+  disableCupon(id: string): Observable<any> {
+    return this.http.put<any>(this.urlCoupon + '/' + id, { isAvailable: false, state: 'DISABLED' })
+  }
 }

@@ -170,5 +170,12 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/consultar-vecinos/consultar-vecinos.component').then(m => m.ConsultarVecinosComponent)
+  },
+
+  {
+    path: 'modificar-cupon/:id',
+    canActivate: [isLogged, localGuard],
+    loadComponent: () =>
+      import('./pages/modificar-cupon/modificar-cupon.component').then(m => m.ModificarCuponComponent)
   }
 ]
