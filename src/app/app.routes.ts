@@ -177,5 +177,12 @@ export const routes: Routes = [
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
       import('./pages/modificar-cupon/modificar-cupon.component').then(m => m.ModificarCuponComponent)
+  },
+
+  {
+    path: 'consultar-locales',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/consultar-locales/consultar-locales.component').then(m => m.ConsultarLocalesComponent)
   }
 ]
