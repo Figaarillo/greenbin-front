@@ -108,4 +108,8 @@ export class LocalAdheridoService {
   disableCupon(id: string): Observable<any> {
     return this.http.put<any>(this.urlCoupon + '/' + id, { isAvailable: false, state: 'DISABLED' })
   }
+
+  list(): Observable<any> {
+    return this.http.get<any>(this.url)
+  }
 }
