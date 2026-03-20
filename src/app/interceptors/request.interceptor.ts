@@ -92,6 +92,14 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       errorMessage: 'Código inválido o cupón no disponible.',
       successMessage: 'Cupón utilizado con éxito',
       routeToNavigate: ''
+    },
+
+    {
+      url: '/api/waste-category',
+      method: 'POST',
+      errorMessage: 'Error al crear la categoría, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'La categoría se ha creado con éxito',
+      routeToNavigate: '/entidad'
     }
   ]
 
