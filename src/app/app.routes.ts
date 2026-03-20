@@ -191,5 +191,12 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/registrar-categoria/registrar-categoria.component').then(m => m.RegistrarCategoriaComponent)
+  },
+
+  {
+    path: 'consultar-categorias',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/consultar-categorias/consultar-categorias.component').then(m => m.ConsultarCategoriasComponent)
   }
 ]
