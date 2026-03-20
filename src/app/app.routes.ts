@@ -198,5 +198,12 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/consultar-categorias/consultar-categorias.component').then(m => m.ConsultarCategoriasComponent)
+  },
+
+  {
+    path: 'modificar-categoria/:id',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/modificar-categoria/modificar-categoria.component').then(m => m.ModificarCategoriaComponent)
   }
 ]

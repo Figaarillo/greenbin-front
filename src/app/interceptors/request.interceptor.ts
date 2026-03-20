@@ -100,10 +100,22 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
       errorMessage: 'Error al crear la categoría, por favor revise los datos y vuelva a intentarlo',
       successMessage: 'La categoría se ha creado con éxito',
       routeToNavigate: '/entidad'
+    },
+
+    {
+      url: '/api/waste-category/:id',
+      method: 'PUT',
+      errorMessage: 'Error al modificar la categoría, por favor revise los datos y vuelva a intentarlo',
+      successMessage: 'La categoría se ha modificado con éxito',
+      routeToNavigate: '/consultar-categorias'
     }
   ]
 
-  const shouldNotify = routesToNotify.find(route => req.url === apiUrl + route.url && req.method === route.method)
+  const shouldNotify = routesToNotify.find(route => {
+    if (route.method !== req.method) return false
+    if (route.url.includes(':id')) return req.url.startsWith(apiUrl + route.url.replace('/:id', '/'))
+    return req.url === apiUrl + route.url
+  })
 
   return next(req).pipe(
     tap({
