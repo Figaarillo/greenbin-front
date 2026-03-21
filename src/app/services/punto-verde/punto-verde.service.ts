@@ -23,4 +23,16 @@ export class PuntoVerdeService {
       })
     )
   }
+
+  getById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}`)
+  }
+
+  update(payload: any, id: string): Observable<any> {
+    return this.http.put<any>(`${this.url}/${id}`, payload)
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${id}`)
+  }
 }

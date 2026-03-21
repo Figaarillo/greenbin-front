@@ -22,7 +22,7 @@ export const routes: Routes = [
       )
   },
   {
-    path: 'listar-puntos-verdes',
+    path: 'consultar-puntos-verdes',
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/consultar-puntos-verdes/consultar-puntos-verdes.component').then(
@@ -205,5 +205,12 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/modificar-categoria/modificar-categoria.component').then(m => m.ModificarCategoriaComponent)
+  },
+
+  {
+    path: 'modificar-punto-verde/:id',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/modificar-punto-verde/modificar-punto-verde.component').then(m => m.ModificarPuntoVerdeComponent)
   }
 ]
