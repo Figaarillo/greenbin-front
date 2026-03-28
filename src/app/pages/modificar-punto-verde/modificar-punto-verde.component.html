@@ -1,0 +1,50 @@
+<app-navbar [title]="'Modificar Punto Verde'" [route]="'/consultar-puntos-verdes'"></app-navbar>
+<div class="container mt-3">
+  @if (form) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="w-100">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name">
+      @if (form.get('name')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput formControlName="email">
+      @if (form.get('email')!.hasError('required')) {
+        <mat-error>Ingrese un email</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="phoneNumber">
+      @if (form.get('phoneNumber')!.hasError('required')) {
+        <mat-error>Ingrese un teléfono</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+      @if (form.get('description')!.hasError('required')) {
+        <mat-error>Ingrese una descripción</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="address">
+      @if (form.get('address')!.hasError('required')) {
+        <mat-error>Ingrese una dirección</mat-error>
+      }
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="w-100" type="submit">Guardar cambios</button>
+
+  </form>
+  }
+</div>

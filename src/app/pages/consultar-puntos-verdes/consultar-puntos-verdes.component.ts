@@ -71,23 +71,17 @@ export class ConsultarPuntosVerdesComponent {
   }
 
   edit(id: string) {
-    alert('a editar punto verde')
-    //this.router.navigate(['/modificar-responsable', id])
-    //localStorage.setItem('respoEdit', 'true')
+    this.router.navigate(['/modificar-punto-verde', id])
   }
+
   delete(id: string) {
-    alert('a eliminar punto verde')
-    /*
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success ',
-        cancelButton: 'btn btn-danger'
-      }
+    const swal = Swal.mixin({
+      customClass: { confirmButton: 'btn btn-success', cancelButton: 'btn btn-danger' }
     })
-    swalWithBootstrapButtons
+    swal
       .fire({
-        title: '¿Estas seguro que desea eliminar este Punto Verde?',
-        text: 'No podras revertirlo.',
+        title: '¿Eliminar este Punto Verde?',
+        text: 'No podrás revertirlo.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Confirmar',
@@ -97,28 +91,11 @@ export class ConsultarPuntosVerdesComponent {
         if (result.isConfirmed) {
           this.service.delete(id).subscribe(
             () => {
-              swalWithBootstrapButtons
-                .fire({
-                  title: '¡Eliminada!',
-                  text: 'El responsable ha sido eliminada.',
-                  icon: 'success'
-                })
-                .then(() => {
-                  console.log('eliminado')
-                  this.getItems()
-                })
+              swal.fire('¡Eliminado!', 'El punto verde fue eliminado.', 'success').then(() => this.getItems())
             },
-            error => {
-              console.error('Error al eliminar el responsable:', error)
-            }
+            error => console.error(error)
           )
-        } else {
-          swalWithBootstrapButtons.fire({
-            title: 'Cancelado',
-            text: 'El responsable no fue eliminado.',
-            icon: 'error'
-          })
         }
-      })*/
+      })
   }
 }
