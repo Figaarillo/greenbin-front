@@ -184,5 +184,26 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/consultar-locales/consultar-locales.component').then(m => m.ConsultarLocalesComponent)
+  },
+
+  {
+    path: 'registrar-categoria',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/registrar-categoria/registrar-categoria.component').then(m => m.RegistrarCategoriaComponent)
+  },
+
+  {
+    path: 'consultar-categorias',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/consultar-categorias/consultar-categorias.component').then(m => m.ConsultarCategoriasComponent)
+  },
+
+  {
+    path: 'modificar-categoria/:id',
+    canActivate: [isLogged, entityGuard],
+    loadComponent: () =>
+      import('./pages/modificar-categoria/modificar-categoria.component').then(m => m.ModificarCategoriaComponent)
   }
 ]

@@ -21,4 +21,20 @@ export class WasteCategoryService {
       })
     )
   }
+
+  create(payload: any): Observable<any> {
+    return this.http.post<any>(this.url, payload)
+  }
+
+  toggle(id: string, isActive: boolean): Observable<any> {
+    return this.http.put<any>(`${this.url}/${id}`, { isActive })
+  }
+
+  getById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}`)
+  }
+
+  update(payload: any, id: string): Observable<any> {
+    return this.http.put<any>(`${this.url}/${id}`, payload)
+  }
 }
