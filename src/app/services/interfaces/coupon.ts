@@ -9,3 +9,16 @@ export interface Coupon {
   rewardPartner?: string
   rewardPartnerId?: string
 }
+
+export interface CouponTransaction {
+  id: string
+  code: string
+  status: string
+  adquisitionDate?: string
+  redeemDate?: string
+  expirationDate: string
+  costInPoints: number
+  coupon: Coupon
+  neighbor?: string
+  rewardPartner?: string
+}
