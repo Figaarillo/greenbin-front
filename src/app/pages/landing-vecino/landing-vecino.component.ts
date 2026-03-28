@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { CommonModule, DatePipe } from '@angular/common'
 
 @Component({
   selector: 'app-landing-vecino',
@@ -21,7 +22,9 @@ import { VecinoService } from '../../services/vecino/vecino.service'
     MatSidenavModule,
     MatToolbarModule,
     SidenavComponent,
-    RouterModule
+    RouterModule,
+    CommonModule,
+    DatePipe
   ],
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'
@@ -33,6 +36,11 @@ export class LandingVecinoComponent implements OnInit {
   id = ''
   puntos: string = ''
   name = ''
+  historial: any[] = []
+  historialVisible: any[] = []
+  mostrarTodo: boolean = false
+  LIMITE = 5
+
   constructor(
     private router: Router,
     private sesionService: SesionService,
@@ -40,7 +48,6 @@ export class LandingVecinoComponent implements OnInit {
   ) {
     const info = localStorage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
-
     this.name = usuarioInfo.firstname
     this.id = usuarioInfo.id
   }
@@ -50,10 +57,34 @@ export class LandingVecinoComponent implements OnInit {
       this.puntos = resp.data.points
       localStorage.setItem('points', this.puntos)
     })
+
+    this.vecinoServ.getMyTransactions(this.id).subscribe((resp: any) => {
+      const cupones = (resp.data || []).map((t: any) => ({
+        tipo: 'cupon',
+        descripcion: `Canje cupón "${t.coupon?.title}"`,
+        puntos: -t.costInPoints,
+        fecha: t.adquisitionDate ?? t.createdAt
+      }))
+      this.historial = [...cupones].sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+      this.historialVisible = this.historial.slice(0, this.LIMITE)
+    })
+
+    this.vecinoServ.getMyWasteTransactions(this.id).subscribe((resp: any) => {
+      const residuos = (resp.data || []).map((t: any) => ({
+        tipo: 'residuo',
+        descripcion: `Entrega en ${t.greenPoint?.name ?? 'Punto Verde'}`,
+        puntos: t.totalPoints,
+        fecha: t.date
+      }))
+      this.historial = [...this.historial, ...residuos].sort(
+        (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+      )
+      this.historialVisible = this.historial.slice(0, this.LIMITE)
+    })
   }
 
-  formatearNombre(value: string): string {
-    if (!value) return ''
-    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase()
+  toggleHistorial() {
+    this.mostrarTodo = !this.mostrarTodo
+    this.historialVisible = this.mostrarTodo ? this.historial : this.historial.slice(0, this.LIMITE)
   }
 }

@@ -67,4 +67,8 @@ export class VecinoService {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
     return this.http.delete<any>(this.url + '/' + id, { headers })
   }
+
+  getMyWasteTransactions(neighborId: string): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/api/waste/transaction/neighbor/${neighborId}`)
+  }
 }
