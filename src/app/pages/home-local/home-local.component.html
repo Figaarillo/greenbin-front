@@ -23,40 +23,35 @@
         <mat-drawer #menu mode="over" [position]="'start'">
             <app-sidenav></app-sidenav>
         </mat-drawer>
-    
 
-
-        <!-- <div class="body">
+        <div class="body">
             <mat-list>
-                <div mat-subheader>Historial</div>
+                <div mat-subheader>Historial de cupones</div>
+                @if (historial.length === 0) {
                 <mat-list-item>
-                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_upward</mat-icon></div>
-                    <div matListItemTitle>+6pts</div>
-                    <div matListItemLine>2 kilos de Plástico</div>
-                    <div matListItemLine>24/08/2024 17:52</div>
+                    <div matListItemTitle>No hay transacciones aún</div>
+                </mat-list-item>
+                }
+                @for (item of historialVisible; track item) {
+                <mat-list-item>
+                    <div class="listIcon" matListItemAvatar>
+                        <mat-icon>local_activity</mat-icon>
+                    </div>
+                    <div matListItemTitle>{{ item.puntos }} pts - {{ item.estado }}</div>
+                    <div matListItemLine>{{ item.descripcion }}</div>
+                    <div matListItemLine>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</div>
                 </mat-list-item>
                 <mat-divider></mat-divider>
-                <mat-list-item>
-                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
-                    <div matListItemTitle>-2500 pts</div>
-                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
-                    <div matListItemLine>20/08/2024 20:18</div>
+                }
+                @if (historial.length > LIMITE) {
+                <mat-list-item (click)="toggleHistorial()" style="cursor:pointer; text-align:center">
+                    <div matListItemTitle style="color: #4caf50">
+                        {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
+                    </div>
                 </mat-list-item>
-                <mat-list-item>
-                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
-                    <div matListItemTitle>-2500 pts</div>
-                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
-                     <div matListItemLine>20/08/2024 20:18</div>
-                </mat-list-item>
-                <mat-list-item>
-                    <div class="listIcon" matListItemAvatar><mat-icon>arrow_downward</mat-icon></div>
-                    <div matListItemTitle>-2500 pts</div>
-                    <div matListItemLine>Canje Cupón "10 off en empanadas"</div>
-                    <div matListItemLine>20/08/2024 20:18</div>
-                </mat-list-item>
+                }
             </mat-list>
         </div>
-        -->
     
     </mat-drawer-container>
 
