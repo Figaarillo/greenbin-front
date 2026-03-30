@@ -96,7 +96,10 @@ export class MisCuponesLocalComponent {
     this.service.listCupon().subscribe(obj => {
       this.items = <Coupon[]>obj.data
       console.log('mi id es ' + this.localId)
-      this.dataSource = new MatTableDataSource(this.items.filter(c => c.rewardPartner == this.localId))
+      console.log('primer cupon rewardPartner:', this.items[0]?.rewardPartner)
+      this.dataSource = new MatTableDataSource(
+        this.items.filter(c => c.rewardPartner == this.localId || c.rewardPartnerId == this.localId)
+      )
       console.log(this.items)
     })
   }
