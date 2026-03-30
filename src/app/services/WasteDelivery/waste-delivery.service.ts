@@ -14,4 +14,8 @@ export class WasteDeliveryService {
   create(object: WasteDelivery): Observable<WasteDelivery> {
     return this.http.post<WasteDelivery>(this.url + 'transaction/delivery', object)
   }
+
+  listByResponsible(responsibleId: string): Observable<any> {
+    return this.http.get(this.url + 'transaction/responsible/' + responsibleId)
+  }
 }

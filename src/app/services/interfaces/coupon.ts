@@ -19,5 +19,7 @@ export interface CouponTransaction {
   expirationDate: string
   costInPoints: number
   coupon: Coupon
-  rewardPartner: string
+  neighbor?: string
+  rewardPartner?: string
+ 
 }

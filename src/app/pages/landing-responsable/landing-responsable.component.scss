@@ -15,9 +15,8 @@ mat-toolbar{
     top: 0;
     color: #fff;
 }
-.body{
-    height: 45%;
-    padding: 0 10vw;
+.body {
+    padding-bottom: 80px;
 }
 mat-list-item .listIcon{
     background-color: rgb(41, 41, 41);
@@ -26,13 +25,17 @@ mat-list-item .listIcon{
     justify-content: center;
     align-items: center;
 }
-.menu-footer{
+.menu-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 10%;
-    background-color: #fafafa00;
-    padding: 0 10%;
+    padding: 12px;
+    background-color: #4caf50;
+    z-index: 100;
 }
 
 .menu-footer button{
