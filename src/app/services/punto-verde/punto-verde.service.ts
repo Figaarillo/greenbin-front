@@ -16,8 +16,10 @@ export class PuntoVerdeService {
     return this.http.post<PuntoVerde>(this.url, object)
   }
 
-  list(): Observable<PuntoVerde[]> {
-    return this.http.get<PuntoVerde[]>(`${this.url}?offset=${0}&limit=${100000}`).pipe(
+  list(entityId?: string): Observable<PuntoVerde[]> {
+    let params = `?offset=0&limit=100000`
+    if (entityId) params += `&entityId=${entityId}`
+    return this.http.get<PuntoVerde[]>(`${this.url}${params}`).pipe(
       map((resp: any) => {
         return resp.data
       })

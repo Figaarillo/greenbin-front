@@ -12,7 +12,6 @@ import { VecinoUpdate } from '../interfaces/vecino_update'
 export class VecinoService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/neighbor'
-  private apiUrl = 'http://localhost:8080/metabase/neighbor'
   private couponUrl = 'http://localhost:8080/api/redeem-coupon'
 
   create(object: Vecino): Observable<Vecino> {
@@ -40,10 +39,6 @@ export class VecinoService {
 
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
-  getMetabaseIframeUrl(id: string): Observable<{ iframeUrl: string }> {
-    return this.http.get<{ iframeUrl: string }>(`${this.apiUrl}?id=${id}`)
-  }
-
   buyCoupon(couponId: string, neighborId: string) {
     const body = {
       couponId: couponId,
@@ -56,10 +51,11 @@ export class VecinoService {
     return this.http.get<any>(`http://localhost:8080/api/coupon-transaction/neighbor/${neighborId}`)
   }
 
-  list(): Observable<any> {
+  list(entityId?: string): Observable<any> {
     const token = localStorage.getItem('accessToken')
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
-    return this.http.get<any>(this.url, { headers })
+    const params = entityId ? `?entityId=${entityId}` : ''
+    return this.http.get<any>(`${this.url}${params}`, { headers })
   }
 
   delete(id: string): Observable<any> {

@@ -1,46 +1,174 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { Router, RouterModule } from '@angular/router'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { NgChartsModule } from 'ng2-charts'
+import { Chart, registerables } from 'chart.js'
+import { ChartData, ChartOptions } from 'chart.js'
 import { EntidadService } from '../../services/entidad/entidad.service'
-import { SafeUrlPipe } from '../../safe-url.pipe'
+import { StatisticsService } from '../../services/statistics/statistics.service'
+import type {
+  TotalRecycled,
+  GreenPointRanking,
+  WasteByCategory,
+  WasteByPeriod
+} from '../../services/interfaces/statistics'
+
+Chart.register(...registerables)
 
 @Component({
   selector: 'app-entidad-dashboard',
   standalone: true,
-  imports: [MatSidenavModule, RouterModule, SafeUrlPipe],
-
+  imports: [MatSidenavModule, RouterModule, CommonModule, FormsModule, NgChartsModule],
   templateUrl: './entidad-dashboard.component.html',
   styleUrl: './entidad-dashboard.component.scss'
 })
 export class EntidadDashboardComponent implements OnInit {
   name = ''
-  router = inject(Router)
   email = ''
+  entidadId = ''
+  router = inject(Router)
   entidadServ = inject(EntidadService)
-  iframeUrl: string = ''
+  statsServ = inject(StatisticsService)
 
-  entidadId: string = '80468942-b86a-43e7-b530-9485310f871a'
+  // Summary cards
+  totalWeight = 0
+  totalPoints = 0
+  totalTransactions = 0
+
+  // Date filters for period chart
+  dateFrom = ''
+  dateTo = ''
+
+  // Pie chart - Waste by category
+  pieData: ChartData<'pie'> = { labels: [], datasets: [{ data: [] }] }
+  pieOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' }
+    }
+  }
+
+  // Bar chart - Green points ranking
+  rankingData: ChartData<'bar'> = { labels: [], datasets: [{ data: [], label: 'Kg recolectados' }] }
+  rankingOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    }
+  }
+
+  // Bar chart - Waste by period
+  periodData: ChartData<'bar'> = { labels: [], datasets: [{ data: [], label: 'Kg reciclados' }] }
+  periodOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    },
+    datasets: {
+      bar: {
+        barPercentage: 0.4,
+        categoryPercentage: 0.5
+      }
+    }
+  }
+  periodChartWidth = '100%'
+
   ngOnInit(): void {
     const info = localStorage.getItem('entidadInfo') || ''
     const entidadInfo = JSON.parse(info)
     this.email = entidadInfo.email
     this.name = entidadInfo.name
     this.entidadId = entidadInfo.id
-    this.loadIframeUrl(this.entidadId)
-    console.log(this.entidadId)
+    this.loadAllStats()
   }
 
-  loadIframeUrl(id: string): void {
-    this.entidadServ.getMetabaseIframeUrl(id).subscribe({
-      next: response => {
-        this.iframeUrl = response.iframeUrl
-      },
-      error: err => {
-        console.error('Error al obtener el iframe URL:', err)
+  loadAllStats(): void {
+    this.loadTotalRecycled()
+    this.loadRanking()
+    this.loadByCategory()
+    this.loadByPeriod()
+  }
+
+  loadTotalRecycled(): void {
+    this.statsServ.getTotalRecycled(this.entidadId).subscribe((res: any) => {
+      const data: TotalRecycled = res.data
+      this.totalWeight = data.totalWeight
+      this.totalPoints = data.totalPoints
+      this.totalTransactions = data.totalTransactions
+    })
+  }
+
+  loadRanking(): void {
+    this.statsServ.getGreenPointsRanking(this.entidadId).subscribe((res: any) => {
+      const data: GreenPointRanking[] = res.data
+      this.rankingData = {
+        labels: data.map(d => d.name),
+        datasets: [
+          {
+            data: data.map(d => d.totalWeight),
+            label: 'Kg recolectados',
+            backgroundColor: '#4caf50'
+          }
+        ]
       }
     })
   }
-  logOut() {
+
+  loadByCategory(): void {
+    this.statsServ.getWasteByCategory(this.entidadId).subscribe((res: any) => {
+      const data: WasteByCategory[] = res.data
+      this.pieData = {
+        labels: data.map(d => d.categoryName),
+        datasets: [
+          {
+            data: data.map(d => d.totalWeight),
+            backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#f44336', '#9c27b0', '#00bcd4', '#ffeb3b', '#795548']
+          }
+        ]
+      }
+    })
+  }
+
+  loadByPeriod(): void {
+    this.statsServ
+      .getWasteByPeriod(this.entidadId, 'month', this.dateFrom || undefined, this.dateTo || undefined)
+      .subscribe((res: any) => {
+        const data: WasteByPeriod[] = res.data
+        const monthCount = data.length
+        if (monthCount > 6) {
+          const widthPerMonth = 80
+          this.periodChartWidth = `${monthCount * widthPerMonth}px`
+        } else {
+          this.periodChartWidth = '100%'
+        }
+        this.periodData = {
+          labels: data.map(d => this.formatPeriod(d.period)),
+          datasets: [
+            {
+              data: data.map(d => d.totalWeight),
+              label: 'Kg reciclados',
+              backgroundColor: '#2196f3'
+            }
+          ]
+        }
+      })
+  }
+
+  filterByPeriod(): void {
+    this.loadByPeriod()
+  }
+
+  formatPeriod(period: string): string {
+    const [yearMonth] = period.split(/[ T]/)
+    const [year, month] = yearMonth.split('-').map(Number)
+    const date = new Date(year, month - 1)
+    return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short' })
+  }
+
+  logOut(): void {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('refreshToken')
     localStorage.setItem('respoEdit', 'false')
