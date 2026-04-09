@@ -74,10 +74,13 @@
                     </mat-form-field>
         
                     <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox>
-        
-                    
+
+                    <div class="d-flex justify-content-center my-3">
+                        <re-captcha [siteKey]="recaptchaSiteKey" (resolved)="onCaptchaResolved($event)"></re-captcha>
+                    </div>
+
                     <p class="p-4">
-                        <button mat-raised-button class="w-100" type="submit" [disabled]="form.invalid">Ingresar</button>
+                        <button mat-raised-button class="w-100" type="submit" [disabled]="form.invalid || !recaptchaToken">Ingresar</button>
                     </p>
         
                 </form>

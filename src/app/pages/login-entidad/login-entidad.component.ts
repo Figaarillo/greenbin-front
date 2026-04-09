@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
 
 @Component({
   selector: 'app-login-entidad',
@@ -29,7 +30,9 @@ import { SesionService } from '../../services/sesion/sesion.service'
     MatCheckboxModule,
     ReactiveFormsModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   templateUrl: './login-entidad.component.html',
   styleUrl: './login-entidad.component.scss'
@@ -37,6 +40,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
 export class LoginEntidadComponent {
   router = inject(Router)
   hide = true
+  recaptchaToken = ''
+  recaptchaSiteKey = '6Lfgqq8sAAAAALwsy8mZSWfWJeoIfoxHAwQ6Vbhy'
 
   form: FormGroup
 
@@ -50,8 +55,13 @@ export class LoginEntidadComponent {
       password: ['', [Validators.required]]
     })
   }
+
+  onCaptchaResolved(token: string | null): void {
+    this.recaptchaToken = token ?? ''
+  }
+
   onSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid && this.recaptchaToken) {
       const login = this.setLoginObject()
       this.entidadServ.login(login).subscribe((obj: any) => {
         this.sesionService.setAccessToken(obj.data.accessToken)
@@ -64,6 +74,12 @@ export class LoginEntidadComponent {
           this.router.navigateByUrl('/entidad')
         })
       })
+    } else if (!this.recaptchaToken) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'reCAPTCHA',
+        text: 'Por favor, completá el reCAPTCHA'
+      })
     }
   }
 
@@ -73,13 +89,15 @@ export class LoginEntidadComponent {
       return {
         username: undefined,
         email: this.form.get('username')?.value,
-        password: this.form.get('password')?.value
+        password: this.form.get('password')?.value,
+        recaptchaToken: this.recaptchaToken
       }
     }
     return {
       email: undefined,
       username: this.form.get('username')?.value,
-      password: this.form.get('password')?.value
+      password: this.form.get('password')?.value,
+      recaptchaToken: this.recaptchaToken
     }
   }
 }
