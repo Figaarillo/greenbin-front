@@ -55,7 +55,8 @@ export class LandingResponsableComponent implements OnInit {
     private wasteDeliveryService: WasteDeliveryService
   ) {
     this.nombre = this.formatearNombre(this.sesionService.getFirstname())
-    this.pvService.list().subscribe((res: any) => {
+    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    this.pvService.list(entidadInfo.id).subscribe((res: any) => {
       this.listPtoVerde = res
     })
     const ptoVerdeSeleccionado = localStorage.getItem('puntoVerde') || ''

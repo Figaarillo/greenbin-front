@@ -46,7 +46,8 @@ export class ConsultarPuntosVerdesComponent {
     this.getItems()
   }
   getItems() {
-    this.service.list().subscribe({
+    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    this.service.list(entidadInfo.id).subscribe({
       next: (response: any) => {
         this.puntosVerdes = response
       },

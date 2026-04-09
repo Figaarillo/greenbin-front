@@ -29,13 +29,10 @@
             <li><a [routerLink]="['/consultar-puntos-verdes']"> <span class="las la-map-marker" style="font-size: 1.5rem;"></span>Listar Puntos verdes</a></li>
             <li><a [routerLink]="['/consultar-vecinos']"> <span class="las la-users" style="font-size: 1.5rem;"></span>Listar Vecinos</a></li>
             <li><a [routerLink]="['/consultar-locales']"> <span class="las la-store" style="font-size: 1.5rem;"></span>Listar Locales</a></li>
-            <li><a [routerLink]="['/registrar-categoria']"> <span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorías</a></li>
-            <li><a [routerLink]="['/consultar-categorias']"> <span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorías</a></li>
-            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesión</a> </li>
-           
+            <li><a [routerLink]="['/registrar-categoria']"> <span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorias</a></li>
+            <li><a [routerLink]="['/consultar-categorias']"> <span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorias</a></li>
+            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesion</a> </li>
         </ul>
-    
-     
     </div>
 </div>
 <div class="main-content">
@@ -45,57 +42,80 @@
                 <span class="las la-bars"></span>
             </label>
         </div>
-        
-      
     </header>
     <main>
         <div class="page-header">
             <div>
-                <h1>
-                    Panel de administración.
-                </h1>
-                <!-- <small>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</small> -->
-            </div>
-            <div class="header-actions">
-               
-                <button>
-                    <span class="las la-tools"></span>
-                    Soporte
-                </button>
+                <h1>Panel de administracion</h1>
             </div>
         </div>
-        <div class="cards">
-            <div class="card-single">
-                <div class="card-flex"> 
-                  
-                    <iframe
-                    [src]="iframeUrl | safeUrl"
-                    frameborder="0"
-                    width="900"
-                    height="500"
-                    allowtransparency
-                  ></iframe>
-                  
-                  
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <span class="las la-weight" style="font-size: 2rem; color: #4caf50;"></span>
+                <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
+                <small>Total reciclado</small>
+            </div>
+            <div class="summary-card">
+                <span class="las la-star" style="font-size: 2rem; color: #ff9800;"></span>
+                <h2>{{ totalPoints | number }}</h2>
+                <small>Puntos otorgados</small>
+            </div>
+            <div class="summary-card">
+                <span class="las la-exchange-alt" style="font-size: 2rem; color: #2196f3;"></span>
+                <h2>{{ totalTransactions }}</h2>
+                <small>Transacciones</small>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Residuos por categoria</h3>
+                <div class="chart-container pie-container">
+                    <canvas baseChart
+                        [data]="pieData"
+                        [options]="pieOptions"
+                        type="pie">
+                    </canvas>
                 </div>
             </div>
-           
-            <!-- <div class="card-single">
-                <div class="card-flex"> 
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Purchase</span>
-                            <small>Number of Purchase</small>
 
-                        </div>
-                        <h2>123123</h2>
-                        <small>2% blablabal</small>
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-chart-line"></span>
+            <div class="chart-card">
+                <h3>Ranking puntos verdes (kg recolectados)</h3>
+                <div class="chart-container">
+                    <canvas baseChart
+                        [data]="rankingData"
+                        [options]="rankingOptions"
+                        type="bar">
+                    </canvas>
+                </div>
+            </div>
+
+            <div class="chart-card full-width">
+                <div class="chart-header">
+                    <h3>Residuos reciclados por periodo</h3>
+                    <div class="date-filters">
+                        <label>
+                            Desde
+                            <input type="date" [(ngModel)]="dateFrom">
+                        </label>
+                        <label>
+                            Hasta
+                            <input type="date" [(ngModel)]="dateTo">
+                        </label>
+                        <button class="filter-btn" (click)="filterByPeriod()">Filtrar</button>
                     </div>
                 </div>
-            </div> -->
+                <div class="period-scroll-container">
+                    <div class="period-chart-inner" [style.width]="periodChartWidth">
+                        <canvas baseChart
+                            [data]="periodData"
+                            [options]="periodOptions"
+                            type="bar">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>

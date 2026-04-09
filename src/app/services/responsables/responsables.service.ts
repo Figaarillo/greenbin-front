@@ -13,8 +13,10 @@ export class ResponsablesService {
   private http = inject(HttpClient)
   private url: string = 'http://localhost:8080/api/responsible'
 
-  list(offset: number, limit: number): Observable<Responsable[]> {
-    return this.http.get<Responsable[]>(`${this.url}?offset=${offset}&limit=${limit}`).pipe(
+  list(offset: number, limit: number, entityId?: string): Observable<Responsable[]> {
+    let params = `?offset=${offset}&limit=${limit}`
+    if (entityId) params += `&entityId=${entityId}`
+    return this.http.get<Responsable[]>(`${this.url}${params}`).pipe(
       map((resp: any) => {
         console.log(resp.data)
         return resp.data

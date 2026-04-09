@@ -38,7 +38,8 @@ export class VisualizarPvComponent implements OnInit {
   puntosVerdes: any[] = []
 
   ngOnInit() {
-    this.pvServices.list().subscribe((res: any) => {
+    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    this.pvServices.list(entidadInfo.id).subscribe((res: any) => {
       this.puntosVerdes = res
 
       const img = 'assets/recycle.png'

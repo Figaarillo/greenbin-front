@@ -54,16 +54,14 @@ export class LoginEntidadComponent {
     if (this.form.valid) {
       const login = this.setLoginObject()
       this.entidadServ.login(login).subscribe((obj: any) => {
-        this.router.navigateByUrl('/entidad')
-        localStorage.setItem('rol', 'admin')
-        console.log(obj)
         this.sesionService.setAccessToken(obj.data.accessToken)
         this.sesionService.setRefreshToken(obj.data.refreshToken)
         this.sesionService.setUserId(obj.data.id)
+        localStorage.setItem('rol', 'admin')
 
         this.entidadServ.get(obj.data.id).subscribe((resp: any) => {
-          console.log(resp.data.name)
           localStorage.setItem('entidadInfo', JSON.stringify(resp.data))
+          this.router.navigateByUrl('/entidad')
         })
       })
     }

@@ -32,7 +32,8 @@ export class ConsultarVecinosComponent implements OnInit {
   }
 
   listVecinos() {
-    this.vecinoService.list().subscribe({
+    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    this.vecinoService.list(entidadInfo.id).subscribe({
       next: (response: any) => {
         this.vecinos = response.data.map((v: any) => ({
           ...v,

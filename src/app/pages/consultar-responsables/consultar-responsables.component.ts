@@ -53,7 +53,8 @@ export class ConsultarResponsablesComponent implements OnInit {
     this.listRespo()
   }
   listRespo() {
-    this.respService.list(0, 100).subscribe({
+    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    this.respService.list(0, 100, entidadInfo.id).subscribe({
       next: (response: any) => {
         this.responsibles = response
       },
