@@ -49,7 +49,7 @@ export class SidenavComponent implements OnInit {
     if (rol == 'responsible') {
       this.menuItems.set([
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
-        { icon: 'history', label: 'Historial entregas', route: '/responsable' },
+        { icon: 'history', label: 'Historial entregas', route: '/historial-responsable' },
         { icon: 'info', label: 'Contacto', route: '/responsable' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])

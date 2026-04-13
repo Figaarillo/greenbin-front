@@ -21,5 +21,4 @@ export interface CouponTransaction {
   coupon: Coupon
   neighbor?: string
   rewardPartner?: string
- 
 }

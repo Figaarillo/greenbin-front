@@ -153,6 +153,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/mis-reciclados/mis-reciclados.component').then(m => m.MisRecicladosComponent)
   },
   {
+    path: 'historial-responsable',
+    canActivate: [isLogged, authGuardGuard],
+    loadComponent: () =>
+      import('./pages/historial-responsable/historial-responsable.component').then(m => m.HistorialResponsableComponent)
+  },
+  {
     path: 'modificar-local',
     canActivate: [isLogged, localGuard],
     loadComponent: () =>
@@ -212,5 +218,14 @@ export const routes: Routes = [
     canActivate: [isLogged, entityGuard],
     loadComponent: () =>
       import('./pages/modificar-punto-verde/modificar-punto-verde.component').then(m => m.ModificarPuntoVerdeComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
   }
 ]
