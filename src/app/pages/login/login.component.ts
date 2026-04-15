@@ -15,6 +15,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,9 @@ import { SesionService } from '../../services/sesion/sesion.service'
     MatCheckboxModule,
     ReactiveFormsModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    RecaptchaModule,
+    RecaptchaFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -39,6 +42,8 @@ export class LoginComponent {
   userRole: string[] = ['VECINO', 'LOCAL ADHERIDO', 'RESPONSABLE']
   router = inject(Router)
   hide = true
+  recaptchaToken = ''
+  recaptchaSiteKey = '6Lfgqq8sAAAAALwsy8mZSWfWJeoIfoxHAwQ6Vbhy'
 
   form: FormGroup
 
@@ -55,8 +60,12 @@ export class LoginComponent {
     })
   }
 
+  onCaptchaResolved(token: string | null): void {
+    this.recaptchaToken = token ?? ''
+  }
+
   onSubmit() {
-    if (this.form.valid) {
+    if (this.form.valid && this.recaptchaToken) {
       const login = this.setLoginObject()
       switch (this.loginAs) {
         case 1: //neighbor
@@ -69,6 +78,12 @@ export class LoginComponent {
           this.loginAsResponsible(login)
           break
       }
+    } else if (!this.recaptchaToken) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'reCAPTCHA',
+        text: 'Por favor, completá el reCAPTCHA'
+      })
     } else {
       Swal.fire({
         icon: 'error',
@@ -84,13 +99,15 @@ export class LoginComponent {
       return {
         username: undefined,
         email: this.form.get('username')?.value,
-        password: this.form.get('password')?.value
+        password: this.form.get('password')?.value,
+        recaptchaToken: this.recaptchaToken
       }
     }
     return {
       email: undefined,
       username: this.form.get('username')?.value,
-      password: this.form.get('password')?.value
+      password: this.form.get('password')?.value,
+      recaptchaToken: this.recaptchaToken
     }
   }
 
