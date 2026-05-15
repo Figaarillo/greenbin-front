@@ -32,10 +32,11 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 })
 export class HomeLocalComponent implements OnInit {
   name: string = ''
-  historial: any[] = []
+  transactions: any[] = []
   historialVisible: any[] = []
   mostrarTodo: boolean = false
   LIMITE = 5
+  expandedItems = new Set<number>()
 
   private rewardPartnerId: string = ''
 
@@ -48,20 +49,46 @@ export class HomeLocalComponent implements OnInit {
 
   ngOnInit(): void {
     this.localService.getCouponTransactions(this.rewardPartnerId).subscribe((resp: any) => {
-      this.historial = (resp.data || [])
-        .map((t: any) => ({
-          descripcion: `Cupón "${t.coupon?.title}" - ${t.neighbor?.firstname ?? ''} ${t.neighbor?.lastname ?? ''}`,
-          puntos: t.costInPoints,
-          estado: t.status,
-          fecha: t.redeemDate ?? t.createdAt
-        }))
-        .sort((a: any, b: any) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
-      this.historialVisible = this.historial.slice(0, this.LIMITE)
+      this.transactions = (resp.data || []).sort(
+        (a: any, b: any) =>
+          new Date(b.redeemDate ?? b.adquisitionDate ?? b.createdAt).getTime() -
+          new Date(a.redeemDate ?? a.adquisitionDate ?? a.createdAt).getTime()
+      )
+      this.historialVisible = this.transactions.slice(0, this.LIMITE)
     })
   }
 
-  toggleHistorial() {
+  toggleHistorial(): void {
     this.mostrarTodo = !this.mostrarTodo
-    this.historialVisible = this.mostrarTodo ? this.historial : this.historial.slice(0, this.LIMITE)
+    this.historialVisible = this.mostrarTodo ? this.transactions : this.transactions.slice(0, this.LIMITE)
+  }
+
+  toggleItem(index: number): void {
+    if (this.expandedItems.has(index)) {
+      this.expandedItems.delete(index)
+    } else {
+      this.expandedItems.add(index)
+    }
+  }
+
+  isExpanded(index: number): boolean {
+    return this.expandedItems.has(index)
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'UTILIZADO':
+        return '#4caf50'
+      case 'ADQUIRIDO':
+        return '#2196f3'
+      case 'VENCIDO':
+        return '#f44336'
+      default:
+        return '#9e9e9e'
+    }
+  }
+
+  getFecha(t: any): Date {
+    return t.redeemDate ?? t.adquisitionDate ?? t.createdAt
   }
 }
