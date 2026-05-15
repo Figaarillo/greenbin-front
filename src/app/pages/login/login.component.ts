@@ -43,7 +43,7 @@ export class LoginComponent {
   router = inject(Router)
   hide = true
   recaptchaToken = ''
-  recaptchaSiteKey = '6Lfgqq8sAAAAALwsy8mZSWfWJeoIfoxHAwQ6Vbhy'
+  recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 
   form: FormGroup
 
