@@ -2,10 +2,19 @@
 
 <div class="container mt-3">
 
-  <mat-form-field class="w-100">
-    <mat-label>Buscar</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
-  </mat-form-field>
+  <div class="filters">
+    <mat-form-field class="filter-title">
+      <mat-label>Buscar por título</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="onTitleFilter($event)" placeholder="Ej: descuento en almacén">
+    </mat-form-field>
+
+    <mat-form-field class="filter-discount">
+      <mat-label>Descuento mínimo (%)</mat-label>
+      <mat-icon matPrefix>percent</mat-icon>
+      <input matInput type="number" min="0" max="100" (input)="onDiscountFilter($event)" placeholder="Ej: 15">
+    </mat-form-field>
+  </div>
 
   <!-- FIX: puntos se actualizan en tiempo real al canjear -->
   <h4 class="text-center">Saldo: {{puntos}} puntos</h4>

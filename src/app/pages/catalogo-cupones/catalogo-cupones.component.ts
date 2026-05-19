@@ -39,10 +39,24 @@ export class CatalogoCuponesComponent {
   puntos = 0
   items: Coupon[] = []
   redeemedCouponIds: Set<string> = new Set()
+  titleFilter = ''
+  minDiscount: number | null = null
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.dataSource.filter = filterValue.trim().toLowerCase()
+  private applyFilters() {
+    const title = this.titleFilter.trim().toLowerCase()
+    const min = this.minDiscount ?? 0
+    this.dataSource.data = this.items.filter(c => c.title.toLowerCase().includes(title) && c.discount >= min)
+  }
+
+  onTitleFilter(event: Event) {
+    this.titleFilter = (event.target as HTMLInputElement).value
+    this.applyFilters()
+  }
+
+  onDiscountFilter(event: Event) {
+    const val = (event.target as HTMLInputElement).value
+    this.minDiscount = val !== '' ? Number(val) : null
+    this.applyFilters()
   }
 
   constructor(
@@ -67,16 +81,18 @@ export class CatalogoCuponesComponent {
       forkJoin({ coupons: coupons$, transactions: myTransactions$ }).subscribe(({ coupons, transactions }) => {
         this.redeemedCouponIds = new Set(
           (transactions.data ?? [])
-            .filter((t: any) => t.status === 'ADQUIRIDO' || t.status === 'UTILIZADO')
+            .filter((t: any) => t.status === 'ADQUIRIDO' || t.status === 'USADO' || t.status === 'EXPIRADO')
             .map((t: any) => t.coupon?.id ?? t.coupon)
         )
         this.items = (<Coupon[]>coupons.data).filter(c => !this.redeemedCouponIds.has((c as any).id))
         this.dataSource = new MatTableDataSource(this.items)
+        this.applyFilters()
       })
     } else {
       coupons$.subscribe(obj => {
         this.items = <Coupon[]>obj.data
         this.dataSource = new MatTableDataSource(this.items)
+        this.applyFilters()
       })
     }
   }
