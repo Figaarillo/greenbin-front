@@ -31,8 +31,8 @@ export class VisualizarPvComponent implements OnInit {
   pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
     mapId: 'DEMO_MAP_ID',
-    center: { lat: -32.40751, lng: -63.24016 },
-    zoom: 14
+    center: { lat: -32.938055555556, lng: -63.241666666667 },
+    zoom: 15
   }
 
   puntosVerdes: any[] = []
