@@ -25,7 +25,7 @@ export class MapInputComponent implements AfterViewInit {
   @ViewChild('inputMapContainer', { static: true }) contenedorPadre!: ElementRef
   anchoVariable: number = 0
 
-  city: string = ',Villa Maria, Argentina'
+  city: string = ',Etruria, Argentina'
 
   actualizarAncho() {
     this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
@@ -36,10 +36,10 @@ export class MapInputComponent implements AfterViewInit {
     lat: 0,
     lng: 0
   }
-  zoom = 13
+  zoom = 15
   center: google.maps.LatLngLiteral = {
-    lat: -32.414964,
-    lng: -63.242764
+    lat: -32.938055555556,
+    lng: -63.241666666667
   }
 
   markerOptions!: google.maps.marker.AdvancedMarkerElementOptions // No inicializado
