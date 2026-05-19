@@ -50,7 +50,6 @@ export class SidenavComponent implements OnInit {
       this.menuItems.set([
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
         { icon: 'history', label: 'Historial entregas', route: '/historial-responsable' },
-        { icon: 'info', label: 'Contacto', route: '/responsable' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'neighbor') {
@@ -70,7 +69,6 @@ export class SidenavComponent implements OnInit {
         { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-local' },
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/cupones-ofrecidos' },
         { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
-        { icon: 'info', label: 'Contacto', route: '/' },
         { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/usar-cupon' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
