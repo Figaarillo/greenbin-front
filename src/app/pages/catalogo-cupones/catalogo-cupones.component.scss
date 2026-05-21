@@ -15,6 +15,20 @@
     margin: auto;
     width: 100%;
 }
+.filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-title {
+    flex: 2 1 200px;
+}
+
+.filter-discount {
+    flex: 1 1 120px;
+}
+
 .price{
     background-color: #176100 !important;
     border: 2px solid #176100 !important;
