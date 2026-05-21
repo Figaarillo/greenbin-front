@@ -1,0 +1,61 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a2e;
+}
+
+.card {
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 12px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 28px;
+  color: #e0e0e0;
+}
+
+.lock-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #4caf50;
+  margin-bottom: 8px;
+}
+
+.card-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #888;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.input-icon {
+  margin-right: 8px;
+  color: #888;
+}
+
+.submit-btn {
+  background-color: #4caf50;
+  color: #fff;
+  margin-top: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}

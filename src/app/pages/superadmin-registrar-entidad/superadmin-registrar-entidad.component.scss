@@ -1,0 +1,162 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Page header ─────────────────────────────── */
+.page-header {
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 20px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #57ab5a;
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 150ms;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    color: #66bb6a;
+  }
+}
+
+.page-title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #8b949e;
+}
+
+/* ── Form card ───────────────────────────────── */
+.form-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 680px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 20px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+/* Override Angular Material colors for dark theme */
+::ng-deep .form-card {
+  .mat-mdc-form-field-subscript-wrapper {
+    background: transparent;
+  }
+
+  .mdc-text-field--outlined .mdc-notched-outline__leading,
+  .mdc-text-field--outlined .mdc-notched-outline__notch,
+  .mdc-text-field--outlined .mdc-notched-outline__trailing {
+    border-color: #30363d !important;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__trailing {
+    border-color: #4caf50 !important;
+  }
+
+  .mdc-text-field--focused .mdc-notched-outline__leading,
+  .mdc-text-field--focused .mdc-notched-outline__notch,
+  .mdc-text-field--focused .mdc-notched-outline__trailing {
+    border-color: #4caf50 !important;
+  }
+
+  input, textarea {
+    color: #e6edf3 !important;
+    caret-color: #4caf50;
+  }
+
+  .mat-mdc-select-value-text {
+    color: #e6edf3;
+  }
+
+  .mat-mdc-form-field-label,
+  .mdc-floating-label {
+    color: #8b949e;
+  }
+}
+
+/* ── Actions ─────────────────────────────────── */
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #21262d;
+}
+
+.btn-cancel {
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #8b949e;
+  text-decoration: none;
+  border: 1px solid #30363d;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 150ms, color 150ms;
+
+  &:hover {
+    color: #e6edf3;
+    border-color: #6e7681;
+  }
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px;
+  border-radius: 8px;
+  border: none;
+  background: #4caf50;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 150ms;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    background: #43a047;
+  }
+
+  &:disabled {
+    background: #2d4a2e;
+    color: #4a6b4c;
+    cursor: not-allowed;
+  }
+}
