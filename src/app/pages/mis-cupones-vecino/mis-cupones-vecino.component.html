@@ -28,8 +28,8 @@
                   <span class="px-2 estado" [ngClass]="{
                     'estado-adquirido': data.status === 'ADQUIRIDO',
                     'estado-usado': data.status === 'USADO',
-                    'estado-vencido': data.status === 'VENCIDO'
-                    }">{{ data.status }}</span>
+                    'estado-vencido': data.status === 'EXPIRADO'
+                    }">{{ data.status === 'EXPIRADO' ? 'VENCIDO' : data.status }}</span>
                 
                   
                 </mat-card-content>
