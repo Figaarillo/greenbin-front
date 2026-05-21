@@ -1,0 +1,67 @@
+<div class="overview">
+  <div class="page-header">
+    <h1 class="page-title">Resumen</h1>
+    <p class="page-subtitle">Bienvenido al panel de administración de GreenBin</p>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stats-grid">
+    <div class="stat-card stat-card--green">
+      <div class="stat-card__icon">
+        <mat-icon>business</mat-icon>
+      </div>
+      <div class="stat-card__body">
+        <span class="stat-card__value">{{ totalEntidades }}</span>
+        <span class="stat-card__label">Entidades registradas</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-card--teal">
+      <div class="stat-card__icon">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </div>
+      <div class="stat-card__body">
+        <span class="stat-card__value">Admin</span>
+        <span class="stat-card__label">Sesión activa</span>
+      </div>
+    </div>
+
+    <div class="stat-card stat-card--sage">
+      <div class="stat-card__icon">
+        <mat-icon>verified_user</mat-icon>
+      </div>
+      <div class="stat-card__body">
+        <span class="stat-card__value">Super</span>
+        <span class="stat-card__label">Nivel de acceso</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div class="section">
+    <h2 class="section-title">Acciones rápidas</h2>
+    <div class="actions-grid">
+      <a matRipple class="action-card" routerLink="/superadmin/dashboard/registrar-entidad">
+        <div class="action-card__icon action-card__icon--primary">
+          <mat-icon>add_business</mat-icon>
+        </div>
+        <div class="action-card__body">
+          <span class="action-card__title">Nueva entidad</span>
+          <span class="action-card__desc">Registrar una nueva entidad municipal</span>
+        </div>
+        <mat-icon class="action-card__arrow">arrow_forward_ios</mat-icon>
+      </a>
+
+      <a matRipple class="action-card" routerLink="/superadmin/dashboard/listar-entidades">
+        <div class="action-card__icon action-card__icon--secondary">
+          <mat-icon>format_list_bulleted</mat-icon>
+        </div>
+        <div class="action-card__body">
+          <span class="action-card__title">Ver entidades</span>
+          <span class="action-card__desc">Consultar y gestionar entidades existentes</span>
+        </div>
+        <mat-icon class="action-card__arrow">arrow_forward_ios</mat-icon>
+      </a>
+    </div>
+  </div>
+</div>

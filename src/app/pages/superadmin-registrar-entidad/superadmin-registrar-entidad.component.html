@@ -1,0 +1,84 @@
+<div class="view">
+  <div class="page-header">
+    <a class="back-link" routerLink="/superadmin/dashboard/listar-entidades">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Volver al listado</span>
+    </a>
+    <h1 class="page-title">Nueva entidad</h1>
+    <p class="page-subtitle">Completá los datos para registrar una nueva entidad municipal</p>
+  </div>
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Razón social</mat-label>
+          <input matInput formControlName="name" placeholder="Ej: Municipio de Rosario" />
+          @if (form.get('name')!.hasError('required') && form.get('name')!.touched) {
+            <mat-error>Ingresá un nombre</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="entidad@ejemplo.com" />
+          @if (form.get('email')!.hasError('required') && form.get('email')!.touched) {
+            <mat-error>Ingresá un email</mat-error>
+          }
+          @if (form.get('email')!.hasError('email') && form.get('email')!.touched) {
+            <mat-error>El email no es válido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Provincia</mat-label>
+          <mat-select formControlName="province">
+            @for (prov of provincesList; track prov) {
+              <mat-option [value]="prov">{{ prov }}</mat-option>
+            }
+          </mat-select>
+          @if (form.get('province')!.hasError('required') && form.get('province')!.touched) {
+            <mat-error>Seleccioná una provincia</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Localidad</mat-label>
+          <input matInput formControlName="city" placeholder="Ej: Rosario" />
+          @if (form.get('city')!.hasError('required') && form.get('city')!.touched) {
+            <mat-error>Ingresá una localidad</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description" rows="3" placeholder="Descripción opcional de la entidad"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="field-full">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" />
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (form.get('password')!.hasError('required') && form.get('password')!.touched) {
+            <mat-error>Ingresá una contraseña</mat-error>
+          }
+          @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid && form.get('password')!.touched) {
+            <mat-error>Mínimo 8 caracteres, 1 mayúscula y 1 caracter especial</mat-error>
+          }
+        </mat-form-field>
+
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/superadmin/dashboard/listar-entidades" class="btn-cancel">Cancelar</a>
+        <button type="submit" class="btn-submit" [disabled]="form.invalid">
+          <mat-icon>add_business</mat-icon>
+          Crear entidad
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

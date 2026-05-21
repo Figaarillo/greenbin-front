@@ -1,5 +1,12 @@
 import { Routes } from '@angular/router'
-import { authGuardGuard, entityGuard, isLogged, localGuard, vecinoGuard } from './guard/auth-guard.guard'
+import {
+  authGuardGuard,
+  entityGuard,
+  isLogged,
+  localGuard,
+  superadminGuard,
+  vecinoGuard
+} from './guard/auth-guard.guard'
 import { response } from 'express'
 
 export const routes: Routes = [
@@ -227,5 +234,37 @@ export const routes: Routes = [
   {
     path: 'reset-password',
     loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: 'superadmin/login',
+    loadComponent: () =>
+      import('./pages/login-superadmin/login-superadmin.component').then(m => m.LoginSuperadminComponent)
+  },
+  {
+    path: 'superadmin/dashboard',
+    canActivate: [superadminGuard],
+    loadComponent: () =>
+      import('./pages/superadmin-dashboard/superadmin-dashboard.component').then(m => m.SuperadminDashboardComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/superadmin-overview/superadmin-overview.component').then(m => m.SuperadminOverviewComponent)
+      },
+      {
+        path: 'registrar-entidad',
+        loadComponent: () =>
+          import('./pages/superadmin-registrar-entidad/superadmin-registrar-entidad.component').then(
+            m => m.SuperadminRegistrarEntidadComponent
+          )
+      },
+      {
+        path: 'listar-entidades',
+        loadComponent: () =>
+          import('./pages/superadmin-listar-entidades/superadmin-listar-entidades.component').then(
+            m => m.SuperadminListarEntidadesComponent
+          )
+      }
+    ]
   }
 ]

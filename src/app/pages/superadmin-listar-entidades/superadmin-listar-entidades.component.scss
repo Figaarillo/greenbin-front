@@ -1,0 +1,257 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Page header ─────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 20px;
+}
+
+.page-title {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #8b949e;
+}
+
+.btn-new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  background: #4caf50;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: #43a047;
+  }
+}
+
+/* ── Search ──────────────────────────────────── */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 0 14px;
+  transition: border-color 150ms;
+
+  &:focus-within {
+    border-color: #4caf50;
+  }
+}
+
+.search-icon {
+  color: #6e7681;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #e6edf3;
+  font-size: 0.9rem;
+  padding: 12px 0;
+  outline: none;
+
+  &::placeholder {
+    color: #6e7681;
+  }
+}
+
+.clear-search {
+  display: flex;
+  border: none;
+  background: transparent;
+  color: #6e7681;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    color: #e6edf3;
+  }
+}
+
+/* ── Table ───────────────────────────────────── */
+.table-wrap {
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+
+  thead tr {
+    background: #161b22;
+    border-bottom: 1px solid #21262d;
+  }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8b949e;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #21262d;
+    background: #0d1117;
+    transition: background 100ms;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #161b22;
+    }
+  }
+
+  td {
+    padding: 14px 16px;
+    color: #e6edf3;
+    vertical-align: middle;
+  }
+}
+
+.cell-muted {
+  color: #8b949e !important;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Entity name cell ────────────────────────── */
+.entity-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.entity-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2e7d32, #57ab5a);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Actions column ──────────────────────────── */
+.col-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background 150ms, color 150ms;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.action-btn--edit {
+  color: #57ab5a;
+
+  &:hover {
+    background: rgba(76, 175, 80, 0.12);
+  }
+}
+
+.action-btn--delete {
+  color: #8b949e;
+  margin-left: 4px;
+
+  &:hover {
+    background: rgba(248, 81, 73, 0.12);
+    color: #f85149;
+  }
+}
+
+/* ── Empty state ─────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #6e7681;
+  gap: 12px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  opacity: 0.4;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
