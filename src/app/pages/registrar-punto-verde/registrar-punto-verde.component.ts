@@ -33,6 +33,8 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 export class RegistrarPuntoVerdeComponent {
   form: FormGroup
   @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
+  entidadCenter: google.maps.LatLngLiteral | null = null
+  entidadCity: string = ', Argentina'
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +49,19 @@ export class RegistrarPuntoVerdeComponent {
       longitude: ['', Validators.required],
       description: ['']
     })
+
+    const info = localStorage.getItem('entidadInfo') || ''
+    const entidadInfo = JSON.parse(info)
+    if (entidadInfo?.coordinates) {
+      this.entidadCenter = {
+        lat: entidadInfo.coordinates.latitude,
+        lng: entidadInfo.coordinates.longitude
+      }
+    }
+    console.log(entidadInfo)
+    if (entidadInfo?.city) {
+      this.entidadCity = `, ${entidadInfo.city}, Argentina`
+    }
   }
 
   coordsByAdress() {
