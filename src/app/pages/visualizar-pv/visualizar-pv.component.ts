@@ -39,6 +39,12 @@ export class VisualizarPvComponent implements OnInit {
 
   ngOnInit() {
     const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    if (entidadInfo?.coordinates) {
+      this.options = {
+        ...this.options,
+        center: { lat: entidadInfo.coordinates.latitude, lng: entidadInfo.coordinates.longitude }
+      }
+    }
     this.pvServices.list(entidadInfo.id).subscribe((res: any) => {
       this.puntosVerdes = res
 
