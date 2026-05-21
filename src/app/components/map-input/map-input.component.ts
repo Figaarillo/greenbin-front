@@ -20,12 +20,12 @@ import { GoogleMapsModule } from '@angular/google-maps'
 })
 export class MapInputComponent implements AfterViewInit {
   @Input() type: string = 'punto-verde'
+  @Input() initialCenter: google.maps.LatLngLiteral | null = null
+  @Input() city: string = ', Argentina'
   @Output() coordinates = new EventEmitter<google.maps.LatLngLiteral>()
 
   @ViewChild('inputMapContainer', { static: true }) contenedorPadre!: ElementRef
   anchoVariable: number = 0
-
-  city: string = ',Etruria, Argentina'
 
   actualizarAncho() {
     this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
@@ -45,6 +45,10 @@ export class MapInputComponent implements AfterViewInit {
   markerOptions!: google.maps.marker.AdvancedMarkerElementOptions // No inicializado
 
   ngAfterViewInit() {
+    if (this.initialCenter) {
+      this.center = this.initialCenter
+      this.position = this.initialCenter
+    }
     google.maps
       .importLibrary('marker')
       .then(() => {
