@@ -73,8 +73,9 @@ export class LocalAdheridoService {
     return this.http.post<any>(this.urlCoupon, coupon)
   }
 
-  listCupon(): Observable<any> {
-    return this.http.get<any>(this.urlCoupon)
+  listCupon(entityId?: string): Observable<any> {
+    const url = this.urlCoupon + '/available' + (entityId ? `?entityId=${entityId}` : '')
+    return this.http.get<any>(url)
   }
 
   update(object: any, id: string): Observable<any> {

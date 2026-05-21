@@ -31,14 +31,20 @@ export class VisualizarPvComponent implements OnInit {
   pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
     mapId: 'DEMO_MAP_ID',
-    center: { lat: -32.40751, lng: -63.24016 },
-    zoom: 14
+    center: { lat: -32.938055555556, lng: -63.241666666667 },
+    zoom: 15
   }
 
   puntosVerdes: any[] = []
 
   ngOnInit() {
     const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    if (entidadInfo?.coordinates) {
+      this.options = {
+        ...this.options,
+        center: { lat: entidadInfo.coordinates.latitude, lng: entidadInfo.coordinates.longitude }
+      }
+    }
     this.pvServices.list(entidadInfo.id).subscribe((res: any) => {
       this.puntosVerdes = res
 

@@ -3,10 +3,10 @@
     <div class="sidebar-brand">
         <div class="brand-flex">
             <img src="assets/recycle.png" width="30px">
-            <div class="brand-icons">
+            <!-- <div class="brand-icons">
                 <span class="las la-bell"></span>
                 <span class="las la-user-circle"></span>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="sidebar-main">
@@ -26,12 +26,12 @@
             <li><a [routerLink]="['/registrar-responsable']"> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar Responsable</a> </li>
             <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar Responsables</a></li>
             <li><a [routerLink]="['/registrar-punto-verde']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar Puntos Verdes</a> </li>
-            <li><a [routerLink]="['/consultar-puntos-verdes']"> <span class="las la-map-marker" style="font-size: 1.5rem;"></span>Listar Puntos verdes</a></li>
+            <li><a [routerLink]="['/consultar-puntos-verdes']"> <span class="las la-map-marker" style="font-size: 1.5rem;"></span>Listar Puntos Verdes</a></li>
             <li><a [routerLink]="['/consultar-vecinos']"> <span class="las la-users" style="font-size: 1.5rem;"></span>Listar Vecinos</a></li>
             <li><a [routerLink]="['/consultar-locales']"> <span class="las la-store" style="font-size: 1.5rem;"></span>Listar Locales</a></li>
-            <li><a [routerLink]="['/registrar-categoria']"> <span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorias</a></li>
-            <li><a [routerLink]="['/consultar-categorias']"> <span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorias</a></li>
-            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesion</a> </li>
+            <li><a [routerLink]="['/registrar-categoria']"> <span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorías</a></li>
+            <li><a [routerLink]="['/consultar-categorias']"> <span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorías</a></li>
+            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesión</a> </li>
         </ul>
     </div>
 </div>
@@ -46,7 +46,7 @@
     <main>
         <div class="page-header">
             <div>
-                <h1>Panel de administracion</h1>
+                <h1>Panel de administración</h1>
             </div>
         </div>
 
@@ -64,13 +64,13 @@
             <div class="summary-card">
                 <span class="las la-exchange-alt" style="font-size: 2rem; color: #2196f3;"></span>
                 <h2>{{ totalTransactions }}</h2>
-                <small>Transacciones</small>
+                <small>Total histórico de entregas de residuos</small>
             </div>
         </div>
 
         <div class="charts-grid">
             <div class="chart-card">
-                <h3>Residuos por categoria</h3>
+                <h3>Distribución histórica de residuos por categoría</h3>
                 <div class="chart-container pie-container">
                     <canvas baseChart
                         [data]="pieData"
@@ -93,7 +93,7 @@
 
             <div class="chart-card full-width">
                 <div class="chart-header">
-                    <h3>Residuos reciclados por periodo</h3>
+                    <h3>Residuos reciclados por período</h3>
                     <div class="date-filters">
                         <label>
                             Desde

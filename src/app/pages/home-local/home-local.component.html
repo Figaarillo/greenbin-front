@@ -1,7 +1,6 @@
 <div class="h-100 w-100" style="background-color: #e9ffd1;">
- 
-    
-    <mat-drawer-container class="h-100 w-100"  autosize>
+
+    <mat-drawer-container class="h-100 w-100" autosize>
 
         <mat-toolbar>
             <button mat-icon-button (click)="menu.toggle()">
@@ -10,13 +9,15 @@
             <span class="spacer"></span>
             <span><h1 style="color: #fff; font-weight: 900;">GreenBin</h1></span>
             <span class="spacer"></span>
-            <button mat-icon-button (click)="buzon.toggle()">
+            <!-- <button mat-icon-button (click)="buzon.toggle()">
               <mat-icon>notifications</mat-icon>
-            </button>
+            </button> -->
         </mat-toolbar>
+
         <div class="header">
             <h1 style="color: #fff; font-weight: 900;">Hola, {{name}} 🎉</h1>
         </div>
+
         <mat-drawer #buzon mode="over" [position]="'end'">
             <p>Buzón</p>
         </mat-drawer>
@@ -26,35 +27,99 @@
 
         <div class="body">
             <mat-list>
-                <div mat-subheader>Historial de cupones</div>
-                @if (historial.length === 0) {
-                <mat-list-item>
-                    <div matListItemTitle>No hay transacciones aún</div>
-                </mat-list-item>
+                <div mat-subheader>Canjes realizados</div>
+
+                @if (transactions.length === 0) {
+                    <mat-list-item>
+                        <div matListItemTitle>No hay canjes aún</div>
+                    </mat-list-item>
                 }
-                @for (item of historialVisible; track item) {
-                <mat-list-item>
-                    <div class="listIcon" matListItemAvatar>
-                        <mat-icon>local_activity</mat-icon>
-                    </div>
-                    <div matListItemTitle>{{ item.puntos }} pts - {{ item.estado }}</div>
-                    <div matListItemLine>{{ item.descripcion }}</div>
-                    <div matListItemLine>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</div>
-                </mat-list-item>
-                <mat-divider></mat-divider>
+
+                @for (item of historialVisible; track item; let i = $index) {
+                    <mat-list-item class="transaction-item" (click)="toggleItem(i)">
+                        <div class="listIcon" matListItemAvatar>
+                            <mat-icon>local_activity</mat-icon>
+                        </div>
+                        <div matListItemTitle class="item-title">
+                            <span>{{ item.coupon?.title ?? 'Cupón' }}</span>
+                            <span class="status-badge" [style.background-color]="getStatusColor(item.status)">
+                                {{ item.status }}
+                            </span>
+                        </div>
+                        <div matListItemLine>
+                            {{ item.neighbor?.firstname }} {{ item.neighbor?.lastname }}
+                        </div>
+                        <div matListItemLine>
+                            {{ getFecha(item) | date:'dd/MM/yyyy HH:mm' }}
+                        </div>
+                        <div matListItemMeta>
+                            <mat-icon>{{ isExpanded(i) ? 'expand_less' : 'expand_more' }}</mat-icon>
+                        </div>
+                    </mat-list-item>
+
+                    @if (isExpanded(i)) {
+                        <div class="detail-card">
+                            <div class="detail-section">
+                                <p class="detail-label">Vecino</p>
+                                <p class="detail-value">{{ item.neighbor?.firstname }} {{ item.neighbor?.lastname }}</p>
+                                @if (item.neighbor?.email) {
+                                    <p class="detail-meta">{{ item.neighbor.email }}</p>
+                                }
+                                @if (item.neighbor?.dni) {
+                                    <p class="detail-meta">DNI: {{ item.neighbor.dni }}</p>
+                                }
+                                @if (item.neighbor?.points !== undefined) {
+                                    <p class="detail-meta">Puntos acumulados: {{ item.neighbor.points }}</p>
+                                }
+                            </div>
+                            <mat-divider></mat-divider>
+                            <div class="detail-section">
+                                <p class="detail-label">Cupón</p>
+                                <p class="detail-value">{{ item.coupon?.title }}</p>
+                                @if (item.coupon?.discount) {
+                                    <p class="detail-meta">Descuento: {{ item.coupon.discount }}%</p>
+                                }
+                                <p class="detail-meta">Costo: {{ item.costInPoints }} pts</p>
+                                <p class="detail-meta">Adquirido: {{ item.adquisitionDate | date:'dd/MM/yyyy' }}</p>
+                                @if (item.redeemDate) {
+                                    <p class="detail-meta">Utilizado: {{ item.redeemDate | date:'dd/MM/yyyy HH:mm' }}</p>
+                                }
+                                <p class="detail-meta">Vence: {{ item.expirationDate | date:'dd/MM/yyyy' }}</p>
+                            </div>
+                        </div>
+                    }
+
+                    <mat-divider></mat-divider>
                 }
-                @if (historial.length > LIMITE) {
-                <mat-list-item (click)="toggleHistorial()" style="cursor:pointer; text-align:center">
-                    <div matListItemTitle style="color: #4caf50">
-                        {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
-                    </div>
-                </mat-list-item>
+
+                @if (transactions.length > LIMITE) {
+                    <mat-list-item (click)="toggleHistorial()" style="cursor:pointer; text-align:center">
+                        <div matListItemTitle style="color: #4caf50">
+                            {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
+                        </div>
+                    </mat-list-item>
                 }
             </mat-list>
         </div>
-    
+
+        <div class="menu-footer">
+            <div>
+                <button mat-mini-fab [routerLink]="['/cupones-ofrecidos']">
+                    <mat-icon>local_activity</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button mat-fab [routerLink]="['/usar-cupon']">
+                    <mat-icon>qr_code_scanner</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button mat-mini-fab [routerLink]="['/modificar-local']">
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+            </div>
+        </div>
+
     </mat-drawer-container>
 
 </div>
-
-

@@ -73,7 +73,7 @@
                         <mat-hint><a [routerLink]="'/forgot-password'">Olvidé mi Contraseña</a></mat-hint>
                     </mat-form-field>
         
-                    <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox>
+                    <!-- <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox> -->
 
                     <div class="d-flex justify-content-center my-3">
                         <re-captcha [siteKey]="recaptchaSiteKey" (resolved)="onCaptchaResolved($event)"></re-captcha>

@@ -11,7 +11,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { ModalCuponComponent } from '../../components/modal-cupon/modal-cupon.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { VecinoService } from '../../services/vecino/vecino.service'
 import { Coupon } from '../../services/interfaces/coupon'
+import { forkJoin } from 'rxjs'
 
 @Component({
   selector: 'app-catalogo-cupones',
@@ -36,6 +38,7 @@ export class CatalogoCuponesComponent {
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   puntos = 0
   items: Coupon[] = []
+  redeemedCouponIds: Set<string> = new Set()
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value
@@ -44,25 +47,46 @@ export class CatalogoCuponesComponent {
 
   constructor(
     private service: LocalAdheridoService,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private vecinoService: VecinoService
   ) {
     this.puntos = Number(this.sesionService.getPoints())
     this.getItems()
   }
 
   getItems() {
-    this.service.listCupon().subscribe(obj => {
-      this.items = <Coupon[]>obj.data
-      this.dataSource = new MatTableDataSource(this.items.filter(c => c.isAvailable))
-    })
+    const usuarioInfo = localStorage.getItem('usuarioInfo')
+    const parsed = usuarioInfo ? JSON.parse(usuarioInfo) : null
+    const entityId = parsed?.entity?.id
+    const neighborId = this.sesionService.getUserId()
+
+    const coupons$ = this.service.listCupon(entityId)
+    const myTransactions$ = neighborId ? this.vecinoService.getMyTransactions(neighborId) : null
+
+    if (myTransactions$) {
+      forkJoin({ coupons: coupons$, transactions: myTransactions$ }).subscribe(({ coupons, transactions }) => {
+        this.redeemedCouponIds = new Set(
+          (transactions.data ?? [])
+            .filter((t: any) => t.status === 'ADQUIRIDO' || t.status === 'UTILIZADO')
+            .map((t: any) => t.coupon?.id ?? t.coupon)
+        )
+        this.items = (<Coupon[]>coupons.data).filter(c => !this.redeemedCouponIds.has((c as any).id))
+        this.dataSource = new MatTableDataSource(this.items)
+      })
+    } else {
+      coupons$.subscribe(obj => {
+        this.items = <Coupon[]>obj.data
+        this.dataSource = new MatTableDataSource(this.items)
+      })
+    }
   }
 
   abrirModal(cupon: Coupon) {
     this.modal?.openModal(cupon)
   }
 
-  // FIX: recibe los puntos actualizados desde el modal y los refleja en pantalla
   onCuponCanjeado(puntosRestantes: number) {
     this.puntos = puntosRestantes
+    this.getItems()
   }
 }

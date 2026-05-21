@@ -1,50 +1,114 @@
-.header{
+.header {
     display: grid;
     align-items: center;
     align-content: center;
     text-align: center;
     height: 45%;
-    //background-color: #00a884b3;
     background-color: #61c98e;
     border-radius: 0 0 10rem 10rem;
-    box-shadow: 0px 0px 40px #bebebe,
-             0px 0px 40px #ffffff;
+    box-shadow: 0px 0px 40px #bebebe, 0px 0px 40px #ffffff;
 }
-mat-toolbar{
+
+mat-toolbar {
     background-color: #ffffff00;
     position: absolute;
     top: 0;
     color: #fff;
 }
-.body{
-    padding-bottom: 80px;
+
+.body {
+    padding-bottom: 90px;
 }
-mat-list-item .listIcon{
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+/* Item de transacción */
+.transaction-item {
+    cursor: pointer;
+}
+
+.item-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.status-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Card de detalle expandible */
+.detail-card {
+    background-color: #f5f5f5;
+    border-left: 3px solid #4caf50;
+    margin: 0 16px 8px 72px;
+    border-radius: 0 8px 8px 0;
+    padding: 8px 12px;
+    animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.detail-section {
+    padding: 6px 0;
+}
+
+.detail-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #4caf50;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 2px 0;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #212121;
+    margin: 0 0 2px 0;
+}
+
+.detail-meta {
+    font-size: 0.8rem;
+    color: #616161;
+    margin: 1px 0;
+}
+
+mat-list-item .listIcon {
     background-color: rgb(41, 41, 41);
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.menu-footer{
+
+/* Fleje inferior */
+.menu-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 10%;
+    padding: 12px;
+    background-color: #4caf50;
+    z-index: 100;
+}
+
+.menu-footer button {
     background-color: #fafafa00;
-    padding: 0 10%;
-}
-
-.menu-footer button{
-    background-color: #fafafa00;
-}
-
-.spacer{
-    flex: 1 1 auto;
-}
-
-.media-scroller{
-    display: grid;
-    grid-auto-flow:column;
-    
 }
