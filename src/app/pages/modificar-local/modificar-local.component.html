@@ -1,53 +1,48 @@
-<app-navbar [title]="'Editar Perfil'" [route]="'/local'"></app-navbar>
-<div class="container mt-3">
-  @if (form) {
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <mat-form-field>
-      <mat-label>Nombre del local</mat-label>
-      <input matInput placeholder="Nombre" formControlName="name">
-      @if (form.get('name')!.hasError('required')) {
-        <mat-error>Ingrese un nombre</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Dirección</mat-label>
-      <input matInput placeholder="Dirección" formControlName="address">
-      @if (form.get('address')!.hasError('required')) {
-        <mat-error>Ingrese una dirección</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input type="email" matInput formControlName="email" placeholder="Ex. local@example.com">
-      @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
-        <mat-error>Ingrese un email válido</mat-error>
-      }
-      @if (form.get('email')!.hasError('required')) {
-        <mat-error>Ingrese un email</mat-error>
-      }
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Teléfono</mat-label>
-      <span matTextPrefix>+54 &nbsp;</span>
-      <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
-      @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
-        <mat-error>Ingrese un teléfono válido</mat-error>
-      }
-      @if (form.get('phoneNumber')!.hasError('required')) {
-        <mat-error>Ingrese un teléfono</mat-error>
-      }
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" class="w-100 mb-3" type="submit">Guardar cambios</button>
-
-    <button mat-raised-button color="warn" class="w-100" type="button" (click)="onDelete()">
-      <mat-icon>delete</mat-icon> Eliminar cuenta
-    </button>
-
-  </form>
-  }
+<div data-role="local">
+  <app-navbar [title]="'Editar Perfil'" [route]="'/local'"></app-navbar>
+  <div class="container mt-3">
+    @if (form) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Nombre del local</mat-label>
+        <input matInput placeholder="Nombre" formControlName="name">
+        @if (form.get('name')!.hasError('required')) {
+          <mat-error>Ingrese un nombre</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Dirección" formControlName="address">
+        @if (form.get('address')!.hasError('required')) {
+          <mat-error>Ingrese una dirección</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" placeholder="Ex. local@example.com">
+        @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
+          <mat-error>Ingrese un email válido</mat-error>
+        }
+        @if (form.get('email')!.hasError('required')) {
+          <mat-error>Ingrese un email</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Teléfono</mat-label>
+        <span matTextPrefix>+54 &nbsp;</span>
+        <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
+        @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
+          <mat-error>Ingrese un teléfono válido</mat-error>
+        }
+        @if (form.get('phoneNumber')!.hasError('required')) {
+          <mat-error>Ingrese un teléfono</mat-error>
+        }
+      </mat-form-field>
+      <button mat-raised-button class="btn-primary-custom mb-3" type="submit">Guardar cambios</button>
+      <button mat-raised-button class="btn-danger-custom" type="button" (click)="onDelete()">
+        <mat-icon>delete</mat-icon> Eliminar cuenta
+      </button>
+    </form>
+    }
+  </div>
 </div>

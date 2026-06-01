@@ -11,8 +11,19 @@
     }
 }
 
+.btn-primary-custom {
+    width: 100%;
+    border-radius: var(--r-pill) !important;
+    padding: 10px 20px !important;
+    background: var(--accent) !important;
+    color: #fff !important;
+    font-weight: 600;
+    box-shadow: 0 4px 14px var(--accent-soft);
+    border: none;
+}
+
 .error-msg {
-    color: red;
+    color: #e53935;
     font-size: 14px;
     margin-bottom: 8px;
 }
@@ -24,11 +35,11 @@
         display: flex;
         justify-content: space-between;
         padding: 8px 0;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid var(--line);
     }
 
     .precio-final {
-        color: #2e7d32;
+        color: var(--accent);
         font-size: 1.2rem;
     }
 }

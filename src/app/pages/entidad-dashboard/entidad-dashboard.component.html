@@ -1,122 +1,55 @@
-<input type="checkbox" id="sidebar-toggle">
-<div class="sidebar">
-    <div class="sidebar-brand">
-        <div class="brand-flex">
-            <img src="assets/recycle.png" width="30px">
-            <!-- <div class="brand-icons">
-                <span class="las la-bell"></span>
-                <span class="las la-user-circle"></span>
-            </div> -->
-        </div>
-    </div>
-    <div class="sidebar-main">
-        <div class="sidebar-user">
-            <img src="assets/admin.png"  width="100px" alt="">
-            <div>
-                <h3>{{name}}</h3>
-                <span>{{email}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="sidebar-menu">
-        <div class="menu-head">
-            <span>Dashboard</span>
-        </div>
-        <ul>
-            <li><a [routerLink]="['/registrar-responsable']"> <span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar Responsable</a> </li>
-            <li><a [routerLink]="['/listar-responsables']"> <span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar Responsables</a></li>
-            <li><a [routerLink]="['/registrar-punto-verde']"> <span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar Puntos Verdes</a> </li>
-            <li><a [routerLink]="['/consultar-puntos-verdes']"> <span class="las la-map-marker" style="font-size: 1.5rem;"></span>Listar Puntos Verdes</a></li>
-            <li><a [routerLink]="['/consultar-vecinos']"> <span class="las la-users" style="font-size: 1.5rem;"></span>Listar Vecinos</a></li>
-            <li><a [routerLink]="['/consultar-locales']"> <span class="las la-store" style="font-size: 1.5rem;"></span>Listar Locales</a></li>
-            <li><a [routerLink]="['/registrar-categoria']"> <span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorías</a></li>
-            <li><a [routerLink]="['/consultar-categorias']"> <span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorías</a></li>
-            <li><a href="" (click)="logOut()"> <span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesión</a> </li>
-        </ul>
-    </div>
+<div class="page-header">
+  <div>
+    <h1>Panel de administración</h1>
+  </div>
 </div>
-<div class="main-content">
-    <header>
-        <div class="menu-tog">
-            <label for="sidebar-toggle">
-                <span class="las la-bars"></span>
-            </label>
-        </div>
-    </header>
-    <main>
-        <div class="page-header">
-            <div>
-                <h1>Panel de administración</h1>
-            </div>
-        </div>
 
-        <div class="summary-cards">
-            <div class="summary-card">
-                <span class="las la-weight" style="font-size: 2rem; color: #4caf50;"></span>
-                <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
-                <small>Total reciclado</small>
-            </div>
-            <div class="summary-card">
-                <span class="las la-star" style="font-size: 2rem; color: #ff9800;"></span>
-                <h2>{{ totalPoints | number }}</h2>
-                <small>Puntos otorgados</small>
-            </div>
-            <div class="summary-card">
-                <span class="las la-exchange-alt" style="font-size: 2rem; color: #2196f3;"></span>
-                <h2>{{ totalTransactions }}</h2>
-                <small>Total histórico de entregas de residuos</small>
-            </div>
-        </div>
-
-        <div class="charts-grid">
-            <div class="chart-card">
-                <h3>Distribución histórica de residuos por categoría</h3>
-                <div class="chart-container pie-container">
-                    <canvas baseChart
-                        [data]="pieData"
-                        [options]="pieOptions"
-                        type="pie">
-                    </canvas>
-                </div>
-            </div>
-
-            <div class="chart-card">
-                <h3>Ranking puntos verdes (kg recolectados)</h3>
-                <div class="chart-container">
-                    <canvas baseChart
-                        [data]="rankingData"
-                        [options]="rankingOptions"
-                        type="bar">
-                    </canvas>
-                </div>
-            </div>
-
-            <div class="chart-card full-width">
-                <div class="chart-header">
-                    <h3>Residuos reciclados por período</h3>
-                    <div class="date-filters">
-                        <label>
-                            Desde
-                            <input type="date" [(ngModel)]="dateFrom">
-                        </label>
-                        <label>
-                            Hasta
-                            <input type="date" [(ngModel)]="dateTo">
-                        </label>
-                        <button class="filter-btn" (click)="filterByPeriod()">Filtrar</button>
-                    </div>
-                </div>
-                <div class="period-scroll-container">
-                    <div class="period-chart-inner" [style.width]="periodChartWidth">
-                        <canvas baseChart
-                            [data]="periodData"
-                            [options]="periodOptions"
-                            type="bar">
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+<div class="summary-cards">
+  <div class="summary-card">
+    <span class="las la-weight" style="font-size: 2rem; color: var(--accent);"></span>
+    <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
+    <small>Total reciclado</small>
+  </div>
+  <div class="summary-card">
+    <span class="las la-star" style="font-size: 2rem; color: #f59e0b;"></span>
+    <h2>{{ totalPoints | number }}</h2>
+    <small>Puntos otorgados</small>
+  </div>
+  <div class="summary-card">
+    <span class="las la-exchange-alt" style="font-size: 2rem; color: #3b82f6;"></span>
+    <h2>{{ totalTransactions }}</h2>
+    <small>Total histórico de entregas de residuos</small>
+  </div>
 </div>
-<label for="sidebar-toggle" class="body-label"></label>
+
+<div class="charts-grid">
+  <div class="chart-card">
+    <h3>Distribución histórica de residuos por categoría</h3>
+    <div class="chart-container pie-container">
+      <canvas baseChart [data]="pieData" [options]="pieOptions" type="pie"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h3>Ranking puntos verdes (kg recolectados)</h3>
+    <div class="chart-container">
+      <canvas baseChart [data]="rankingData" [options]="rankingOptions" type="bar"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card full-width">
+    <div class="chart-header">
+      <h3>Residuos reciclados por período</h3>
+      <div class="date-filters">
+        <label>Desde <input type="date" [(ngModel)]="dateFrom"></label>
+        <label>Hasta <input type="date" [(ngModel)]="dateTo"></label>
+        <button class="filter-btn" (click)="filterByPeriod()">Filtrar</button>
+      </div>
+    </div>
+    <div class="period-scroll-container">
+      <div class="period-chart-inner" [style.width]="periodChartWidth">
+        <canvas baseChart [data]="periodData" [options]="periodOptions" type="bar"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

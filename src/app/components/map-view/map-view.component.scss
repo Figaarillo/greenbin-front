@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.map-wrap {
+  width: 100%;
+  border-radius: var(--r-card, 18px);
+  overflow: hidden;
+  box-shadow: var(--sh-1);
+}
+
+::ng-deep google-map .map-container {
+  border-radius: inherit;
+}

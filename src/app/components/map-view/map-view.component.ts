@@ -13,6 +13,7 @@ import { LocalAdherido } from '../../services/interfaces/local-adherido'
 export class MapViewComponent implements AfterViewInit {
   @Input() puntosVerdes: PuntoVerde[] = []
   @Input() localesAdheridos: LocalAdherido[] = []
+  @Input() height: string | number = 220
 
   zoom = 13
 

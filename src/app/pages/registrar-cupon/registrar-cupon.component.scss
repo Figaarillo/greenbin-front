@@ -1,50 +1,26 @@
-form{
-    width: 100%;
-    padding: 30px 20%;
-}
-form mat-form-field{
-    width: 100%;
-    margin-bottom: 10px;
-}
-.container {
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-    padding-bottom: 10%;
-
-	.card {
-		width: 500px;
-
-		&__title {
-			justify-content: center;
-		}
-
-		.form {
-			margin-top: 1.5em;
-			display: flex;
-			flex-direction: column;
-		}
-	}
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
+form mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
 
-.mat-button-toggle.mat-button-toggle-appearance-standard:hover { 
-    border-radius: 500% !important; }
+.btn-submit {
+  width: 100%;
+  border-radius: var(--r-pill) !important;
+  padding: 10px 20px !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px var(--accent-soft);
+}
+
 @media (max-width: 500px) {
-    form{
-        padding: 30px 5%;
-    }
-}
-
-.rounded-button {
-    width: 100%;
-    border-radius: 25px;
-    height: 20%;
-    padding: 10px 20px; 
-    background-color: #ffffff;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
-    font-weight: normal;
-    color: black;
+  form {
+    padding: 0 5%;
   }
-  
+}
