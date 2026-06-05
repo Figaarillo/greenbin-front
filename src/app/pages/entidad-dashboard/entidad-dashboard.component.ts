@@ -86,14 +86,16 @@ export class EntidadDashboardComponent implements OnInit {
   }
 
   loadAllStats(): void {
-    this.loadTotalRecycled()
-    this.loadRanking()
-    this.loadByCategory()
-    this.loadByPeriod()
+    const from = this.dateFrom || undefined
+    const to = this.dateTo || undefined
+    this.loadTotalRecycled(from, to)
+    this.loadRanking(from, to)
+    this.loadByCategory(from, to)
+    this.loadByPeriod(from, to)
   }
 
-  loadTotalRecycled(): void {
-    this.statsServ.getTotalRecycled(this.entidadId).subscribe((res: any) => {
+  loadTotalRecycled(from?: string, to?: string): void {
+    this.statsServ.getTotalRecycled(this.entidadId, from, to).subscribe((res: any) => {
       const data: TotalRecycled = res.data
       this.totalWeight = data.totalWeight
       this.totalPoints = data.totalPoints
@@ -101,8 +103,8 @@ export class EntidadDashboardComponent implements OnInit {
     })
   }
 
-  loadRanking(): void {
-    this.statsServ.getGreenPointsRanking(this.entidadId).subscribe((res: any) => {
+  loadRanking(from?: string, to?: string): void {
+    this.statsServ.getGreenPointsRanking(this.entidadId, from, to).subscribe((res: any) => {
       const data: GreenPointRanking[] = res.data
       this.rankingData = {
         labels: data.map(d => d.name),
@@ -117,8 +119,8 @@ export class EntidadDashboardComponent implements OnInit {
     })
   }
 
-  loadByCategory(): void {
-    this.statsServ.getWasteByCategory(this.entidadId).subscribe((res: any) => {
+  loadByCategory(from?: string, to?: string): void {
+    this.statsServ.getWasteByCategory(this.entidadId, from, to).subscribe((res: any) => {
       const data: WasteByCategory[] = res.data
       this.pieData = {
         labels: data.map(d => d.categoryName),
@@ -132,33 +134,37 @@ export class EntidadDashboardComponent implements OnInit {
     })
   }
 
-  loadByPeriod(): void {
-    this.statsServ
-      .getWasteByPeriod(this.entidadId, 'month', this.dateFrom || undefined, this.dateTo || undefined)
-      .subscribe((res: any) => {
-        const data: WasteByPeriod[] = res.data
-        const monthCount = data.length
-        if (monthCount > 6) {
-          const widthPerMonth = 80
-          this.periodChartWidth = `${monthCount * widthPerMonth}px`
-        } else {
-          this.periodChartWidth = '100%'
-        }
-        this.periodData = {
-          labels: data.map(d => this.formatPeriod(d.period)),
-          datasets: [
-            {
-              data: data.map(d => d.totalWeight),
-              label: 'Kg reciclados',
-              backgroundColor: '#2196f3'
-            }
-          ]
-        }
-      })
+  loadByPeriod(from?: string, to?: string): void {
+    this.statsServ.getWasteByPeriod(this.entidadId, 'month', from, to).subscribe((res: any) => {
+      const data: WasteByPeriod[] = res.data
+      const monthCount = data.length
+      if (monthCount > 6) {
+        const widthPerMonth = 80
+        this.periodChartWidth = `${monthCount * widthPerMonth}px`
+      } else {
+        this.periodChartWidth = '100%'
+      }
+      this.periodData = {
+        labels: data.map(d => this.formatPeriod(d.period)),
+        datasets: [
+          {
+            data: data.map(d => d.totalWeight),
+            label: 'Kg reciclados',
+            backgroundColor: '#2196f3'
+          }
+        ]
+      }
+    })
   }
 
-  filterByPeriod(): void {
-    this.loadByPeriod()
+  applyGlobalFilter(): void {
+    this.loadAllStats()
+  }
+
+  clearGlobalFilter(): void {
+    this.dateFrom = ''
+    this.dateTo = ''
+    this.loadAllStats()
   }
 
   formatPeriod(period: string): string {

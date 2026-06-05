@@ -137,6 +137,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home-local/home-local.component').then(m => m.HomeLocalComponent)
   },
   {
+    path: 'estadisticas-local',
+    canActivate: [isLogged, localGuard],
+    loadComponent: () =>
+      import('./pages/estadisticas-local/estadisticas-local.component').then(m => m.EstadisticasLocalComponent)
+  },
+  {
     path: 'registrar-cupon',
     canActivate: [isLogged, localGuard],
     loadComponent: () =>

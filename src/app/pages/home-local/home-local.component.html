@@ -104,17 +104,22 @@
 
         <div class="menu-footer">
             <div>
-                <button mat-mini-fab [routerLink]="['/cupones-ofrecidos']">
+                <button mat-mini-fab [routerLink]="['/cupones-ofrecidos']" matTooltip="Mis cupones">
                     <mat-icon>local_activity</mat-icon>
                 </button>
             </div>
             <div>
-                <button mat-fab [routerLink]="['/usar-cupon']">
+                <button mat-mini-fab [routerLink]="['/estadisticas-local']" matTooltip="Estadísticas">
+                    <mat-icon>bar_chart</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button mat-fab [routerLink]="['/usar-cupon']" matTooltip="Usar cupón">
                     <mat-icon>qr_code_scanner</mat-icon>
                 </button>
             </div>
             <div>
-                <button mat-mini-fab [routerLink]="['/modificar-local']">
+                <button mat-mini-fab [routerLink]="['/modificar-local']" matTooltip="Mi perfil">
                     <mat-icon>account_circle</mat-icon>
                 </button>
             </div>

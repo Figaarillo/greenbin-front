@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
@@ -11,16 +12,20 @@ Chart.register(...registerables)
 @Component({
   selector: 'app-historial-responsable',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, NgChartsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule],
   templateUrl: './historial-responsable.component.html',
   styleUrl: './historial-responsable.component.scss'
 })
 export class HistorialResponsableComponent implements OnInit {
+  allTransactions: any[] = []
   transactions: any[] = []
 
   totalWeight = 0
   totalPoints = 0
   totalTransactions = 0
+
+  dateFrom = ''
+  dateTo = ''
 
   pieData: ChartData<'pie'> = { labels: [], datasets: [{ data: [] }] }
   pieOptions: ChartOptions<'pie'> = {
@@ -55,9 +60,8 @@ export class HistorialResponsableComponent implements OnInit {
     const responsibleId = this.sesionService.getUserId()
     this.wasteDeliveryService.listByResponsible(responsibleId).subscribe({
       next: (resp: any) => {
-        console.log('[historial-responsable] response:', resp)
-        this.transactions = resp.data ?? []
-        this.buildStats()
+        this.allTransactions = resp.data ?? []
+        this.applyFilterAndBuild()
       },
       error: (err: any) => {
         console.error('[historial-responsable] error:', err)
@@ -65,7 +69,33 @@ export class HistorialResponsableComponent implements OnInit {
     })
   }
 
+  applyGlobalFilter(): void {
+    this.applyFilterAndBuild()
+  }
+
+  clearGlobalFilter(): void {
+    this.dateFrom = ''
+    this.dateTo = ''
+    this.applyFilterAndBuild()
+  }
+
+  private applyFilterAndBuild(): void {
+    const from = this.dateFrom ? new Date(this.dateFrom).getTime() : null
+    const to = this.dateTo ? new Date(this.dateTo + 'T23:59:59').getTime() : null
+    this.transactions = this.allTransactions.filter(tx => {
+      const ts = new Date(tx.date).getTime()
+      if (from != null && ts < from) return false
+      if (to != null && ts > to) return false
+      return true
+    })
+    this.buildStats()
+  }
+
   buildStats(): void {
+    this.totalWeight = 0
+    this.totalPoints = 0
+    this.totalTransactions = 0
+
     const categoryMap = new Map<string, number>()
 
     for (const tx of this.transactions) {

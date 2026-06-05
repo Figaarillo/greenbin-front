@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { RouterModule } from '@angular/router'
 import { MatCardModule } from '@angular/material/card'
+import { MatTooltipModule } from '@angular/material/tooltip'
 import { CommonModule, DatePipe } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 
@@ -24,6 +25,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
     SidenavComponent,
     RouterModule,
     MatCardModule,
+    MatTooltipModule,
     CommonModule,
     DatePipe
   ],

@@ -16,8 +16,11 @@ export class StatisticsService {
     return this.http.get(`${this.url}/entity/${entityId}/total-recycled`, { params })
   }
 
-  getGreenPointsRanking(entityId: string): Observable<any> {
-    return this.http.get(`${this.url}/entity/${entityId}/green-points-ranking`)
+  getGreenPointsRanking(entityId: string, from?: string, to?: string): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    return this.http.get(`${this.url}/entity/${entityId}/green-points-ranking`, { params })
   }
 
   getWasteByCategory(entityId: string, from?: string, to?: string): Observable<any> {
@@ -34,7 +37,10 @@ export class StatisticsService {
     return this.http.get(`${this.url}/entity/${entityId}/waste-by-period`, { params })
   }
 
-  getNeighborDeliveries(neighborId: string): Observable<any> {
-    return this.http.get(`${this.url}/neighbor/${neighborId}/deliveries`)
+  getNeighborDeliveries(neighborId: string, from?: string, to?: string): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    return this.http.get(`${this.url}/neighbor/${neighborId}/deliveries`, { params })
   }
 }
