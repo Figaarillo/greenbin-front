@@ -1,97 +1,50 @@
-<div class="h-100 w-100">
+<div class="min-vh-100 w-100 d-flex flex-column">
    
     <div class="home-container d-flex align-items-center" style="margin-top: 10px;">
-      
-        @if(loginAs==0){
-            <mat-icon [routerLink]="''" style="font-size: 25px; margin-right: 5px; cursor: pointer;">home</mat-icon>
-            <span class="home-text" style="font-size: 18px; cursor: pointer;">Home</span>
-
-        }
+        <mat-icon [routerLink]="''" style="font-size: 25px; margin-right: 5px; cursor: pointer;">arrow_back</mat-icon>
+        <span class="home-text" style="font-size: 18px; cursor: pointer;">Volver</span>
     </div>
  
     <div class="body">
         <div class="body-header">
             <h1 class="m-4">¡Bienvenido!</h1>
-            @if(loginAs==0){
-                <h4>¿Cómo desea ingresar?</h4>
-            }
-            @else{
-                <h4>Iniciaras como <span><b>{{userRole[(loginAs-1)]}}</b></span></h4>
-            }
+            <h4>Inicia sesión con tu cuenta de <b>GreenBin</b></h4>
         </div>
         <div class="body-content">
-            @if(loginAs==0){
-                <div class="buttons-container">
-                    <div class="button-card button-card-neighbor" (click)="loginAs=1">
-                        <div class="button-card-image">
-                            <mat-icon>account_circle</mat-icon>
-                        </div>
-                        <div class="button-card-content">
-                            <p>Ingresar Como</p>
-                            <p>VECINO</p>
-                        </div>
-                    </div>
-                    <div class="button-card button-card-business" (click)="loginAs=2">
-                        <div class="button-card-image">
-                            <mat-icon>store</mat-icon>
-                        </div>
-                        <div class="button-card-content">
-                            <p>Ingresar Como</p>
-                            <p>LOCAL ADHERIDO</p>
-                        </div>
-                    </div>
-                    <div class="button-card button-card-responsible" (click)="loginAs=3">
-                        <div class="button-card-image">
-                            <mat-icon>recycling</mat-icon>
-                        </div>
-                        <div class="button-card-content">
-                            <p>Ingresar Como</p>
-                            <p>RESPONSABLE</p>
-                        </div>
-                    </div>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+                <mat-form-field class="w-100">
+                    <mat-label>Usuario o Email</mat-label>
+                    <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
+                    <input type="text" matInput placeholder="juanperez@ejemplo.com" formControlName="username">
+                </mat-form-field>
+    
+                <mat-form-field class="w-100 mb-3">
+                    <mat-label>Contraseña</mat-label>
+                    <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password">
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-hint><a [routerLink]="'/forgot-password'">Olvidé mi Contraseña</a></mat-hint>
+                </mat-form-field>
+    
+                <div class="d-flex justify-content-center my-3">
+                    <re-captcha [siteKey]="recaptchaSiteKey" (resolved)="onCaptchaResolved($event)"></re-captcha>
                 </div>
-            }
-            @else{
-                <button mat-icon-button class="back-button" (click)="loginAs=0">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-                <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        
-                    <mat-form-field class="w-100">
-                        <mat-label>Usuario</mat-label>
-                        <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
-                        <input type="text" matInput placeholder="Juan Perez" formControlName="username">
-                    </mat-form-field>
-        
-                    <mat-form-field class="w-100 mb-3">
-                        <mat-label>Contraseña</mat-label>
-                        <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
-                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password">
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </button>
-                        <mat-hint><a [routerLink]="'/forgot-password'">Olvidé mi Contraseña</a></mat-hint>
-                    </mat-form-field>
-        
-                    <!-- <mat-checkbox [color]="'primary'">Mantener sesión iniciada!</mat-checkbox> -->
 
-                    <div class="d-flex justify-content-center my-3">
-                        <re-captcha [siteKey]="recaptchaSiteKey" (resolved)="onCaptchaResolved($event)"></re-captcha>
-                    </div>
-
-                    <p class="p-4">
-                        <button mat-raised-button class="w-100" type="submit" [disabled]="form.invalid || !recaptchaToken">Ingresar</button>
-                    </p>
-        
-                </form>
-            }
+                <p class="p-4">
+                    <button mat-raised-button class="w-100" color="primary" type="submit" [disabled]="form.invalid || !recaptchaToken">Ingresar</button>
+                </p>
+            </form>
         </div>
     </div>
-    <div class="footer" [ngStyle]="(loginAs==1 || loginAs==2) ? {'cursor':'pointer'} : {}" [routerLink]="loginAs==1 ? ['/registrar-vecino'] : loginAs==2 ? ['/registrar-local'] : []">
-        @if(loginAs==1 || loginAs==2){
-            <p class="create-user">No tengo un Usuario</p>
-        }@else{
-            <p><b>GreenBin</b></p>
-        }
+    <div class="footer d-flex flex-column gap-2 p-3">
+        <p class="m-0" style="font-size: 0.9rem; color: #888;">¿No tienes una cuenta?</p>
+        <div class="d-flex gap-3">
+            <a [routerLink]="['/registrar-vecino']" class="text-decoration-none" style="color: #61c98e;">Registrarme como Vecino</a>
+            <span>|</span>
+            <a [routerLink]="['/registrar-local']" class="text-decoration-none" style="color: #61c98e;">Registrar mi Local</a>
+        </div>
     </div>
 </div>

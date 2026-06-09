@@ -1,6 +1,6 @@
 .body{
     width: 100%;
-    height: 85vh;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,12 +17,12 @@
     text-align: -webkit-center;
 }
 .body-content{
-    height: 65%;
     text-align: -webkit-center;
 }
 .footer{
     width: 100%;
     height: 15vh;
+    flex-shrink: 0;
     border-radius: 80% 80% 0 0;
     background-color: #fff;
     display: flex;
