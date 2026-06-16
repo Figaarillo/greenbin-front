@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
@@ -12,7 +13,7 @@ Chart.register(...registerables)
 @Component({
   selector: 'app-mis-reciclados',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, NgChartsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule],
   templateUrl: './mis-reciclados.component.html',
   styleUrl: './mis-reciclados.component.scss'
 })
@@ -23,6 +24,9 @@ export class MisRecicladosComponent implements OnInit {
   totalWeight = 0
   totalPoints = 0
   totalTransactions = 0
+
+  dateFrom = ''
+  dateTo = ''
 
   pieData: ChartData<'pie'> = { labels: [], datasets: [{ data: [] }] }
   pieOptions: ChartOptions<'pie'> = {
@@ -58,13 +62,29 @@ export class MisRecicladosComponent implements OnInit {
   }
 
   loadDeliveries(): void {
-    this.statsService.getNeighborDeliveries(this.id).subscribe((res: any) => {
+    const from = this.dateFrom || undefined
+    const to = this.dateTo || undefined
+    this.statsService.getNeighborDeliveries(this.id, from, to).subscribe((res: any) => {
       this.deliveries = res.data ?? []
       this.buildStats()
     })
   }
 
+  applyGlobalFilter(): void {
+    this.loadDeliveries()
+  }
+
+  clearGlobalFilter(): void {
+    this.dateFrom = ''
+    this.dateTo = ''
+    this.loadDeliveries()
+  }
+
   buildStats(): void {
+    this.totalWeight = 0
+    this.totalPoints = 0
+    this.totalTransactions = 0
+
     const categoryMap = new Map<string, number>()
 
     for (const delivery of this.deliveries) {

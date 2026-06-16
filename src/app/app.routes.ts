@@ -234,6 +234,12 @@ export const routes: Routes = [
         canActivate: [isLogged, localGuard],
         loadComponent: () =>
           import('./pages/registrar-cupon/registrar-cupon.component').then(m => m.RegistrarCuponComponent)
+      },
+      {
+        path: 'estadisticas-local',
+        canActivate: [isLogged, localGuard],
+        loadComponent: () =>
+          import('./pages/estadisticas-local/estadisticas-local.component').then(m => m.EstadisticasLocalComponent)
       }
     ]
   },
@@ -317,6 +323,7 @@ export const routes: Routes = [
   // Responsable
   { path: 'historial-responsable', redirectTo: 'responsable/historial-responsable', pathMatch: 'full' },
   // Local
+  { path: 'estadisticas-local', redirectTo: 'local/estadisticas-local', pathMatch: 'full' },
   { path: 'cupones-ofrecidos', redirectTo: 'local/cupones-ofrecidos', pathMatch: 'full' },
   { path: 'modificar-local', redirectTo: 'local/modificar-local', pathMatch: 'full' },
   { path: 'usar-cupon', redirectTo: 'local/usar-cupon', pathMatch: 'full' },

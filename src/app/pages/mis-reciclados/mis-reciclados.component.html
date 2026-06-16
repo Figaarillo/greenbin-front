@@ -2,10 +2,22 @@
   <app-navbar [title]="'Mis Reciclados'" [route]="'/vecino'"></app-navbar>
 
   <div class="container">
+    <div class="global-filter">
+      <span class="global-filter-label">
+        <span class="las la-calendar" style="font-size: 1.3rem; vertical-align: middle;"></span>
+        Período
+      </span>
+      <label>Desde <input type="date" [(ngModel)]="dateFrom"></label>
+      <label>Hasta <input type="date" [(ngModel)]="dateTo"></label>
+      <button class="filter-btn" (click)="applyGlobalFilter()">Aplicar</button>
+      @if (dateFrom || dateTo) {
+        <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
+      }
+    </div>
     @if (deliveries.length === 0) {
       <div class="empty-state">
         <span class="las la-recycle" style="font-size: 3rem; color: var(--muted);"></span>
-        <p>Aun no tienes entregas registradas</p>
+        <p>No hay entregas en el período seleccionado</p>
       </div>
     } @else {
       <div class="summary-cards">

@@ -4,6 +4,19 @@
   </div>
 </div>
 
+<div class="global-filter">
+  <span class="global-filter-label">
+    <span class="las la-calendar" style="font-size: 1.3rem; vertical-align: middle;"></span>
+    Período
+  </span>
+  <label>Desde <input type="date" [(ngModel)]="dateFrom"></label>
+  <label>Hasta <input type="date" [(ngModel)]="dateTo"></label>
+  <button class="filter-btn" (click)="applyGlobalFilter()">Aplicar</button>
+  @if (dateFrom || dateTo) {
+    <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
+  }
+</div>
+
 <div class="summary-cards">
   <div class="summary-card">
     <span class="las la-weight" style="font-size: 2rem; color: var(--accent);"></span>
@@ -18,13 +31,13 @@
   <div class="summary-card">
     <span class="las la-exchange-alt" style="font-size: 2rem; color: #3b82f6;"></span>
     <h2>{{ totalTransactions }}</h2>
-    <small>Total histórico de entregas de residuos</small>
+    <small>Total de entregas de residuos</small>
   </div>
 </div>
 
 <div class="charts-grid">
   <div class="chart-card">
-    <h3>Distribución histórica de residuos por categoría</h3>
+    <h3>Distribución de residuos por categoría</h3>
     <div class="chart-container pie-container">
       <canvas baseChart [data]="pieData" [options]="pieOptions" type="pie"></canvas>
     </div>
@@ -40,11 +53,6 @@
   <div class="chart-card full-width">
     <div class="chart-header">
       <h3>Residuos reciclados por período</h3>
-      <div class="date-filters">
-        <label>Desde <input type="date" [(ngModel)]="dateFrom"></label>
-        <label>Hasta <input type="date" [(ngModel)]="dateTo"></label>
-        <button class="filter-btn" (click)="filterByPeriod()">Filtrar</button>
-      </div>
     </div>
     <div class="period-scroll-container">
       <div class="period-chart-inner" [style.width]="periodChartWidth">
