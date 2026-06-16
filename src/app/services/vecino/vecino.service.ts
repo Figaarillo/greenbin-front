@@ -51,10 +51,13 @@ export class VecinoService {
     return this.http.get<any>(`http://localhost:8080/api/coupon-transaction/neighbor/${neighborId}`)
   }
 
-  list(entityId?: string): Observable<any> {
+  list(entityId?: string, includeInactive = false): Observable<any> {
     const token = localStorage.getItem('accessToken')
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
-    const params = entityId ? `?entityId=${entityId}` : ''
+    const query = new URLSearchParams()
+    if (entityId) query.set('entityId', entityId)
+    if (includeInactive) query.set('includeInactive', 'true')
+    const params = query.toString() ? `?${query.toString()}` : ''
     return this.http.get<any>(`${this.url}${params}`, { headers })
   }
 
