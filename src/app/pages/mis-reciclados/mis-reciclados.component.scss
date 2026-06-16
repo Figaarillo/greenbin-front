@@ -7,7 +7,7 @@
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #999;
+  color: var(--muted);
 
   p {
     margin-top: 0.5rem;
@@ -23,20 +23,21 @@
 }
 
 .summary-card {
-  background: #fff;
+  background: var(--surface);
   padding: 1.25rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
   text-align: center;
 
   h2 {
     font-size: 1.5rem;
-    color: #333;
+    color: var(--ink);
     margin: 0.4rem 0 0.2rem;
+    font-family: 'Sora', sans-serif;
   }
 
   small {
-    color: #777;
+    color: var(--muted);
     font-size: 0.85rem;
   }
 }
@@ -48,14 +49,14 @@
 }
 
 .chart-card {
-  background: #fff;
+  background: var(--surface);
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
 
   h3 {
     margin-bottom: 1rem;
-    color: #333;
+    color: var(--ink);
     font-size: 1.1rem;
   }
 }

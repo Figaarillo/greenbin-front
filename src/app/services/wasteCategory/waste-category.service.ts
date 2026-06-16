@@ -13,10 +13,11 @@ export class WasteCategoryService {
   private url: string = 'http://localhost:8080/api/waste-category'
 
   constructor() {}
-  list(offset: number, limit: number): Observable<WasteCategory[]> {
-    return this.http.get<WasteCategory[]>(`${this.url}?offset=${offset}&limit=${limit}`).pipe(
+  list(offset: number, limit: number, includeInactive = false): Observable<WasteCategory[]> {
+    let params = `?offset=${offset}&limit=${limit}`
+    if (includeInactive) params += `&includeInactive=true`
+    return this.http.get<WasteCategory[]>(`${this.url}${params}`).pipe(
       map((resp: any) => {
-        console.log(resp.data)
         return resp.data
       })
     )

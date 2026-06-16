@@ -1,8 +1,7 @@
+<div data-role="entidad">
 <app-navbar></app-navbar>
 <div class="container mt-3">
-  <mat-toolbar>
-    <span>Registrar Entidad</span>
-  </mat-toolbar>
+  <h2 class="form-title">Registrar Entidad</h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
@@ -53,9 +52,10 @@
       }
     </mat-form-field>
 
-    <button class="btn btn-success"  type="submit">Guardar</button>
-    <a type="button"  [routerLink]="['']" style="margin-left: 10px;" class="btn btn-danger">Cancelar</a>
+    <button class="btn-primary-custom" type="submit">Guardar</button>
+    <a type="button" [routerLink]="['']" class="btn-ghost-custom">Cancelar</a>
 
   </form>
   
+</div>
 </div>

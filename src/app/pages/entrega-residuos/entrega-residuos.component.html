@@ -1,87 +1,59 @@
-<app-navbar [title]="'Registrar Entrega'" [route]="'/responsable'"></app-navbar>
+<div data-role="responsable">
+  <app-navbar [title]="'Registrar Entrega'" [route]="'/responsable'"></app-navbar>
 
-@if(!dniValidated){
-  <div class="container mt-3">
-<form [formGroup]="dniValidator"   (ngSubmit)="validateDni()">
-  <h4 style="text-align: center;"> Ingrese el DNI del vecino para validarlo.</h4>
-  <mat-form-field>
-    <mat-label>DNI</mat-label>
-    <input type="number" matInput placeholder="DNI" formControlName="dni">
-    @if (dniValidator.get('dni')!.hasError('required')) {
-      <mat-error>Ingrese un DNI</mat-error>
-    }
-</mat-form-field>
-<button mat-raised-button class="w-100" [disabled]="dniValidator.invalid" type="submit">Validar DNI</button>
-</form>
-</div>
-}
-@else {
-
-
-
-
-<div class="container mt-3">
-
-  <form [formGroup]="form" >
-
-    <mat-form-field appearance="fill">
-      <mat-label style="color: black;">Fecha de Entrega</mat-label>
-      <input 
-        matInput 
-        type="date" 
-        formControlName="fechaEntrega" 
-        [value]="fechaActual | date: 'yyyy-MM-dd'" 
-        style="color: black;"
-        >  
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label style="color: black;">Vecino</mat-label>
-      <input 
-        matInput 
-        type="text" 
-        formControlName="vecino" 
-        style="color: black;"
-        >  
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Categoria</mat-label>
-        <mat-select formControlName="categoria" name="category">
+  @if(!dniValidated){
+    <div class="container mt-3">
+      <form [formGroup]="dniValidator" (ngSubmit)="validateDni()">
+        <h4 class="form-subtitle">Ingrese el DNI del vecino para validarlo.</h4>
+        <mat-form-field>
+          <mat-label>DNI</mat-label>
+          <input type="number" matInput placeholder="DNI" formControlName="dni">
+          @if (dniValidator.get('dni')!.hasError('required')) {
+            <mat-error>Ingrese un DNI</mat-error>
+          }
+        </mat-form-field>
+        <button mat-raised-button class="btn-primary-custom" [disabled]="dniValidator.invalid" type="submit">Validar DNI</button>
+      </form>
+    </div>
+  }
+  @else {
+    <div class="container mt-3">
+      <form [formGroup]="form">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de Entrega</mat-label>
+          <input matInput type="date" formControlName="fechaEntrega" [value]="fechaActual | date: 'yyyy-MM-dd'">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Vecino</mat-label>
+          <input matInput type="text" formControlName="vecino">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoria" name="category">
             @for (cat of categories; track cat) {
-                
-                <mat-option  [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
+              <mat-option [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
             }
-        </mat-select>
-        <!-- <mat-hint>Puntos por kilo {{form.get('categoria')?.value.pts}}</mat-hint> -->
-    </mat-form-field>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Peso aproximado</mat-label>
+          <input type="number" matInput placeholder="Peso aproximado en kilos" formControlName="kilos">
+        </mat-form-field>
+        <button mat-raised-button class="btn-secondary-custom" (click)="aggResiduo()">Agregar</button>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Peso aproximado</mat-label>
-      <input 
-        type="number" 
-        matInput 
-        placeholder="Peso aproximado en kilos" 
-        formControlName="kilos"
-      >
-    </mat-form-field>
-    
-
-    <button mat-raised-button  class="w-100" (click)="aggResiduo()" >Agregar</button>
-
-    <div>
-        <mat-divider></mat-divider>
-        <mat-chip-set>
+        <div class="detalle-section">
+          <mat-divider></mat-divider>
+          <mat-chip-set>
             @for (item of detalle; track item) {
               <mat-chip class="w-100"><b>{{item.cantidad}} Kg de {{item.residuo}} ({{item.cantidad}}kg*{{item.puntos}}pts)</b> <mat-icon matChipRemove (click)="delete(item)">cancel</mat-icon></mat-chip>
             }
-        </mat-chip-set>
-        <mat-divider></mat-divider>
-        <h2 style="text-align: center;">Total: {{totalPuntos}} Puntos. </h2 >
+          </mat-chip-set>
+          <mat-divider></mat-divider>
+          <h2 class="total-pts">Total: {{totalPuntos}} Puntos.</h2>
+        </div>
+
+        <button mat-raised-button class="btn-primary-custom" [disabled]="form.invalid" type="submit" (click)="onSubmit(form)">Guardar</button>
+      </form>
     </div>
-
-    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit" (click)="onSubmit(form)">Guardar</button>
-
-  </form>
-  
+  }
 </div>
- 
-}

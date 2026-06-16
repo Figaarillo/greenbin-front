@@ -1,0 +1,303 @@
+* {
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Sidebar ──────────────────────────────────────
+.sidebar {
+  width: 280px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  padding: 1rem 1.5rem;
+  background: #0E2A1D;
+  color: #fff;
+  z-index: 20;
+  transition: left 300ms;
+  overflow-y: auto;
+}
+
+.sidebar-close {
+  display: none;
+  text-align: right;
+  margin-bottom: 0.5rem;
+
+  label {
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.7);
+    &:hover { color: #fff; }
+  }
+}
+
+.sidebar-brand {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .brand-logo {
+    display: inline-flex;
+    color: var(--green-accent);
+  }
+
+  .brand-name {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+}
+
+.sidebar-user {
+  margin: 1rem 0;
+  text-align: center;
+
+  h3 { font-size: 1rem; color: #fff; }
+  span { font-size: 0.85rem; opacity: 0.8; }
+
+  img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+}
+
+.menu-head {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.6);
+}
+
+.sidebar-menu ul { margin-bottom: 2rem; }
+.sidebar-menu li { margin-bottom: 0.15rem; }
+
+.sidebar-menu li a {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  span:first-child {
+    display: inline-flex;
+    width: 1.5rem;
+    justify-content: center;
+  }
+}
+
+// Separa "Cerrar Sesión" de los ítems de navegación.
+.sidebar-menu li:last-child {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+// ── Header (floating card) ─────────────────────
+header {
+  position: sticky;
+  top: 16px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 20px 0;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+
+  .back-btn,
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--ink);
+    transition: background 0.15s;
+    border: none;
+    background: none;
+
+    &:hover { background: var(--surface-2); }
+  }
+
+  .header-title {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-left: 4px;
+  }
+}
+
+// ── Main content ─────────────────────────────────
+.main-content {
+  margin-left: 280px;
+  transition: margin-left 300ms;
+}
+
+main {
+  padding: 1.5rem;
+  background: var(--bg);
+  min-height: calc(100vh - 70px);
+}
+
+// ── Toggle ─────────────────────────────────────
+#sidebar-toggle { display: none; }
+
+.body-label {
+  position: fixed;
+  height: 100%;
+  width: calc(100% - 280px);
+  z-index: 30;
+  right: -100%;
+  top: 0;
+}
+
+#sidebar-toggle:checked ~ .sidebar { left: -100%; }
+#sidebar-toggle:checked ~ .main-content { margin-left: 0; }
+
+// ══════════════════════════════════════════════════
+//  Mobile Tabbar (floating card)
+// ══════════════════════════════════════════════════
+.tabbar {
+  position: fixed;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 12px 10px;
+  z-index: 100;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 14px;
+  min-width: 52px;
+  transition: all 0.15s;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  span:first-child {
+    font-size: 22px;
+    transition: transform 0.15s;
+  }
+
+  &:hover span:first-child {
+    transform: scale(1.08);
+  }
+
+  &.fab {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 18px var(--accent-soft);
+    margin-top: -24px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span:first-child {
+      font-size: 26px;
+    }
+
+    &:hover {
+      background: var(--accent);
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px var(--accent-soft);
+    }
+
+    &:hover span:first-child {
+      transform: none;
+    }
+  }
+}
+
+// ── Responsive ─────────────────────────────────
+@media (max-width: 1124px) {
+  .sidebar { left: -100%; z-index: 30; }
+
+  .main-content { margin-left: 0; }
+
+  .sidebar-close { display: block; }
+
+  // Header becomes fixed + positioned at top-left on mobile
+  header {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    margin: 0;
+  }
+
+  main {
+    padding: 76px 1rem 100px;
+    min-height: 100vh;
+  }
+
+  #sidebar-toggle:checked ~ .sidebar { left: 0; }
+  #sidebar-toggle:checked ~ .body-label { right: 0; }
+}
+
+@media (min-width: 1125px) {
+  .sidebar-close { display: none !important; }
+  .tabbar { display: none !important; }
+
+  // En web el sidebar es permanente: el botón hamburguesa no aplica y rompía
+  // el layout (metía el contenido debajo del sidebar). Se oculta y se fija el margen.
+  header label[for='sidebar-toggle'] { display: none !important; }
+
+  #sidebar-toggle:checked ~ .sidebar { left: 0; }
+  #sidebar-toggle:checked ~ .main-content { margin-left: 280px; }
+}

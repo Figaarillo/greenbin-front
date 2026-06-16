@@ -114,8 +114,11 @@ export class LocalAdheridoService {
     return this.http.put<any>(this.urlCoupon + '/' + id, { isAvailable: false, state: 'DISABLED' })
   }
 
-  list(entityId?: string): Observable<any> {
-    const params = entityId ? `?entityId=${entityId}` : ''
+  list(entityId?: string, includeInactive = false): Observable<any> {
+    const query = new URLSearchParams()
+    if (entityId) query.set('entityId', entityId)
+    if (includeInactive) query.set('includeInactive', 'true')
+    const params = query.toString() ? `?${query.toString()}` : ''
     return this.http.get<any>(`${this.url}${params}`)
   }
 }

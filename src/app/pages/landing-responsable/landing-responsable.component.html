@@ -1,92 +1,56 @@
-<div class="h-100 w-100" style="background-color: #e9ffd1;">
+<div data-role="responsable">
+  <mat-drawer-container class="landing-drawer" autosize>
 
-    <mat-drawer-container class="h-100 w-100"  autosize>
+    <div class="v-header">
+      <div class="v-topbar">
+        <span class="v-brand">GreenBin</span>
+        <span class="spacer"></span>
+      </div>
 
-        <mat-toolbar>
-            <button mat-icon-button (click)="menu.toggle()">
-              <mat-icon>menu</mat-icon>
-            </button>
-            <span class="spacer"></span>
-            <span><h1 style="color: #fff; font-weight: 900;">GreenBin</h1></span>
-            <span class="spacer"></span>
-            <!-- <button mat-icon-button (click)="buzon.toggle()">
-              <mat-icon>notifications</mat-icon>
-            </button> -->
-        </mat-toolbar>
+      <div class="v-hello">¡Hola, {{nombre}}!</div>
 
-        <div class="header">
-            <h1 style="color: #fff; font-weight: 900;">
-                Hola, {{nombre}}! Seleccione su punto verde.
-             </h1>
-                         <div class="select-container">
-                <mat-form-field class="w-100">
-                    <mat-label>Punto Verde Actual</mat-label>
-                    <mat-select [formControl]="ptoVerde" (selectionChange)="onChange($event)">
-                        <mat-option *ngFor="let pv of listPtoVerde" [value]="pv.id">
-                          {{ pv.name }}
-                        </mat-option>
-                      </mat-select>
-                </mat-form-field>
-            </div>
+      <div class="select-container">
+        <mat-form-field class="pto-select">
+          <mat-label>Punto Verde Actual</mat-label>
+          <mat-select [formControl]="ptoVerde" (selectionChange)="onChange($event)">
+            <mat-option *ngFor="let pv of listPtoVerde" [value]="pv.id">
+              {{ pv.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-drawer #buzon mode="over" [position]="'end'">
+      <p>Buzón</p>
+    </mat-drawer>
+
+    <div class="v-body">
+      <h4>Historial</h4>
+
+      @if (historial.length === 0) {
+        <p class="empty-state">No hay transacciones aún</p>
+      }
+
+      @for (item of historialVisible; track item) {
+        <div class="tx-item">
+          <div class="tx-icon up">
+            <mat-icon>arrow_upward</mat-icon>
+          </div>
+          <div class="tx-info">
+            <b>{{ item.descripcion || 'Transacción' }}</b>
+            <span>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="tx-pts pos">+{{ item.puntos }}</div>
         </div>
-    
-        <mat-drawer #buzon mode="over" [position]="'end'">
-            <p>Buzón</p>
-        </mat-drawer>
-        <mat-drawer #menu mode="over" [position]="'start'">
-            <app-sidenav></app-sidenav>
-        </mat-drawer>
-    
+      }
 
-
-        <div class="body">
-            <mat-list>
-                <div mat-subheader>Historial</div>
-                @if (historial.length === 0) {
-                <mat-list-item>
-                    <div matListItemTitle>No hay transacciones aún</div>
-                </mat-list-item>
-                }
-                @for (item of historialVisible; track item) {
-                <mat-list-item>
-                    <div class="listIcon" matListItemAvatar>
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                    <div matListItemTitle>+{{ item.puntos }} pts</div>
-                    <div matListItemLine>{{ item.descripcion }}</div>
-                    <div matListItemLine>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</div>
-                </mat-list-item>
-                <mat-divider></mat-divider>
-                }
-                @if (historial.length > LIMITE) {
-                <mat-list-item (click)="toggleHistorial()" style="cursor:pointer; text-align:center">
-                    <div matListItemTitle style="color: #4caf50">
-                        {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
-                    </div>
-                </mat-list-item>
-                }
-            </mat-list>
+      @if (historial.length > LIMITE) {
+        <div class="tx-more" (click)="toggleHistorial()">
+          {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
         </div>
-        <div class="menu-footer">
-            <div>
-                <button mat-mini-fab [routerLink]="['/historial-responsable']">
-                    <mat-icon>bar_chart</mat-icon>
-                </button>
-            </div>
-            <div>
-                <button mat-fab (click)="routeEntrega()">
-                    <mat-icon>recycling</mat-icon>
-                </button>
-            </div>
-            <div>
-                <button mat-mini-fab (click)="editResponsible()">
-                    <mat-icon>account_circle</mat-icon>
-                </button>
-            </div>
-        </div>
-    
-    </mat-drawer-container>
+      }
+    </div>
 
+  </mat-drawer-container>
 </div>
-
-

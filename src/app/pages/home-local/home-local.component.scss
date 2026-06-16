@@ -1,114 +1,179 @@
-.header {
-    display: grid;
-    align-items: center;
-    align-content: center;
-    text-align: center;
-    height: 45%;
-    background-color: #61c98e;
-    border-radius: 0 0 10rem 10rem;
-    box-shadow: 0px 0px 40px #bebebe, 0px 0px 40px #ffffff;
+.landing-drawer {
+  height: 100vh;
+  background: var(--bg);
 }
 
-mat-toolbar {
-    background-color: #ffffff00;
-    position: absolute;
-    top: 0;
-    color: #fff;
+// ── Header gradient ─────────────────────────────────────────────────────
+.v-header {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  color: #fff;
+  padding: 26px 22px 30px;
 }
 
-.body {
-    padding-bottom: 90px;
+.v-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+
+  button { color: #fff; }
+
+  .spacer { flex: 1; }
 }
 
-.spacer {
-    flex: 1 1 auto;
+.v-brand {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
 }
 
-/* Item de transacción */
-.transaction-item {
-    cursor: pointer;
+.v-hello {
+  margin-top: 22px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
 }
 
-.item-title {
+// ── Body / transacciones ────────────────────────────────────────────────
+.v-body {
+  padding: 18px 18px 90px;
+  overflow: auto;
+
+  h4 {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px 0;
+  font-size: 14px;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: var(--surface-2); }
+}
+
+.tx-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+
+  mat-icon { font-size: 20px; }
+}
+
+.tx-info {
+  flex: 1;
+
+  .tx-header {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+
+    b { font-size: 14px; color: var(--ink); }
+  }
+
+  > span {
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+  }
 }
 
 .status-badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Card de detalle expandible */
+.tx-expand {
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.tx-more {
+  cursor: pointer;
+  text-align: center;
+  padding: 14px 0;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.8; }
+}
+
+// ── Detail card ─────────────────────────────────────────────────────────
 .detail-card {
-    background-color: #f5f5f5;
-    border-left: 3px solid #4caf50;
-    margin: 0 16px 8px 72px;
-    border-radius: 0 8px 8px 0;
-    padding: 8px 12px;
-    animation: slideDown 0.15s ease-out;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  margin: 0 16px 8px 54px;
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  box-shadow: var(--sh-1);
+  animation: slideDown 0.15s ease-out;
 }
 
 @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .detail-section {
-    padding: 6px 0;
+  padding: 6px 0;
 }
 
 .detail-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #4caf50;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0 0 2px 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 2px 0;
 }
 
 .detail-value {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #212121;
-    margin: 0 0 2px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 2px 0;
 }
 
 .detail-meta {
-    font-size: 0.8rem;
-    color: #616161;
-    margin: 1px 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 1px 0;
 }
 
-mat-list-item .listIcon {
-    background-color: rgb(41, 41, 41);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+// ── Mobile: espacio para hamburger ─────────────────────────────────────
+@media (max-width: 959px) {
+  .v-header { padding-top: 56px; }
 }
 
-/* Fleje inferior */
-.menu-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 12px;
-    background-color: #4caf50;
-    z-index: 100;
-}
-
-.menu-footer button {
-    background-color: #fafafa00;
+// ── Desktop: padding extra ────────────────────────────────────────────
+@media (min-width: 960px) {
+  .v-body { padding-bottom: 28px; }
 }

@@ -80,7 +80,8 @@
  
 <!-- </div> -->
  
-<app-navbar></app-navbar>
-
+<div data-role="entidad">
+  <app-navbar></app-navbar>
 
   <app-table [columns]="columns" [title]="title" [tableData]="entidades" (delete)="deleteEntity($event)" (edit)="editEntity($event)" (filter)="applyFilter($event)"></app-table>
+</div>

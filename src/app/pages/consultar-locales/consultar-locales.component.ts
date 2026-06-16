@@ -33,7 +33,7 @@ export class ConsultarLocalesComponent implements OnInit {
 
   listLocales() {
     const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
-    this.localService.list(entidadInfo.id).subscribe({
+    this.localService.list(entidadInfo.id, true).subscribe({
       next: (response: any) => {
         this.locales = response.data.map((l: any) => ({
           ...l,

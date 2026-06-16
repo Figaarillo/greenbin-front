@@ -13,8 +13,9 @@
 .page-title {
   margin: 0 0 4px;
   font-size: 1.6rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #e6edf3;
+  font-family: 'Sora', sans-serif;
 }
 
 .page-subtitle {
@@ -57,13 +58,15 @@
 }
 
 .stat-card--green .stat-card__icon {
-  background: rgba(76, 175, 80, 0.15);
-  color: #4caf50;
+  background: rgba(30, 158, 90, 0.15);
+  color: var(--accent);
 }
+
 .stat-card--teal .stat-card__icon {
   background: rgba(38, 166, 154, 0.15);
   color: #26a69a;
 }
+
 .stat-card--sage .stat-card__icon {
   background: rgba(102, 187, 106, 0.15);
   color: #66bb6a;
@@ -79,6 +82,7 @@
   font-weight: 700;
   color: #e6edf3;
   line-height: 1.1;
+  font-family: 'Sora', sans-serif;
 }
 
 .stat-card__label {
@@ -90,9 +94,10 @@
 /* ── Section ─────────────────────────────────── */
 .section-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #e6edf3;
   margin: 0 0 14px;
+  font-family: 'Sora', sans-serif;
 }
 
 /* ── Action cards ────────────────────────────── */
@@ -116,7 +121,7 @@
   transition: border-color 150ms, background 150ms;
 
   &:hover {
-    border-color: #388e3c;
+    border-color: var(--accent);
     background: #1a2320;
   }
 }
@@ -138,8 +143,8 @@
 }
 
 .action-card__icon--primary {
-  background: rgba(76, 175, 80, 0.15);
-  color: #4caf50;
+  background: rgba(30, 158, 90, 0.15);
+  color: var(--accent);
 }
 
 .action-card__icon--secondary {

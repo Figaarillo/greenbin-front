@@ -1,30 +1,32 @@
-<div class="page">
-  <div class="card">
-    <div class="card-header">
-      <mat-icon class="lock-icon">admin_panel_settings</mat-icon>
+<div class="login-page" data-role="entidad">
+  <div class="login-card">
+    <div class="login-hero">
+      <div class="hero-icon"><mat-icon>admin_panel_settings</mat-icon></div>
       <h2>Panel de administración</h2>
-      <p class="subtitle">Acceso restringido</p>
+      <p>Acceso restringido</p>
     </div>
+    <div class="login-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field class="w-100">
-        <mat-label>Usuario</mat-label>
-        <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
-        <input matInput type="text" formControlName="username" autocomplete="off" />
-      </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Usuario</mat-label>
+          <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
+          <input matInput type="text" formControlName="username" autocomplete="off" />
+        </mat-form-field>
 
-      <mat-form-field class="w-100 mb-2">
-        <mat-label>Contraseña</mat-label>
-        <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
-        <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <mat-form-field class="w-100 mb-2">
+          <mat-label>Contraseña</mat-label>
+          <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+          <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid">
+          Ingresar
         </button>
-      </mat-form-field>
-
-      <button mat-raised-button class="w-100 submit-btn" type="submit" [disabled]="form.invalid">
-        Ingresar
-      </button>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
