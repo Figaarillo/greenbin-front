@@ -19,11 +19,11 @@
         <p><i>Este cupón estará disponible por {{cupon?.validDays}} días después de canjearlo</i></p>
 
         <!-- CÓDIGO DE CANJE: se muestra después de canjear -->
-        <div *ngIf="codigoCanje" class="codigo-canje-container mt-3 p-3 text-center border rounded bg-light">
+        <div *ngIf="codigoCanje" class="codigo-canje-container p-3 text-center">
           <p class="mb-1"><b>¡Cupón adquirido con éxito!</b></p>
-          <p class="mb-1 text-muted" style="font-size: 0.85rem;">Mostrá este código en el local:</p>
-          <h2 class="codigo-canje fw-bold text-success letter-spacing-wide">{{ codigoCanje }}</h2>
-          <p class="mt-1 text-muted" style="font-size: 0.8rem;">Vence el: <b>{{ diaVto | date:'dd/MM/yyyy' }}</b></p>
+          <p class="mb-1 codigo-label">Mostrá este código en el local:</p>
+          <h2 class="codigo-canje fw-bold letter-spacing-wide">{{ codigoCanje }}</h2>
+          <p class="mt-1 codigo-label vto-text">Vence el: <b>{{ diaVto | date:'dd/MM/yyyy' }}</b></p>
         </div>
 
       </div>

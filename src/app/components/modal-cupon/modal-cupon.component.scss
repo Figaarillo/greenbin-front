@@ -1,14 +1,22 @@
-/* Estilos existentes del modal — agregar al final del archivo modal-cupon.component.scss */
-
 .codigo-canje-container {
-    background-color: #f8f9fa;
-    border: 2px dashed #28a745 !important;
-    border-radius: 8px;
+  background: var(--accent-soft);
+  border: 2px dashed var(--accent) !important;
+  border-radius: var(--r-card);
 }
 
 .codigo-canje {
-    font-size: 2.5rem;
-    letter-spacing: 0.4rem;
-    color: #28a745;
-    font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-ink);
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+}
+
+.codigo-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.vto-text {
+  font-size: 0.8rem;
 }

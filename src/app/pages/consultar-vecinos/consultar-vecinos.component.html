@@ -1,2 +1,3 @@
-<app-navbar [title]="'Listar Vecinos'" [route]="'/entidad'"></app-navbar>
-<app-table [columns]="columns" [title]="title" [tableData]="vecinos" (delete)="deleteVecino($event)" (edit)="editVecino($event)"></app-table>
+<div data-role="entidad">
+  <app-table [columns]="columns" [title]="title" [tableData]="vecinos" (delete)="deleteVecino($event)" (edit)="editVecino($event)"></app-table>
+</div>

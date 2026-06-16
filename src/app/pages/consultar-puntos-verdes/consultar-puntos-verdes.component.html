@@ -1,4 +1,4 @@
-<app-navbar [title]="'Listar Puntos Verdes'" [route]="'/entidad'"></app-navbar> 
-
+<div data-role="entidad">
 
   <app-table [columns]="columns" [title]="title" [tableData]="puntosVerdes" (delete)="delete($event)" (edit)="edit($event)"></app-table>
+</div>

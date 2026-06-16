@@ -1,7 +1,7 @@
-<div #viewMapContainer class="w-100 h-100">
+<div #viewMapContainer class="w-100 h-100 map-wrap">
     <google-map
-    width="anchoVariable"
-    height="175"
+    [width]="anchoVariable"
+    [height]="height"
     [center]="center"
     [zoom]="zoom"
     [mapId]="'iuhd8q3hsdads'"

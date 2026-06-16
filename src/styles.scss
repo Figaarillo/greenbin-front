@@ -1,21 +1,146 @@
 @use '@angular/material' as mat;
+
+// ── Google Fonts: Sora (títulos) + Plus Jakarta Sans (cuerpo) ──────────
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+// ── Bootstrap ────────────────────────────────────────────────────────────
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Quicksand:wght@300..700&display=swap');
 
+// ═════════════════════════════════════════════════════════════════════════
+//  DESIGN TOKENS (CSS custom properties)
+// ═════════════════════════════════════════════════════════════════════════
+:root {
+  // ── Palette ─────────────────────────────────────────────────────────
+  --green: #1E9E5A;
+  --green-deep: #0F5132;
+  --green-accent: #34D399;
+  --bg: #F6F8F4;
+  --surface: #FFFFFF;
+  --surface-2: #EEF3EC;
+  --ink: #14241C;
+  --muted: #6B7C72;
+  --line: #E2E8E0;
+  --danger: #E5484D;
+  --warning: #E0A019;
+  --info: #3A77B5;
 
-// Define la tipografía personalizada usando Rubik
-$my-custom-typography: mat.define-typography-config(
-  $font-family: 'Mulish, sans-serif',
-);
-@include mat.all-component-typographies($my-custom-typography);
-.mdc-text-field--filled {
-  border-radius: 3rem !important;
+  // ── Radius ──────────────────────────────────────────────────────────
+  --r-card: 18px;
+  --r-field: 12px;
+  --r-pill: 999px;
+
+  // ── Shadows ─────────────────────────────────────────────────────────
+  --sh-1: 0 1px 2px rgba(20, 36, 28, 0.06), 0 2px 8px rgba(20, 36, 28, 0.05);
+  --sh-2: 0 10px 30px rgba(15, 81, 50, 0.14);
+
+  // ── Acento default (vecino) ────────────────────────────────────────
+  --accent: var(--green);
+  --accent-ink: #0c5d36;
+  --accent-soft: rgba(30, 158, 90, 0.12);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Mulish", sans-serif; background: #61c98e;}
-/*
-colores que estan buenos para fondo
-background: rgba(9,121,61)
-background-color: #4f973d;
-*/
+// ── Acento por rol ──────────────────────────────────────────────────────
+[data-role='vecino'] {
+  --accent: #1E9E5A;
+  --accent-ink: #0c5d36;
+  --accent-soft: rgba(30, 158, 90, 0.12);
+}
+[data-role='responsable'] {
+  --accent: #0E8C7A;
+  --accent-ink: #0a5e52;
+  --accent-soft: rgba(14, 140, 122, 0.12);
+}
+[data-role='local'] {
+  --accent: #E0A019;
+  --accent-ink: #9a6c08;
+  --accent-soft: rgba(224, 160, 25, 0.14);
+}
+[data-role='entidad'] {
+  --accent: #0F5132;
+  --accent-ink: #0a3a23;
+  --accent-soft: rgba(15, 81, 50, 0.12);
+}
+
+
+// ═════════════════════════════════════════════════════════════════════════
+//  ANGULAR MATERIAL — Custom Theme
+// ═════════════════════════════════════════════════════════════════════════
+
+// ── Custom green palette centered on design tokens ──────────────────────
+$gb-green: (
+  50: #e6f7ef,
+  100: #c2ebd4,
+  200: #99deb7,
+  300: #6dd199,
+  400: #4cc782,
+  500: #1E9E5A,
+  600: #1a8d4f,
+  700: #157b44,
+  800: #0f6838,
+  900: #0F5132,
+  A100: #b9f6ca,
+  A200: #69f0ae,
+  A400: #34D399,
+  A700: #00c853,
+  contrast: (
+    50: #14241C,
+    100: #14241C,
+    200: #14241C,
+    300: #14241C,
+    400: #14241C,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #14241C,
+    A200: #14241C,
+    A400: #14241C,
+    A700: #ffffff,
+  )
+);
+
+// ── Typography: Plus Jakarta Sans for all Material text ─────────────────
+$gb-typography: mat.define-typography-config(
+  $font-family: 'Plus Jakarta Sans, sans-serif',
+);
+
+// ── Build theme ─────────────────────────────────────────────────────────
+$gb-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette($gb-green),
+    accent: mat.define-palette($gb-green),
+  ),
+  typography: $gb-typography,
+  density: 0,
+));
+
+// ── Apply theme to all Material components ──────────────────────────────
+@include mat.all-component-themes($gb-theme);
+
+
+// ═════════════════════════════════════════════════════════════════════════
+//  GLOBAL STYLES
+// ═════════════════════════════════════════════════════════════════════════
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+// ── Headings: Sora ──────────────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+// ── Material Icons alignment helper ─────────────────────────────────────
+.material-icons {
+  vertical-align: middle;
+}
