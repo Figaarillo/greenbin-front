@@ -1,61 +1,73 @@
-.page {
+.login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1a1a2e;
+  padding: 24px;
+  background: var(--bg);
 }
 
-.card {
-  background: #16213e;
-  border: 1px solid #0f3460;
-  border-radius: 12px;
-  padding: 40px 36px;
+.login-card {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--sh-2);
+  overflow: hidden;
   width: 100%;
-  max-width: 380px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 420px;
 }
 
-.card-header {
-  text-align: center;
-  margin-bottom: 28px;
-  color: #e0e0e0;
-}
-
-.lock-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #4caf50;
-  margin-bottom: 8px;
-}
-
-.card-header h2 {
-  margin: 0 0 4px;
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.subtitle {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #888;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.input-icon {
-  margin-right: 8px;
-  color: #888;
-}
-
-.submit-btn {
-  background-color: #4caf50;
+.login-hero {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  padding: 30px 28px 26px;
   color: #fff;
-  margin-top: 8px;
+  text-align: center;
+
+  .hero-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.18);
+    display: inline-grid;
+    place-items: center;
+    margin-bottom: 12px;
+
+    mat-icon { font-size: 24px; }
+  }
+
+  h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  p {
+    opacity: 0.85;
+    font-size: 13.5px;
+    margin-top: 4px;
+  }
+}
+
+.login-body {
+  padding: 24px 26px 28px;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+  text-align: center;
+
+  .input-icon {
+    margin-right: 10px;
+    color: var(--muted);
+  }
+
+  .btn-submit {
+    background: var(--accent) !important;
+    color: #fff;
+    border-radius: var(--r-pill);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 11px 20px;
+    box-shadow: 0 4px 14px var(--accent-soft);
+  }
 }

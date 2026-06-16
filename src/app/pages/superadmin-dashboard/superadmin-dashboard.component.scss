@@ -34,7 +34,7 @@
   font-size: 32px;
   width: 32px;
   height: 32px;
-  color: #4caf50;
+  color: var(--accent);
 }
 
 .brand-text {
@@ -51,7 +51,7 @@
 
 .brand-role {
   font-size: 0.72rem;
-  color: #57ab5a;
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -91,11 +91,11 @@
   }
 
   &.active {
-    background: rgba(76, 175, 80, 0.15);
-    color: #57ab5a;
+    background: rgba(30, 158, 90, 0.15);
+    color: var(--accent);
 
     .nav-icon {
-      color: #4caf50;
+      color: var(--accent);
     }
   }
 }

@@ -1,3 +1,4 @@
+<div data-role="local">
 <app-navbar [title]="'Usar Cupón'" [route]="'/local'"></app-navbar>
 <div class="container mt-3">
 
@@ -18,10 +19,11 @@
       <p class="error-msg">{{ error }}</p>
     }
 
-    <button mat-raised-button color="primary" class="w-100" type="submit" [disabled]="cargando">
+    <button class="btn-primary-custom" type="submit" [disabled]="cargando">
       @if (cargando) { Validando... } @else { Validar cupón }
     </button>
 
   </form>
 
+</div>
 </div>

@@ -1,103 +1,108 @@
-<app-navbar [title]="'Registrar'"  [route]="'/login'"></app-navbar>
-<div class="container mt-3">
-  <form class="form" [formGroup]="formGroup">
-    <mat-form-field>
-      <mat-label>Cuit</mat-label>
-      <input matInput placeholder="Cuit" type="text" formControlName="cuit" />
-      @if (formGroup.controls.cuit.hasError('required')) {
-        <mat-error>Ingrese el CUIT de su Comercio </mat-error>
-      }
-    </mat-form-field>
-    <button style="width: 100%; margin-top: 5px; margin-bottom: 1.5em;" class="btn btn-success"  (click)="cuitAuth(formGroup.get('cuit')?.value)">Validar cuit</button>
-    <mat-form-field>
-      <mat-label>Razon Social</mat-label>
+<div data-role="local">
+  <app-navbar [title]="'Registrar'" [route]="'/login'"></app-navbar>
+  <div class="container mt-3">
+    <form class="form" [formGroup]="formGroup">
+      <mat-form-field>
+        <mat-label>Cuit</mat-label>
+        <input matInput placeholder="Cuit" type="text" formControlName="cuit" />
+        @if (formGroup.controls.cuit.hasError('required')) {
+          <mat-error>Ingrese el CUIT de su Comercio</mat-error>
+        }
+      </mat-form-field>
 
-      <input matInput placeholder="Nombre" type="text" formControlName="name" />
-      @if (formGroup.controls.name.hasError('required')) {
-        <mat-error>Ingrese el nombre de su Comercio </mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field >
-      <mat-label>Selecciona tu ciudad</mat-label>
-      <mat-select #mySelect  (selectionChange)="onSelectChange($event.value)" formControlName="entityId">
-        <mat-option *ngFor="let entity of entities" [value]="entity.id" >
-          {{ entity.name }} - {{entity.city}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <button class="btn-validate" (click)="cuitAuth(formGroup.get('cuit')?.value)">Validar cuit</button>
 
-    <mat-form-field>
-      <mat-label>Dirección</mat-label>
-      <input matInput placeholder="Dirección" formControlName="address" [disabled]="disabled"><!-- (blur)="coordsByAdress()"-->
-      @if (formGroup.controls.address.hasError('required')) {
-        <mat-error>Ingrese una dirección</mat-error>
-      }
-      @if (formGroup.controls.address.valid) {
-        <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
-      }
-    </mat-form-field>
-    <button mat-flat-button color="accent" type="button" (click)="coordsByAdress()" [disabled]="!formGroup.controls.address.valid">Localizar</button>
+      <mat-form-field>
+        <mat-label>Razon Social</mat-label>
+        <input matInput placeholder="Nombre" type="text" formControlName="name" />
+        @if (formGroup.controls.name.hasError('required')) {
+          <mat-error>Ingrese el nombre de su Comercio</mat-error>
+        }
+      </mat-form-field>
 
-    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
-      <app-map-input [type]="'local'" (coordinates)="getCoordinates($event)"></app-map-input>
-    </div>
+      <mat-form-field>
+        <mat-label>Selecciona tu ciudad</mat-label>
+        <mat-select #mySelect (selectionChange)="onSelectChange($event.value)" formControlName="entityId">
+          <mat-option *ngFor="let entity of entities" [value]="entity.id">
+            {{ entity.name }} - {{entity.city}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Nombre de Usuario</mat-label>
-      <input matInput placeholder="Nombre de Usuario" formControlName="username" />
-      @if (formGroup.controls.username.hasError('required')) {
-        <mat-error>Ingrese su usuario. </mat-error>
-      }
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Dirección" formControlName="address" [disabled]="disabled">
+        @if (formGroup.controls.address.hasError('required')) {
+          <mat-error>Ingrese una dirección</mat-error>
+        }
+        @if (formGroup.controls.address.valid) {
+          <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
+        }
+      </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email" />
-      @if (formGroup.controls.email.hasError('required')) {
-        <mat-error>Ingrese su email. </mat-error>
-      }
+      <button mat-flat-button class="btn-locate" type="button" (click)="coordsByAdress()" [disabled]="!formGroup.controls.address.valid">Localizar</button>
 
-      @if (formGroup.controls.email.hasError('email')) {
-        <mat-error>Ingrese un email válido. </mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Teléfono</mat-label>
-      <span matTextPrefix>+54 &nbsp;</span>
-      <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber" />
-      @if (formGroup.controls.phoneNumber.hasError('required')) {
-        <mat-error>Ingrese su N° de teléfono. </mat-error>
-      }
-      @if (formGroup.controls.phoneNumber.hasError('pattern')) {
-        <mat-error>Ingrese un N° de teléfono válido. </mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" type="password" formControlName="password" />
-      <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
-        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <div class="map-wrapper">
+        <app-map-input [type]="'local'" (coordinates)="getCoordinates($event)"></app-map-input>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Nombre de Usuario</mat-label>
+        <input matInput placeholder="Nombre de Usuario" formControlName="username" />
+        @if (formGroup.controls.username.hasError('required')) {
+          <mat-error>Ingrese su usuario.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email" />
+        @if (formGroup.controls.email.hasError('required')) {
+          <mat-error>Ingrese su email.</mat-error>
+        }
+        @if (formGroup.controls.email.hasError('email')) {
+          <mat-error>Ingrese un email válido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Teléfono</mat-label>
+        <span matTextPrefix>+54 &nbsp;</span>
+        <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber" />
+        @if (formGroup.controls.phoneNumber.hasError('required')) {
+          <mat-error>Ingrese su N° de teléfono.</mat-error>
+        }
+        @if (formGroup.controls.phoneNumber.hasError('pattern')) {
+          <mat-error>Ingrese un N° de teléfono válido.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Contraseña</mat-label>
+        <input matInput placeholder="Contraseña" type="password" formControlName="password" />
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-      @if (formGroup.controls.password.hasError('required')) {
-        <mat-error>Ingrese su contraseña. </mat-error>
-      }
-      @if (formGroup.controls.password.hasError('pattern')) {
-        <mat-error>Ingrese una contraseña válida. </mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label> Confirmar Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" type="password" formControlName="confirmPassword" [errorStateMatcher]="passwordStateMatcher" />
-          
-      @if (formGroup.controls.confirmPassword.hasError('required')) {
-        <mat-error>Confirme su contraseña. </mat-error>
-      }
-      @if (formGroup.hasError('confirmPasswordError')) {
-        <mat-error>Las contraseñas no coinciden. </mat-error>
-      }
-      
-    </mat-form-field>
+        @if (formGroup.controls.password.hasError('required')) {
+          <mat-error>Ingrese su contraseña.</mat-error>
+        }
+        @if (formGroup.controls.password.hasError('pattern')) {
+          <mat-error>Ingrese una contraseña válida.</mat-error>
+        }
+      </mat-form-field>
 
-    <button mat-raised-button class="w-100" type="submit" (click)="register()">Guardar</button>
-  </form>
+      <mat-form-field>
+        <mat-label>Confirmar Contraseña</mat-label>
+        <input matInput placeholder="Contraseña" type="password" formControlName="confirmPassword" [errorStateMatcher]="passwordStateMatcher" />
+        @if (formGroup.controls.confirmPassword.hasError('required')) {
+          <mat-error>Confirme su contraseña.</mat-error>
+        }
+        @if (formGroup.hasError('confirmPasswordError')) {
+          <mat-error>Las contraseñas no coinciden.</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button class="btn-submit w-100" type="submit" (click)="register()">Guardar</button>
+    </form>
+  </div>
 </div>

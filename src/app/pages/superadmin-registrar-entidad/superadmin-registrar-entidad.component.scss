@@ -14,7 +14,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #57ab5a;
+  color: var(--accent);
   font-size: 0.85rem;
   text-decoration: none;
   margin-bottom: 12px;
@@ -27,15 +27,16 @@
   }
 
   &:hover {
-    color: #66bb6a;
+    filter: brightness(1.15);
   }
 }
 
 .page-title {
   margin: 0 0 4px;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #e6edf3;
+  font-family: 'Sora', sans-serif;
 }
 
 .page-subtitle {
@@ -78,18 +79,18 @@
   .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__leading,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__notch,
   .mdc-text-field--outlined:not(.mdc-text-field--disabled):hover .mdc-notched-outline__trailing {
-    border-color: #4caf50 !important;
+    border-color: var(--accent) !important;
   }
 
   .mdc-text-field--focused .mdc-notched-outline__leading,
   .mdc-text-field--focused .mdc-notched-outline__notch,
   .mdc-text-field--focused .mdc-notched-outline__trailing {
-    border-color: #4caf50 !important;
+    border-color: var(--accent) !important;
   }
 
   input, textarea {
     color: #e6edf3 !important;
-    caret-color: #4caf50;
+    caret-color: var(--accent);
   }
 
   .mat-mdc-select-value-text {
@@ -137,12 +138,12 @@
   padding: 9px 22px;
   border-radius: 8px;
   border: none;
-  background: #4caf50;
+  background: var(--accent);
   color: #fff;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 150ms;
+  transition: filter 150ms;
 
   mat-icon {
     font-size: 18px;
@@ -151,7 +152,7 @@
   }
 
   &:hover:not(:disabled) {
-    background: #43a047;
+    filter: brightness(1.06);
   }
 
   &:disabled {

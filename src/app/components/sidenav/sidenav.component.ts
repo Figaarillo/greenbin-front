@@ -48,8 +48,9 @@ export class SidenavComponent implements OnInit {
     const rol = this.rol
     if (rol == 'responsible') {
       this.menuItems.set([
+        { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
-        { icon: 'history', label: 'Historial entregas', route: '/historial-responsable' },
+        { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'neighbor') {
@@ -57,27 +58,28 @@ export class SidenavComponent implements OnInit {
       const usuarioInfo = JSON.parse(info)
       this.username = usuarioInfo.username
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-vecino' },
-        { icon: 'local_activity', label: 'Mis Cupones', route: '/mis-cupones' },
-        { icon: 'location_on', label: 'Puntos verdes', route: '/puntos-verdes' },
-        { icon: 'history', label: 'Historial entregas', route: '/mis-reciclados' },
-
+        { icon: 'home', label: 'Inicio', route: '/vecino/inicio' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/vecino/modificar-vecino' },
+        { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/mis-cupones' },
+        { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
+        { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'reward-partner') {
       this.menuItems.set([
-        { icon: 'account_circle', label: 'Mi perfil', route: '/modificar-local' },
-        { icon: 'confirmation_number', label: 'Mis cupones', route: '/cupones-ofrecidos' },
-        { icon: 'confirmation_number', label: 'Crear cupón', route: '/registrar-cupon' },
-        { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/usar-cupon' },
+        { icon: 'home', label: 'Inicio', route: '/local/inicio' },
+        { icon: 'account_circle', label: 'Mi perfil', route: '/local/modificar-local' },
+        { icon: 'confirmation_number', label: 'Mis cupones', route: '/local/cupones-ofrecidos' },
+        { icon: 'confirmation_number', label: 'Crear cupón', route: '/local/registrar-cupon' },
+        { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/local/usar-cupon' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'entity') {
       this.menuItems.set([
-        { icon: 'business', label: 'Dashboard', route: '/entidad' },
-        { icon: 'people', label: 'Listar Vecinos', route: '/consultar-vecinos' },
-        { icon: 'supervised_user_circle', label: 'Listar Responsables', route: '/consultar-responsables' },
-        { icon: 'store', label: 'Listar Locales', route: '/consultar-puntos-verdes' },
+        { icon: 'business', label: 'Dashboard', route: '/entidad/dashboard' },
+        { icon: 'people', label: 'Listar Vecinos', route: '/entidad/consultar-vecinos' },
+        { icon: 'supervised_user_circle', label: 'Listar Responsables', route: '/entidad/listar-responsables' },
+        { icon: 'store', label: 'Listar Locales', route: '/entidad/consultar-locales' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     }

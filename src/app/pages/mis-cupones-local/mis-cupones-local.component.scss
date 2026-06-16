@@ -1,35 +1,107 @@
-.mat-mdc-table, .mat-mdc-paginator{
-    background-color: transparent;
-}
-.mat-mdc-row .mat-mdc-cell {
-    border-bottom: 1px solid transparent;
-    border-top: 1px solid transparent;
-    cursor: pointer;
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.cupon-container{
-    display: flex
-}
-.cupon-container mat-card{
+.cupon-container {
+  display: block;
+
+  mat-card {
     max-width: 800px;
     margin: auto;
     width: 100%;
+    height: 100%;
+    border-radius: var(--r-card);
+    box-shadow: var(--sh-1);
+    padding: 18px;
+    transition: transform 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sh-2);
+    }
+  }
 }
-.price{
-    background-color: #176100 !important;
-    border: 2px solid #176100 !important;
-    color: #ffffff !important;
-    border-radius: 2rem !important;
+
+.total-label {
+  text-align: center;
+  margin: 8px 0 18px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 14px;
 }
-.unavailable{
-    background-color: #af3636 !important;
-    border: 2px solid #911e1e !important;
-    color: #ffffff !important;
-    border-radius: 2rem !important; 
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
 }
-.available{
-    background-color: #497b9c !important;
-    border: 2px solid #2a5f8b !important;
-    color: #ffffff !important;
-    border-radius: 2rem !important;
+
+.price {
+  display: inline-block;
+  margin-top: 12px;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  color: #fff;
+  border-radius: 2rem;
+  padding: 4px 14px;
+  font-size: 13px;
+}
+
+.badge-available {
+  display: inline-block;
+  margin-top: 6px;
+  background: rgba(30, 158, 90, 0.12);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 2rem;
+  padding: 2px 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-unavailable {
+  display: inline-block;
+  margin-top: 6px;
+  background: rgba(229, 57, 53, 0.10);
+  border: 2px solid #e53935;
+  color: #e53935;
+  border-radius: 2rem;
+  padding: 2px 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background 150ms;
+
+  mat-icon { font-size: 20px; }
+
+  &.btn-edit {
+    color: var(--accent);
+    &:hover { background: var(--accent-soft); }
+  }
+
+  &.btn-toggle {
+    color: var(--muted);
+    &:hover { background: var(--surface-2); }
+  }
 }

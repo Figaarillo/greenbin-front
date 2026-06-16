@@ -1,3 +1,4 @@
+<div data-role="vecino">
 <app-navbar [title]="'Catálogo de Cupones'" [route]="'/vecino'"></app-navbar>
 
 <div class="container mt-3">
@@ -17,16 +18,16 @@
   </div>
 
   <!-- FIX: puntos se actualizan en tiempo real al canjear -->
-  <h4 class="text-center">Saldo: {{puntos}} puntos</h4>
+  <h4 class="saldo">Saldo: {{puntos}} puntos</h4>
 
   <div class="catalog">
     @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
-      <div>
+      <div class="empty">
         <h5><b>No se encontraron cupones</b></h5>
       </div>
     }
     @for (data of dataSource.filteredData; track data) {
-      <div class="my-2 cupon-container">
+      <div class="cupon-container">
         <mat-card (click)="abrirModal(data)">
           <mat-card-header>
             <mat-card-title>{{data.title}} <i>({{data.discount}})</i></mat-card-title>
@@ -44,3 +45,4 @@
 
 <!-- FIX: escuchar el evento (cuponCanjeado) para actualizar puntos en pantalla -->
 <app-modal-cupon (cuponCanjeado)="onCuponCanjeado($event)"></app-modal-cupon>
+</div>

@@ -1,8 +1,9 @@
-<app-navbar [title]="'Categorías de Residuo'" [route]="'/entidad'"></app-navbar>
-<app-table
-  [columns]="columns"
-  [title]="title"
-  [tableData]="categorias"
-  (edit)="editCategoria($event)"
-  (delete)="toggleCategoria($event)">
-</app-table>
+<div data-role="entidad">
+  <app-table
+    [columns]="columns"
+    [title]="title"
+    [tableData]="categorias"
+    (edit)="editCategoria($event)"
+    (delete)="toggleCategoria($event)">
+  </app-table>
+</div>

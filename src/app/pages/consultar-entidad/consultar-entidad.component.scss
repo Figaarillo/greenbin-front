@@ -1,18 +1,18 @@
 .btn-delete {
-    color: #F31409;
+    color: var(--red, #e53935);
 }
 
-th{
+th {
     width: 20%;
 }
-/* Structure */
+
 table {
     width: 100%;
-  }
-  
-  .mat-mdc-form-field {
+}
+
+.mat-mdc-form-field {
     font-size: 14px;
     width: 100%;
-    color: white;
-  }
+    color: var(--ink);
+}
   

@@ -6,6 +6,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterModule } from '@angular/router'
+import { BreakpointObserver } from '@angular/cdk/layout'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -40,11 +41,13 @@ export class LandingVecinoComponent implements OnInit {
   historialVisible: any[] = []
   mostrarTodo: boolean = false
   LIMITE = 5
+  isDesktop = false
 
   constructor(
     private router: Router,
     private sesionService: SesionService,
-    private vecinoServ: VecinoService
+    private vecinoServ: VecinoService,
+    private breakpointObserver: BreakpointObserver
   ) {
     const info = localStorage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
@@ -53,6 +56,11 @@ export class LandingVecinoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // En pantallas anchas el sidenav queda fijo y desplegado; en mobile es drawer.
+    this.breakpointObserver.observe('(min-width: 960px)').subscribe(result => {
+      this.isDesktop = result.matches
+    })
+
     this.vecinoServ.get(this.id).subscribe((resp: any) => {
       this.puntos = resp.data.points
       localStorage.setItem('points', this.puntos)
