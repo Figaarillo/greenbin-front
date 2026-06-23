@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { Entidad } from '../services/interfaces/entidad'
-import { arrayBuffer } from 'stream/consumers'
 
 @Pipe({
   name: 'entities',

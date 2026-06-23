@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing'
 import { HttpInterceptorFn } from '@angular/common/http'
+import { HttpClientTestingModule } from '@angular/common/http/testing'
 
 import { requestInterceptor } from './request.interceptor'
 
@@ -8,7 +9,7 @@ describe('requestInterceptor', () => {
     TestBed.runInInjectionContext(() => requestInterceptor(req, next))
 
   beforeEach(() => {
-    TestBed.configureTestingModule({})
+    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] })
   })
 
   it('should be created', () => {

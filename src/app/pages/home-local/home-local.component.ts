@@ -43,10 +43,15 @@ export class HomeLocalComponent implements OnInit {
   private rewardPartnerId: string = ''
 
   constructor(private localService: LocalAdheridoService) {
-    const info = localStorage.getItem('usuarioInfo') || ''
-    const usuarioInfo = JSON.parse(info)
-    this.name = usuarioInfo.name
-    this.rewardPartnerId = usuarioInfo.id
+    const info = localStorage.getItem('usuarioInfo')
+    let usuarioInfo: any = {}
+    try {
+      usuarioInfo = info ? JSON.parse(info) : {}
+    } catch {
+      usuarioInfo = {}
+    }
+    this.name = usuarioInfo?.name ?? ''
+    this.rewardPartnerId = usuarioInfo?.id ?? ''
   }
 
   ngOnInit(): void {

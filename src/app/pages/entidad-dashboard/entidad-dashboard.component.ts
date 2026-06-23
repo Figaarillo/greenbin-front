@@ -77,11 +77,16 @@ export class EntidadDashboardComponent implements OnInit {
   periodChartWidth = '100%'
 
   ngOnInit(): void {
-    const info = localStorage.getItem('entidadInfo') || ''
-    const entidadInfo = JSON.parse(info)
-    this.email = entidadInfo.email
-    this.name = entidadInfo.name
-    this.entidadId = entidadInfo.id
+    const info = localStorage.getItem('entidadInfo')
+    let entidadInfo: any = {}
+    try {
+      entidadInfo = info ? JSON.parse(info) : {}
+    } catch {
+      entidadInfo = {}
+    }
+    this.email = entidadInfo?.email ?? ''
+    this.name = entidadInfo?.name ?? ''
+    this.entidadId = entidadInfo?.id ?? ''
     this.loadAllStats()
   }
 
