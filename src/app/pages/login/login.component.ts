@@ -41,6 +41,8 @@ import { catchError, of, tap } from 'rxjs'
 export class LoginComponent {
   router = inject(Router)
   hide = true
+  loginAs = 0
+  userRole: string[] = ['Vecino', 'Local adherido', 'Responsable']
   recaptchaToken = ''
   recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 
