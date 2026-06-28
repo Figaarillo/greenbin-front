@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -27,6 +28,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
   styleUrl: './visualizar-pv.component.scss'
 })
 export class VisualizarPvComponent implements OnInit {
+  private storage = inject(StorageService)
   @ViewChild(ModalPvComponent) modal?: ModalPvComponent
   pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
@@ -38,7 +40,7 @@ export class VisualizarPvComponent implements OnInit {
   puntosVerdes: any[] = []
 
   ngOnInit() {
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     if (entidadInfo?.coordinates) {
       this.options = {
         ...this.options,

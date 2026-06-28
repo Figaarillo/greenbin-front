@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { inject, Injectable } from '@angular/core'
 import { PuntoVerde } from '../interfaces/punto-verde'
 import { HttpClient } from '@angular/common/http'
@@ -7,10 +8,11 @@ import { map } from 'rxjs'
   providedIn: 'root'
 })
 export class PuntoVerdeService {
+  private apiBase = inject(API_BASE_URL)
   constructor() {}
 
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/green-point'
+  private url: string = `${this.apiBase}/api/green-point`
 
   create(object: PuntoVerde): Observable<PuntoVerde> {
     return this.http.post<PuntoVerde>(this.url, object)

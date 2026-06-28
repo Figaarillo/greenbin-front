@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
@@ -6,8 +7,9 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export class StatisticsService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url = 'http://localhost:8080/api/statistics'
+  private url = `${this.apiBase}/api/statistics`
 
   getTotalRecycled(entityId: string, from?: string, to?: string): Observable<any> {
     let params = new HttpParams()

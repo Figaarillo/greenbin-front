@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit } from '@angular/core'
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { Location } from '@angular/common'
@@ -13,6 +14,7 @@ import { filter } from 'rxjs'
   styleUrl: './entity-layout.component.scss'
 })
 export class EntityLayoutComponent implements OnInit {
+  private storage = inject(StorageService)
   name = ''
   email = ''
   router = inject(Router)
@@ -35,7 +37,7 @@ export class EntityLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const info = localStorage.getItem('entidadInfo') || ''
+    const info = this.storage.getItem('entidadInfo') || ''
     const entidadInfo = JSON.parse(info)
     this.email = entidadInfo.email
     this.name = entidadInfo.name
@@ -62,9 +64,9 @@ export class EntityLayoutComponent implements OnInit {
   }
 
   logOut(): void {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.setItem('respoEdit', 'false')
+    this.storage.removeItem('accessToken')
+    this.storage.removeItem('refreshToken')
+    this.storage.setItem('respoEdit', 'false')
     this.router.navigateByUrl('/login-admin')
   }
 }

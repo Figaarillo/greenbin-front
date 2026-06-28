@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit } from '@angular/core'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
@@ -39,6 +40,7 @@ import { CommonModule, DatePipe } from '@angular/common'
   styleUrl: './landing-responsable.component.scss'
 })
 export class LandingResponsableComponent implements OnInit {
+  private storage = inject(StorageService)
   listPtoVerde: PuntoVerde[] = []
   ptoVerde = new FormControl()
   nombre: string = ''
@@ -55,11 +57,11 @@ export class LandingResponsableComponent implements OnInit {
     private wasteDeliveryService: WasteDeliveryService
   ) {
     this.nombre = this.formatearNombre(this.sesionService.getFirstname())
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.pvService.list(entidadInfo.id).subscribe((res: any) => {
       this.listPtoVerde = res
     })
-    const ptoVerdeSeleccionado = localStorage.getItem('puntoVerde') || ''
+    const ptoVerdeSeleccionado = this.storage.getItem('puntoVerde') || ''
     this.pvSelec = ptoVerdeSeleccionado
     this.ptoVerde = new FormControl(ptoVerdeSeleccionado)
   }
@@ -84,7 +86,7 @@ export class LandingResponsableComponent implements OnInit {
   }
 
   onChange(event: any) {
-    localStorage.setItem('puntoVerde', event.value)
+    this.storage.setItem('puntoVerde', event.value)
     this.pvSelec = event.value
   }
 

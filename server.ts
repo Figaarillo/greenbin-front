@@ -24,6 +24,9 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
+  // Public backend host, resolved at runtime (set API_URL in Railway).
+  const apiUrl = process.env['API_URL'] || 'http://localhost:8080';
+
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
@@ -36,7 +39,15 @@ export function app(): express.Express {
         publicPath: browserDistFolder,
         providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
       })
-      .then((html) => res.send(html))
+      .then((html) =>
+        // Expose the API host to the browser bundle before it bootstraps.
+        res.send(
+          html.replace(
+            '</head>',
+            `<script>window.__API_URL__=${JSON.stringify(apiUrl)}</script></head>`
+          )
+        )
+      )
       .catch((err) => next(err));
   });
 

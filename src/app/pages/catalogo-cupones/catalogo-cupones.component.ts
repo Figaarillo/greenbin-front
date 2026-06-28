@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, ViewChild } from '@angular/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSortModule } from '@angular/material/sort'
@@ -34,6 +35,7 @@ import { forkJoin } from 'rxjs'
   styleUrl: './catalogo-cupones.component.scss'
 })
 export class CatalogoCuponesComponent {
+  private storage = inject(StorageService)
   @ViewChild(ModalCuponComponent) modal?: ModalCuponComponent
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   puntos = 0
@@ -69,7 +71,7 @@ export class CatalogoCuponesComponent {
   }
 
   getItems() {
-    const usuarioInfo = localStorage.getItem('usuarioInfo')
+    const usuarioInfo = this.storage.getItem('usuarioInfo')
     const parsed = usuarioInfo ? JSON.parse(usuarioInfo) : null
     const entityId = parsed?.entity?.id
     const neighborId = this.sesionService.getUserId()

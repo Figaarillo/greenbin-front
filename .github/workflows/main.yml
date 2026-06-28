@@ -1,0 +1,40 @@
+name: Frontend CI/CD
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Tests temporarily removed — the testing infra (karma builder in
+      # angular.json, tsconfig.spec.json, jasmine/karma devDeps) is kept.
+      # Re-add specs, then restore this step (a no-sandbox launcher is the
+      # robust choice on CI runners):
+      #   - name: Run tests
+      #     run: pnpm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
+
+      - name: Build Angular (production)
+        run: pnpm run build

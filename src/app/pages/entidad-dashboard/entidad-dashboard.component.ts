@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit } from '@angular/core'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { Router, RouterModule } from '@angular/router'
@@ -25,6 +26,7 @@ Chart.register(...registerables)
   styleUrl: './entidad-dashboard.component.scss'
 })
 export class EntidadDashboardComponent implements OnInit {
+  private storage = inject(StorageService)
   name = ''
   email = ''
   entidadId = ''
@@ -77,11 +79,16 @@ export class EntidadDashboardComponent implements OnInit {
   periodChartWidth = '100%'
 
   ngOnInit(): void {
-    const info = localStorage.getItem('entidadInfo') || ''
-    const entidadInfo = JSON.parse(info)
-    this.email = entidadInfo.email
-    this.name = entidadInfo.name
-    this.entidadId = entidadInfo.id
+    const info = this.storage.getItem('entidadInfo')
+    let entidadInfo: any = {}
+    try {
+      entidadInfo = info ? JSON.parse(info) : {}
+    } catch {
+      entidadInfo = {}
+    }
+    this.email = entidadInfo?.email ?? ''
+    this.name = entidadInfo?.name ?? ''
+    this.entidadId = entidadInfo?.id ?? ''
     this.loadAllStats()
   }
 
@@ -175,9 +182,9 @@ export class EntidadDashboardComponent implements OnInit {
   }
 
   logOut(): void {
-    localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
-    localStorage.setItem('respoEdit', 'false')
+    this.storage.removeItem('accessToken')
+    this.storage.removeItem('refreshToken')
+    this.storage.setItem('respoEdit', 'false')
     this.router.navigateByUrl('/login-admin')
   }
 }

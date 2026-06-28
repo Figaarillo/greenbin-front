@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { inject, Injectable } from '@angular/core'
 import { Responsable } from '../interfaces/responsable'
 import { HttpClient } from '@angular/common/http'
@@ -10,9 +11,10 @@ import { Vecino } from '../interfaces/vecino'
   providedIn: 'root'
 })
 export class ResponsableService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/responsible'
-  private urlVecino: string = 'http://localhost:8080/api/neighbor/ba605e0b-adbb-47c1-868e-2a12fd85b860'
+  private url: string = `${this.apiBase}/api/responsible`
+  private urlVecino: string = `${this.apiBase}/api/neighbor/ba605e0b-adbb-47c1-868e-2a12fd85b860`
 
   create(object: Responsable): Observable<Responsable> {
     return this.http.post<Responsable>(this.url, object)

@@ -12,7 +12,11 @@
         <p class="m-0"><b>Teléfono: </b>{{local.phoneNumber}}</p>
         <p><b>Email: </b>{{local.email}}</p>
         <div *ngIf="localAdherido.length == 1">
-          <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter"></app-map-view>
+          @defer (on immediate) {
+            <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter"></app-map-view>
+          } @placeholder {
+            <div class="map-placeholder">Cargando mapa…</div>
+          }
         </div>
         <p class="mb-0 mt-3"><b>Sobre el Cupón</b></p>
         <p>{{cupon?.discount}}% de descuento. {{cupon?.description}}</p>

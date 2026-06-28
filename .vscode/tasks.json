@@ -37,6 +37,33 @@
           }
         }
       }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "label": "npm: test:headless",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "bundle generation complete"
+          }
+        }
+      },
+      "args": [
+        "--",
+        "--watch=false",
+        "--browsers=ChromeHeadless"
+      ],
+      "presentation": {
+        "reveal": "silent"
+      }
     }
   ]
 }

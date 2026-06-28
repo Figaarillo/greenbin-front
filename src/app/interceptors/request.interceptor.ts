@@ -3,9 +3,10 @@ import { inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { catchError, tap, throwError } from 'rxjs'
 import Swal from 'sweetalert2'
+import { API_BASE_URL } from '../config/api.config'
 
 export const requestInterceptor: HttpInterceptorFn = (req, next) => {
-  const apiUrl = 'http://localhost:8080'
+  const apiUrl = inject(API_BASE_URL)
   const router = inject(Router)
   const routesToNotify: {
     url: string

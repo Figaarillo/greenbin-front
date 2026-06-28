@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit, ViewChild } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
@@ -31,6 +32,7 @@ import { CommonModule, DatePipe } from '@angular/common'
   styleUrl: './landing-vecino.component.scss'
 })
 export class LandingVecinoComponent implements OnInit {
+  private storage = inject(StorageService)
   title = 'GreenBin'
   @ViewChild(MatSidenav, { static: true })
   sidenav!: MatSidenav
@@ -49,7 +51,7 @@ export class LandingVecinoComponent implements OnInit {
     private vecinoServ: VecinoService,
     private breakpointObserver: BreakpointObserver
   ) {
-    const info = localStorage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
     this.name = usuarioInfo.firstname
     this.id = usuarioInfo.id
@@ -63,7 +65,7 @@ export class LandingVecinoComponent implements OnInit {
 
     this.vecinoServ.get(this.id).subscribe((resp: any) => {
       this.puntos = resp.data.points
-      localStorage.setItem('points', this.puntos)
+      this.storage.setItem('points', this.puntos)
     })
 
     this.vecinoServ.getMyTransactions(this.id).subscribe((resp: any) => {

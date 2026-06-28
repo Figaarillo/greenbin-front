@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
 import { Observable } from 'rxjs'
@@ -9,8 +10,9 @@ import { map } from 'rxjs'
   providedIn: 'root'
 })
 export class WasteCategoryService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/waste-category'
+  private url: string = `${this.apiBase}/api/waste-category`
 
   constructor() {}
   list(offset: number, limit: number, includeInactive = false): Observable<WasteCategory[]> {

@@ -26,7 +26,11 @@
     </div>
 
     <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
-      <app-map-input [type]="'punto-verde'" [initialCenter]="entidadCenter" [city]="entidadCity" (coordinates)="getCoordinates($event)"></app-map-input>
+      @defer (on immediate) {
+        <app-map-input [type]="'punto-verde'" [initialCenter]="entidadCenter" [city]="entidadCity" (coordinates)="getCoordinates($event)"></app-map-input>
+      } @placeholder {
+        <div class="map-placeholder">Cargando mapa…</div>
+      }
     </div> 
 
     <mat-form-field>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
@@ -18,6 +19,7 @@ Chart.register(...registerables)
   styleUrl: './estadisticas-local.component.scss'
 })
 export class EstadisticasLocalComponent implements OnInit {
+  private storage = inject(StorageService)
   private rewardPartnerId = ''
   private allTransactions: any[] = []
 
@@ -67,7 +69,7 @@ export class EstadisticasLocalComponent implements OnInit {
   constructor(private localService: LocalAdheridoService) {}
 
   ngOnInit(): void {
-    const info = localStorage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || ''
     this.rewardPartnerId = JSON.parse(info).id
     this.loadData()
   }

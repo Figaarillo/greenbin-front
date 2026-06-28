@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
 
 import { MatButtonModule } from '@angular/material/button'
@@ -39,8 +40,11 @@ import { catchError, of, tap } from 'rxjs'
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  private storage = inject(StorageService)
   router = inject(Router)
   hide = true
+  loginAs = 0
+  userRole: string[] = ['Vecino', 'Local adherido', 'Responsable']
   recaptchaToken = ''
   recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 
@@ -170,7 +174,7 @@ export class LoginComponent {
     }
 
     serviceMap[role]?.get(id).subscribe((resp: any) => {
-      localStorage.setItem('usuarioInfo', JSON.stringify(resp.data))
+      this.storage.setItem('usuarioInfo', JSON.stringify(resp.data))
     })
   }
 }

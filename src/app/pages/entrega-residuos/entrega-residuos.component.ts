@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, Inject, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -40,6 +41,7 @@ import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
   styleUrl: './entrega-residuos.component.scss'
 })
 export class EntregaResiduosComponent {
+  private storage = inject(StorageService)
   dniValidated = false
   totalPuntos = 0
   fechaActual: string = ''
@@ -97,10 +99,10 @@ export class EntregaResiduosComponent {
 
       Swal.showLoading()
 
-      const responsibleId = localStorage.getItem('userId') || ''
+      const responsibleId = this.storage.getItem('userId') || ''
       console.log('responsable')
       console.log(responsibleId)
-      const greenPoint = localStorage.getItem('puntoVerde') || ''
+      const greenPoint = this.storage.getItem('puntoVerde') || ''
       const wasteDelivery: WasteDelivery = {
         responsibleId: responsibleId,
         neighborId: this.idVeci,

@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { CommonModule } from '@angular/common'
 import { Component, inject, OnInit, signal } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
@@ -19,6 +20,7 @@ export type MenuItem = {
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent implements OnInit {
+  private storage = inject(StorageService)
   sesionServ = inject(SesionService)
   router = inject(Router)
 
@@ -54,7 +56,7 @@ export class SidenavComponent implements OnInit {
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ])
     } else if (rol == 'neighbor') {
-      const info = localStorage.getItem('usuarioInfo') || ''
+      const info = this.storage.getItem('usuarioInfo') || ''
       const usuarioInfo = JSON.parse(info)
       this.username = usuarioInfo.username
       this.menuItems.set([

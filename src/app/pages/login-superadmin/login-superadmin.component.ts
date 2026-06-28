@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
@@ -17,6 +18,7 @@ import { SesionService } from '../../services/sesion/sesion.service'
   styleUrl: './login-superadmin.component.scss'
 })
 export class LoginSuperadminComponent {
+  private storage = inject(StorageService)
   router = inject(Router)
   hide = true
   form: FormGroup
@@ -40,7 +42,7 @@ export class LoginSuperadminComponent {
       next: (resp: any) => {
         this.sesionService.setAccessToken(resp.data.accessToken)
         this.sesionService.setRefreshToken(resp.data.refreshToken)
-        localStorage.setItem('rol', 'superadmin')
+        this.storage.setItem('rol', 'superadmin')
         this.router.navigateByUrl('/superadmin/dashboard')
       },
       error: () => {
