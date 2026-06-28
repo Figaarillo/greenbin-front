@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, ViewChild } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -34,6 +35,7 @@ import { CommonModule } from '@angular/common'
   styleUrl: './mis-cupones-vecino.component.scss'
 })
 export class MisCuponesVecinoComponent {
+  private storage = inject(StorageService)
   @ViewChild(ModalCuponComponent) modal?: ModalCuponComponent
   dataSource: MatTableDataSource<CouponTransaction> = new MatTableDataSource()
   puntos = 0
@@ -48,7 +50,7 @@ export class MisCuponesVecinoComponent {
     private sesionService: SesionService,
     private vecinoService: VecinoService
   ) {
-    const info = localStorage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || ''
     const usuarioInfo = JSON.parse(info)
     this.puntos = usuarioInfo.points
     this.getItems()

@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
@@ -14,6 +15,7 @@ import { Router } from '@angular/router'
   styleUrl: './consultar-responsables.component.scss'
 })
 export class ConsultarResponsablesComponent implements OnInit {
+  private storage = inject(StorageService)
   private respService = inject(ResponsablesService)
   columns: Column[] = []
   title: string = 'Listar Responsables'
@@ -53,7 +55,7 @@ export class ConsultarResponsablesComponent implements OnInit {
     this.listRespo()
   }
   listRespo() {
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.respService.list(0, 100, entidadInfo.id).subscribe({
       next: (response: any) => {
         this.responsibles = response
@@ -80,7 +82,7 @@ export class ConsultarResponsablesComponent implements OnInit {
 
   editResponsible(id: string) {
     this.router.navigate(['/modificar-responsable', id])
-    localStorage.setItem('respoEdit', 'true')
+    this.storage.setItem('respoEdit', 'true')
   }
   deleteResponsible(id: string) {
     const swalWithBootstrapButtons = Swal.mixin({

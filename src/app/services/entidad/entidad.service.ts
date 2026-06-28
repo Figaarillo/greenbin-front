@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
+import { StorageService } from '../storage/storage.service'
 import { Entidad } from '../interfaces/entidad'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs'
@@ -10,8 +12,10 @@ import { LoginResponse } from '../interfaces/login-response'
   providedIn: 'root'
 })
 export class EntidadService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/entity'
+  private storage = inject(StorageService)
+  private url: string = `${this.apiBase}/api/entity`
   create(object: Entidad): Observable<Entidad> {
     return this.http.post<Entidad>(this.url, object)
   }
@@ -43,7 +47,7 @@ export class EntidadService {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
   }
   async roleValidator() {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })

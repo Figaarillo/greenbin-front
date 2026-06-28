@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
@@ -15,6 +16,7 @@ import { TableComponent } from '../../components/table/table.component'
   styleUrl: './consultar-puntos-verdes.component.scss'
 })
 export class ConsultarPuntosVerdesComponent {
+  private storage = inject(StorageService)
   private service = inject(PuntoVerdeService)
   columns: Column[] = []
   title: string = 'Listar Puntos Verdes'
@@ -46,7 +48,7 @@ export class ConsultarPuntosVerdesComponent {
     this.getItems()
   }
   getItems() {
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.service.list(entidadInfo.id).subscribe({
       next: (response: any) => {
         this.puntosVerdes = response

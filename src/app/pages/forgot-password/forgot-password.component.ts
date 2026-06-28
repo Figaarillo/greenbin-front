@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { API_BASE_URL } from '../../config/api.config'
+import { inject, Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
@@ -27,6 +28,7 @@ import Swal from 'sweetalert2'
   styleUrl: './forgot-password.component.scss'
 })
 export class ForgotPasswordComponent {
+  private apiBase = inject(API_BASE_URL)
   form: FormGroup
   loading = false
 
@@ -54,7 +56,7 @@ export class ForgotPasswordComponent {
 
     const { email, userType } = this.form.value
 
-    this.http.post<any>('http://localhost:8080/api/auth/forgot-password', { email, userType }).subscribe({
+    this.http.post<any>(`${this.apiBase}/api/auth/forgot-password`, { email, userType }).subscribe({
       next: res => {
         this.loading = false
         const resetToken = res.data?.resetToken

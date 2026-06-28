@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
@@ -14,6 +15,7 @@ import { Router } from '@angular/router'
   styleUrl: './consultar-vecinos.component.scss'
 })
 export class ConsultarVecinosComponent implements OnInit {
+  private storage = inject(StorageService)
   private vecinoService = inject(VecinoService)
   columns: Column[] = []
   title: string = 'Listar Vecinos'
@@ -32,7 +34,7 @@ export class ConsultarVecinosComponent implements OnInit {
   }
 
   listVecinos() {
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.vecinoService.list(entidadInfo.id, true).subscribe({
       next: (response: any) => {
         this.vecinos = response.data.map((v: any) => ({

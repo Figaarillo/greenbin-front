@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
@@ -38,6 +39,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
   styleUrl: './login-entidad.component.scss'
 })
 export class LoginEntidadComponent {
+  private storage = inject(StorageService)
   router = inject(Router)
   hide = true
   recaptchaToken = ''
@@ -67,10 +69,10 @@ export class LoginEntidadComponent {
         this.sesionService.setAccessToken(obj.data.accessToken)
         this.sesionService.setRefreshToken(obj.data.refreshToken)
         this.sesionService.setUserId(obj.data.id)
-        localStorage.setItem('rol', 'admin')
+        this.storage.setItem('rol', 'admin')
 
         this.entidadServ.get(obj.data.id).subscribe((resp: any) => {
-          localStorage.setItem('entidadInfo', JSON.stringify(resp.data))
+          this.storage.setItem('entidadInfo', JSON.stringify(resp.data))
           this.router.navigateByUrl('/entidad')
         })
       })

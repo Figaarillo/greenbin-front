@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, ViewChild } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -31,6 +32,7 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
   styleUrl: './registrar-punto-verde.component.scss'
 })
 export class RegistrarPuntoVerdeComponent {
+  private storage = inject(StorageService)
   form: FormGroup
   @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
   entidadCenter: google.maps.LatLngLiteral | null = null
@@ -50,7 +52,7 @@ export class RegistrarPuntoVerdeComponent {
       description: ['']
     })
 
-    const info = localStorage.getItem('entidadInfo') || ''
+    const info = this.storage.getItem('entidadInfo') || ''
     const entidadInfo = JSON.parse(info)
     if (entidadInfo?.coordinates) {
       this.entidadCenter = {
@@ -75,7 +77,7 @@ export class RegistrarPuntoVerdeComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      const info = localStorage.getItem('entidadInfo') || ''
+      const info = this.storage.getItem('entidadInfo') || ''
       const entidadInfo = JSON.parse(info)
 
       const pv: PuntoVerde = {

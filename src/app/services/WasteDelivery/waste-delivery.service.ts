@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { WasteDelivery } from '../interfaces/wasteDelivery'
@@ -7,8 +8,9 @@ import { Observable } from 'rxjs'
   providedIn: 'root'
 })
 export class WasteDeliveryService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/waste/'
+  private url: string = `${this.apiBase}/api/waste/`
   constructor() {}
 
   create(object: WasteDelivery): Observable<WasteDelivery> {

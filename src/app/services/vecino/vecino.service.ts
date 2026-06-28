@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
+import { StorageService } from '../storage/storage.service'
 import { Observable } from 'rxjs'
 import { Vecino } from '../interfaces/vecino'
 import { Login } from '../interfaces/login'
@@ -10,9 +12,11 @@ import { VecinoUpdate } from '../interfaces/vecino_update'
   providedIn: 'root'
 })
 export class VecinoService {
+  private apiBase = inject(API_BASE_URL)
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/neighbor'
-  private couponUrl = 'http://localhost:8080/api/redeem-coupon'
+  private storage = inject(StorageService)
+  private url: string = `${this.apiBase}/api/neighbor`
+  private couponUrl = `${this.apiBase}/api/redeem-coupon`
 
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url, object)
@@ -32,7 +36,7 @@ export class VecinoService {
   }
 
   async roleValidator() {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
@@ -48,11 +52,11 @@ export class VecinoService {
   }
 
   getMyTransactions(neighborId: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/api/coupon-transaction/neighbor/${neighborId}`)
+    return this.http.get<any>(`${this.apiBase}/api/coupon-transaction/neighbor/${neighborId}`)
   }
 
   list(entityId?: string, includeInactive = false): Observable<any> {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
     const query = new URLSearchParams()
     if (entityId) query.set('entityId', entityId)
@@ -62,12 +66,12 @@ export class VecinoService {
   }
 
   delete(id: string): Observable<any> {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
     return this.http.delete<any>(this.url + '/' + id, { headers })
   }
 
   getMyWasteTransactions(neighborId: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/api/waste/transaction/neighbor/${neighborId}`)
+    return this.http.get<any>(`${this.apiBase}/api/waste/transaction/neighbor/${neighborId}`)
   }
 }

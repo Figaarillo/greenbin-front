@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
+import { StorageService } from '../storage/storage.service'
 import { Observable } from 'rxjs'
 import { Responsable } from '../interfaces/responsaible'
 import { map } from 'rxjs'
@@ -8,10 +10,12 @@ import { HttpHeaders } from '@angular/common/http'
   providedIn: 'root'
 })
 export class ResponsablesService {
+  private apiBase = inject(API_BASE_URL)
   constructor() {}
 
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/responsible'
+  private storage = inject(StorageService)
+  private url: string = `${this.apiBase}/api/responsible`
 
   list(offset: number, limit: number, entityId?: string): Observable<Responsable[]> {
     let params = `?offset=${offset}&limit=${limit}`
@@ -29,7 +33,7 @@ export class ResponsablesService {
   }
 
   async roleValidator() {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })

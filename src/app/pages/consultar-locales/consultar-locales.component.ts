@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
@@ -14,6 +15,7 @@ import { Router } from '@angular/router'
   styleUrl: './consultar-locales.component.scss'
 })
 export class ConsultarLocalesComponent implements OnInit {
+  private storage = inject(StorageService)
   private localService = inject(LocalAdheridoService)
   columns: Column[] = []
   title: string = 'Listar Locales Adheridos'
@@ -32,7 +34,7 @@ export class ConsultarLocalesComponent implements OnInit {
   }
 
   listLocales() {
-    const entidadInfo = JSON.parse(localStorage.getItem('entidadInfo') || '{}')
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.localService.list(entidadInfo.id, true).subscribe({
       next: (response: any) => {
         this.locales = response.data.map((l: any) => ({

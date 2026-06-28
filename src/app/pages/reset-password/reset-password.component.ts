@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { API_BASE_URL } from '../../config/api.config'
+import { inject, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
@@ -25,6 +26,7 @@ import Swal from 'sweetalert2'
   styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent implements OnInit {
+  private apiBase = inject(API_BASE_URL)
   form: FormGroup
   loading = false
   hideNew = true
@@ -64,7 +66,7 @@ export class ResetPasswordComponent implements OnInit {
     const { otp, newPassword } = this.form.value
 
     this.http
-      .post<any>('http://localhost:8080/api/auth/reset-password', {
+      .post<any>(`${this.apiBase}/api/auth/reset-password`, {
         resetToken: this.resetToken,
         otp,
         newPassword

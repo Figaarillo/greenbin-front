@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
@@ -33,6 +34,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
   styleUrl: './home-local.component.scss'
 })
 export class HomeLocalComponent implements OnInit {
+  private storage = inject(StorageService)
   name: string = ''
   transactions: any[] = []
   historialVisible: any[] = []
@@ -43,7 +45,7 @@ export class HomeLocalComponent implements OnInit {
   private rewardPartnerId: string = ''
 
   constructor(private localService: LocalAdheridoService) {
-    const info = localStorage.getItem('usuarioInfo')
+    const info = this.storage.getItem('usuarioInfo')
     let usuarioInfo: any = {}
     try {
       usuarioInfo = info ? JSON.parse(info) : {}

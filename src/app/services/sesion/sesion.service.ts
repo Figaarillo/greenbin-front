@@ -1,18 +1,22 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { inject, Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
 import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular/common/http'
 import { IS_REFRESH_TOKEN_REQUEST } from '../../interceptors/httpContextToken'
 import { Router } from '@angular/router'
+import { StorageService } from '../storage/storage.service'
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
+  private apiBase = inject(API_BASE_URL)
+  private storage = inject(StorageService)
   constructor(
     private http: HttpClient,
     private router: Router
   ) {}
-  private apiUrl = 'http://localhost:8080/api'
+  private apiUrl = `${this.apiBase}/api`
 
   //borrar?
   private logging: boolean = false
@@ -25,78 +29,78 @@ export class SesionService {
     this.login()
     console.log('logueandoando')
     console.log(this.isLogging())
-    console.log(localStorage.getItem('accessToken'))
-    console.log(localStorage.getItem('refreshToken'))
-    console.log(localStorage.getItem('userId'))
+    console.log(this.storage.getItem('accessToken'))
+    console.log(this.storage.getItem('refreshToken'))
+    console.log(this.storage.getItem('userId'))
   }
   isLogging(): boolean {
     return this.loggingSubject.value
   }
   login() {
-    localStorage.setItem('isLogged', 'true')
+    this.storage.setItem('isLogged', 'true')
   }
   ///--------
 
   logout() {
-    localStorage.clear()
+    this.storage.clear()
     this.router.navigateByUrl('/login')
   }
 
   setPoints(data: string) {
-    localStorage.setItem('points', data)
+    this.storage.setItem('points', data)
   }
   getPoints() {
-    return localStorage.getItem('points')!
+    return this.storage.getItem('points')!
   }
   setFirstname(data: string) {
-    localStorage.setItem('firstname', data)
+    this.storage.setItem('firstname', data)
   }
   getFirstname() {
-    return localStorage.getItem('firstname')!
+    return this.storage.getItem('firstname')!
   }
   setLastname(data: string) {
-    localStorage.setItem('lastname', data)
+    this.storage.setItem('lastname', data)
   }
   getLastname() {
-    return localStorage.getItem('lastname')!
+    return this.storage.getItem('lastname')!
   }
   setDni(data: string) {
-    localStorage.setItem('dni', data)
+    this.storage.setItem('dni', data)
   }
   getDni() {
-    return localStorage.getItem('dni')!
+    return this.storage.getItem('dni')!
   }
   setUsername(data: string) {
-    localStorage.setItem('username', data)
+    this.storage.setItem('username', data)
   }
   getUsername() {
-    return localStorage.getItem('username')!
+    return this.storage.getItem('username')!
   }
 
   setRole(role: string) {
-    localStorage.setItem('role', role)
+    this.storage.setItem('role', role)
   }
   getRole() {
-    return localStorage.getItem('role')!
+    return this.storage.getItem('role')!
   }
 
   setAccessToken(token: string) {
-    localStorage.setItem('accessToken', token)
+    this.storage.setItem('accessToken', token)
   }
   setRefreshToken(token: string) {
-    localStorage.setItem('refreshToken', token)
+    this.storage.setItem('refreshToken', token)
   }
   setUserId(id: string) {
-    localStorage.setItem('userId', id)
+    this.storage.setItem('userId', id)
   }
   getAccessToken(): string {
-    return localStorage.getItem('accessToken')!
+    return this.storage.getItem('accessToken')!
   }
   getRefreshToken(): string {
-    return localStorage.getItem('refreshToken')!
+    return this.storage.getItem('refreshToken')!
   }
   getUserId(): string {
-    return localStorage.getItem('userId')!
+    return this.storage.getItem('userId')!
   }
 
   refreshToken() {
@@ -144,10 +148,10 @@ export class SesionService {
   addCupon(id: string) {
     let array = this.getCupones()
     array.push(id)
-    localStorage.setItem('cupones', JSON.stringify(array))
+    this.storage.setItem('cupones', JSON.stringify(array))
   }
   getCupones() {
-    const retrievedData = localStorage.getItem('cupones')
+    const retrievedData = this.storage.getItem('cupones')
     if (retrievedData) {
       const myArrayFromStorage: string[] = JSON.parse(retrievedData)
       console.log(myArrayFromStorage) // ['item1', 'item2', 'item3']

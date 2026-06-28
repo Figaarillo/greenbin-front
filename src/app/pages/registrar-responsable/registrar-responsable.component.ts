@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component } from '@angular/core'
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -29,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon'
   styleUrl: './registrar-responsable.component.scss'
 })
 export class RegistrarResponsableComponent {
+  private storage = inject(StorageService)
   form: FormGroup
 
   constructor(
@@ -73,7 +75,7 @@ export class RegistrarResponsableComponent {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid) {
-            const id = localStorage.getItem('userId')
+            const id = this.storage.getItem('userId')
             const formData = { ...this.form.value, entityId: id }
             console.log('entra')
             console.log(this.form.value)

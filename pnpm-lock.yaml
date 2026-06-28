@@ -27,11 +27,11 @@ importers:
         specifier: 17.3.12
         version: 17.3.12(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1)
       '@angular/google-maps':
-        specifier: 18.2.10
-        version: 18.2.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+        specifier: 17.3.10
+        version: 17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/material':
         specifier: 17.3.10
-        version: 17.3.10(c3dcdbb03e8441fd1677ed83c13fe4b4)
+        version: 17.3.10(fziyzy25gol2o7xzraihs72xsu)
       '@angular/platform-browser':
         specifier: 17.3.12
         version: 17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
@@ -74,9 +74,6 @@ importers:
       '@types/googlemaps':
         specifier: 3.43.3
         version: 3.43.3
-      boostrap:
-        specifier: 2.0.0
-        version: 2.0.0
       bootstrap:
         specifier: 5.3.3
         version: 5.3.3(@popperjs/core@2.11.8)
@@ -107,9 +104,6 @@ importers:
       ngx-pipes:
         specifier: 3.2.2
         version: 3.2.2(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
-      pnpm:
-        specifier: 9.6.0
-        version: 9.6.0
       popper.js:
         specifier: 1.16.1
         version: 1.16.1
@@ -128,7 +122,7 @@ importers:
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 17.3.8
-        version: 17.3.8(278191085b68cb292041cd86518e74ca)
+        version: 17.3.8(4tsjofs5yogc7dh4odxe3d4u2y)
       '@angular/cli':
         specifier: 17.3.8
         version: 17.3.8(chokidar@3.6.0)
@@ -340,11 +334,11 @@ packages:
       '@angular/platform-browser': 17.3.12
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@angular/google-maps@18.2.10':
-    resolution: {integrity: sha512-zLVhM02nL0GbLeR+QisDDrwsxaCB3/WeipbW2CqtIuwZWwSOFBmtiK8vn/xkbX3BZ0ILpa8+pqmOh8969xDYzw==}
+  '@angular/google-maps@17.3.10':
+    resolution: {integrity: sha512-QqBdXgMcA7xMwEh7ZPdFKsU4clbK+ZX6IqYdaY7hpZkkbO3Us7jnuIL8xCA0bskuYIKOSDijZqgqnDJig/SNDg==}
     peerDependencies:
-      '@angular/common': ^18.0.0 || ^19.0.0
-      '@angular/core': ^18.0.0 || ^19.0.0
+      '@angular/common': ^17.0.0 || ^18.0.0
+      '@angular/core': ^17.0.0 || ^18.0.0
       rxjs: ^6.5.3 || ^7.4.0
 
   '@angular/localize@17.3.12':
@@ -1717,55 +1711,46 @@ packages:
     resolution: {integrity: sha512-C/zbRYRXFjWvz9Z4haRxcTdnkPt1BtCkz+7RtBSuNmKzMzp3ZxdM28Mpccn6pt28/UWUCTXa+b0Mx1k3g6NOMA==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.18.0':
     resolution: {integrity: sha512-l3m9ewPgjQSXrUMHg93vt0hYCGnrMOcUpTz6FLtbwljo2HluS4zTXFy2571YQbisTnfTKPZ01u/ukJdQTLGh9A==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.18.0':
     resolution: {integrity: sha512-rJ5D47d8WD7J+7STKdCUAgmQk49xuFrRi9pZkWoRD1UeSMakbcepWXPF8ycChBoAqs1pb2wzvbY6Q33WmN2ftw==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.18.0':
     resolution: {integrity: sha512-be6Yx37b24ZwxQ+wOQXXLZqpq4jTckJhtGlWGZs68TgdKXJgw54lUUoFYrg6Zs/kjzAQwEwYbp8JxZVzZLRepQ==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.18.0':
     resolution: {integrity: sha512-hNVMQK+qrA9Todu9+wqrXOHxFiD5YmdEi3paj6vP02Kx1hjd2LLYR2eaN7DsEshg09+9uzWi2W18MJDlG0cxJA==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.18.0':
     resolution: {integrity: sha512-ROCM7i+m1NfdrsmvwSzoxp9HFtmKGHEqu5NNDiZWQtXLA8S5HBCkVvKAxJ8U+CVctHwV2Gb5VUaK7UAkzhDjlg==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.18.0':
     resolution: {integrity: sha512-0UyyRHyDN42QL+NbqevXIIUnKA47A+45WyasO+y2bGJ1mhQrfrtXUpTxCOrfxCR4esV3/RLYyucGVPiUsO8xjg==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.18.0':
     resolution: {integrity: sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.18.0':
     resolution: {integrity: sha512-LKaqQL9osY/ir2geuLVvRRs+utWUNilzdE90TpyoX0eNqPzWjRm14oMEE+YLve4k/NAqCdPkGYDaDF5Sw+xBfg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.18.0':
     resolution: {integrity: sha512-7J6TkZQFGo9qBKH0pk2cEVSRhJbL6MtfWxth7Y5YmZs57Pi+4x6c2dStAUvaQkHQLnEQv1jzBUW43GvZW8OFqA==}
@@ -2275,10 +2260,6 @@ packages:
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
-
-  boostrap@2.0.0:
-    resolution: {integrity: sha512-JEeFMOweKeGXEM9rt95eaVISOkluG9aKcl0jQCETOVH9jynCZxuBZe2oWgcWJpj5wqYWZl625SnW7OgHT2Ineg==}
-    deprecated: Package no longer supported. Contact support@npmjs.com for more info.
 
   bootstrap@5.3.3:
     resolution: {integrity: sha512-8HLCdWgyoMguSO9o+aH+iuZ+aht+mzW0u3HIMzVu7Srrpv7EBBxTnrFlSCskwdY1+EOFQSm7uMJhNQHkdPcmjg==}
@@ -4396,11 +4377,6 @@ packages:
     resolution: {integrity: sha512-Ie9z/WINcxxLp27BKOCHGde4ITq9UklYKDzVo1nhk5sqGEXU3FpkwP5GM2voTGJkGd9B3Otl+Q4uwSOeSUtOBA==}
     engines: {node: '>=14.16'}
 
-  pnpm@9.6.0:
-    resolution: {integrity: sha512-ONxvuo26NbOTQLlwARLC/h4S8QsXE0cVpKqYzPe7A152/Zgc8Ls4TfqY+NavVIHCvvL0Jmokv6IMNOtxR84LXg==}
-    engines: {node: '>=18.12'}
-    hasBin: true
-
   popper.js@1.16.1:
     resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
     deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
@@ -5458,11 +5434,11 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@17.3.8(278191085b68cb292041cd86518e74ca)':
+  '@angular-devkit/build-angular@17.3.8(4tsjofs5yogc7dh4odxe3d4u2y)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1703.8(chokidar@3.6.0)
-      '@angular-devkit/build-webpack': 0.1703.8(chokidar@3.6.0)(webpack-dev-server@4.15.1(webpack@5.90.3))(webpack@5.90.3)
+      '@angular-devkit/build-webpack': 0.1703.8(chokidar@3.6.0)(webpack-dev-server@4.15.1(webpack@5.90.3))(webpack@5.90.3(esbuild@0.20.1))
       '@angular-devkit/core': 17.3.8(chokidar@3.6.0)
       '@angular/compiler-cli': 17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5)
       '@babel/core': 7.24.0
@@ -5475,16 +5451,16 @@ snapshots:
       '@babel/preset-env': 7.24.0(@babel/core@7.24.0)
       '@babel/runtime': 7.24.0
       '@discoveryjs/json-ext': 0.5.7
-      '@ngtools/webpack': 17.3.8(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.90.3)
+      '@ngtools/webpack': 17.3.8(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.90.3(esbuild@0.20.1))
       '@vitejs/plugin-basic-ssl': 1.1.0(vite@5.1.7(@types/node@18.19.43)(less@4.2.0)(sass@1.71.1)(terser@5.29.1))
       ansi-colors: 4.1.3
       autoprefixer: 10.4.18(postcss@8.4.35)
-      babel-loader: 9.1.3(@babel/core@7.24.0)(webpack@5.90.3)
+      babel-loader: 9.1.3(@babel/core@7.24.0)(webpack@5.90.3(esbuild@0.20.1))
       babel-plugin-istanbul: 6.1.1
       browserslist: 4.23.1
-      copy-webpack-plugin: 11.0.0(webpack@5.90.3)
+      copy-webpack-plugin: 11.0.0(webpack@5.90.3(esbuild@0.20.1))
       critters: 0.0.22
-      css-loader: 6.10.0(webpack@5.90.3)
+      css-loader: 6.10.0(webpack@5.90.3(esbuild@0.20.1))
       esbuild-wasm: 0.20.1
       fast-glob: 3.3.2
       http-proxy-middleware: 2.0.6(@types/express@4.17.21)
@@ -5493,11 +5469,11 @@ snapshots:
       jsonc-parser: 3.2.1
       karma-source-map-support: 1.4.0
       less: 4.2.0
-      less-loader: 11.1.0(less@4.2.0)(webpack@5.90.3)
-      license-webpack-plugin: 4.0.2(webpack@5.90.3)
+      less-loader: 11.1.0(less@4.2.0)(webpack@5.90.3(esbuild@0.20.1))
+      license-webpack-plugin: 4.0.2(webpack@5.90.3(esbuild@0.20.1))
       loader-utils: 3.2.1
       magic-string: 0.30.8
-      mini-css-extract-plugin: 2.8.1(webpack@5.90.3)
+      mini-css-extract-plugin: 2.8.1(webpack@5.90.3(esbuild@0.20.1))
       mrmime: 2.0.0
       open: 8.4.2
       ora: 5.4.1
@@ -5505,13 +5481,13 @@ snapshots:
       picomatch: 4.0.1
       piscina: 4.4.0
       postcss: 8.4.35
-      postcss-loader: 8.1.1(postcss@8.4.35)(typescript@5.4.5)(webpack@5.90.3)
+      postcss-loader: 8.1.1(postcss@8.4.35)(typescript@5.4.5)(webpack@5.90.3(esbuild@0.20.1))
       resolve-url-loader: 5.0.0
       rxjs: 7.8.1
       sass: 1.71.1
-      sass-loader: 14.1.1(sass@1.71.1)(webpack@5.90.3)
+      sass-loader: 14.1.1(sass@1.71.1)(webpack@5.90.3(esbuild@0.20.1))
       semver: 7.6.0
-      source-map-loader: 5.0.0(webpack@5.90.3)
+      source-map-loader: 5.0.0(webpack@5.90.3(esbuild@0.20.1))
       source-map-support: 0.5.21
       terser: 5.29.1
       tree-kill: 1.2.2
@@ -5521,10 +5497,10 @@ snapshots:
       vite: 5.1.7(@types/node@18.19.43)(less@4.2.0)(sass@1.71.1)(terser@5.29.1)
       watchpack: 2.4.0
       webpack: 5.90.3(esbuild@0.20.1)
-      webpack-dev-middleware: 6.1.2(webpack@5.90.3)
+      webpack-dev-middleware: 6.1.2(webpack@5.90.3(esbuild@0.20.1))
       webpack-dev-server: 4.15.1(webpack@5.90.3)
       webpack-merge: 5.10.0
-      webpack-subresource-integrity: 5.1.0(webpack@5.90.3)
+      webpack-subresource-integrity: 5.1.0(webpack@5.90.3(esbuild@0.20.1))
     optionalDependencies:
       '@angular/localize': 17.3.12(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))
       '@angular/platform-server': 17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))
@@ -5549,7 +5525,7 @@ snapshots:
       - utf-8-validate
       - webpack-cli
 
-  '@angular-devkit/build-webpack@0.1703.8(chokidar@3.6.0)(webpack-dev-server@4.15.1(webpack@5.90.3))(webpack@5.90.3)':
+  '@angular-devkit/build-webpack@0.1703.8(chokidar@3.6.0)(webpack-dev-server@4.15.1(webpack@5.90.3))(webpack@5.90.3(esbuild@0.20.1))':
     dependencies:
       '@angular-devkit/architect': 0.1703.8(chokidar@3.6.0)
       rxjs: 7.8.1
@@ -5659,13 +5635,13 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  '@angular/google-maps@18.2.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)':
+  '@angular/google-maps@17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)':
     dependencies:
       '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/core': 17.3.12(rxjs@7.8.1)(zone.js@0.14.10)
       '@types/google.maps': 3.58.1
       rxjs: 7.8.1
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@angular/localize@17.3.12(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))':
     dependencies:
@@ -5678,7 +5654,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@angular/material@17.3.10(c3dcdbb03e8441fd1677ed83c13fe4b4)':
+  '@angular/material@17.3.10(fziyzy25gol2o7xzraihs72xsu)':
     dependencies:
       '@angular/animations': 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
       '@angular/cdk': 17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -6996,12 +6972,12 @@ snapshots:
 
   '@material/animation@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/auto-init@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/base': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/banner@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7016,11 +6992,11 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/base@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/button@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7036,7 +7012,7 @@ snapshots:
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/card@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7048,7 +7024,7 @@ snapshots:
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/checkbox@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7062,7 +7038,7 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/chips@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7082,7 +7058,7 @@ snapshots:
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
       safevalues: 0.3.4
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/circular-progress@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7093,7 +7069,7 @@ snapshots:
       '@material/progress-indicator': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/data-table@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7115,11 +7091,11 @@ snapshots:
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/density@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/dialog@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7137,13 +7113,13 @@ snapshots:
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/dom@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/drawer@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7158,7 +7134,7 @@ snapshots:
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/elevation@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7167,7 +7143,7 @@ snapshots:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/fab@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7183,11 +7159,11 @@ snapshots:
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/feature-targeting@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/floating-label@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7198,7 +7174,7 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/focus-ring@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7214,7 +7190,7 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/icon-button@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7228,7 +7204,7 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/image-list@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7236,11 +7212,11 @@ snapshots:
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/layout-grid@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/line-ripple@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7248,7 +7224,7 @@ snapshots:
       '@material/base': 15.0.0-canary.7f224ddd4.0
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/linear-progress@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7259,7 +7235,7 @@ snapshots:
       '@material/progress-indicator': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/list@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7273,7 +7249,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/menu-surface@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7284,7 +7260,7 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/menu@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7299,7 +7275,7 @@ snapshots:
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/notched-outline@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7309,11 +7285,11 @@ snapshots:
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/progress-indicator@15.0.0-canary.7f224ddd4.0':
     dependencies:
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/radio@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7326,7 +7302,7 @@ snapshots:
       '@material/ripple': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/ripple@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7336,12 +7312,12 @@ snapshots:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/rtl@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/segmented-button@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7352,7 +7328,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/touch-target': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/select@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7374,14 +7350,14 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/shape@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/slider@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7395,7 +7371,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/snackbar@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7412,7 +7388,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/switch@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7429,7 +7405,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       safevalues: 0.3.4
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/tab-bar@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7444,7 +7420,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/tab-indicator@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7452,7 +7428,7 @@ snapshots:
       '@material/base': 15.0.0-canary.7f224ddd4.0
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/tab-scroller@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7461,7 +7437,7 @@ snapshots:
       '@material/dom': 15.0.0-canary.7f224ddd4.0
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/tab': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/tab@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7475,7 +7451,7 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/textfield@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7493,12 +7469,12 @@ snapshots:
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/theme@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/tokens@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7518,7 +7494,7 @@ snapshots:
       '@material/tokens': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
       safevalues: 0.3.4
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/top-app-bar@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7530,7 +7506,7 @@ snapshots:
       '@material/shape': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
       '@material/typography': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/touch-target@15.0.0-canary.7f224ddd4.0':
     dependencies:
@@ -7538,13 +7514,13 @@ snapshots:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/rtl': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@material/typography@15.0.0-canary.7f224ddd4.0':
     dependencies:
       '@material/feature-targeting': 15.0.0-canary.7f224ddd4.0
       '@material/theme': 15.0.0-canary.7f224ddd4.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@ng-bootstrap/ng-bootstrap@16.0.0(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/forms@17.3.12(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@17.3.12(@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1))(@angular/localize@17.3.12(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))))(@popperjs/core@2.11.8)(rxjs@7.8.1)':
     dependencies:
@@ -7556,7 +7532,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  '@ngtools/webpack@17.3.8(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.90.3)':
+  '@ngtools/webpack@17.3.8(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5))(typescript@5.4.5)(webpack@5.90.3(esbuild@0.20.1))':
     dependencies:
       '@angular/compiler-cli': 17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.4.5)
       typescript: 5.4.5
@@ -8229,7 +8205,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  babel-loader@9.1.3(@babel/core@7.24.0)(webpack@5.90.3):
+  babel-loader@9.1.3(@babel/core@7.24.0)(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       '@babel/core': 7.24.0
       find-cache-dir: 4.0.0
@@ -8328,8 +8304,6 @@ snapshots:
       multicast-dns: 7.2.5
 
   boolbase@1.0.0: {}
-
-  boostrap@2.0.0: {}
 
   bootstrap@5.3.3(@popperjs/core@2.11.8):
     dependencies:
@@ -8568,7 +8542,7 @@ snapshots:
     dependencies:
       is-what: 3.14.1
 
-  copy-webpack-plugin@11.0.0(webpack@5.90.3):
+  copy-webpack-plugin@11.0.0(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       fast-glob: 3.3.2
       glob-parent: 6.0.2
@@ -8621,7 +8595,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@6.10.0(webpack@5.90.3):
+  css-loader@6.10.0(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.35)
       postcss: 8.4.35
@@ -10074,7 +10048,7 @@ snapshots:
       picocolors: 1.0.1
       shell-quote: 1.8.1
 
-  less-loader@11.1.0(less@4.2.0)(webpack@5.90.3):
+  less-loader@11.1.0(less@4.2.0)(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       klona: 2.0.6
       less: 4.2.0
@@ -10099,7 +10073,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  license-webpack-plugin@4.0.2(webpack@5.90.3):
+  license-webpack-plugin@4.0.2(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       webpack-sources: 3.2.3
     optionalDependencies:
@@ -10292,7 +10266,7 @@ snapshots:
 
   mimic-fn@4.0.0: {}
 
-  mini-css-extract-plugin@2.8.1(webpack@5.90.3):
+  mini-css-extract-plugin@2.8.1(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       schema-utils: 4.2.0
       tapable: 2.2.1
@@ -10731,13 +10705,11 @@ snapshots:
     dependencies:
       find-up: 6.3.0
 
-  pnpm@9.6.0: {}
-
   popper.js@1.16.1: {}
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-loader@8.1.1(postcss@8.4.35)(typescript@5.4.5)(webpack@5.90.3):
+  postcss-loader@8.1.1(postcss@8.4.35)(typescript@5.4.5)(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.4.5)
       jiti: 1.21.6
@@ -11011,7 +10983,7 @@ snapshots:
 
   safevalues@0.3.4: {}
 
-  sass-loader@14.1.1(sass@1.71.1)(webpack@5.90.3):
+  sass-loader@14.1.1(sass@1.71.1)(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       neo-async: 2.6.2
     optionalDependencies:
@@ -11249,7 +11221,7 @@ snapshots:
 
   source-map-js@1.2.0: {}
 
-  source-map-loader@5.0.0(webpack@5.90.3):
+  source-map-loader@5.0.0(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       iconv-lite: 0.6.3
       source-map-js: 1.2.0
@@ -11648,7 +11620,7 @@ snapshots:
       schema-utils: 4.2.0
       webpack: 5.90.3(esbuild@0.20.1)
 
-  webpack-dev-middleware@6.1.2(webpack@5.90.3):
+  webpack-dev-middleware@6.1.2(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       colorette: 2.0.20
       memfs: 3.5.3
@@ -11706,7 +11678,7 @@ snapshots:
 
   webpack-sources@3.2.3: {}
 
-  webpack-subresource-integrity@5.1.0(webpack@5.90.3):
+  webpack-subresource-integrity@5.1.0(webpack@5.90.3(esbuild@0.20.1)):
     dependencies:
       typed-assert: 1.0.9
       webpack: 5.90.3(esbuild@0.20.1)

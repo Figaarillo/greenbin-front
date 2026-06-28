@@ -1,10 +1,16 @@
 {
   "name": "greenbin-front",
   "version": "0.0.0",
+  "packageManager": "pnpm@9.6.0",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "ng": "ng",
     "start": "ng serve",
-    "build": "node ./scripts/npm-build-wrapper.js",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:greenbin-front": "node dist/greenbin-front/server/server.mjs",
@@ -40,7 +46,6 @@
     "@popperjs/core": "2.11.8",
     "@types/google.maps": "3.58.1",
     "@types/googlemaps": "3.43.3",
-    "boostrap": "2.0.0",
     "bootstrap": "5.3.3",
     "chart.js": "4.5.1",
     "express": "4.21.1",
@@ -51,7 +56,6 @@
     "ng-recaptcha": "13.2.1",
     "ng2-charts": "5.0.4",
     "ngx-pipes": "3.2.2",
-    "pnpm": "9.6.0",
     "popper.js": "1.16.1",
     "rxjs": "7.8.1",
     "sweetalert2": "11.12.4",

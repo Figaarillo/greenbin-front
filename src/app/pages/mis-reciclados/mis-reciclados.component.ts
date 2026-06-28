@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
@@ -18,6 +19,7 @@ Chart.register(...registerables)
   styleUrl: './mis-reciclados.component.scss'
 })
 export class MisRecicladosComponent implements OnInit {
+  private storage = inject(StorageService)
   deliveries: NeighborDelivery[] = []
   id = ''
 
@@ -55,7 +57,7 @@ export class MisRecicladosComponent implements OnInit {
   constructor(private statsService: StatisticsService) {}
 
   ngOnInit(): void {
-    const info = localStorage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || ''
     const userInfo = JSON.parse(info)
     this.id = userInfo.id
     this.loadDeliveries()

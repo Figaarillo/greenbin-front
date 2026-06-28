@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component } from '@angular/core'
 import { Router, RouterModule, RouterOutlet } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 import { MatRippleModule } from '@angular/material/core'
@@ -19,6 +20,7 @@ interface NavItem {
   styleUrl: './superadmin-dashboard.component.scss'
 })
 export class SuperadminDashboardComponent {
+  private storage = inject(StorageService)
   navItems: NavItem[] = [
     { label: 'Resumen', icon: 'dashboard', route: '/superadmin/dashboard' },
     { label: 'Listar entidades', icon: 'business', route: '/superadmin/dashboard/listar-entidades' },
@@ -37,7 +39,7 @@ export class SuperadminDashboardComponent {
   logout(): void {
     this.sesionService.setAccessToken('')
     this.sesionService.setRefreshToken('')
-    localStorage.removeItem('rol')
+    this.storage.removeItem('rol')
     this.router.navigateByUrl('/superadmin/login')
   }
 }

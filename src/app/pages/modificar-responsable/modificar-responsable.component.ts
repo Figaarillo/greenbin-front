@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { StorageService } from '../../services/storage/storage.service'
+import { inject, Component, OnInit } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -26,6 +27,7 @@ import Swal from 'sweetalert2'
   styleUrl: './modificar-responsable.component.scss'
 })
 export class ModificarResponsableComponent implements OnInit {
+  private storage = inject(StorageService)
   form!: FormGroup
   id: string | null = null
   ruta = ''
@@ -52,7 +54,7 @@ export class ModificarResponsableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const edit = localStorage.getItem('respoEdit') || ''
+    const edit = this.storage.getItem('respoEdit') || ''
     if (edit == 'true') {
       this.ruta = '/entidad'
     } else {
@@ -89,7 +91,7 @@ export class ModificarResponsableComponent implements OnInit {
                     icon: 'success'
                   })
                   .then(() => {
-                    localStorage.setItem('respoEdit', 'false')
+                    this.storage.setItem('respoEdit', 'false')
                     this.router.navigate([this.ruta])
                   })
               },

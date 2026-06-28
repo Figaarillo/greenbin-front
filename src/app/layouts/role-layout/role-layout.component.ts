@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common'
   styleUrl: './role-layout.component.scss'
 })
 export class RoleLayoutComponent implements OnInit {
+  private storage = inject(StorageService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   private breakpointObserver = inject(BreakpointObserver)
@@ -34,7 +36,7 @@ export class RoleLayoutComponent implements OnInit {
   }
 
   goEntrega(): void {
-    const pvSelec = localStorage.getItem('puntoVerde') || ''
+    const pvSelec = this.storage.getItem('puntoVerde') || ''
     if (pvSelec) {
       this.router.navigate(['/entrega'])
     } else {

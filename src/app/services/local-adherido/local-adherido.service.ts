@@ -1,5 +1,7 @@
+import { API_BASE_URL } from '../../config/api.config'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
+import { StorageService } from '../storage/storage.service'
 import { LocalAdherido } from '../interfaces/local-adherido'
 import { Observable } from 'rxjs'
 import { Login } from '../interfaces/login'
@@ -10,11 +12,13 @@ import { Coupon } from '../interfaces/coupon'
   providedIn: 'root'
 })
 export class LocalAdheridoService {
+  private apiBase = inject(API_BASE_URL)
   constructor() {}
 
   private http = inject(HttpClient)
-  private url: string = 'http://localhost:8080/api/reward-partner'
-  private urlCoupon: string = 'http://localhost:8080/api/coupon'
+  private storage = inject(StorageService)
+  private url: string = `${this.apiBase}/api/reward-partner`
+  private urlCoupon: string = `${this.apiBase}/api/coupon`
   private url_afip_auth = 'https://app.afipsdk.com/api/v1/afip/auth'
   private url_afip_cuit = 'https://app.afipsdk.com/api/v1/afip/requests'
 
@@ -61,7 +65,7 @@ export class LocalAdheridoService {
     return this.http.post<any>(this.url_afip_cuit, body, { headers })
   }
   async roleValidator() {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
@@ -79,7 +83,7 @@ export class LocalAdheridoService {
   }
 
   update(object: any, id: string): Observable<any> {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
@@ -87,7 +91,7 @@ export class LocalAdheridoService {
   }
 
   delete(id: string): Observable<any> {
-    const token = localStorage.getItem('accessToken')
+    const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
@@ -95,11 +99,11 @@ export class LocalAdheridoService {
   }
 
   getCouponTransactions(rewardPartnerId: string): Observable<any> {
-    return this.http.get<any>('http://localhost:8080/api/coupon-transaction/reward-partner/' + rewardPartnerId)
+    return this.http.get<any>(`${this.apiBase}/api/coupon-transaction/reward-partner/` + rewardPartnerId)
   }
 
   useCoupon(payload: { code: string; rewardPartnerId: string }): Observable<any> {
-    return this.http.post<any>('http://localhost:8080/api/coupon-transaction/use', payload)
+    return this.http.post<any>(`${this.apiBase}/api/coupon-transaction/use`, payload)
   }
 
   getCupon(id: string): Observable<any> {

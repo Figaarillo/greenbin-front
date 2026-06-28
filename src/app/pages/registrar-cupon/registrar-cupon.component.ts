@@ -1,3 +1,4 @@
+import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
@@ -15,6 +16,7 @@ import { Coupon } from '../../services/interfaces/coupon'
   styleUrl: './registrar-cupon.component.scss'
 })
 export class RegistrarCuponComponent {
+  private storage = inject(StorageService)
   private readonly formBuilder = inject(FormBuilder)
   private localServ = inject(LocalAdheridoService)
   formGroup = this.formBuilder.group({
@@ -28,7 +30,7 @@ export class RegistrarCuponComponent {
   registrarCupon() {
     if (this.formGroup.valid) {
       console.log(this.formGroup.value)
-      const info = localStorage.getItem('usuarioInfo') || ''
+      const info = this.storage.getItem('usuarioInfo') || ''
       const userInfo = JSON.parse(info)
       const id = userInfo.id
       const cupon = {
