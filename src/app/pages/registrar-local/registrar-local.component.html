@@ -43,7 +43,11 @@
       <button mat-flat-button class="btn-locate" type="button" (click)="coordsByAdress()" [disabled]="!formGroup.controls.address.valid">Localizar</button>
 
       <div class="map-wrapper">
-        <app-map-input [type]="'local'" (coordinates)="getCoordinates($event)"></app-map-input>
+        @defer (on immediate) {
+          <app-map-input [type]="'local'" (coordinates)="getCoordinates($event)"></app-map-input>
+        } @placeholder {
+          <div class="map-placeholder">Cargando mapa…</div>
+        }
       </div>
 
       <mat-form-field>
