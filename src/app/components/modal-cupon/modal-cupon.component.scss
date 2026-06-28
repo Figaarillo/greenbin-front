@@ -1,0 +1,22 @@
+.codigo-canje-container {
+  background: var(--accent-soft);
+  border: 2px dashed var(--accent) !important;
+  border-radius: var(--r-card);
+}
+
+.codigo-canje {
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-ink);
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+}
+
+.codigo-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.vto-text {
+  font-size: 0.8rem;
+}

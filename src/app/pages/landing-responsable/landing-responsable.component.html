@@ -1,0 +1,56 @@
+<div data-role="responsable">
+  <mat-drawer-container class="landing-drawer" autosize>
+
+    <div class="v-header">
+      <div class="v-topbar">
+        <span class="v-brand">GreenBin</span>
+        <span class="spacer"></span>
+      </div>
+
+      <div class="v-hello">¡Hola, {{nombre}}!</div>
+
+      <div class="select-container">
+        <mat-form-field class="pto-select">
+          <mat-label>Punto Verde Actual</mat-label>
+          <mat-select [formControl]="ptoVerde" (selectionChange)="onChange($event)">
+            <mat-option *ngFor="let pv of listPtoVerde" [value]="pv.id">
+              {{ pv.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-drawer #buzon mode="over" [position]="'end'">
+      <p>Buzón</p>
+    </mat-drawer>
+
+    <div class="v-body">
+      <h4>Historial</h4>
+
+      @if (historial.length === 0) {
+        <p class="empty-state">No hay transacciones aún</p>
+      }
+
+      @for (item of historialVisible; track item) {
+        <div class="tx-item">
+          <div class="tx-icon up">
+            <mat-icon>arrow_upward</mat-icon>
+          </div>
+          <div class="tx-info">
+            <b>{{ item.descripcion || 'Transacción' }}</b>
+            <span>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="tx-pts pos">+{{ item.puntos }}</div>
+        </div>
+      }
+
+      @if (historial.length > LIMITE) {
+        <div class="tx-more" (click)="toggleHistorial()">
+          {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
+        </div>
+      }
+    </div>
+
+  </mat-drawer-container>
+</div>

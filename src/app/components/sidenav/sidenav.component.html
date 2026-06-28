@@ -1,0 +1,14 @@
+<div class="sidenav-header">
+    <img width="100" src="/assets/profile.png">
+    <div class="header-text">
+        <h2><b>{{username}}</b></h2>
+        @if(nombreCompleto !="Null Null"){<h3><b>{{nombreCompleto}}</b></h3>}
+        @if(dni !="null"){<h5>({{dni}})</h5>}
+    </div>
+</div>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let item of menuItems()" (click)="item.label === 'Cerrar Sesión' ? logout() : navigateTo(item.route)">
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        <span>{{item.label}}</span>
+    </a>
+</mat-nav-list>

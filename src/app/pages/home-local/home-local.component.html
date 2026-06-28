@@ -1,0 +1,85 @@
+<div data-role="local">
+  <mat-drawer-container class="landing-drawer" autosize>
+
+    <div class="v-header">
+      <div class="v-topbar">
+        <span class="v-brand">GreenBin</span>
+        <span class="spacer"></span>
+      </div>
+
+      <div class="v-hello">¡Hola, {{name}}! 🎉</div>
+    </div>
+
+    <mat-drawer #buzon mode="over" [position]="'end'">
+      <p>Buzón</p>
+    </mat-drawer>
+
+    <div class="v-body">
+      <h4>Canjes realizados</h4>
+
+      @if (transactions.length === 0) {
+        <p class="empty-state">No hay canjes aún</p>
+      }
+
+      @for (item of historialVisible; track item; let i = $index) {
+        <div class="tx-item" (click)="toggleItem(i)">
+          <div class="tx-icon">
+            <mat-icon>local_activity</mat-icon>
+          </div>
+          <div class="tx-info">
+            <div class="tx-header">
+              <b>{{ item.coupon?.title ?? 'Cupón' }}</b>
+              <span class="status-badge" [style.background-color]="getStatusColor(item.status)">
+                {{ item.status }}
+              </span>
+            </div>
+            <span>{{ item.neighbor?.firstname }} {{ item.neighbor?.lastname }}</span>
+            <span>{{ getFecha(item) | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <mat-icon class="tx-expand">{{ isExpanded(i) ? 'expand_less' : 'expand_more' }}</mat-icon>
+        </div>
+
+        @if (isExpanded(i)) {
+          <div class="detail-card">
+            <div class="detail-section">
+              <p class="detail-label">Vecino</p>
+              <p class="detail-value">{{ item.neighbor?.firstname }} {{ item.neighbor?.lastname }}</p>
+              @if (item.neighbor?.email) {
+                <p class="detail-meta">{{ item.neighbor.email }}</p>
+              }
+              @if (item.neighbor?.dni) {
+                <p class="detail-meta">DNI: {{ item.neighbor.dni }}</p>
+              }
+              @if (item.neighbor?.points !== undefined) {
+                <p class="detail-meta">Puntos acumulados: {{ item.neighbor.points }}</p>
+              }
+            </div>
+            <mat-divider></mat-divider>
+            <div class="detail-section">
+              <p class="detail-label">Cupón</p>
+              <p class="detail-value">{{ item.coupon?.title }}</p>
+              @if (item.coupon?.discount) {
+                <p class="detail-meta">Descuento: {{ item.coupon.discount }}%</p>
+              }
+              <p class="detail-meta">Costo: {{ item.costInPoints }} pts</p>
+              <p class="detail-meta">Adquirido: {{ item.adquisitionDate | date:'dd/MM/yyyy' }}</p>
+              @if (item.redeemDate) {
+                <p class="detail-meta">Utilizado: {{ item.redeemDate | date:'dd/MM/yyyy HH:mm' }}</p>
+              }
+              <p class="detail-meta">Vence: {{ item.expirationDate | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+        }
+
+        <mat-divider></mat-divider>
+      }
+
+      @if (transactions.length > LIMITE) {
+        <div class="tx-more" (click)="toggleHistorial()">
+          {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
+        </div>
+      }
+    </div>
+
+  </mat-drawer-container>
+</div>

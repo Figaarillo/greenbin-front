@@ -1,0 +1,23 @@
+<div data-role="vecino">
+  <app-navbar [title]="'Puntos Verdes'"  [route]="'/vecino'"></app-navbar>
+
+  <div class="container mt-3">
+    <div class="w-100 map-container">
+      @defer (on immediate) {
+        <google-map class="rounded-map" height="80vh" width="100%" [options]="options">
+          <map-advanced-marker #markerElem="mapAdvancedMarker"
+            *ngFor="let location of puntosVerdes"
+            [title]="'Punto Verde'"
+            (mapClick)="abrirModal(location)"
+            [content]="location.content"
+            [position]="{ lat: location.coordinates.latitude, lng: location.coordinates.longitude }">
+          </map-advanced-marker>
+        </google-map>
+      } @placeholder {
+        <div class="map-placeholder">Cargando mapa…</div>
+      }
+    </div>
+  </div>
+
+  <app-modal-pv></app-modal-pv>
+</div>

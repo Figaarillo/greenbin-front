@@ -1,0 +1,79 @@
+<div data-role="entidad">
+  <input type="checkbox" id="sidebar-toggle">
+  <div class="sidebar">
+    <div class="sidebar-close">
+      <label for="sidebar-toggle"><span class="las la-times"></span></label>
+    </div>
+    <div class="sidebar-brand">
+      <span class="brand-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 17l-2 2l2 2" />
+          <path d="M10 19h9a2 2 0 0 0 1.75 -2.75l-.55 -1" />
+          <path d="M8.536 11l-.732 -2.732l-2.732 .732" />
+          <path d="M7.804 8.268l-4.5 7.794a2 2 0 0 0 1.506 2.89l1.141 .024" />
+          <path d="M15.464 11l2.732 -.732l-.732 -2.732" />
+          <path d="M18.196 10.268l-4.5 -7.794a2 2 0 0 0 -3.392 0l-.571 1" />
+        </svg>
+      </span>
+      <span class="brand-name">GreenBin</span>
+    </div>
+    <div class="sidebar-main">
+      <div class="sidebar-user">
+        <img src="assets/admin.png" width="100px" alt="">
+        <div>
+          <h3>{{ name }}</h3>
+          <span>{{ email }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-menu">
+      <div class="menu-head"><span>Dashboard</span></div>
+      <ul>
+        <li><a routerLink="/entidad/dashboard" routerLinkActive="active"><span class="las la-home" style="font-size: 1.5rem;"></span>Dashboard</a></li>
+        <li><a routerLink="/entidad/registrar-responsable" routerLinkActive="active"><span class="la la-user-plus" style="font-size: 1.5rem;"></span>Registrar Responsable</a></li>
+        <li><a routerLink="/entidad/listar-responsables" routerLinkActive="active"><span class="las la-address-book" style="font-size: 1.5rem;"></span>Listar Responsables</a></li>
+        <li><a routerLink="/entidad/registrar-punto-verde" routerLinkActive="active"><span class="las la-recycle" style="font-size: 1.5rem;"></span>Registrar Puntos Verdes</a></li>
+        <li><a routerLink="/entidad/consultar-puntos-verdes" routerLinkActive="active"><span class="las la-map-marker" style="font-size: 1.5rem;"></span>Listar Puntos Verdes</a></li>
+        <li><a routerLink="/entidad/consultar-vecinos" routerLinkActive="active"><span class="las la-users" style="font-size: 1.5rem;"></span>Listar Vecinos</a></li>
+        <li><a routerLink="/entidad/consultar-locales" routerLinkActive="active"><span class="las la-store" style="font-size: 1.5rem;"></span>Listar Locales</a></li>
+        <li><a routerLink="/entidad/registrar-categoria" routerLinkActive="active"><span class="las la-tags" style="font-size: 1.5rem;"></span>Registrar Categorías</a></li>
+        <li><a routerLink="/entidad/consultar-categorias" routerLinkActive="active"><span class="las la-list" style="font-size: 1.5rem;"></span>Listar Categorías</a></li>
+        <li><a (click)="logOut()"><span class="las la-sign-out-alt" style="font-size: 1.5rem;"></span>Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <button class="back-btn" (click)="goBack()" aria-label="Go back">
+        <span class="las la-arrow-left"></span>
+      </button>
+      <label for="sidebar-toggle" aria-label="Toggle sidebar">
+        <span class="las la-bars"></span>
+      </label>
+      <span class="header-title">{{ currentTitle }}</span>
+    </header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <label for="sidebar-toggle" class="body-label"></label>
+
+  <!-- Mobile Tabbar (persistent) -->
+  @if (isMobile) {
+    <div class="tabbar">
+      <a class="tab-item" routerLink="/entidad/dashboard">
+        <span class="las la-home"></span>
+        <span>Dashboard</span>
+      </a>
+      <a class="tab-item fab" routerLink="/entidad/registrar-responsable">
+        <span class="las la-plus"></span>
+      </a>
+      <a class="tab-item" routerLink="/entidad/listar-responsables">
+        <span class="las la-address-book"></span>
+        <span>Listar</span>
+      </a>
+    </div>
+  }
+</div>

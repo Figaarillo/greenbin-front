@@ -1,0 +1,48 @@
+<div data-role="vecino">
+<app-navbar [title]="'Catálogo de Cupones'" [route]="'/vecino'"></app-navbar>
+
+<div class="container mt-3">
+
+  <div class="filters">
+    <mat-form-field class="filter-title">
+      <mat-label>Buscar por título</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="onTitleFilter($event)" placeholder="Ej: descuento en almacén">
+    </mat-form-field>
+
+    <mat-form-field class="filter-discount">
+      <mat-label>Descuento mínimo (%)</mat-label>
+      <mat-icon matPrefix>percent</mat-icon>
+      <input matInput type="number" min="0" max="100" (input)="onDiscountFilter($event)" placeholder="Ej: 15">
+    </mat-form-field>
+  </div>
+
+  <!-- FIX: puntos se actualizan en tiempo real al canjear -->
+  <h4 class="saldo">Saldo: {{puntos}} puntos</h4>
+
+  <div class="catalog">
+    @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
+      <div class="empty">
+        <h5><b>No se encontraron cupones</b></h5>
+      </div>
+    }
+    @for (data of dataSource.filteredData; track data) {
+      <div class="cupon-container">
+        <mat-card (click)="abrirModal(data)">
+          <mat-card-header>
+            <mat-card-title>{{data.title}} <i>({{data.discount}})</i></mat-card-title>
+            <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <span class="px-2 price"><b>Costo: {{data.costInPoints}} puntos</b></span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  </div>
+
+</div>
+
+<!-- FIX: escuchar el evento (cuponCanjeado) para actualizar puntos en pantalla -->
+<app-modal-cupon (cuponCanjeado)="onCuponCanjeado($event)"></app-modal-cupon>
+</div>

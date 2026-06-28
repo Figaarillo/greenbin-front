@@ -1,0 +1,35 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+form {
+  width: 100%;
+}
+
+form mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.btn-primary-custom {
+  width: 100%;
+  border-radius: var(--r-pill) !important;
+  padding: 10px 20px !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px var(--accent-soft);
+  border: none;
+}
+
+.btn-danger-custom {
+  width: 100%;
+  border-radius: var(--r-pill) !important;
+  padding: 10px 20px !important;
+  background: #e53935 !important;
+  color: #fff !important;
+  font-weight: 600;
+  border: none;
+}

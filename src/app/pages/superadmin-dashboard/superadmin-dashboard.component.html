@@ -1,0 +1,41 @@
+<div class="shell" data-role="superadmin">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <mat-icon class="brand-icon">eco</mat-icon>
+      <div class="brand-text">
+        <span class="brand-name">GreenBin</span>
+        <span class="brand-role">Super Admin</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-section-label">General</p>
+      @for (item of navItems; track item.route) {
+        <a
+          matRipple
+          class="nav-item"
+          [class.active]="isActive(item.route)"
+          [routerLink]="item.route"
+        >
+          <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <button matRipple class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+    <div class="main-inner">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

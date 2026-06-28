@@ -1,0 +1,16 @@
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 500px) {
+  form {
+    padding: 0 5%;
+  }
+}

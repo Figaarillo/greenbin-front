@@ -1,0 +1,27 @@
+form {
+  width: 100%;
+  padding: 30px 20%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form mat-form-field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.btn-submit {
+  background: var(--accent) !important;
+  color: #fff;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 11px 20px;
+  box-shadow: 0 4px 14px var(--accent-soft);
+}
+
+@media (max-width: 500px) {
+  form {
+    padding: 30px 5%;
+  }
+}

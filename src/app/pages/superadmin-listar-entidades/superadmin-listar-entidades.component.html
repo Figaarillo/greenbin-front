@@ -1,0 +1,79 @@
+<div class="view" data-role="superadmin">
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Entidades</h1>
+      <p class="page-subtitle">{{ entidades.length }} entidades registradas en el sistema</p>
+    </div>
+    <a class="btn-new" routerLink="/superadmin/dashboard/registrar-entidad">
+      <mat-icon>add</mat-icon>
+      Nueva entidad
+    </a>
+  </div>
+
+  <!-- Search -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Buscar por nombre, ciudad o provincia…"
+      [(ngModel)]="search"
+      (ngModelChange)="applyFilter()"
+    />
+    @if (search) {
+      <button class="clear-search" (click)="search = ''; applyFilter()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </div>
+
+  <!-- Table -->
+  @if (loading) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon spin">refresh</mat-icon>
+      <p>Cargando entidades…</p>
+    </div>
+  } @else if (filtered.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">business_center</mat-icon>
+      <p>No se encontraron entidades</p>
+    </div>
+  } @else {
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Razón social</th>
+            <th>Descripción</th>
+            <th>Ciudad</th>
+            <th>Provincia</th>
+            <th class="col-actions">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (e of filtered; track e.id) {
+            <tr>
+              <td>
+                <div class="entity-name">
+                  <div class="entity-avatar">{{ e.name.charAt(0).toUpperCase() }}</div>
+                  <span>{{ e.name }}</span>
+                </div>
+              </td>
+              <td class="cell-muted">{{ e.description || '—' }}</td>
+              <td>{{ e.city }}</td>
+              <td>{{ e.province }}</td>
+              <td class="col-actions">
+                <button matRipple class="action-btn action-btn--edit" (click)="edit(e.id)" matTooltip="Editar">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button matRipple class="action-btn action-btn--delete" (click)="delete(e.id)" matTooltip="Eliminar">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

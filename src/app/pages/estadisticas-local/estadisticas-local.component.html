@@ -1,0 +1,94 @@
+<app-navbar [title]="'Estadísticas'" [route]="'/local'"></app-navbar>
+
+<div class="container">
+
+  <!-- Filtro global -->
+  <div class="global-filter">
+    <span class="global-filter-label">
+      <mat-icon style="font-size:18px; vertical-align:middle">calendar_today</mat-icon>
+      Período
+    </span>
+    <label>
+      Desde
+      <input type="date" [(ngModel)]="dateFrom">
+    </label>
+    <label>
+      Hasta
+      <input type="date" [(ngModel)]="dateTo">
+    </label>
+    <button class="filter-btn" (click)="applyGlobalFilter()">Aplicar</button>
+    @if (dateFrom || dateTo) {
+      <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
+    }
+  </div>
+
+  @if (!hasData) {
+    <div class="empty-state">
+      <mat-icon>bar_chart</mat-icon>
+      <p>No hay canjes en el período seleccionado</p>
+    </div>
+  } @else {
+
+    <!-- KPI cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-blue">
+        <mat-icon>shopping_bag</mat-icon>
+        <span class="kpi-value">{{ totalAdquirido }}</span>
+        <span class="kpi-label">Adquiridos</span>
+      </div>
+      <div class="kpi-card kpi-green">
+        <mat-icon>check_circle</mat-icon>
+        <span class="kpi-value">{{ totalUsado }}</span>
+        <span class="kpi-label">Usados</span>
+      </div>
+      <div class="kpi-card kpi-red">
+        <mat-icon>cancel</mat-icon>
+        <span class="kpi-value">{{ totalExpirado }}</span>
+        <span class="kpi-label">Expirados</span>
+      </div>
+      <div class="kpi-card kpi-orange">
+        <mat-icon>stars</mat-icon>
+        <span class="kpi-value">{{ totalPuntos | number }}</span>
+        <span class="kpi-label">Puntos generados</span>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+
+      <!-- Bar: estado de cupones -->
+      <div class="chart-card">
+        <h3 class="chart-title">Estado de cupones</h3>
+        <p class="chart-sub">Distribución por estado de canje</p>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="barData"
+            [options]="barOptions"
+            type="bar">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- Pie: rango de descuentos -->
+      <div class="chart-card">
+        <h3 class="chart-title">Descuentos aplicados</h3>
+        <p class="chart-sub">Cupones canjeados por rango de descuento</p>
+        <div class="chart-container">
+          <canvas baseChart
+            [data]="pieData"
+            [options]="pieOptions"
+            type="pie">
+          </canvas>
+        </div>
+        <div class="range-legend">
+          <div class="range-item"><span class="dot dot-green"></span>Menor al 25%</div>
+          <div class="range-item"><span class="dot dot-orange"></span>25% – 50%</div>
+          <div class="range-item"><span class="dot dot-blue"></span>50% – 75%</div>
+          <div class="range-item"><span class="dot dot-purple"></span>Mayor al 75%</div>
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>

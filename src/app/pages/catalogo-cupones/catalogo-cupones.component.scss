@@ -1,0 +1,80 @@
+.mat-mdc-table, .mat-mdc-paginator {
+  background-color: transparent;
+}
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.container {
+  padding-bottom: 32px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.filter-title {
+  flex: 2 1 220px;
+}
+
+.filter-discount {
+  flex: 1 1 140px;
+}
+
+.saldo {
+  text-align: center;
+  margin: 8px 0 24px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+}
+
+.cupon-container {
+  display: block;
+
+  mat-card {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    height: 100%;
+    border-radius: var(--r-card);
+    padding: 22px;
+    box-shadow: var(--sh-1);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sh-2);
+    }
+  }
+}
+
+.price {
+  display: inline-block;
+  margin-top: 14px;
+  background-color: var(--accent-soft);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: 13px;
+}

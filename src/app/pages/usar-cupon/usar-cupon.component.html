@@ -1,0 +1,29 @@
+<div data-role="local">
+<app-navbar [title]="'Usar Cupón'" [route]="'/local'"></app-navbar>
+<div class="container mt-3">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field class="w-100">
+      <mat-label>Código del cupón</mat-label>
+      <input matInput placeholder="ABC123" formControlName="code" maxlength="6">
+      @if (form.get('code')!.hasError('required')) {
+        <mat-error>Ingrese el código</mat-error>
+      }
+      @if (form.get('code')!.hasError('minlength')) {
+        <mat-error>El código debe tener 6 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    @if (error) {
+      <p class="error-msg">{{ error }}</p>
+    }
+
+    <button class="btn-primary-custom" type="submit" [disabled]="cargando">
+      @if (cargando) { Validando... } @else { Validar cupón }
+    </button>
+
+  </form>
+
+</div>
+</div>

@@ -1,0 +1,60 @@
+form {
+  width: 100%;
+  padding: 30px 20%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.btn-validate {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 1.5em;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+
+  &:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+}
+
+.btn-locate {
+  background: var(--surface-2) !important;
+  color: var(--ink) !important;
+  border-radius: var(--r-pill) !important;
+  margin-bottom: 16px;
+}
+
+.map-wrapper {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.btn-submit {
+  background: var(--accent) !important;
+  color: #fff;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 11px 20px;
+  box-shadow: 0 4px 14px var(--accent-soft);
+}
+
+@media (max-width: 500px) {
+  form {
+    padding: 30px 5%;
+  }
+}

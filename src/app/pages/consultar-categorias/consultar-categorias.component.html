@@ -1,0 +1,9 @@
+<div data-role="entidad">
+  <app-table
+    [columns]="columns"
+    [title]="title"
+    [tableData]="categorias"
+    (edit)="editCategoria($event)"
+    (delete)="toggleCategoria($event)">
+  </app-table>
+</div>

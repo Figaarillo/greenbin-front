@@ -1,0 +1,48 @@
+<div data-role="local">
+  <app-navbar [title]="'Mis Cupones'"  [route]="'/local'"></app-navbar>
+  <div class="container mt-3">
+    <mat-form-field class="w-100">
+      <mat-label>Buscar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
+    </mat-form-field>
+
+    <h4 class="total-label">Total: {{dataSource.filteredData.length}} cupones</h4>
+
+    <div class="catalog">
+      @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
+        <div class="empty-state">
+          <h5><b>Aquí veras los cupones que ofrezcas</b></h5>
+        </div>
+      }
+      @for (data of dataSource.filteredData; track data) {
+        <div class="my-2 cupon-container">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{data.title}} <i>({{data.discount}}%)</i></mat-card-title>
+              <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="d-flex justify-content-between">
+              <div>
+                <div>
+                  <span class="price"><b>Costo: {{data.costInPoints}} puntos</b></span>
+                </div>
+                @if(data.isAvailable){
+                  <span class="badge-available">Disponible</span>
+                }
+                @else{
+                  <span class="badge-unavailable">No Disponible</span>
+                }
+              </div>
+              <div class="actions">
+                <button class="btn-icon btn-edit" (click)="edit(data)"><mat-icon>edit</mat-icon></button>
+                <button class="btn-icon btn-toggle" (click)="toggleDisponible(data)" [matTooltip]="data.isAvailable ? 'Deshabilitar' : 'Habilitar'">
+                  <mat-icon>{{ data.isAvailable ? 'block' : 'check_circle' }}</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
+    </div>
+  </div>
+</div>

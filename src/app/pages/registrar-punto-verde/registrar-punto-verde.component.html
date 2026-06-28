@@ -1,0 +1,62 @@
+<div data-role="entidad">
+<div class="container mt-3">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="name">
+      @if (form.get('name')!.hasError('required')) {
+        <mat-error>Ingrese un nombre</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="d-flex">
+      <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input matInput placeholder="Dirección" formControlName="address"><!-- (blur)="coordsByAdress()"-->
+        @if (form.get('address')!.hasError('required')) {
+          <mat-error>Ingrese una dirección</mat-error>
+        }
+        @if (form.get('address')!.valid) {
+          <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
+        }
+      </mat-form-field>
+      <button mat-flat-button color="accent" type="button" (click)="coordsByAdress()" [disabled]="form.get('address')!.invalid">Localizar</button>
+    </div>
+
+    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
+      @defer (on immediate) {
+        <app-map-input [type]="'punto-verde'" [initialCenter]="entidadCenter" [city]="entidadCity" (coordinates)="getCoordinates($event)"></app-map-input>
+      } @placeholder {
+        <div class="map-placeholder">Cargando mapa…</div>
+      }
+    </div> 
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="juanpedro@gmail.com" formControlName="email">
+      @if (form.get('email')!.hasError('required')) {
+        <mat-error>Ingrese un email</mat-error>
+      }
+    </mat-form-field>
+        
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <input matInput placeholder="3533403876" formControlName="phoneNumber">
+      @if (form.get('phoneNumber')!.hasError('required')) {
+        <mat-error>Ingrese un teléfono</mat-error>
+      }
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>Horarios</mat-label>
+      <textarea matInput placeholder="Horarios" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
+
+  </form>
+  
+</div>
+</div>

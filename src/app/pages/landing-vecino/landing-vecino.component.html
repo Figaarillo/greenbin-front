@@ -1,0 +1,52 @@
+<div data-role="vecino">
+  <mat-drawer-container class="landing-drawer" autosize>
+
+    <div class="v-header">
+      <div class="v-topbar">
+        <span class="v-brand"><mat-icon>recycling</mat-icon>GreenBin</span>
+        <span class="spacer"></span>
+      </div>
+
+      <div class="v-hello">¡Hola, {{name}}! 🎉</div>
+
+      <div class="pts-card">
+        <div class="pts-lbl">Puntos acumulados</div>
+        <div class="pts-val">{{puntos}} <small>pts</small></div>
+      </div>
+    </div>
+
+    <mat-drawer #buzon mode="over" [position]="'end'">
+      <p>Buzón</p>
+    </mat-drawer>
+
+    <div class="v-body">
+      <h4>Historial</h4>
+
+      @if (historial.length === 0) {
+        <p class="empty-state">No hay transacciones aún</p>
+      }
+
+      @for (item of historialVisible; track item) {
+        <div class="tx-item">
+          <div class="tx-icon" [class.up]="item.tipo === 'residuo'">
+            <mat-icon>{{ item.tipo === 'residuo' ? 'arrow_upward' : 'local_activity' }}</mat-icon>
+          </div>
+          <div class="tx-info">
+            <b>{{ item.descripcion || 'Transacción' }}</b>
+            <span>{{ item.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="tx-pts" [class.pos]="item.puntos > 0">
+            {{ item.puntos > 0 ? '+' : '' }}{{ item.puntos }}
+          </div>
+        </div>
+      }
+
+      @if (historial.length > LIMITE) {
+        <div class="tx-more" (click)="toggleHistorial()">
+          {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
+        </div>
+      }
+    </div>
+
+  </mat-drawer-container>
+</div>

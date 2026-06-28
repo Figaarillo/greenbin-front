@@ -1,0 +1,38 @@
+<div data-role="entidad">
+  <app-navbar [title]="'Modificar Categoría'" [route]="'/consultar-categorias'"></app-navbar>
+  <div class="container mt-3">
+    @if (form) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field class="w-100">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name">
+        @if (form.get('name')!.hasError('required')) {
+          <mat-error>Ingrese un nombre</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        @if (form.get('description')!.hasError('required')) {
+          <mat-error>Ingrese una descripción</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>Puntos por kg</mat-label>
+        <input type="number" matInput formControlName="pointsPerWeight">
+        @if (form.get('pointsPerWeight')!.hasError('required')) {
+          <mat-error>Ingrese los puntos por kg</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-label>CO2 (kg)</mat-label>
+        <input type="number" matInput formControlName="co2">
+        @if (form.get('co2')!.hasError('required')) {
+          <mat-error>Ingrese el valor de CO2</mat-error>
+        }
+      </mat-form-field>
+      <button mat-raised-button class="btn-primary-custom" type="submit">Guardar cambios</button>
+    </form>
+    }
+  </div>
+</div>

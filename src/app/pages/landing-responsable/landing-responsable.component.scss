@@ -1,0 +1,148 @@
+.landing-drawer {
+  height: 100vh;
+  background: var(--bg);
+}
+
+// ── Header gradient ─────────────────────────────────────────────────────
+.v-header {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  color: #fff;
+  padding: 26px 22px 30px;
+}
+
+.v-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+
+  button { color: #fff; }
+
+  .spacer { flex: 1; }
+}
+
+.v-brand {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.v-hello {
+  margin-top: 22px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.select-container {
+  margin-top: 14px;
+
+  .pto-select {
+    width: 100%;
+
+    ::ng-deep .mdc-text-field--filled {
+      background: rgba(255, 255, 255, 0.16) !important;
+      border-radius: 12px !important;
+    }
+
+    ::ng-deep .mat-mdc-select-value-text,
+    ::ng-deep .mat-mdc-select-arrow,
+    ::ng-deep .mat-mdc-floating-label {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+  }
+}
+
+// ── Body / historial ────────────────────────────────────────────────────
+.v-body {
+  padding: 18px 18px 90px;
+  overflow: auto;
+
+  h4 {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px 0;
+  font-size: 14px;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tx-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+
+  &.up {
+    background: rgba(14, 140, 122, 0.12);
+    color: #0a5e52;
+  }
+
+  mat-icon { font-size: 20px; }
+}
+
+.tx-info {
+  flex: 1;
+
+  b {
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  span {
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+  }
+}
+
+.tx-pts {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--muted);
+
+  &.pos { color: var(--accent); }
+}
+
+.tx-more {
+  cursor: pointer;
+  text-align: center;
+  padding: 14px 0;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.8; }
+}
+
+// ── Mobile: espacio para hamburger ─────────────────────────────────────
+@media (max-width: 959px) {
+  .v-header { padding-top: 56px; }
+}
+
+// ── Desktop: padding extra ────────────────────────────────────────────
+@media (min-width: 960px) {
+  .v-body { padding-bottom: 28px; }
+}
