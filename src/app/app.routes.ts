@@ -197,6 +197,14 @@ export const routes: Routes = [
           import('./pages/historial-responsable/historial-responsable.component').then(
             m => m.HistorialResponsableComponent
           )
+      },
+      {
+        path: 'modificar-responsable/:id',
+        canActivate: [isLogged],
+        loadComponent: () =>
+          import('./pages/modificar-responsable/modificar-responsable.component').then(
+            m => m.ModificarResponsableComponent
+          )
       }
     ]
   },

@@ -3,79 +3,6 @@
   background: var(--bg);
 }
 
-// ── Header gradient ─────────────────────────────────────────────────────
-.v-header {
-  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
-  color: #fff;
-  padding: 26px 22px 30px;
-}
-
-.v-topbar {
-  display: flex;
-  align-items: center;
-  color: #fff;
-
-  button { color: #fff; }
-
-  // Same width as the menu button so the centered brand stays optically centered.
-  .spacer { width: 40px; flex: none; }
-}
-
-.v-brand {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: 'Sora', sans-serif;
-  font-weight: 800;
-  font-size: 23px;
-  letter-spacing: -0.01em;
-
-  mat-icon {
-    font-size: 26px;
-    width: 26px;
-    height: 26px;
-  }
-}
-
-.v-hello {
-  margin-top: 22px;
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-}
-
-.pts-card {
-  margin-top: 14px;
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 16px;
-  padding: 16px 18px;
-
-  .pts-lbl {
-    font-size: 12px;
-    opacity: 0.85;
-  }
-
-  .pts-val {
-    font-family: 'Sora', sans-serif;
-    font-weight: 800;
-    font-size: 30px;
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-
-    small {
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.85;
-    }
-  }
-}
-
 // ── Body / historial ────────────────────────────────────────────────────
 .v-body {
   padding: 18px 18px 90px;
@@ -159,13 +86,7 @@
   &:hover { opacity: 0.8; }
 }
 
-// ── Mobile: espacio para hamburger ─────────────────────────────────────
-@media (max-width: 959px) {
-  .v-header { padding-top: 56px; }
-}
-
-// ── Desktop: v-brand alineado a la izquierda ──────────────────────────
+// ── Desktop ───────────────────────────────────────────────────────────
 @media (min-width: 960px) {
-  .v-brand { justify-content: flex-start; }
   .v-body { padding-bottom: 28px; }
 }

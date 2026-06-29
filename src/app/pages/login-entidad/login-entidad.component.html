@@ -2,6 +2,10 @@
   <div class="login-bg"></div>
   <div class="login-card">
     <div class="login-hero">
+      <div class="auth-brand">
+        <mat-icon>apartment</mat-icon>
+        GreenBin
+      </div>
       <div class="hero-icon"><mat-icon>apartment</mat-icon></div>
       <h2>Panel de Entidad</h2>
       <p>Ingresá con tu email institucional</p>
@@ -40,13 +44,11 @@
           </button>
         </p>
       </form>
-      <div class="home-link" [routerLink]="'/'">
-        <mat-icon>home</mat-icon>
-        <span>Volver al Home</span>
-      </div>
     </div>
-    <div class="login-footer">
-      <span class="brand-footer">GreenBin</span>
+    <div class="home-link login-back-mobile" [routerLink]="'/'">
+      <mat-icon>home</mat-icon>
+      <span>Ir al inicio</span>
     </div>
+    <div class="login-footer"></div>
   </div>
 </div>

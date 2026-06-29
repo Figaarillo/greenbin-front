@@ -2,6 +2,10 @@
   <div class="login-bg"></div>
   <div class="auth-card">
     <div class="auth-hero">
+      <div class="auth-brand">
+        <mat-icon>account_circle</mat-icon>
+        GreenBin
+      </div>
       <button mat-icon-button class="auth-back" [routerLink]="'/login'" aria-label="Volver">
         <mat-icon>arrow_back</mat-icon>
       </button>
@@ -102,5 +106,6 @@
 
       </form>
     </div>
+    <div class="login-back-mobile" [routerLink]="'/login'">Volver al login</div>
   </div>
 </div>

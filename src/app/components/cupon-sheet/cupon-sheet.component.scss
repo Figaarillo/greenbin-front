@@ -1,0 +1,252 @@
+// Área scrolleable del contenido (el footer queda fijo abajo).
+.cs-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 18px 2px;
+}
+
+// ── Encabezado: badge % + título ────────────────────────
+.cs-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cs-badge {
+  flex-shrink: 0;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+
+  small {
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+
+.cs-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.cs-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+// ── Card del local ──────────────────────────────────────
+.cs-local {
+  margin-top: 16px;
+  background: var(--surface-2);
+  border-radius: var(--r-card);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-local-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--ink);
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+  }
+
+  &.name {
+    font-weight: 700;
+  }
+
+  &.muted {
+    color: var(--muted);
+  }
+}
+
+// ── Mapa ────────────────────────────────────────────────
+.cs-map {
+  margin-top: 12px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.cs-map-ph {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 12px;
+  background: var(--surface-2);
+}
+
+// ── Filas de info ───────────────────────────────────────
+.cs-info {
+  margin-top: 12px;
+}
+
+.cs-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 2px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .lbl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--accent);
+    }
+  }
+
+  .val {
+    font-weight: 700;
+    color: var(--ink);
+  }
+}
+
+// ── Footer ──────────────────────────────────────────────
+.cs-foot {
+  padding: 14px 18px 0;
+  flex-shrink: 0;
+}
+
+.cs-btn {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--r-pill);
+  padding: 14px;
+  box-shadow: 0 6px 16px var(--accent-soft);
+  transition: opacity 0.15s;
+
+  &:disabled {
+    background: var(--line);
+    color: var(--muted);
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+.cs-btn-ghost {
+  width: 100%;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: var(--r-pill);
+  padding: 13px;
+}
+
+.cs-foot-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+// ── Estado código (troquel) ─────────────────────────────
+.cs-success {
+  text-align: center;
+}
+
+.cs-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto 10px;
+
+  mat-icon {
+    color: var(--accent);
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.cs-success-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+
+.cs-ticket {
+  margin: 18px 4px 6px;
+  border: 2px dashed var(--accent);
+  border-radius: 16px;
+  padding: 18px;
+  background: var(--accent-soft);
+}
+
+.cs-code {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: 8px;
+  color: var(--accent-ink);
+}
+
+.cs-code-lbl {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.cs-vto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 12px 0 4px;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}

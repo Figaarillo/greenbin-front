@@ -45,12 +45,14 @@
 
   <div class="main-content">
     <header>
-      <button class="back-btn" (click)="goBack()" aria-label="Go back">
-        <span class="las la-arrow-left"></span>
-      </button>
-      <label for="sidebar-toggle" aria-label="Toggle sidebar">
+      @if (!isMobile) {
+        <button class="back-btn" (click)="goBack()" aria-label="Go back">
+          <span class="las la-arrow-left"></span>
+        </button>
+      }
+      <button class="hamburger-btn" (click)="onHamburgerClick()" aria-label="Toggle menu">
         <span class="las la-bars"></span>
-      </label>
+      </button>
       <span class="header-title">{{ currentTitle }}</span>
     </header>
     <main>
@@ -62,18 +64,19 @@
 
   <!-- Mobile Tabbar (persistent) -->
   @if (isMobile) {
-    <div class="tabbar">
-      <a class="tab-item" routerLink="/entidad/dashboard">
-        <span class="las la-home"></span>
-        <span>Dashboard</span>
-      </a>
-      <a class="tab-item fab" routerLink="/entidad/registrar-responsable">
-        <span class="las la-plus"></span>
-      </a>
-      <a class="tab-item" routerLink="/entidad/listar-responsables">
-        <span class="las la-address-book"></span>
-        <span>Listar</span>
-      </a>
-    </div>
+    <app-mobile-tabbar
+      [middleItems]="middleItems"
+      [profileRoute]="profileRoute"
+      (hamburgerClick)="onHamburgerClick()"
+    />
+
+    <!-- Mobile Menú (bottom-sheet) -->
+    <app-mobile-menu
+      [items]="menuItems"
+      [userName]="userName"
+      [userSubtitle]="userSubtitle"
+      (navigate)="onMenuNavigate($event)"
+      (doLogout)="onMenuLogout()"
+    />
   }
 </div>

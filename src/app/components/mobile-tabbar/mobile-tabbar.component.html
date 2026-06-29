@@ -1,0 +1,41 @@
+<div class="tabbar" [style.--tabbar-accent]="accentColor">
+  <!-- Hamburger (extremo izquierdo, fijo) -->
+  <button class="tab-item" (click)="hamburgerClick.emit()">
+    <mat-icon>menu</mat-icon>
+    <span>Menú</span>
+  </button>
+
+  <!-- Tres ítems centrales rotables (el orden lo define el layout vía middleItems) -->
+  @for (item of middleItems; track $index) {
+    @if (item.isFab) {
+      <!-- FAB: siempre link, sin active state -->
+      <a class="tab-item fab" [routerLink]="item.route">
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </a>
+    } @else if (item.route) {
+      <!-- Item con ruta → navega y tiene active state -->
+      <a class="tab-item"
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    } @else {
+      <!-- Item sin ruta → emite middleClick -->
+      <button class="tab-item" (click)="middleClick.emit($index)">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </button>
+    }
+  }
+
+  <!-- Perfil (extremo derecho, fijo) -->
+  <a class="tab-item"
+     [routerLink]="profileRoute"
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>account_circle</mat-icon>
+    <span>Perfil</span>
+  </a>
+</div>

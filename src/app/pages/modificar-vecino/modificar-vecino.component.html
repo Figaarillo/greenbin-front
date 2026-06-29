@@ -1,6 +1,7 @@
-<div data-role="vecino">
-  <app-navbar [title]="'Editar Vecino'" [route]="'/vecino'"></app-navbar>
-  <div class="container mt-3">
+<div class="edit-form-page" data-role="vecino">
+  <div class="login-bg"></div>
+  <app-page-header title="Mi perfil"></app-page-header>
+  <div class="edit-form-body">
     @if (form) {
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
