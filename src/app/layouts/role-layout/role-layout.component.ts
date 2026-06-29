@@ -53,7 +53,7 @@ export class RoleLayoutComponent implements OnInit {
           { icon: 'home', label: '', route: '/responsable/inicio', isFab: true },
           { icon: 'bar_chart', label: 'Historial', route: '/responsable/historial-responsable' }
         ],
-        profile: '/modificar-responsable/' + this.userId
+        profile: '/responsable/modificar-responsable/' + this.userId
       },
       local: {
         middle: [
