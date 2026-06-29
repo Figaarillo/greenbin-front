@@ -45,9 +45,11 @@
 
   <div class="main-content">
     <header>
-      <button class="back-btn" (click)="goBack()" aria-label="Go back">
-        <span class="las la-arrow-left"></span>
-      </button>
+      @if (!isMobile) {
+        <button class="back-btn" (click)="goBack()" aria-label="Go back">
+          <span class="las la-arrow-left"></span>
+        </button>
+      }
       <button class="hamburger-btn" (click)="onHamburgerClick()" aria-label="Toggle menu">
         <span class="las la-bars"></span>
       </button>

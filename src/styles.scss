@@ -378,6 +378,17 @@ h6 {
   .login-body  { padding: 20px 16px 24px; }
 }
 
+// ── Ocultar scrollbar en mobile (barra nativa innecesaria) ──────────────
+@media (max-width: 959px) {
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 // ── Reduced motion: cortar animaciones de transición ────────────────────
 @media (prefers-reduced-motion: reduce) {
   *,

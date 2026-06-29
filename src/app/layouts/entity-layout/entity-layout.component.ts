@@ -1,6 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, DestroyRef, inject, OnInit, viewChild } from '@angular/core'
-import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router'
+import { NavigationEnd, NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
@@ -79,14 +79,13 @@ export class EntityLayoutComponent implements OnInit {
       })
 
     this.updateTitle(this.router.url)
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(event => {
-        this.updateTitle((event as NavigationEnd).urlAfterRedirects)
-      })
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.menu()?.closeSheet()
+      } else if (event instanceof NavigationEnd) {
+        this.updateTitle(event.urlAfterRedirects)
+      }
+    })
   }
 
   private updateTitle(url: string): void {
@@ -97,7 +96,7 @@ export class EntityLayoutComponent implements OnInit {
 
   onHamburgerClick(): void {
     if (this.isMobile) {
-      this.menu()?.open()
+      this.menu()?.toggle()
     } else {
       const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
       if (cb) cb.checked = !cb.checked

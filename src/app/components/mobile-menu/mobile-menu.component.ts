@@ -35,6 +35,14 @@ export class MobileMenuComponent {
     this.isOpen.set(true)
   }
 
+  toggle(): void {
+    if (this.isOpen()) {
+      this.closeSheet()
+    } else {
+      this.open()
+    }
+  }
+
   closeSheet(): void {
     this.isOpen.set(false)
     // dar tiempo a la animación de salida antes de emitir

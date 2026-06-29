@@ -3,7 +3,8 @@
   <!-- Backdrop con blur -->
   <div class="menu-backdrop" (click)="onBackdropClick($event)"></div>
 
-  <!-- Panel deslizante -->
+  <!-- Panel deslizante (clip container limita la animación a bottom: 44px) -->
+  <div class="menu-clip">
   <div class="menu-panel">
     <!-- Foto de perfil (sobresale) -->
     <div class="menu-photo">
@@ -33,5 +34,6 @@
         </button>
       }
     </div>
+  </div>
   </div>
 </div>

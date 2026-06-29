@@ -1,7 +1,9 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, OnInit, inject, viewChild } from '@angular/core'
-import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router'
+import { Component, DestroyRef, OnInit, inject, viewChild } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ActivatedRoute, NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
+import { filter } from 'rxjs'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-menu/mobile-menu.component'
@@ -22,6 +24,7 @@ export class RoleLayoutComponent implements OnInit {
   private router = inject(Router)
   private breakpointObserver = inject(BreakpointObserver)
   private sesionService = inject(SesionService)
+  private destroyRef = inject(DestroyRef)
 
   role = 'vecino'
   isMobile = false
@@ -123,11 +126,18 @@ export class RoleLayoutComponent implements OnInit {
     this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
       this.isMobile = result.matches
     })
+
+    this.router.events
+      .pipe(
+        filter(e => e instanceof NavigationStart),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.menu()?.closeSheet())
   }
 
   onHamburgerClick(): void {
     if (this.isMobile) {
-      this.menu()?.open()
+      this.menu()?.toggle()
     } else {
       const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
       if (cb) cb.checked = !cb.checked
@@ -143,6 +153,7 @@ export class RoleLayoutComponent implements OnInit {
   }
 
   onMiddleClick(index: number): void {
+    this.menu()?.closeSheet()
     if (this.middleItems[index].icon === 'recycling' && this.role === 'responsable') {
       this.goEntrega()
     }
