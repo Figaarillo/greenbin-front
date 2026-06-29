@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core'
-import { provideRouter } from '@angular/router'
+import { provideRouter, withViewTransitions } from '@angular/router'
 
 import { routes } from './app.routes'
 import { provideClientHydration } from '@angular/platform-browser'
@@ -13,7 +13,7 @@ import { API_BASE_URL, DEFAULT_API_BASE_URL } from './config/api.config'
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions()),
     provideClientHydration(),
     provideHttpClient(withInterceptors([requestInterceptor, loaderInterceptor, authInterceptor, sesionInterceptor])),
     provideAnimationsAsync(),
