@@ -61,6 +61,27 @@
   --accent-soft: rgba(15, 81, 50, 0.12);
 }
 
+// ── Chip reutilizable dentro de app-page-header (frosted glass) ──────────
+.hdr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--r-pill);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+
+  .mat-icon,
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
 // ═════════════════════════════════════════════════════════════════════════
 //  ANGULAR MATERIAL — Custom Theme
 // ═════════════════════════════════════════════════════════════════════════
@@ -147,21 +168,27 @@ h6 {
 }
 
 // ── Transición unificada entre pantallas (View Transitions API) ──────────
-// Angular 17+ la activa con withViewTransitions() en app.config.ts.
-// Solo fade-in de la página nueva sobre la vieja (que se queda visible),
-// así nunca se ve blanco en el medio.
-@keyframes vt-fade-out {
-  to { opacity: 0; }
-}
 @keyframes vt-fade-in {
   from { opacity: 0; }
 }
 
+// Fondo del contenedor de captura: evita el flash negro
+::view-transition {
+  background-color: var(--bg);
+}
+
+// Root: página vieja queda visible, nueva hace fade-in encima
 ::view-transition-old(root) {
-  animation: none; /* la página vieja se queda visible, no se desvanece */
+  animation: none;
 }
 ::view-transition-new(root) {
   animation: 200ms ease-in both vt-fade-in;
+}
+
+// Tabbar: estático durante la transición, sin animación propia
+::view-transition-old(mobile-tabbar),
+::view-transition-new(mobile-tabbar) {
+  animation: none;
 }
 
 // ── Material Icons alignment helper ─────────────────────────────────────

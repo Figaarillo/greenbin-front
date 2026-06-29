@@ -31,7 +31,6 @@ export class MapViewComponent implements AfterViewInit {
     //console.log("ancho actual "+this.anchoVariable)
   }
 
-  localAdheridoIcon = document.createElement('span')
   localAdheridoPinElement!: google.maps.marker.PinElement
   PuntoVerdeIcon = document.createElement('span')
   PuntoVerdePinElement!: google.maps.marker.PinElement
@@ -52,23 +51,49 @@ export class MapViewComponent implements AfterViewInit {
       })
   }
 
+  /** Crea el SVG de la tiendita (reemplaza el Material Icon 'store') */
+  private createTienditaSvg(): SVGElement {
+    const xmlns = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(xmlns, 'svg')
+    svg.setAttribute('viewBox', '0 0 64 64')
+    svg.setAttribute('width', '100%')
+    svg.setAttribute('height', '100%')
+
+    // Techo a dos aguas
+    const roof = document.createElementNS(xmlns, 'path')
+    roof.setAttribute('d', 'M8 26 L32 10 L56 26 L56 30 L8 30 Z')
+    roof.setAttribute('fill', '#ffffff')
+
+    // Base de la tienda
+    const body = document.createElementNS(xmlns, 'rect')
+    body.setAttribute('x', '14')
+    body.setAttribute('y', '30')
+    body.setAttribute('width', '36')
+    body.setAttribute('height', '20')
+    body.setAttribute('rx', '3')
+    body.setAttribute('fill', '#ffffff')
+
+    svg.appendChild(roof)
+    svg.appendChild(body)
+    return svg
+  }
+
   createMarker() {
-    this.localAdheridoIcon.className = 'material-icons'
-    this.localAdheridoIcon.style.color = '#FFFFFF' // Color del icono
-    this.localAdheridoIcon.innerText = 'store' // Nombre del icono}
+    // Reward Partner — tiendita ámbar
     this.localAdheridoPinElement = new google.maps.marker.PinElement({
-      background: '#1e88e5', // Color verde
-      glyph: this.localAdheridoIcon, //'♻️',
+      background: '#b87d0d',
+      glyph: this.createTienditaSvg(),
       glyphColor: '#FFFFFF',
       scale: 1.5,
-      borderColor: '#19cb26'
+      borderColor: '#e0a019'
     })
+    // Punto Verde — reciclaje (sin cambios)
     this.PuntoVerdeIcon.className = 'material-icons'
-    this.PuntoVerdeIcon.style.color = '#FFFFFF' // Color del icono
-    this.PuntoVerdeIcon.innerText = 'recycling' // Nombre del icono}
+    this.PuntoVerdeIcon.style.color = '#FFFFFF'
+    this.PuntoVerdeIcon.innerText = 'recycling'
     this.PuntoVerdePinElement = new google.maps.marker.PinElement({
-      background: '#1e88e5', // Color verde
-      glyph: this.PuntoVerdeIcon, //'♻️',
+      background: '#1e88e5',
+      glyph: this.PuntoVerdeIcon,
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#19cb26'

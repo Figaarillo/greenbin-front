@@ -2,7 +2,7 @@ import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
 import { ChartData, ChartOptions } from 'chart.js'
@@ -14,7 +14,7 @@ Chart.register(...registerables)
 @Component({
   selector: 'app-mis-reciclados',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule],
+  imports: [CommonModule, FormsModule, PageHeaderComponent, NgChartsModule],
   templateUrl: './mis-reciclados.component.html',
   styleUrl: './mis-reciclados.component.scss'
 })
