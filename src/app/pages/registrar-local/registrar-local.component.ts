@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common'
     MatToolbar,
     MapInputComponent,
     MatSelectModule,
+    RouterModule,
     CommonModule
   ],
   templateUrl: './registrar-local.component.html',
