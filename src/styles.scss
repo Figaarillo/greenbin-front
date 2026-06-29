@@ -216,15 +216,19 @@ h6 {
 //  igual. El acento lo define [data-role] sobre .auth-page.
 // ═════════════════════════════════════════════════════════════════════════
 .auth-page {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 32px 24px;
-  background: var(--bg);
+  // Fondo liviano (visible en mobile, donde no se carga la imagen blureada).
+  background: linear-gradient(160deg, var(--surface-2), var(--bg));
 }
 
 .auth-card {
+  position: relative;
+  z-index: 1;
   background: var(--surface);
   border-radius: 20px;
   box-shadow: var(--sh-2);

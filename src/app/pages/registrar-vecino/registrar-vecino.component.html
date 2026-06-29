@@ -1,4 +1,5 @@
 <div class="auth-page" data-role="vecino">
+  <div class="login-bg"></div>
   <div class="auth-card">
     <div class="auth-hero">
       <button mat-icon-button class="auth-back" [routerLink]="'/login'" aria-label="Volver">
@@ -85,7 +86,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field floatLabel="always">
           <mat-label>Teléfono</mat-label>
           <span matTextPrefix>+54 &nbsp;</span>
           <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
