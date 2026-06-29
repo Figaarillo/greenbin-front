@@ -8,6 +8,8 @@
 }
 
 .login-card {
+  position: relative;
+  z-index: 1;
   background: var(--surface);
   border-radius: 20px;
   box-shadow: var(--sh-2);
