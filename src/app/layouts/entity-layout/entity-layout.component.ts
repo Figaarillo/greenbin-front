@@ -4,15 +4,14 @@ import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/rout
 import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
-import { MatIconModule } from '@angular/material/icon'
 import { filter } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { MobileTabbarComponent, TabItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
+import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 
 @Component({
   selector: 'app-entity-layout',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, CommonModule, MatIconModule, MobileTabbarComponent],
+  imports: [RouterModule, RouterOutlet, CommonModule, MobileTabbarComponent],
   templateUrl: './entity-layout.component.html',
   styleUrl: './entity-layout.component.scss'
 })
@@ -28,11 +27,12 @@ export class EntityLayoutComponent implements OnInit {
   isMobile = false
   currentTitle = ''
 
-  readonly tabItems: TabItem[] = [
-    { icon: 'home', label: 'Dashboard', route: '/entidad/dashboard' },
-    { icon: 'person_add', label: '', route: '/entidad/registrar-responsable', isFab: true },
+  readonly extraItems: [TabExtraItem, TabExtraItem] = [
+    { icon: 'dashboard', label: 'Dashboard', route: '/entidad/dashboard' },
     { icon: 'contacts', label: 'Listar', route: '/entidad/listar-responsables' }
   ]
+  readonly homeRoute: string = '/entidad/dashboard'
+  readonly profileRoute: string = '/entidad/dashboard'
 
   private readonly menuTitles: Record<string, string> = {
     dashboard: 'Dashboard',
@@ -73,6 +73,11 @@ export class EntityLayoutComponent implements OnInit {
     const segments = url.split('?')[0].split('/').filter(Boolean)
     const last = segments[segments.length - 1] ?? ''
     this.currentTitle = this.menuTitles[last] ?? ''
+  }
+
+  onHamburgerClick(): void {
+    const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
+    if (cb) cb.checked = !cb.checked
   }
 
   goBack(): void {

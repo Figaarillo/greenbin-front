@@ -1,20 +1,53 @@
-<div class="tabbar">
-  @for (item of items; track $index) {
-    @if (item.isFab && !item.route) {
-      <!-- FAB sin ruta → emite evento para que el layout decida -->
-      <button class="tab-item fab" (click)="onItemClick(item)">
-        <mat-icon>{{ item.icon }}</mat-icon>
-      </button>
-    } @else if (item.isFab) {
-      <!-- FAB con ruta → navega -->
-      <a class="tab-item fab" [routerLink]="item.route">
-        <mat-icon>{{ item.icon }}</mat-icon>
-      </a>
-    } @else {
-      <a class="tab-item" [routerLink]="item.route">
-        <mat-icon>{{ item.icon }}</mat-icon>
-        <span>{{ item.label }}</span>
-      </a>
-    }
+<div class="tabbar" [style.--tabbar-accent]="accentColor">
+  <!-- Hamburger (extremo izquierdo) -->
+  <button class="tab-item" (click)="hamburgerClick.emit()">
+    <mat-icon>menu</mat-icon>
+    <span>Menú</span>
+  </button>
+
+  <!-- Extra item 1 -->
+  @if (extraItems[0].route) {
+    <a class="tab-item"
+       [routerLink]="extraItems[0].route"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>{{ extraItems[0].icon }}</mat-icon>
+      <span>{{ extraItems[0].label }}</span>
+    </a>
+  } @else {
+    <button class="tab-item" (click)="extraClick.emit(0)">
+      <mat-icon>{{ extraItems[0].icon }}</mat-icon>
+      <span>{{ extraItems[0].label }}</span>
+    </button>
   }
+
+  <!-- Home (central, FAB) -->
+  <a class="tab-item fab" [routerLink]="homeRoute">
+    <mat-icon>home</mat-icon>
+  </a>
+
+  <!-- Extra item 2 -->
+  @if (extraItems[1].route) {
+    <a class="tab-item"
+       [routerLink]="extraItems[1].route"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>{{ extraItems[1].icon }}</mat-icon>
+      <span>{{ extraItems[1].label }}</span>
+    </a>
+  } @else {
+    <button class="tab-item" (click)="extraClick.emit(1)">
+      <mat-icon>{{ extraItems[1].icon }}</mat-icon>
+      <span>{{ extraItems[1].label }}</span>
+    </button>
+  }
+
+  <!-- Perfil (extremo derecho) -->
+  <a class="tab-item"
+     [routerLink]="profileRoute"
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{ exact: true }">
+    <mat-icon>account_circle</mat-icon>
+    <span>Perfil</span>
+  </a>
 </div>

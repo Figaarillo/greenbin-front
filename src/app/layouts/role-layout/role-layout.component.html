@@ -24,6 +24,12 @@
 
   <!-- ═══════ Mobile Tabbar (persistent across child routes) ═══════ -->
   @if (isMobile) {
-    <app-mobile-tabbar [items]="tabItems" (fabClick)="goEntrega()" />
+    <app-mobile-tabbar
+      [extraItems]="extraItems"
+      [homeRoute]="homeRoute"
+      [profileRoute]="profileRoute"
+      (hamburgerClick)="onHamburgerClick()"
+      (extraClick)="onExtraClick($event)"
+    />
   }
 </div>

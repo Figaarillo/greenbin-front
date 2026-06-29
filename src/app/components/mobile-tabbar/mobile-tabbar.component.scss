@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 8px 12px 10px;
+  padding: 8px 8px 10px;
   z-index: 100;
 }
 
@@ -24,15 +24,15 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 14px;
-  min-width: 52px;
+  min-width: 48px;
   transition: all 0.15s;
   text-decoration: none;
 
   &:hover {
-    color: var(--accent);
-    background: var(--accent-soft);
+    color: var(--tabbar-accent, var(--accent));
+    background: color-mix(in srgb, var(--tabbar-accent, var(--accent)) 12%, transparent);
   }
 
   mat-icon {
@@ -40,19 +40,28 @@
     width: 22px;
     height: 22px;
     transition: transform 0.15s;
+    color: inherit;
   }
 
   &:hover mat-icon {
     transform: scale(1.08);
   }
 
+  // ── Active state: coincide la ruta actual ──
+  &.active {
+    color: var(--tabbar-accent, var(--accent));
+
+    mat-icon { color: var(--tabbar-accent, var(--accent)); }
+  }
+
+  // ── FAB central ──
   &.fab {
     width: 54px;
     height: 54px;
     border-radius: 18px;
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 6px 18px var(--accent-soft);
+    background: var(--tabbar-accent, var(--accent));
+    color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--tabbar-accent, var(--accent)) 40%, transparent);
     margin-top: -24px;
     padding: 0;
     display: flex;
@@ -63,13 +72,13 @@
       font-size: 26px;
       width: 26px;
       height: 26px;
+      color: inherit;
     }
 
     &:hover {
-      background: var(--accent);
       filter: brightness(1.1);
       transform: translateY(-1px);
-      box-shadow: 0 8px 22px var(--accent-soft);
+      box-shadow: 0 8px 22px color-mix(in srgb, var(--tabbar-accent, var(--accent)) 40%, transparent);
     }
 
     &:hover mat-icon {

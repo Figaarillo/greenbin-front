@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
-import { MobileTabbarComponent, TabItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
+import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 import { SesionService } from '../../services/sesion/sesion.service'
 import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common'
@@ -26,35 +26,64 @@ export class RoleLayoutComponent implements OnInit {
   isMobile = false
   userId = ''
 
-  tabItems: TabItem[] = []
+  extraItems: [TabExtraItem, TabExtraItem] = [
+    { icon: '', label: '' },
+    { icon: '', label: '' }
+  ]
+  homeRoute: string = '/'
+  profileRoute: string = ''
 
   ngOnInit(): void {
     this.role = this.route.snapshot.data['role'] || 'vecino'
     this.userId = this.sesionService.getUserId()
 
-    // Tabbar items según el rol
-    const items: Record<string, TabItem[]> = {
-      vecino: [
-        { icon: 'recycling', label: 'Puntos', route: '/vecino/puntos-verdes' },
-        { icon: 'local_activity', label: '', route: '/vecino/cupones', isFab: true },
-        { icon: 'account_circle', label: 'Perfil', route: '/vecino/modificar-vecino' }
-      ],
-      responsable: [
-        { icon: 'bar_chart', label: 'Historial', route: '/responsable/historial-responsable' },
-        { icon: 'recycling', label: '', route: '', isFab: true },
-        { icon: 'account_circle', label: 'Perfil', route: '/modificar-responsable/' + this.userId }
-      ],
-      local: [
-        { icon: 'local_activity', label: 'Cupones', route: '/local/cupones-ofrecidos' },
-        { icon: 'qr_code_scanner', label: '', route: '/local/usar-cupon', isFab: true },
-        { icon: 'account_circle', label: 'Perfil', route: '/local/modificar-local' }
-      ]
+    const items: Record<string, { extra: [TabExtraItem, TabExtraItem]; home: string; profile: string }> = {
+      vecino: {
+        extra: [
+          { icon: 'local_activity', label: 'Cupones', route: '/vecino/cupones' },
+          { icon: 'recycling', label: 'Puntos', route: '/vecino/puntos-verdes' }
+        ],
+        home: '/vecino/inicio',
+        profile: '/vecino/modificar-vecino'
+      },
+      responsable: {
+        extra: [
+          { icon: 'recycling', label: 'Entregar', route: '' },
+          { icon: 'bar_chart', label: 'Historial', route: '/responsable/historial-responsable' }
+        ],
+        home: '/responsable/inicio',
+        profile: '/modificar-responsable/' + this.userId
+      },
+      local: {
+        extra: [
+          { icon: 'local_activity', label: 'Cupones', route: '/local/cupones-ofrecidos' },
+          { icon: 'qr_code_scanner', label: 'Escanear', route: '/local/usar-cupon' }
+        ],
+        home: '/local/inicio',
+        profile: '/local/modificar-local'
+      }
     }
-    this.tabItems = items[this.role] ?? []
+    const cfg = items[this.role]
+    if (cfg) {
+      this.extraItems = cfg.extra
+      this.homeRoute = cfg.home
+      this.profileRoute = cfg.profile
+    }
 
     this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
       this.isMobile = result.matches
     })
+  }
+
+  onHamburgerClick(): void {
+    const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
+    if (cb) cb.checked = !cb.checked
+  }
+
+  onExtraClick(index: number): void {
+    if (index === 0 && this.role === 'responsable') {
+      this.goEntrega()
+    }
   }
 
   goEntrega(): void {

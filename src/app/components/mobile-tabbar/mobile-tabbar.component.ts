@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 
-export type TabItem = {
+export type TabExtraItem = {
   icon: string
   label: string
-  /** Ruta de navegación. Vacía si el item requiere una acción (fabClick). */
-  route: string
-  isFab?: boolean
+  /** Ruta de navegación. Vacía/sin ruta → emite extraClick con su índice. */
+  route?: string
 }
 
 @Component({
@@ -19,12 +18,21 @@ export type TabItem = {
   styleUrl: './mobile-tabbar.component.scss'
 })
 export class MobileTabbarComponent {
-  @Input({ required: true }) items!: TabItem[]
-  @Output() fabClick = new EventEmitter<void>()
+  /** Dos ítems variables (según rol) que van a izquierda/derecha del Home */
+  @Input({ required: true }) extraItems!: [TabExtraItem, TabExtraItem]
 
-  onItemClick(item: TabItem): void {
-    if (item.isFab && !item.route) {
-      this.fabClick.emit()
-    }
-  }
+  /** Ruta del botón Home (central, FAB) */
+  @Input() homeRoute: string = '/'
+
+  /** Ruta del botón Perfil (extremo derecho) */
+  @Input() profileRoute: string = ''
+
+  /** Color accent para el estado activo (pasa un CSS var o color) */
+  @Input() accentColor: string = 'var(--accent)'
+
+  /** Emitido al clickear el botón hamburguesa (extremo izquierdo) */
+  @Output() hamburgerClick = new EventEmitter<void>()
+
+  /** Emitido cuando un extraItem no tiene ruta definida */
+  @Output() extraClick = new EventEmitter<number>()
 }
