@@ -1,19 +1,13 @@
 import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { LoaderComponent } from './components/loader/loader.component'
-import { routeAnimations } from './animations/route-animations'
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, LoaderComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  animations: [routeAnimations]
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'greenbin-front'
-
-  getAnimationState(outlet: RouterOutlet) {
-    return outlet?.activatedRouteData?.['animation']
-  }
 }

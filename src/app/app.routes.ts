@@ -12,7 +12,6 @@ import { response } from 'express'
 export const routes: Routes = [
   {
     path: '',
-    data: { animation: 'homePage' },
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
@@ -47,12 +46,10 @@ export const routes: Routes = [
   // ── Auth ───────────────────────────────────────────
   {
     path: 'login',
-    data: { animation: 'loginPage' },
     loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'login-admin',
-    data: { animation: 'loginPage' },
     loadComponent: () => import('./pages/login-entidad/login-entidad.component').then(m => m.LoginEntidadComponent)
   },
   {
@@ -66,7 +63,6 @@ export const routes: Routes = [
   },
   {
     path: 'superadmin/login',
-    data: { animation: 'loginPage' },
     loadComponent: () =>
       import('./pages/login-superadmin/login-superadmin.component').then(m => m.LoginSuperadminComponent)
   },
