@@ -25,5 +25,15 @@
       (hamburgerClick)="onHamburgerClick()"
       (middleClick)="onMiddleClick($event)"
     />
+
+    <!-- ═══════ Mobile Menú (bottom-sheet, reemplaza el sidebar en mobile) ═══════ -->
+    <app-mobile-menu
+      [items]="menuItems"
+      [userName]="userName"
+      [userSubtitle]="userSubtitle"
+      [userDetail]="userDetail"
+      (navigate)="onMenuNavigate($event)"
+      (doLogout)="onMenuLogout()"
+    />
   }
 </div>

@@ -1,9 +1,10 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, OnInit, inject, viewChild } from '@angular/core'
 import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
+import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-menu/mobile-menu.component'
 import { SesionService } from '../../services/sesion/sesion.service'
 import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common'
@@ -11,7 +12,7 @@ import { CommonModule } from '@angular/common'
 @Component({
   selector: 'app-role-layout',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, SidenavComponent, CommonModule, MobileTabbarComponent],
+  imports: [RouterModule, RouterOutlet, SidenavComponent, CommonModule, MobileTabbarComponent, MobileMenuComponent],
   templateUrl: './role-layout.component.html',
   styleUrl: './role-layout.component.scss'
 })
@@ -26,6 +27,8 @@ export class RoleLayoutComponent implements OnInit {
   isMobile = false
   userId = ''
 
+  readonly menu = viewChild(MobileMenuComponent)
+
   middleItems: [TabExtraItem, TabExtraItem, TabExtraItem] = [
     { icon: '', label: '' },
     { icon: '', label: '', isFab: true },
@@ -33,19 +36,51 @@ export class RoleLayoutComponent implements OnInit {
   ]
   profileRoute: string = ''
 
+  menuItems: MobileMenuItem[] = []
+  userName = ''
+  userSubtitle = ''
+  userDetail = ''
+
   ngOnInit(): void {
     this.role = this.route.snapshot.data['role'] || 'vecino'
     this.userId = this.sesionService.getUserId()
 
-    const items: Record<string, { middle: [TabExtraItem, TabExtraItem, TabExtraItem]; profile: string }> = {
-      // Por defecto Home va al centro, pero se puede reordenar
+    // Datos del usuario para el menú
+    const raw = this.storage.getItem('usuarioInfo') || '{}'
+    const info = JSON.parse(raw)
+    const firstname = info.firstname ?? info.name ?? this.sesionService.getFirstname() ?? ''
+    const lastname = info.lastname ?? this.sesionService.getLastname() ?? ''
+    this.userName = info.username ?? this.sesionService.getUsername() ?? ''
+    this.userSubtitle = [firstname, lastname]
+      .filter(Boolean)
+      .map((s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase())
+      .join(' ')
+    this.userDetail = info.dni ?? this.sesionService.getDni() ?? ''
+
+    // Config central de tabbar y menú por rol
+    const config: Record<
+      string,
+      {
+        middle: [TabExtraItem, TabExtraItem, TabExtraItem]
+        profile: string
+        menu: MobileMenuItem[]
+      }
+    > = {
       vecino: {
         middle: [
           { icon: 'local_activity', label: 'Cupones', route: '/vecino/cupones' },
           { icon: 'home', label: '', route: '/vecino/inicio', isFab: true },
           { icon: 'recycling', label: 'Puntos', route: '/vecino/puntos-verdes' }
         ],
-        profile: '/vecino/modificar-vecino'
+        profile: '/vecino/modificar-vecino',
+        menu: [
+          { icon: 'home', label: 'Inicio', route: '/vecino/inicio' },
+          { icon: 'account_circle', label: 'Mi perfil', route: '/vecino/modificar-vecino' },
+          { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/cupones' },
+          { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
+          { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
+          { icon: 'close', label: 'Cerrar Sesión', route: '' }
+        ]
       },
       responsable: {
         middle: [
@@ -53,7 +88,13 @@ export class RoleLayoutComponent implements OnInit {
           { icon: 'home', label: '', route: '/responsable/inicio', isFab: true },
           { icon: 'bar_chart', label: 'Historial', route: '/responsable/historial-responsable' }
         ],
-        profile: '/responsable/modificar-responsable/' + this.userId
+        profile: '/responsable/modificar-responsable/' + this.userId,
+        menu: [
+          { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
+          { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
+          { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
+          { icon: 'close', label: 'Cerrar Sesión', route: '' }
+        ]
       },
       local: {
         middle: [
@@ -61,13 +102,22 @@ export class RoleLayoutComponent implements OnInit {
           { icon: 'home', label: '', route: '/local/inicio', isFab: true },
           { icon: 'qr_code_scanner', label: 'Escanear', route: '/local/usar-cupon' }
         ],
-        profile: '/local/modificar-local'
+        profile: '/local/modificar-local',
+        menu: [
+          { icon: 'home', label: 'Inicio', route: '/local/inicio' },
+          { icon: 'account_circle', label: 'Mi perfil', route: '/local/modificar-local' },
+          { icon: 'confirmation_number', label: 'Mis cupones', route: '/local/cupones-ofrecidos' },
+          { icon: 'confirmation_number', label: 'Crear cupón', route: '/local/registrar-cupon' },
+          { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/local/usar-cupon' },
+          { icon: 'close', label: 'Cerrar Sesión', route: '' }
+        ]
       }
     }
-    const cfg = items[this.role]
+    const cfg = config[this.role]
     if (cfg) {
       this.middleItems = cfg.middle
       this.profileRoute = cfg.profile
+      this.menuItems = cfg.menu
     }
 
     this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
@@ -76,8 +126,20 @@ export class RoleLayoutComponent implements OnInit {
   }
 
   onHamburgerClick(): void {
-    const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
-    if (cb) cb.checked = !cb.checked
+    if (this.isMobile) {
+      this.menu()?.open()
+    } else {
+      const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
+      if (cb) cb.checked = !cb.checked
+    }
+  }
+
+  onMenuNavigate(route: string): void {
+    this.router.navigateByUrl(route)
+  }
+
+  onMenuLogout(): void {
+    this.sesionService.logout()
   }
 
   onMiddleClick(index: number): void {

@@ -48,9 +48,9 @@
       <button class="back-btn" (click)="goBack()" aria-label="Go back">
         <span class="las la-arrow-left"></span>
       </button>
-      <label for="sidebar-toggle" aria-label="Toggle sidebar">
+      <button class="hamburger-btn" (click)="onHamburgerClick()" aria-label="Toggle menu">
         <span class="las la-bars"></span>
-      </label>
+      </button>
       <span class="header-title">{{ currentTitle }}</span>
     </header>
     <main>
@@ -66,6 +66,15 @@
       [middleItems]="middleItems"
       [profileRoute]="profileRoute"
       (hamburgerClick)="onHamburgerClick()"
+    />
+
+    <!-- Mobile Menú (bottom-sheet) -->
+    <app-mobile-menu
+      [items]="menuItems"
+      [userName]="userName"
+      [userSubtitle]="userSubtitle"
+      (navigate)="onMenuNavigate($event)"
+      (doLogout)="onMenuLogout()"
     />
   }
 </div>

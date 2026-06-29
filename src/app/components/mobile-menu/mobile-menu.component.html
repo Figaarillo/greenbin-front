@@ -1,0 +1,37 @@
+<div class="menu-wrapper" [class.is-open]="isOpen()" [style.--menu-accent]="accentColor">
+
+  <!-- Backdrop con blur -->
+  <div class="menu-backdrop" (click)="onBackdropClick($event)"></div>
+
+  <!-- Panel deslizante -->
+  <div class="menu-panel">
+    <!-- Foto de perfil (sobresale) -->
+    <div class="menu-photo">
+      <img [src]="userPhoto" alt="Foto de perfil">
+    </div>
+
+    <!-- Información del usuario -->
+    <div class="menu-user">
+      <span class="user-name">{{ userName }}</span>
+      @if (userSubtitle) {
+        <span class="user-subtitle">{{ userSubtitle }}</span>
+      }
+      @if (userDetail) {
+        <span class="user-detail">{{ userDetail }}</span>
+      }
+    </div>
+
+    <!-- Separador -->
+    <div class="menu-divider"></div>
+
+    <!-- Items de navegación -->
+    <div class="menu-items">
+      @for (item of items; track item.label) {
+        <button class="menu-item" (click)="onItemClick(item)">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.label }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>
