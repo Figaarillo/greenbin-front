@@ -24,53 +24,6 @@
 
   <!-- ═══════ Mobile Tabbar (persistent across child routes) ═══════ -->
   @if (isMobile) {
-    <div class="tabbar" [attr.data-role]="role">
-
-      <!-- Vecino -->
-      @if (role === 'vecino') {
-        <button class="tab-item" [routerLink]="['/vecino/puntos-verdes']">
-          <mat-icon>recycling</mat-icon>
-          <span>Puntos</span>
-        </button>
-        <button class="tab-item fab" [routerLink]="['/vecino/cupones']">
-          <mat-icon>local_activity</mat-icon>
-        </button>
-        <button class="tab-item" [routerLink]="['/vecino/modificar-vecino']">
-          <mat-icon>account_circle</mat-icon>
-          <span>Perfil</span>
-        </button>
-      }
-
-      <!-- Responsable -->
-      @if (role === 'responsable') {
-        <button class="tab-item" [routerLink]="['/responsable/historial-responsable']">
-          <mat-icon>bar_chart</mat-icon>
-          <span>Historial</span>
-        </button>
-        <button class="tab-item fab" (click)="goEntrega()">
-          <mat-icon>recycling</mat-icon>
-        </button>
-        <button class="tab-item" [routerLink]="['/modificar-responsable', userId]">
-          <mat-icon>account_circle</mat-icon>
-          <span>Perfil</span>
-        </button>
-      }
-
-      <!-- Local -->
-      @if (role === 'local') {
-        <button class="tab-item" [routerLink]="['/local/cupones-ofrecidos']">
-          <mat-icon>local_activity</mat-icon>
-          <span>Cupones</span>
-        </button>
-        <button class="tab-item fab" [routerLink]="['/local/usar-cupon']">
-          <mat-icon>qr_code_scanner</mat-icon>
-        </button>
-        <button class="tab-item" [routerLink]="['/local/modificar-local']">
-          <mat-icon>account_circle</mat-icon>
-          <span>Perfil</span>
-        </button>
-      }
-
-    </div>
+    <app-mobile-tabbar [items]="tabItems" (fabClick)="goEntrega()" />
   }
 </div>

@@ -4,13 +4,15 @@ import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/rout
 import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
+import { MatIconModule } from '@angular/material/icon'
 import { filter } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { MobileTabbarComponent, TabItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 
 @Component({
   selector: 'app-entity-layout',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, CommonModule],
+  imports: [RouterModule, RouterOutlet, CommonModule, MatIconModule, MobileTabbarComponent],
   templateUrl: './entity-layout.component.html',
   styleUrl: './entity-layout.component.scss'
 })
@@ -25,6 +27,12 @@ export class EntityLayoutComponent implements OnInit {
 
   isMobile = false
   currentTitle = ''
+
+  readonly tabItems: TabItem[] = [
+    { icon: 'home', label: 'Dashboard', route: '/entidad/dashboard' },
+    { icon: 'person_add', label: '', route: '/entidad/registrar-responsable', isFab: true },
+    { icon: 'contacts', label: 'Listar', route: '/entidad/listar-responsables' }
+  ]
 
   private readonly menuTitles: Record<string, string> = {
     dashboard: 'Dashboard',

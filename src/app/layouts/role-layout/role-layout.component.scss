@@ -74,89 +74,6 @@
 #sidebar-toggle:checked ~ .sidebar { left: 0; }
 #sidebar-toggle:checked ~ .body-label { right: 0; }
 
-// ══════════════════════════════════════════════════
-//  Mobile Tabbar (floating card, hidden on desktop)
-// ══════════════════════════════════════════════════
-.tabbar {
-  position: fixed;
-  bottom: 20px;
-  left: 16px;
-  right: 16px;
-  background: var(--surface);
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 12px 10px;
-  z-index: 100;
-}
-
-.tab-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  color: var(--muted);
-  font-size: 10.5px;
-  font-weight: 500;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 14px;
-  min-width: 52px;
-  transition: all 0.15s;
-  text-decoration: none;
-
-  &:hover {
-    color: var(--accent);
-    background: var(--accent-soft);
-  }
-
-  mat-icon {
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
-    transition: transform 0.15s;
-  }
-
-  &:hover mat-icon {
-    transform: scale(1.08);
-  }
-
-  &.fab {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 6px 18px var(--accent-soft);
-    margin-top: -24px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    mat-icon {
-      font-size: 26px;
-      width: 26px;
-      height: 26px;
-    }
-
-    &:hover {
-      background: var(--accent);
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 22px var(--accent-soft);
-    }
-
-    &:hover mat-icon {
-      transform: none;
-    }
-  }
-}
-
 // ── Responsive ─────────────────────────────────
 @media (max-width: 959px) {
   .sidebar { left: -100%; }
@@ -174,7 +91,6 @@
 @media (min-width: 960px) {
   .hamburger-fab { display: none !important; }
   .sidebar-close { display: none !important; }
-  .tabbar { display: none !important; }
 
   #sidebar-toggle:checked ~ .sidebar { left: 0; }
 }

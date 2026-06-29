@@ -62,18 +62,6 @@
 
   <!-- Mobile Tabbar (persistent) -->
   @if (isMobile) {
-    <div class="tabbar">
-      <a class="tab-item" routerLink="/entidad/dashboard">
-        <span class="las la-home"></span>
-        <span>Dashboard</span>
-      </a>
-      <a class="tab-item fab" routerLink="/entidad/registrar-responsable">
-        <span class="las la-plus"></span>
-      </a>
-      <a class="tab-item" routerLink="/entidad/listar-responsables">
-        <span class="las la-address-book"></span>
-        <span>Listar</span>
-      </a>
-    </div>
+    <app-mobile-tabbar [items]="tabItems" />
   }
 </div>
