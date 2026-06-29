@@ -31,8 +31,25 @@
 }
 
 .map-wrapper {
-  text-align: center;
   margin-bottom: 22px;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-1);
+
+  // El mapa de Google se renderiza dentro de app-map-input; lo redondeamos y
+  // le damos una altura prolija para suavizar los bordes duros del embed.
+  app-map-input {
+    display: block;
+    width: 100%;
+    height: 260px;
+  }
+
+  ::ng-deep google-map,
+  ::ng-deep .map-container {
+    width: 100% !important;
+    height: 260px !important;
+  }
 }
 
 .map-placeholder {
