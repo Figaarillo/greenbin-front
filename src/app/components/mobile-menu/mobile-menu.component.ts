@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, EventEmitter, Input, Output, viewChild } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
+import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component'
 
 export type MobileMenuItem = {
   icon: string
@@ -11,13 +11,12 @@ export type MobileMenuItem = {
 @Component({
   selector: 'app-mobile-menu',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [MatIconModule, BottomSheetComponent],
   templateUrl: './mobile-menu.component.html',
   styleUrl: './mobile-menu.component.scss'
 })
 export class MobileMenuComponent {
   @Input({ required: true }) items!: MobileMenuItem[]
-  @Input() accentColor: string = 'var(--accent)'
 
   // Datos del usuario
   @Input() userName: string = ''
@@ -29,24 +28,19 @@ export class MobileMenuComponent {
   @Output() navigate = new EventEmitter<string>()
   @Output() doLogout = new EventEmitter<void>()
 
-  readonly isOpen = signal(false)
+  // La física vive en el shell; el menú solo delega.
+  private readonly sheet = viewChild.required(BottomSheetComponent)
 
   open(): void {
-    this.isOpen.set(true)
+    this.sheet().open()
   }
 
   toggle(): void {
-    if (this.isOpen()) {
-      this.closeSheet()
-    } else {
-      this.open()
-    }
+    this.sheet().toggle()
   }
 
   closeSheet(): void {
-    this.isOpen.set(false)
-    // dar tiempo a la animación de salida antes de emitir
-    setTimeout(() => this.close.emit(), 250)
+    this.sheet().closeSheet()
   }
 
   onItemClick(item: MobileMenuItem): void {
@@ -56,12 +50,5 @@ export class MobileMenuComponent {
       this.navigate.emit(item.route)
     }
     this.closeSheet()
-  }
-
-  onBackdropClick(event: MouseEvent): void {
-    // solo cerrar si el click fue en el backdrop, no en el panel
-    if ((event.target as HTMLElement).classList.contains('menu-backdrop')) {
-      this.closeSheet()
-    }
   }
 }

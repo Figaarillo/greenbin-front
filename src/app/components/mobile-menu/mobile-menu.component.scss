@@ -1,63 +1,5 @@
-.menu-wrapper {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  pointer-events: none;
-}
-
-// ── Clip container: limita la animación al punto de corte del tabbar ──
-.menu-clip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 44px;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-// ── Backdrop con blur (solo hasta arriba del tabbar) ──
-.menu-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  transition: opacity 250ms ease;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  pointer-events: none;
-
-  .is-open & {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
-
-// ── Panel deslizante ───────────────────────────────
-.menu-panel {
-  position: absolute;
-  bottom: 0;
-  left: 16px;
-  right: 16px;
-  max-height: 85vh;
-  background: var(--surface);
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.15);
-  padding: 0 0 94px;
-  transform: translateY(calc(100% + 44px));
-  transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-
-  .is-open & {
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-}
+// La mecánica del sheet (wrapper, clip, backdrop, panel) vive en app-bottom-sheet.
+// Acá solo el contenido proyectado del menú.
 
 // ── Foto de perfil (sobresale del panel) ────────────
 .menu-photo {
@@ -143,14 +85,14 @@
     font-size: 22px;
     width: 22px;
     height: 22px;
-    color: var(--menu-accent, var(--accent));
+    color: var(--accent);
   }
 
   &:hover {
-    background: color-mix(in srgb, var(--menu-accent, var(--accent)) 10%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   &:active {
-    background: color-mix(in srgb, var(--menu-accent, var(--accent)) 18%, transparent);
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
   }
 }

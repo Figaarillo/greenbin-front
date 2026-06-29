@@ -1,0 +1,15 @@
+<div class="sheet-wrapper" [class.is-open]="isOpen()">
+
+  <!-- Backdrop con blur (cubre toda la página) -->
+  <div class="sheet-backdrop" (click)="onBackdropClick($event)"></div>
+
+  <!-- Clip: recorta la animación a la mitad del tabbar -->
+  <div class="sheet-clip">
+    <div class="sheet-panel">
+      @if (handle) {
+        <div class="sheet-handle"></div>
+      }
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

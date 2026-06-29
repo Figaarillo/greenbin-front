@@ -1,0 +1,92 @@
+<app-bottom-sheet #sheet>
+  @if (cupon) {
+
+    <!-- Estado: código (canjeado / ver código) · si no, detalle -->
+    @if (codigoCanje) {
+      <div class="cs-scroll cs-success">
+        <div class="cs-success-icon">
+          <mat-icon>{{ recienCanjeado ? 'check_circle' : 'confirmation_number' }}</mat-icon>
+        </div>
+        <div class="cs-success-title">
+          {{ recienCanjeado ? '¡Cupón canjeado!' : 'Tu código de canje' }}
+        </div>
+
+        <div class="cs-ticket">
+          <div class="cs-code">{{ codigoCanje }}</div>
+          <div class="cs-code-lbl">Mostrá este código en el local</div>
+        </div>
+
+        <div class="cs-vto">
+          <mat-icon>schedule</mat-icon>
+          Vence el {{ diaVto | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+
+      <div class="cs-foot">
+        <button class="cs-btn-ghost" (click)="cerrar()">Listo</button>
+      </div>
+    } @else {
+      <div class="cs-scroll">
+        <div class="cs-head">
+          <div class="cs-badge">{{ cupon.discount }}<small>%</small></div>
+          <div>
+            <div class="cs-title">{{ cupon.title }}</div>
+            <div class="cs-desc">{{ cupon.description }}</div>
+          </div>
+        </div>
+
+        @if (local) {
+          <div class="cs-local">
+            <div class="cs-local-row name"><mat-icon>storefront</mat-icon> {{ local.name }}</div>
+            @if (local.address) {
+              <div class="cs-local-row muted"><mat-icon>place</mat-icon> {{ local.address }}</div>
+            }
+            @if (local.phoneNumber) {
+              <div class="cs-local-row muted"><mat-icon>call</mat-icon> {{ local.phoneNumber }}</div>
+            }
+          </div>
+
+          <div class="cs-map">
+            @defer (on immediate) {
+              <app-map-view [localesAdheridos]="localAdherido" [center]="mapCenter" [height]="120"></app-map-view>
+            } @placeholder {
+              <div class="cs-map-ph">Cargando mapa…</div>
+            }
+          </div>
+        }
+
+        <div class="cs-info">
+          <div class="cs-info-row">
+            <span class="lbl"><mat-icon>schedule</mat-icon> Vigencia</span>
+            <span class="val">{{ cupon.validDays }} días</span>
+          </div>
+          <div class="cs-info-row">
+            <span class="lbl"><mat-icon>stars</mat-icon> Costo</span>
+            <span class="val">{{ cupon.costInPoints }} pts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-foot">
+        <!-- transaction => mis cupones (ver código); si no => catálogo (canjear) -->
+        @if (transaction) {
+          <button class="cs-btn" (click)="verCodigo()">Ver código</button>
+        } @else {
+          <button class="cs-btn" (click)="canjear()" [disabled]="!puedeCanjear">
+            @if (cargando) {
+              Canjeando…
+            } @else if (puntosFaltantes > 0) {
+              Te faltan {{ puntosFaltantes }} pts
+            } @else {
+              Canjear cupón
+            }
+          </button>
+          @if (puntosFaltantes > 0) {
+            <div class="cs-foot-hint">Tenés {{ misPuntos }} pts · seguí reciclando 🌱</div>
+          }
+        }
+      </div>
+    }
+
+  }
+</app-bottom-sheet>

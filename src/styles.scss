@@ -232,7 +232,8 @@ h6 {
 // .auth-page = siempre formulario (registrar-*)
 // .login-page.has-form = formulario condicional (login) o siempre (login-entidad, etc.)
 .login-page.has-form .login-bg,
-.auth-page .login-bg {
+.auth-page .login-bg,
+.edit-form-page .login-bg {
   filter: blur(14px);
 }
 
@@ -384,6 +385,30 @@ h6 {
 
   &:hover { color: var(--accent); }
   mat-icon { font-size: 18px; }
+}
+
+// Seleccionar rol / Ir al inicio — desktop: estilo home-link (sin fondo)
+.login-back-mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 20px 20px;
+  transition: color 0.15s;
+  &:hover { color: var(--accent); }
+}
+
+// Olvidé mi contraseña — acent color
+.login-body, .auth-body {
+  .mat-mdc-form-field-hint a,
+  .mat-hint a {
+    color: var(--accent) !important;
+    font-weight: 600;
+  }
 }
 
 .btn-submit {
@@ -555,5 +580,239 @@ h6 {
   }
   .auth-body {
     padding: 20px 16px 24px;
+  }
+}
+
+// ── AUTH BRAND — oculto en desktop, visible en el header mobile ──────────
+.auth-brand { display: none; }
+
+// ═════════════════════════════════════════════════════════════════════════
+//  AUTH/LOGIN MOBILE — card transparente + campos glass flotando sobre
+//  el mundo.jpg que ya existe. Cero cambios al desktop.
+// ═════════════════════════════════════════════════════════════════════════
+@media (max-width: 959px) {
+  .auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    opacity: .88;
+    margin-bottom: 14px;
+
+    mat-icon { font-size: 20px; width: 20px; height: 20px; }
+  }
+
+  // "No tengo usuario" con accent color en mobile
+  .login-footer .register-link { color: var(--accent); font-weight: 600; }
+
+  // ── Login shell ──────────────────────────────────────────────────────
+  .login-page {
+    padding: 0;
+    align-items: stretch;
+    height: 100dvh;
+    min-height: unset;
+  }
+
+  .login-card {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: none;
+  }
+
+  .login-hero {
+    flex-shrink: 0;
+    text-align: left;
+    padding: 52px 24px 32px;
+
+    .hero-icon { display: none; }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+  }
+
+  .login-body {
+    flex: 1;
+    padding: 24px 20px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // home-link empujado al fondo del body con más contraste
+  .home-link {
+    margin-top: auto;
+    padding-top: 20px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 14px;
+    justify-content: center;
+  }
+
+  .login-footer {
+    flex-shrink: 0;
+    padding: 10px 20px 14px;
+    text-align: center;
+
+    .register-link { font-size: 13px; &:hover { font-size: 13px; } }
+    .brand-footer  { display: none; }
+  }
+
+  // oculta el botón de volver (el back del desktop — mobile usa el link de abajo)
+  .form-header { display: none; }
+
+  // "Seleccionar rol" — texto simple centrado al fondo
+  .login-back-mobile {
+    display: block;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(20,44,20,0.50);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 20px 30px;
+    &:hover { color: var(--accent); }
+  }
+
+  // ── Auth shell (registrar-*) ──────────────────────────────────────────
+  .auth-page {
+    padding: 0;
+    align-items: stretch;
+    height: 100dvh;
+    min-height: unset;
+  }
+
+  .auth-card {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: none;
+  }
+
+  .auth-hero {
+    flex-shrink: 0;
+    text-align: left;
+    padding: 52px 24px 32px;
+
+    .hero-icon { display: none; }
+    .auth-back  { display: none; }
+
+    h2 { font-size: 24px; margin-top: 0; }
+  }
+
+  .auth-body {
+    flex: 1;
+    padding: 24px 20px 20px;
+    overflow-y: auto;
+  }
+
+  // ── Botón submit — pill igual al mockup, texto siempre blanco ───────────
+  .btn-submit {
+    height: 52px !important;
+    border-radius: 999px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: .01em !important;
+    box-shadow: 0 4px 18px rgba(46,125,50,0.30) !important;
+    color: #fff !important;
+    // fuerza el token MDC de color de texto (mat-raised-button lo sobreescribe)
+    --mdc-protected-button-label-text-color: #fff;
+    --mdc-filled-button-label-text-color: #fff;
+    --mdc-protected-button-container-elevation: none;
+  }
+
+  // el <p class="p-4"> que envuelve el botón en login suma padding innecesario
+  .login-body .p-4 { padding: 4px 0 0 !important; }
+
+  // ── Links del footer — fondo glass muy sutil para que se lean ────────
+  .login-back-mobile,
+  .login-footer .register-link,
+  .home-link {
+    background: rgba(255,255,255,0.42);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 999px;
+    padding: 9px 22px !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .login-back-mobile {
+    // sobreescribe el padding-bottom del bloque anterior
+    padding: 9px 22px !important;
+    margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // más margen al inicio de los forms de registro
+  .auth-form { padding-top: 8px; }
+
+  // ── Edit-form pages (modificar-vecino, modificar-local, etc.) ─────────
+  .edit-form-page {
+    background: transparent !important;
+  }
+
+  .edit-form-body {
+    padding: 20px 20px 100px;
+    background: transparent;
+
+    mat-form-field { width: 100%; }
+
+    .btn-primary-custom {
+      width: 100%;
+      height: 52px !important;
+      border-radius: 999px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      color: #fff !important;
+      --mdc-protected-button-label-text-color: #fff;
+      --mdc-filled-button-label-text-color: #fff;
+      background: var(--accent) !important;
+      box-shadow: 0 4px 18px var(--accent-soft) !important;
+      margin-top: 8px;
+    }
+
+    .btn-danger-custom {
+      width: 100%;
+      height: 52px !important;
+      border-radius: 999px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      color: #fff !important;
+      --mdc-protected-button-label-text-color: #fff;
+    }
+  }
+
+  // ── Glass mat-form-fields ─────────────────────────────────────────────
+  .login-body, .auth-body, .edit-form-body {
+    .mat-mdc-text-field-wrapper {
+      background: rgba(255,255,255,0.60) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 14px !important;
+    }
+
+    .mdc-line-ripple { display: none !important; }
+
+    .mat-mdc-form-field:focus-within .mat-mdc-text-field-wrapper {
+      outline: 2px solid rgba(46,125,50,0.28);
+      outline-offset: 0;
+    }
+
+    .mat-mdc-form-field-error { color: #c62828; }
   }
 }

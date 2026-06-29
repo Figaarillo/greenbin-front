@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterModule } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'app-modificar-local',
   standalone: true,
   imports: [
-    NavbarComponent,
+    PageHeaderComponent,
     MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
