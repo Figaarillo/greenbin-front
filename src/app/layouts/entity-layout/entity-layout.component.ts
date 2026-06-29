@@ -1,10 +1,11 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, DestroyRef, inject, OnInit } from '@angular/core'
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
 import { filter } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-entity-layout',
@@ -15,6 +16,7 @@ import { filter } from 'rxjs'
 })
 export class EntityLayoutComponent implements OnInit {
   private storage = inject(StorageService)
+  private destroyRef = inject(DestroyRef)
   name = ''
   email = ''
   router = inject(Router)
@@ -37,20 +39,26 @@ export class EntityLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const info = this.storage.getItem('entidadInfo') || ''
-    const entidadInfo = JSON.parse(info)
-    this.email = entidadInfo.email
-    this.name = entidadInfo.name
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
+    this.email = entidadInfo.email ?? ''
+    this.name = entidadInfo.name ?? ''
 
-    this.breakpointObserver.observe('(max-width: 1124px)').subscribe(result => {
-      this.isMobile = result.matches
-    })
+    this.breakpointObserver
+      .observe('(max-width: 1124px)')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.isMobile = result.matches
+      })
 
-    // Muestra en el header en qué menú estás parado, según la ruta activa.
     this.updateTitle(this.router.url)
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      this.updateTitle((event as NavigationEnd).urlAfterRedirects)
-    })
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        this.updateTitle((event as NavigationEnd).urlAfterRedirects)
+      })
   }
 
   private updateTitle(url: string): void {
