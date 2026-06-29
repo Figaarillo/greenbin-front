@@ -1,0 +1,14 @@
+node_modules
+dist
+.angular
+.git
+.github
+.husky
+.vscode
+docs
+coverage
+npm-debug.log*
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
