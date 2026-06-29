@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Vecino } from '../../services/interfaces/vecino'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { EntidadService } from '../../services/entidad/entidad.service'
@@ -18,7 +17,6 @@ import { CommonModule } from '@angular/common'
   selector: 'app-registrar-vecino',
   standalone: true,
   imports: [
-    NavbarComponent,
     MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
