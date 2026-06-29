@@ -23,10 +23,12 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 
+# Keep the app, EXPOSE and Railway's target port all aligned on 8080.
+ENV PORT=8080
+
 # The Angular SSR server bundle is self-contained (only Node built-ins are
 # external), so only the build output is needed at runtime.
 COPY --from=build /app/dist ./dist
 
-# server.ts listens on process.env.PORT (Railway injects it) or 4000.
-EXPOSE 4000
+EXPOSE 8080
 CMD ["node", "dist/greenbin-front/server/server.mjs"]

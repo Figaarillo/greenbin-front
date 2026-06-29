@@ -55,12 +55,14 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 4000;
+  // Railway routes the public domain to this port; bind on all interfaces.
+  const port = Number(process.env['PORT']) || 8080;
+  const host = '0.0.0.0';
 
   // Start up the Node server
   const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+  server.listen(port, host, () => {
+    console.log(`Node Express server listening on http://${host}:${port}`);
   });
 }
 
