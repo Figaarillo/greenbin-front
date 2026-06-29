@@ -101,6 +101,26 @@ form {
   }
 }
 
+.home-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  justify-content: center;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  mat-icon {
+    font-size: 18px;
+  }
+}
+
 // ── Mobile/tablet: la card ocupa todo el ancho disponible ───────────────
 @media (max-width: 768px) {
   .login-page {
