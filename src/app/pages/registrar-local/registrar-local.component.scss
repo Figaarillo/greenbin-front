@@ -1,14 +1,5 @@
-form {
-  width: 100%;
-  padding: 30px 20%;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-form mat-form-field {
-  width: 100%;
-  margin-bottom: 15px;
-}
+// El layout vive en el shell compartido `.auth-*` (src/styles.scss).
+// Acá solo lo específico de este registro: validación de CUIT y mapa.
 
 .btn-validate {
   width: 100%;
@@ -36,25 +27,37 @@ form mat-form-field {
   color: var(--ink) !important;
   border-radius: var(--r-pill) !important;
   margin-bottom: 16px;
+  width: 100%;
 }
 
 .map-wrapper {
-  text-align: center;
   margin-bottom: 22px;
-}
+  border-radius: var(--r-card);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--sh-1);
 
-.btn-submit {
-  background: var(--accent) !important;
-  color: #fff;
-  border-radius: var(--r-pill);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 11px 20px;
-  box-shadow: 0 4px 14px var(--accent-soft);
-}
-
-@media (max-width: 500px) {
-  form {
-    padding: 30px 5%;
+  // El mapa de Google se renderiza dentro de app-map-input; lo redondeamos y
+  // le damos una altura prolija para suavizar los bordes duros del embed.
+  app-map-input {
+    display: block;
+    width: 100%;
+    height: 260px;
   }
+
+  ::ng-deep google-map,
+  ::ng-deep .map-container {
+    width: 100% !important;
+    height: 260px !important;
+  }
+}
+
+.map-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--r-card);
+  color: var(--muted);
+  font-size: 14px;
 }

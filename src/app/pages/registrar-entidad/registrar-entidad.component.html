@@ -1,61 +1,67 @@
-<div data-role="entidad">
-<app-navbar></app-navbar>
-<div class="container mt-3">
-  <h2 class="form-title">Registrar Entidad</h2>
+<div class="auth-page" data-role="entidad">
+  <div class="login-bg"></div>
+  <div class="auth-card">
+    <div class="auth-hero">
+      <button mat-icon-button class="auth-back" [routerLink]="['']" aria-label="Volver">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="hero-icon"><mat-icon>apartment</mat-icon></div>
+      <h2>Crear cuenta</h2>
+      <p>Registrá tu Entidad</p>
+    </div>
+    <div class="auth-body">
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" formControlName="name">
+          @if (form.get('name')!.hasError('required')) {
+            <mat-error>Ingrese un nombre</mat-error>
+          }
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Nombre" formControlName="name">
-      @if (form.get('name')!.hasError('required')) {
-        <mat-error>Ingrese un nombre</mat-error>
-      }
-    </mat-form-field>
-    
-    <mat-form-field>
-      <mat-label>Provincia</mat-label>
-      <mat-select formControlName="province" required>
-        @for (prov of provincesList; track prov) {
-          <mat-option [value]="prov.name">{{prov.name}}</mat-option>
-        }
-      </mat-select>
-      @if (form.get('province')!.hasError('required')) {
-        <mat-error>Selecciona una provincia</mat-error>
-      }
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Provincia</mat-label>
+          <mat-select formControlName="province" required>
+            @for (prov of provincesList; track prov) {
+              <mat-option [value]="prov.name">{{prov.name}}</mat-option>
+            }
+          </mat-select>
+          @if (form.get('province')!.hasError('required')) {
+            <mat-error>Selecciona una provincia</mat-error>
+          }
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Localidad</mat-label>
-      <input matInput placeholder="Localidad" formControlName="city">
-      @if (form.get('city')!.hasError('required')) {
-        <mat-error>Ingrese una localidad</mat-error>
-      }
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Localidad</mat-label>
+          <input matInput placeholder="Localidad" formControlName="city">
+          @if (form.get('city')!.hasError('required')) {
+            <mat-error>Ingrese una localidad</mat-error>
+          }
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Descripción</mat-label>
-      <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Descripción</mat-label>
+          <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Contraseña</mat-label>
-      <input matInput placeholder="Contraseña" type="password"  formControlName="password">
-       <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
-    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-  </button>
-      @if (form.get('password')!.hasError('required')) {
-        <mat-error>Ingrese una contraseña</mat-error>
-      }
-      @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
-        <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
-      }
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input matInput placeholder="Contraseña" type="password" formControlName="password">
+          <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if (form.get('password')!.hasError('required')) {
+            <mat-error>Ingrese una contraseña</mat-error>
+          }
+          @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
+            <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
+          }
+        </mat-form-field>
 
-    <button class="btn-primary-custom" type="submit">Guardar</button>
-    <a type="button" [routerLink]="['']" class="btn-ghost-custom">Cancelar</a>
+        <button mat-raised-button class="btn-submit" type="submit">Guardar</button>
 
-  </form>
-  
-</div>
+      </form>
+    </div>
+  </div>
 </div>

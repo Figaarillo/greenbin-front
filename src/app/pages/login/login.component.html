@@ -1,19 +1,22 @@
 <div class="login-page" data-role="vecino">
+  <div class="login-bg"></div>
   <div class="login-card">
     <div class="login-hero">
       <div class="hero-icon"><mat-icon>recycling</mat-icon></div>
       <h2>Bienvenido a GreenBin</h2>
-      @if(loginAs == 0) {
+      @if (loginAs == 0) {
         <p>¿Cómo querés ingresar?</p>
       } @else {
-        <p>Iniciás como <b>{{userRole[(loginAs-1)]}}</b></p>
+        <p>
+          Iniciás como <b>{{ userRole[loginAs - 1] }}</b>
+        </p>
       }
     </div>
     <div class="login-body">
-      @if(loginAs == 0) {
+      @if (loginAs == 0) {
         <div class="role-hint">Elegí tu perfil para continuar</div>
         <div class="roles">
-          <div class="role r-vec" (click)="loginAs=1">
+          <div class="role r-vec" (click)="loginAs = 1">
             <span class="ri"><mat-icon>account_circle</mat-icon></span>
             <div class="role-text">
               <b>Vecino</b>
@@ -21,7 +24,7 @@
             </div>
             <mat-icon class="arr">chevron_right</mat-icon>
           </div>
-          <div class="role r-loc" (click)="loginAs=2">
+          <div class="role r-loc" (click)="loginAs = 2">
             <span class="ri"><mat-icon>store</mat-icon></span>
             <div class="role-text">
               <b>Local adherido</b>
@@ -29,7 +32,7 @@
             </div>
             <mat-icon class="arr">chevron_right</mat-icon>
           </div>
-          <div class="role r-res" (click)="loginAs=3">
+          <div class="role r-res" (click)="loginAs = 3">
             <span class="ri"><mat-icon>recycling</mat-icon></span>
             <div class="role-text">
               <b>Responsable</b>
@@ -44,24 +47,29 @@
         </div>
       } @else {
         <div class="form-header">
-          <button mat-icon-button class="back-btn" (click)="loginAs=0">
+          <button mat-icon-button class="back-btn" (click)="loginAs = 0">
             <mat-icon>arrow_back</mat-icon>
           </button>
         </div>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
           <mat-form-field class="w-100">
             <mat-label>Usuario</mat-label>
             <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
-            <input type="text" matInput placeholder="Juan Perez" formControlName="username">
+            <input type="text" matInput placeholder="Juan Perez" formControlName="username" />
           </mat-form-field>
 
           <mat-form-field class="w-100 mb-3">
             <mat-label>Contraseña</mat-label>
             <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
-            <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password" />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
             <mat-hint><a [routerLink]="'/forgot-password'">Olvidé mi Contraseña</a></mat-hint>
           </mat-form-field>
@@ -71,14 +79,24 @@
           </div>
 
           <p class="p-4">
-            <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid || !recaptchaToken">Ingresar</button>
+            <button
+              mat-raised-button
+              class="btn-submit w-100"
+              type="submit"
+              [disabled]="form.invalid || !recaptchaToken"
+            >
+              Ingresar
+            </button>
           </p>
-
         </form>
       }
 
-      <div class="login-footer" [ngStyle]="(loginAs==1 || loginAs==2) ? {'cursor':'pointer'} : {}" [routerLink]="loginAs==1 ? ['/registrar-vecino'] : loginAs==2 ? ['/registrar-local'] : []">
-        @if(loginAs==1 || loginAs==2){
+      <div
+        class="login-footer"
+        [ngStyle]="loginAs == 1 || loginAs == 2 ? { cursor: 'pointer' } : {}"
+        [routerLink]="loginAs == 1 ? ['/registrar-vecino'] : loginAs == 2 ? ['/registrar-local'] : []"
+      >
+        @if (loginAs == 1 || loginAs == 2) {
           <p class="register-link">No tengo un Usuario</p>
         } @else {
           <span class="brand-footer">GreenBin</span>

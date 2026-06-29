@@ -1,4 +1,5 @@
 <div class="login-page" data-role="entidad">
+  <div class="login-bg"></div>
   <div class="login-card">
     <div class="login-hero">
       <div class="hero-icon"><mat-icon>apartment</mat-icon></div>
@@ -7,19 +8,24 @@
     </div>
     <div class="login-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
         <mat-form-field class="w-100">
           <mat-label>Email</mat-label>
           <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
-          <input type="text" matInput placeholder="example@email.com" formControlName="username">
+          <input type="text" matInput placeholder="example@email.com" formControlName="username" />
         </mat-form-field>
 
         <mat-form-field class="w-100 mb-3">
           <mat-label>Contraseña</mat-label>
           <span matTextPrefix class="input-icon"><mat-icon>lock</mat-icon></span>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="*********" formControlName="password" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-hint><a [routerLink]="'/forgot-password'">Olvidé mi Contraseña</a></mat-hint>
         </mat-form-field>
@@ -29,10 +35,15 @@
         </div>
 
         <p class="p-4">
-          <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid || !recaptchaToken">Ingresar</button>
+          <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid || !recaptchaToken">
+            Ingresar
+          </button>
         </p>
-
       </form>
+      <div class="home-link" [routerLink]="'/'">
+        <mat-icon>home</mat-icon>
+        <span>Volver al Home</span>
+      </div>
     </div>
     <div class="login-footer">
       <span class="brand-footer">GreenBin</span>
