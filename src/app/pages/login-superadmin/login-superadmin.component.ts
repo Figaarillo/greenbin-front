@@ -1,7 +1,7 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
@@ -13,7 +13,7 @@ import { SesionService } from '../../services/sesion/sesion.service'
 @Component({
   selector: 'app-login-superadmin',
   standalone: true,
-  imports: [MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, ReactiveFormsModule],
+  imports: [MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login-superadmin.component.html',
   styleUrl: './login-superadmin.component.scss'
 })

@@ -1,2 +1,4 @@
-<router-outlet></router-outlet>
+<div [@routeAnimations]="getAnimationState(outlet)">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>
 <app-loader></app-loader>

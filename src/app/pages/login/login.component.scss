@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: var(--bg);
+  position: relative;
 }
 
 .login-card {
@@ -117,9 +117,15 @@
   }
 }
 
-.r-vec .ri { background: #1E9E5A; }
-.r-loc .ri { background: #E0A019; }
-.r-res .ri { background: #0E8C7A; }
+.r-vec .ri {
+  background: #1e9e5a;
+}
+.r-loc .ri {
+  background: #e0a019;
+}
+.r-res .ri {
+  background: #0e8c7a;
+}
 
 .home-link {
   display: flex;
@@ -205,8 +211,16 @@ form {
 
 // ── Mobile/tablet: la card ocupa todo el ancho disponible ───────────────
 @media (max-width: 768px) {
-  .login-page { padding: 16px 12px; }
-  .login-card { max-width: 100%; }
-  .login-hero { padding: 24px 18px 20px; }
-  .login-body { padding: 20px 16px 24px; }
+  .login-page {
+    padding: 16px 12px;
+  }
+  .login-card {
+    max-width: 100%;
+  }
+  .login-hero {
+    padding: 24px 18px 20px;
+  }
+  .login-body {
+    padding: 20px 16px 24px;
+  }
 }

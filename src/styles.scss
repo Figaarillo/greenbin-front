@@ -11,18 +11,18 @@
 // ═════════════════════════════════════════════════════════════════════════
 :root {
   // ── Palette ─────────────────────────────────────────────────────────
-  --green: #1E9E5A;
-  --green-deep: #0F5132;
-  --green-accent: #34D399;
-  --bg: #F6F8F4;
-  --surface: #FFFFFF;
-  --surface-2: #EEF3EC;
-  --ink: #14241C;
-  --muted: #6B7C72;
-  --line: #E2E8E0;
-  --danger: #E5484D;
-  --warning: #E0A019;
-  --info: #3A77B5;
+  --green: #1e9e5a;
+  --green-deep: #0f5132;
+  --green-accent: #34d399;
+  --bg: #f6f8f4;
+  --surface: #ffffff;
+  --surface-2: #eef3ec;
+  --ink: #14241c;
+  --muted: #6b7c72;
+  --line: #e2e8e0;
+  --danger: #e5484d;
+  --warning: #e0a019;
+  --info: #3a77b5;
 
   // ── Radius ──────────────────────────────────────────────────────────
   --r-card: 18px;
@@ -41,26 +41,25 @@
 
 // ── Acento por rol ──────────────────────────────────────────────────────
 [data-role='vecino'] {
-  --accent: #1E9E5A;
+  --accent: #1e9e5a;
   --accent-ink: #0c5d36;
   --accent-soft: rgba(30, 158, 90, 0.12);
 }
 [data-role='responsable'] {
-  --accent: #0E8C7A;
+  --accent: #0e8c7a;
   --accent-ink: #0a5e52;
   --accent-soft: rgba(14, 140, 122, 0.12);
 }
 [data-role='local'] {
-  --accent: #E0A019;
+  --accent: #e0a019;
   --accent-ink: #9a6c08;
   --accent-soft: rgba(224, 160, 25, 0.14);
 }
 [data-role='entidad'] {
-  --accent: #0F5132;
+  --accent: #0f5132;
   --accent-ink: #0a3a23;
   --accent-soft: rgba(15, 81, 50, 0.12);
 }
-
 
 // ═════════════════════════════════════════════════════════════════════════
 //  ANGULAR MATERIAL — Custom Theme
@@ -73,57 +72,59 @@ $gb-green: (
   200: #99deb7,
   300: #6dd199,
   400: #4cc782,
-  500: #1E9E5A,
+  500: #1e9e5a,
   600: #1a8d4f,
   700: #157b44,
   800: #0f6838,
-  900: #0F5132,
+  900: #0f5132,
   A100: #b9f6ca,
   A200: #69f0ae,
-  A400: #34D399,
+  A400: #34d399,
   A700: #00c853,
   contrast: (
-    50: #14241C,
-    100: #14241C,
-    200: #14241C,
-    300: #14241C,
-    400: #14241C,
+    50: #14241c,
+    100: #14241c,
+    200: #14241c,
+    300: #14241c,
+    400: #14241c,
     500: #ffffff,
     600: #ffffff,
     700: #ffffff,
     800: #ffffff,
     900: #ffffff,
-    A100: #14241C,
-    A200: #14241C,
-    A400: #14241C,
-    A700: #ffffff,
+    A100: #14241c,
+    A200: #14241c,
+    A400: #14241c,
+    A700: #ffffff
   )
 );
 
 // ── Typography: Plus Jakarta Sans for all Material text ─────────────────
 $gb-typography: mat.define-typography-config(
-  $font-family: 'Plus Jakarta Sans, sans-serif',
+  $font-family: 'Plus Jakarta Sans, sans-serif'
 );
 
 // ── Build theme ─────────────────────────────────────────────────────────
-$gb-theme: mat.define-light-theme((
-  color: (
-    primary: mat.define-palette($gb-green),
-    accent: mat.define-palette($gb-green),
-  ),
-  typography: $gb-typography,
-  density: 0,
-));
+$gb-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette($gb-green),
+      accent: mat.define-palette($gb-green)
+    ),
+    typography: $gb-typography,
+    density: 0
+  )
+);
 
 // ── Apply theme to all Material components ──────────────────────────────
 @include mat.all-component-themes($gb-theme);
-
 
 // ═════════════════════════════════════════════════════════════════════════
 //  GLOBAL STYLES
 // ═════════════════════════════════════════════════════════════════════════
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -135,7 +136,12 @@ body {
 }
 
 // ── Headings: Sora ──────────────────────────────────────────────────────
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Sora', sans-serif;
   letter-spacing: -0.02em;
 }
@@ -143,6 +149,45 @@ h1, h2, h3, h4, h5, h6 {
 // ── Material Icons alignment helper ─────────────────────────────────────
 .material-icons {
   vertical-align: middle;
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  LOGIN BACKGROUND (blurred layer behind auth cards)
+// ═════════════════════════════════════════════════════════════════════════
+.login-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(10px);
+    transform: scale(1.05);
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+}
+
+// ── Reduced motion: disable animations and reduce blur ──────────────
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .login-bg img {
+    filter: blur(4px);
+  }
 }
 
 // ═════════════════════════════════════════════════════════════════════════
@@ -191,7 +236,9 @@ h1, h2, h3, h4, h5, h6 {
     place-items: center;
     margin-bottom: 12px;
 
-    mat-icon { font-size: 24px; }
+    mat-icon {
+      font-size: 24px;
+    }
   }
 
   h2 {
@@ -232,7 +279,9 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
     font-weight: 600;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .btn-submit {
@@ -250,8 +299,16 @@ h1, h2, h3, h4, h5, h6 {
 
 // ── Auth shell en mobile/tablet: ocupa todo el ancho disponible ─────────
 @media (max-width: 768px) {
-  .auth-page { padding: 16px 12px; }
-  .auth-card { max-width: 100%; }
-  .auth-hero { padding: 24px 18px 20px; }
-  .auth-body { padding: 20px 16px 24px; }
+  .auth-page {
+    padding: 16px 12px;
+  }
+  .auth-card {
+    max-width: 100%;
+  }
+  .auth-hero {
+    padding: 24px 18px 20px;
+  }
+  .auth-body {
+    padding: 20px 16px 24px;
+  }
 }
