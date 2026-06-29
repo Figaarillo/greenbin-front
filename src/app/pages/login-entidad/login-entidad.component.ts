@@ -17,6 +17,7 @@ import { Component, inject } from '@angular/core'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
+import { switchMap } from 'rxjs'
 
 @Component({
   selector: 'app-login-entidad',
@@ -65,17 +66,26 @@ export class LoginEntidadComponent {
   onSubmit() {
     if (this.form.valid && this.recaptchaToken) {
       const login = this.setLoginObject()
-      this.entidadServ.login(login).subscribe((obj: any) => {
-        this.sesionService.setAccessToken(obj.data.accessToken)
-        this.sesionService.setRefreshToken(obj.data.refreshToken)
-        this.sesionService.setUserId(obj.data.id)
-        this.storage.setItem('rol', 'admin')
-
-        this.entidadServ.get(obj.data.id).subscribe((resp: any) => {
-          this.storage.setItem('entidadInfo', JSON.stringify(resp.data))
-          this.router.navigateByUrl('/entidad')
+      this.entidadServ
+        .login(login)
+        .pipe(
+          switchMap((obj: any) => {
+            this.sesionService.setAccessToken(obj.data.accessToken)
+            this.sesionService.setRefreshToken(obj.data.refreshToken)
+            this.sesionService.setUserId(obj.data.id)
+            this.sesionService.setRole('entity')
+            return this.entidadServ.get(obj.data.id)
+          })
+        )
+        .subscribe({
+          next: (resp: any) => {
+            this.storage.setItem('entidadInfo', JSON.stringify(resp.data))
+            this.router.navigateByUrl('/entidad')
+          },
+          error: () => {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo iniciar sesión' })
+          }
         })
-      })
     } else if (!this.recaptchaToken) {
       Swal.fire({
         icon: 'warning',

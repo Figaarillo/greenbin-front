@@ -21,7 +21,7 @@ export type MenuItem = {
 })
 export class SidenavComponent implements OnInit {
   private storage = inject(StorageService)
-  sesionServ = inject(SesionService)
+  private sesionServ = inject(SesionService)
   router = inject(Router)
 
   menuItems = signal<MenuItem[]>([])
@@ -29,16 +29,22 @@ export class SidenavComponent implements OnInit {
   username = ''
   dni = ''
   rol = ''
+
   ngOnInit() {
-    this.nombreCompleto =
-      this.formatearNombre(this.sesionServ.getFirstname()) + ' ' + this.formatearNombre(this.sesionServ.getLastname())
-    this.username = this.sesionServ.getUsername()
-    this.dni = this.sesionServ.getDni()
     this.rol = this.sesionServ.getRole()
+
+    // usuarioInfo es la fuente de verdad: el login lo guarda siempre antes de navegar.
+    // Los campos de sesionService actúan como fallback para sesiones previas.
+    const raw = this.storage.getItem('usuarioInfo') || '{}'
+    const info = JSON.parse(raw)
+
+    const firstname = info.firstname ?? info.name ?? this.sesionServ.getFirstname() ?? ''
+    const lastname = info.lastname ?? this.sesionServ.getLastname() ?? ''
+    this.nombreCompleto = [firstname, lastname].filter(Boolean).map(this.formatearNombre).join(' ')
+    this.username = info.username ?? this.sesionServ.getUsername() ?? ''
+    this.dni = info.dni ?? this.sesionServ.getDni() ?? ''
+
     this.setItems()
-    console.log('$$$')
-    console.log(this.dni)
-    console.log(this.nombreCompleto)
   }
 
   formatearNombre(value: string): string {
@@ -47,44 +53,39 @@ export class SidenavComponent implements OnInit {
   }
 
   setItems() {
-    const rol = this.rol
-    if (rol == 'responsible') {
-      this.menuItems.set([
+    const menuByRole: Record<string, MenuItem[]> = {
+      responsible: [
         { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
         { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
         { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
-      ])
-    } else if (rol == 'neighbor') {
-      const info = this.storage.getItem('usuarioInfo') || ''
-      const usuarioInfo = JSON.parse(info)
-      this.username = usuarioInfo.username
-      this.menuItems.set([
+      ],
+      neighbor: [
         { icon: 'home', label: 'Inicio', route: '/vecino/inicio' },
         { icon: 'account_circle', label: 'Mi perfil', route: '/vecino/modificar-vecino' },
         { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/mis-cupones' },
         { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
         { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
-      ])
-    } else if (rol == 'reward-partner') {
-      this.menuItems.set([
+      ],
+      'reward-partner': [
         { icon: 'home', label: 'Inicio', route: '/local/inicio' },
         { icon: 'account_circle', label: 'Mi perfil', route: '/local/modificar-local' },
         { icon: 'confirmation_number', label: 'Mis cupones', route: '/local/cupones-ofrecidos' },
         { icon: 'confirmation_number', label: 'Crear cupón', route: '/local/registrar-cupon' },
         { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/local/usar-cupon' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
-      ])
-    } else if (rol == 'entity') {
-      this.menuItems.set([
+      ],
+      entity: [
         { icon: 'business', label: 'Dashboard', route: '/entidad/dashboard' },
         { icon: 'people', label: 'Listar Vecinos', route: '/entidad/consultar-vecinos' },
         { icon: 'supervised_user_circle', label: 'Listar Responsables', route: '/entidad/listar-responsables' },
         { icon: 'store', label: 'Listar Locales', route: '/entidad/consultar-locales' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
-      ])
+      ]
     }
+
+    this.menuItems.set(menuByRole[this.rol] ?? [])
   }
 
   logout() {
