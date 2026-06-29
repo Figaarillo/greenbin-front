@@ -148,8 +148,8 @@ h6 {
 
 // ── Transición unificada entre pantallas (View Transitions API) ──────────
 // Angular 17+ la activa con withViewTransitions() en app.config.ts.
-// El browser toma snapshot del estado saliente y hace crossfade con el entrante,
-// eliminando el parpadeo en enter Y exit (incluyendo cambios de fondo).
+// Solo fade-in de la página nueva sobre la vieja (que se queda visible),
+// así nunca se ve blanco en el medio.
 @keyframes vt-fade-out {
   to { opacity: 0; }
 }
@@ -158,10 +158,10 @@ h6 {
 }
 
 ::view-transition-old(root) {
-  animation: 180ms ease-in both vt-fade-out;
+  animation: none; /* la página vieja se queda visible, no se desvanece */
 }
 ::view-transition-new(root) {
-  animation: 240ms ease-out both vt-fade-in;
+  animation: 200ms ease-in both vt-fade-in;
 }
 
 // ── Material Icons alignment helper ─────────────────────────────────────
