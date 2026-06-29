@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIcon } from '@angular/material/icon'
 import { MatInput } from '@angular/material/input'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MatToolbar } from '@angular/material/toolbar'
 import { confirmPasswordValidator, PasswordStateMatcher } from './custom-validator'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
@@ -29,7 +28,6 @@ import { CommonModule } from '@angular/common'
     MatFormFieldModule,
     MatIcon,
     MatInput,
-    NavbarComponent,
     MatToolbar,
     MapInputComponent,
     MatSelectModule,

@@ -144,3 +144,114 @@ h1, h2, h3, h4, h5, h6 {
 .material-icons {
   vertical-align: middle;
 }
+
+// ═════════════════════════════════════════════════════════════════════════
+//  AUTH / REGISTRATION SHELL (shared card design — mirrors the login card)
+//  Reusable across every role registration form so login y registro lucen
+//  igual. El acento lo define [data-role] sobre .auth-page.
+// ═════════════════════════════════════════════════════════════════════════
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 24px;
+  background: var(--bg);
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--sh-2);
+  overflow: hidden;
+  width: 100%;
+  max-width: 460px;
+}
+
+.auth-hero {
+  position: relative;
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  padding: 30px 28px 26px;
+  color: #fff;
+  text-align: center;
+
+  .auth-back {
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    color: #fff;
+  }
+
+  .hero-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.18);
+    display: inline-grid;
+    place-items: center;
+    margin-bottom: 12px;
+
+    mat-icon { font-size: 24px; }
+  }
+
+  h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  p {
+    opacity: 0.85;
+    font-size: 13.5px;
+    margin-top: 4px;
+  }
+}
+
+.auth-body {
+  padding: 24px 26px 28px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .input-icon {
+    margin-right: 10px;
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  .btn-submit {
+    width: 100%;
+    margin-top: 8px;
+    background: var(--accent) !important;
+    color: #fff;
+    border-radius: var(--r-pill);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 11px 20px;
+    box-shadow: 0 4px 14px var(--accent-soft);
+  }
+}
+
+// ── Auth shell on mobile: ocupa todo el ancho disponible ────────────────
+@media (max-width: 480px) {
+  .auth-page { padding: 16px 12px; }
+  .auth-card { max-width: 100%; }
+  .auth-hero { padding: 24px 18px 20px; }
+  .auth-body { padding: 20px 16px 24px; }
+}

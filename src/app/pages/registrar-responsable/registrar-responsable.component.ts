@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Responsable } from '../../services/interfaces/responsable'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
@@ -16,7 +15,6 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'app-registrar-responsable',
   standalone: true,
   imports: [
-    NavbarComponent,
     MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
