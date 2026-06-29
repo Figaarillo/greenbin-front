@@ -5,6 +5,8 @@
   justify-content: center;
   padding: 24px;
   position: relative;
+  // Fondo liviano (visible en mobile, donde no se carga la imagen blureada).
+  background: linear-gradient(160deg, var(--surface-2), var(--bg));
 }
 
 .login-card {
@@ -96,26 +98,6 @@ form {
     font-weight: 800;
     font-family: 'Sora', sans-serif;
     font-size: 15px;
-  }
-}
-
-.home-link {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  font-size: 14px;
-  color: var(--muted);
-  cursor: pointer;
-  justify-content: center;
-  transition: color 0.15s;
-
-  &:hover {
-    color: var(--accent);
-  }
-
-  mat-icon {
-    font-size: 18px;
   }
 }
 

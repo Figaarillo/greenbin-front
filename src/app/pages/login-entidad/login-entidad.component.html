@@ -1,11 +1,5 @@
 <div class="login-page" data-role="entidad">
-  <div class="login-bg">
-    <picture>
-      <source srcset="assets/mundo.jpg" media="(min-width: 768px)" />
-      <img src="assets/recilaje.jpg" alt="" />
-    </picture>
-    <div class="overlay"></div>
-  </div>
+  <div class="login-bg"></div>
   <div class="login-card">
     <div class="login-hero">
       <div class="hero-icon"><mat-icon>apartment</mat-icon></div>
@@ -13,10 +7,6 @@
       <p>Ingresá con tu email institucional</p>
     </div>
     <div class="login-body">
-      <div class="home-link" [routerLink]="['/']">
-        <mat-icon>home</mat-icon>
-        <span>Home</span>
-      </div>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field class="w-100">
           <mat-label>Email</mat-label>
