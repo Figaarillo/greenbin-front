@@ -63,8 +63,7 @@
   <!-- Mobile Tabbar (persistent) -->
   @if (isMobile) {
     <app-mobile-tabbar
-      [extraItems]="extraItems"
-      [homeRoute]="homeRoute"
+      [middleItems]="middleItems"
       [profileRoute]="profileRoute"
       (hamburgerClick)="onHamburgerClick()"
     />

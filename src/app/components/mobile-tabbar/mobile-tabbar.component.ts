@@ -6,8 +6,10 @@ import { MatIconModule } from '@angular/material/icon'
 export type TabExtraItem = {
   icon: string
   label: string
-  /** Ruta de navegación. Vacía/sin ruta → emite extraClick con su índice. */
+  /** Ruta de navegación. Vacía/sin ruta → emite middleClick con su índice. */
   route?: string
+  /** Marca este item como FAB (botón central flotante) */
+  isFab?: boolean
 }
 
 @Component({
@@ -18,11 +20,9 @@ export type TabExtraItem = {
   styleUrl: './mobile-tabbar.component.scss'
 })
 export class MobileTabbarComponent {
-  /** Dos ítems variables (según rol) que van a izquierda/derecha del Home */
-  @Input({ required: true }) extraItems!: [TabExtraItem, TabExtraItem]
-
-  /** Ruta del botón Home (central, FAB) */
-  @Input() homeRoute: string = '/'
+  /** Tres ítems del centro, en el orden exacto en que se renderizan.
+   *  Cualquiera puede llevar isFab:true para recibir estilo de FAB. */
+  @Input({ required: true }) middleItems!: [TabExtraItem, TabExtraItem, TabExtraItem]
 
   /** Ruta del botón Perfil (extremo derecho) */
   @Input() profileRoute: string = ''
@@ -33,6 +33,6 @@ export class MobileTabbarComponent {
   /** Emitido al clickear el botón hamburguesa (extremo izquierdo) */
   @Output() hamburgerClick = new EventEmitter<void>()
 
-  /** Emitido cuando un extraItem no tiene ruta definida */
-  @Output() extraClick = new EventEmitter<number>()
+  /** Emitido cuando un middleItem no tiene ruta definida (pasa el índice 0-2) */
+  @Output() middleClick = new EventEmitter<number>()
 }

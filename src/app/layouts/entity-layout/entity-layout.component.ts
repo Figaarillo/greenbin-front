@@ -27,11 +27,11 @@ export class EntityLayoutComponent implements OnInit {
   isMobile = false
   currentTitle = ''
 
-  readonly extraItems: [TabExtraItem, TabExtraItem] = [
+  readonly middleItems: [TabExtraItem, TabExtraItem, TabExtraItem] = [
     { icon: 'dashboard', label: 'Dashboard', route: '/entidad/dashboard' },
+    { icon: 'home', label: '', route: '/entidad/dashboard', isFab: true },
     { icon: 'contacts', label: 'Listar', route: '/entidad/listar-responsables' }
   ]
-  readonly homeRoute: string = '/entidad/dashboard'
   readonly profileRoute: string = '/entidad/dashboard'
 
   private readonly menuTitles: Record<string, string> = {

@@ -1,48 +1,36 @@
 <div class="tabbar" [style.--tabbar-accent]="accentColor">
-  <!-- Hamburger (extremo izquierdo) -->
+  <!-- Hamburger (extremo izquierdo, fijo) -->
   <button class="tab-item" (click)="hamburgerClick.emit()">
     <mat-icon>menu</mat-icon>
     <span>Menú</span>
   </button>
 
-  <!-- Extra item 1 -->
-  @if (extraItems[0].route) {
-    <a class="tab-item"
-       [routerLink]="extraItems[0].route"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{ exact: true }">
-      <mat-icon>{{ extraItems[0].icon }}</mat-icon>
-      <span>{{ extraItems[0].label }}</span>
-    </a>
-  } @else {
-    <button class="tab-item" (click)="extraClick.emit(0)">
-      <mat-icon>{{ extraItems[0].icon }}</mat-icon>
-      <span>{{ extraItems[0].label }}</span>
-    </button>
+  <!-- Tres ítems centrales rotables (el orden lo define el layout vía middleItems) -->
+  @for (item of middleItems; track $index) {
+    @if (item.isFab) {
+      <!-- FAB: siempre link, sin active state -->
+      <a class="tab-item fab" [routerLink]="item.route">
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </a>
+    } @else if (item.route) {
+      <!-- Item con ruta → navega y tiene active state -->
+      <a class="tab-item"
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    } @else {
+      <!-- Item sin ruta → emite middleClick -->
+      <button class="tab-item" (click)="middleClick.emit($index)">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </button>
+    }
   }
 
-  <!-- Home (central, FAB) -->
-  <a class="tab-item fab" [routerLink]="homeRoute">
-    <mat-icon>home</mat-icon>
-  </a>
-
-  <!-- Extra item 2 -->
-  @if (extraItems[1].route) {
-    <a class="tab-item"
-       [routerLink]="extraItems[1].route"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{ exact: true }">
-      <mat-icon>{{ extraItems[1].icon }}</mat-icon>
-      <span>{{ extraItems[1].label }}</span>
-    </a>
-  } @else {
-    <button class="tab-item" (click)="extraClick.emit(1)">
-      <mat-icon>{{ extraItems[1].icon }}</mat-icon>
-      <span>{{ extraItems[1].label }}</span>
-    </button>
-  }
-
-  <!-- Perfil (extremo derecho) -->
+  <!-- Perfil (extremo derecho, fijo) -->
   <a class="tab-item"
      [routerLink]="profileRoute"
      routerLinkActive="active"

@@ -26,47 +26,47 @@ export class RoleLayoutComponent implements OnInit {
   isMobile = false
   userId = ''
 
-  extraItems: [TabExtraItem, TabExtraItem] = [
+  middleItems: [TabExtraItem, TabExtraItem, TabExtraItem] = [
     { icon: '', label: '' },
+    { icon: '', label: '', isFab: true },
     { icon: '', label: '' }
   ]
-  homeRoute: string = '/'
   profileRoute: string = ''
 
   ngOnInit(): void {
     this.role = this.route.snapshot.data['role'] || 'vecino'
     this.userId = this.sesionService.getUserId()
 
-    const items: Record<string, { extra: [TabExtraItem, TabExtraItem]; home: string; profile: string }> = {
+    const items: Record<string, { middle: [TabExtraItem, TabExtraItem, TabExtraItem]; profile: string }> = {
+      // Por defecto Home va al centro, pero se puede reordenar
       vecino: {
-        extra: [
+        middle: [
           { icon: 'local_activity', label: 'Cupones', route: '/vecino/cupones' },
+          { icon: 'home', label: '', route: '/vecino/inicio', isFab: true },
           { icon: 'recycling', label: 'Puntos', route: '/vecino/puntos-verdes' }
         ],
-        home: '/vecino/inicio',
         profile: '/vecino/modificar-vecino'
       },
       responsable: {
-        extra: [
+        middle: [
           { icon: 'recycling', label: 'Entregar', route: '' },
+          { icon: 'home', label: '', route: '/responsable/inicio', isFab: true },
           { icon: 'bar_chart', label: 'Historial', route: '/responsable/historial-responsable' }
         ],
-        home: '/responsable/inicio',
         profile: '/modificar-responsable/' + this.userId
       },
       local: {
-        extra: [
+        middle: [
           { icon: 'local_activity', label: 'Cupones', route: '/local/cupones-ofrecidos' },
+          { icon: 'home', label: '', route: '/local/inicio', isFab: true },
           { icon: 'qr_code_scanner', label: 'Escanear', route: '/local/usar-cupon' }
         ],
-        home: '/local/inicio',
         profile: '/local/modificar-local'
       }
     }
     const cfg = items[this.role]
     if (cfg) {
-      this.extraItems = cfg.extra
-      this.homeRoute = cfg.home
+      this.middleItems = cfg.middle
       this.profileRoute = cfg.profile
     }
 
@@ -80,8 +80,8 @@ export class RoleLayoutComponent implements OnInit {
     if (cb) cb.checked = !cb.checked
   }
 
-  onExtraClick(index: number): void {
-    if (index === 0 && this.role === 'responsable') {
+  onMiddleClick(index: number): void {
+    if (this.middleItems[index].icon === 'recycling' && this.role === 'responsable') {
       this.goEntrega()
     }
   }
