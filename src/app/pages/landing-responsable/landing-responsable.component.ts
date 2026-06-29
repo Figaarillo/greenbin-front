@@ -91,7 +91,7 @@ export class LandingResponsableComponent implements OnInit {
   }
 
   editResponsible() {
-    this.router.navigate(['/modificar-responsable', this.sesionService.getUserId()])
+    this.router.navigate(['/responsable/modificar-responsable', this.sesionService.getUserId()])
   }
 
   routeEntrega() {

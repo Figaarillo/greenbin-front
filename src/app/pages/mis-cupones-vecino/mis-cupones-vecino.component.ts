@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatSortModule } from '@angular/material/sort'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { RouterModule } from '@angular/router'
-import { ModalCuponComponent } from '../../components/modal-cupon/modal-cupon.component'
+import { CuponSheetComponent } from '../../components/cupon-sheet/cupon-sheet.component'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common'
   imports: [
     CommonModule,
     MatFormFieldModule,
-    ModalCuponComponent,
+    CuponSheetComponent,
     MatIconModule,
     MatInputModule,
     MatTableModule,
@@ -36,7 +36,7 @@ import { CommonModule } from '@angular/common'
 })
 export class MisCuponesVecinoComponent {
   private storage = inject(StorageService)
-  @ViewChild(ModalCuponComponent) modal?: ModalCuponComponent
+  @ViewChild(CuponSheetComponent) sheet?: CuponSheetComponent
   dataSource: MatTableDataSource<CouponTransaction> = new MatTableDataSource()
   puntos = 0
   transactions: CouponTransaction[] = []
@@ -65,6 +65,6 @@ export class MisCuponesVecinoComponent {
   }
 
   abrirModal(transaction: CouponTransaction) {
-    this.modal?.openModalTransactionMode(transaction.coupon, transaction)
+    this.sheet?.openOwned(transaction.coupon, transaction)
   }
 }

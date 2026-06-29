@@ -64,3 +64,15 @@
   color: var(--muted);
   margin-left: -8px;
 }
+
+// ── Role-specific colors — header y botón Ingresar cambian juntos ────────
+.login-role-loc {
+  background: linear-gradient(150deg, #e0a019, #b37d10) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(224,160,25,0.35) !important;
+}
+.login-role-res {
+  background: linear-gradient(150deg, #0e8c7a, #0a6558) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(14,140,122,0.35) !important;
+}

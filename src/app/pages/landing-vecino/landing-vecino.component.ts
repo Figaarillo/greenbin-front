@@ -10,6 +10,7 @@ import { Router, RouterModule } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { CommonModule, DatePipe } from '@angular/common'
 
@@ -24,6 +25,7 @@ import { CommonModule, DatePipe } from '@angular/common'
     MatSidenavModule,
     MatToolbarModule,
     SidenavComponent,
+    PageHeaderComponent,
     RouterModule,
     CommonModule,
     DatePipe

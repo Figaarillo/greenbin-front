@@ -1,19 +1,12 @@
 <div data-role="vecino">
   <mat-drawer-container class="landing-drawer" autosize>
 
-    <div class="v-header">
-      <div class="v-topbar">
-        <span class="v-brand"><mat-icon>recycling</mat-icon>GreenBin</span>
-        <span class="spacer"></span>
+    <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
+      <div class="hdr-chip">
+        <mat-icon>stars</mat-icon>
+        {{ puntos }} pts acumulados
       </div>
-
-      <div class="v-hello">¡Hola, {{name}}! 🎉</div>
-
-      <div class="pts-card">
-        <div class="pts-lbl">Puntos acumulados</div>
-        <div class="pts-val">{{puntos}} <small>pts</small></div>
-      </div>
-    </div>
+    </app-page-header>
 
     <mat-drawer #buzon mode="over" [position]="'end'">
       <p>Buzón</p>

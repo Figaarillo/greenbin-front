@@ -39,3 +39,7 @@ mat-sidenav-content {
 .back-button {
   color: #fff;
 }
+
+@media (max-width: 1124px) {
+  .back-button { display: none; }
+}

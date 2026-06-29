@@ -8,7 +8,7 @@ import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { MatIconModule } from '@angular/material/icon'
 import { Router, RouterModule } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 
 @Component({
   selector: 'app-visualizar-pv',
@@ -22,7 +22,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
     ModalPvComponent,
     MatIconModule,
     RouterModule,
-    NavbarComponent
+    PageHeaderComponent
   ],
   templateUrl: './visualizar-pv.component.html',
   styleUrl: './visualizar-pv.component.scss'

@@ -1,17 +1,23 @@
 <div class="login-page has-form" data-role="vecino">
   <div class="login-bg"></div>
   <div class="login-card">
-    <div class="login-hero">
+
+    <div class="login-hero"
+         [class.login-role-loc]="loginAs == 2"
+         [class.login-role-res]="loginAs == 3">
+      <div class="auth-brand">
+        <mat-icon>recycling</mat-icon>
+        GreenBin
+      </div>
       <div class="hero-icon"><mat-icon>recycling</mat-icon></div>
       <h2>Bienvenido a GreenBin</h2>
       @if (loginAs == 0) {
         <p>¿Cómo querés ingresar?</p>
       } @else {
-        <p>
-          Iniciás como <b>{{ userRole[loginAs - 1] }}</b>
-        </p>
+        <p>Iniciás como <b>{{ userRole[loginAs - 1] }}</b></p>
       }
     </div>
+
     <div class="login-body">
       @if (loginAs == 0) {
         <div class="role-hint">Elegí tu perfil para continuar</div>
@@ -43,22 +49,16 @@
         </div>
         <div class="home-link" [routerLink]="''">
           <mat-icon>home</mat-icon>
-          <span>Home</span>
+          <span>Ir al inicio</span>
         </div>
       } @else {
         <div class="form-view">
-          <div class="form-header">
-            <button mat-icon-button class="back-btn" (click)="loginAs = 0">
-              <mat-icon>arrow_back</mat-icon>
-            </button>
-          </div>
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <mat-form-field class="w-100">
               <mat-label>Usuario</mat-label>
               <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
               <input type="text" matInput placeholder="Juan Perez" formControlName="username" />
             </mat-form-field>
-
 
             <mat-form-field class="w-100 mb-3">
               <mat-label>Contraseña</mat-label>
@@ -84,6 +84,8 @@
               <button
                 mat-raised-button
                 class="btn-submit w-100"
+                [class.login-role-loc]="loginAs == 2"
+                [class.login-role-res]="loginAs == 3"
                 type="submit"
                 [disabled]="form.invalid || !recaptchaToken"
               >
@@ -93,18 +95,21 @@
           </form>
         </div>
       }
-
-      <div
-        class="login-footer"
-        [ngStyle]="loginAs == 1 || loginAs == 2 ? { cursor: 'pointer' } : {}"
-        [routerLink]="loginAs == 1 ? ['/registrar-vecino'] : loginAs == 2 ? ['/registrar-local'] : []"
-      >
-        @if (loginAs == 1 || loginAs == 2) {
-          <p class="register-link">No tengo un Usuario</p>
-        } @else {
-          <span class="brand-footer">GreenBin</span>
-        }
-      </div>
     </div>
+
+    <div
+      class="login-footer"
+      [ngStyle]="loginAs == 1 || loginAs == 2 ? { cursor: 'pointer' } : {}"
+      [routerLink]="loginAs == 1 ? ['/registrar-vecino'] : loginAs == 2 ? ['/registrar-local'] : []"
+    >
+      @if (loginAs == 1 || loginAs == 2) {
+        <p class="register-link">No tengo un Usuario</p>
+      }
+    </div>
+
+    @if (loginAs !== 0) {
+      <div class="login-back-mobile" (click)="loginAs = 0">Seleccionar rol</div>
+    }
+
   </div>
 </div>
