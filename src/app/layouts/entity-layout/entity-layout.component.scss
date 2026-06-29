@@ -10,7 +10,7 @@
 .sidebar {
   width: 280px;
   position: fixed;
-  left: -100%;
+  left: 0;
   top: 0;
   height: 100%;
   padding: 1rem 1.5rem;
@@ -23,6 +23,7 @@
 }
 
 .sidebar-close {
+  display: none;
   text-align: right;
   margin-bottom: 0.5rem;
 
@@ -160,7 +161,7 @@ header {
 
 // ── Main content ─────────────────────────────────
 .main-content {
-  margin-left: 0;
+  margin-left: 280px;
   transition: margin-left 300ms;
 }
 
@@ -176,18 +177,20 @@ main {
 .body-label {
   position: fixed;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 280px);
   z-index: 30;
   right: -100%;
   top: 0;
 }
 
-#sidebar-toggle:checked ~ .sidebar { left: 0; }
-#sidebar-toggle:checked ~ .body-label { right: 0; }
+#sidebar-toggle:checked ~ .sidebar { left: -100%; }
+#sidebar-toggle:checked ~ .main-content { margin-left: 0; }
 
 // ── Responsive ─────────────────────────────────
 @media (max-width: 1124px) {
-  .sidebar { z-index: 30; }
+  .sidebar { left: -100%; z-index: 30; }
+
+  .main-content { margin-left: 0; }
 
   .sidebar-close { display: block; }
 
@@ -204,8 +207,17 @@ main {
     padding: 76px 1rem 100px;
     min-height: 100vh;
   }
+
+  #sidebar-toggle:checked ~ .sidebar { left: 0; }
+  #sidebar-toggle:checked ~ .body-label { right: 0; }
 }
 
 @media (min-width: 1125px) {
+  .sidebar-close { display: none !important; }
+
+  // En web el sidebar es permanente: ocultamos el botón hamburguesa
+  header .hamburger-btn { display: none !important; }
+
+  #sidebar-toggle:checked ~ .sidebar { left: 0; }
   #sidebar-toggle:checked ~ .main-content { margin-left: 280px; }
 }
