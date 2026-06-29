@@ -8,6 +8,8 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
   display: flex;
   justify-content: space-around;
+  // Aislar de la transición de ruta para que no se desvanezca con el root
+  view-transition-name: mobile-tabbar;
   align-items: center;
   padding: 8px 8px 10px;
   z-index: 100;

@@ -19,6 +19,7 @@
   z-index: 20;
   transition: left 300ms;
   overflow-y: auto;
+  view-transition-name: entity-sidebar;
 }
 
 .sidebar-close {
