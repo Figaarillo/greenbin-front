@@ -170,11 +170,12 @@ h6 {
     z-index: 0;
     background-image: url('assets/mundo.jpg');
     background-size: cover;
-    // La tierra está abajo-izquierda en la imagen; anclamos esa esquina para
-    // que quede siempre en el mismo lugar (solo se recorta el cielo vacío).
+    // La tierra está abajo-izquierda en la imagen. Anclamos esa esquina y
+    // espejamos en X (como el home) para que la tierra quede SIEMPRE abajo-
+    // derecha, igual que en la portada; solo se recorta el cielo vacío.
     background-position: left bottom;
     filter: blur(10px);
-    transform: scale(1.05);
+    transform: scale(-1.05, 1.05);
 
     &::after {
       content: '';
