@@ -98,7 +98,6 @@ export class RegistrarVecinoComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.setDateFormat()
-      console.log(<Vecino>this.form.value)
       this.vecinoService.create(<Vecino>this.form.value).subscribe()
     }
   }
