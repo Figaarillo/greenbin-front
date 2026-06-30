@@ -27,11 +27,6 @@ export class SesionService {
     this.setRefreshToken(login.refreshToken)
     this.setUserId(login.id)
     this.login()
-    console.log('logueandoando')
-    console.log(this.isLogging())
-    console.log(this.storage.getItem('accessToken'))
-    console.log(this.storage.getItem('refreshToken'))
-    console.log(this.storage.getItem('userId'))
   }
   isLogging(): boolean {
     return this.loggingSubject.value
@@ -153,9 +148,7 @@ export class SesionService {
   getCupones() {
     const retrievedData = this.storage.getItem('cupones')
     if (retrievedData) {
-      const myArrayFromStorage: string[] = JSON.parse(retrievedData)
-      console.log(myArrayFromStorage) // ['item1', 'item2', 'item3']
-      return myArrayFromStorage
+      return JSON.parse(retrievedData) as string[]
     }
     return []
   }

@@ -24,8 +24,26 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-  // Public backend host, resolved at runtime (set API_URL in Railway).
   const apiUrl = process.env['API_URL'] || 'http://localhost:8080';
+  const apiPublicUrl = process.env['API_PUBLIC_URL'] || apiUrl;
+  const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY']
+  const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY'] || '';
+
+  server.get('/health', async (_req, res) => {
+    try {
+      const response = await fetch(`${apiUrl}/health`)
+      if (response.ok) {
+        console.log('[Health] Frontend OK — Backend reachable')
+        res.status(200).json({ status: 'ok', backend: 'reachable' })
+      } else {
+        console.warn('[Health] Frontend OK — Backend unhealthy')
+        res.status(200).json({ status: 'ok', backend: 'unhealthy' })
+      }
+    } catch {
+      console.error('[Health] Frontend OK — Backend unreachable')
+      res.status(200).json({ status: 'ok', backend: 'unreachable' })
+    }
+  })
 
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
@@ -40,11 +58,10 @@ export function app(): express.Express {
         providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
       })
       .then((html) =>
-        // Expose the API host to the browser bundle before it bootstraps.
         res.send(
           html.replace(
             '</head>',
-            `<script>window.__API_URL__=${JSON.stringify(apiUrl)}</script></head>`
+            `<script>window.__API_URL__=${JSON.stringify(apiPublicUrl)};window.__RECAPTCHA_SITE_KEY__=${JSON.stringify(recaptchaSiteKey)}</script>${googleMapsApiKey ? `<script async defer src="https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&loading=async"></script>` : ''}</head>`
           )
         )
       )

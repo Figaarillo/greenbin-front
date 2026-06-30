@@ -30,27 +30,7 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
     //   successMessage: 'El vecino se ha editado con éxito',
     //   routeToNavigate: ''
     // },
-    {
-      url: '/api/neighbor/auth/login',
-      method: 'POST',
-      errorMessage: 'Usuario o contraseña incorrecta',
-      successMessage: 'Bienvenido',
-      routeToNavigate: '/vecino'
-    },
-    {
-      url: '/api/responsible/auth/login',
-      method: 'POST',
-      errorMessage: 'Usuario o contraseña incorrecta',
-      successMessage: 'Bienvenido',
-      routeToNavigate: '/responsable'
-    },
-    {
-      url: '/api/reward-partner/auth/login',
-      method: 'POST',
-      errorMessage: 'Usuario o contraseña incorrecta',
-      successMessage: 'Bienvenido',
-      routeToNavigate: '/local'
-    },
+
     {
       url: '/api/green-point',
       method: 'POST',

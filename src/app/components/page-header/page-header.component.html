@@ -1,0 +1,16 @@
+<header class="page-header">
+  <div class="ph-brand">
+    <mat-icon>recycling</mat-icon>
+    <span>GreenBin</span>
+  </div>
+
+  @if (title) {
+    <h1 class="ph-title">{{ title }}</h1>
+  }
+
+  <!-- Slot de extras: reserva altura aunque esté vacío, para que el header
+       mida igual en todas las pantallas tengan o no chip/acciones. -->
+  <div class="ph-extra">
+    <ng-content></ng-content>
+  </div>
+</header>

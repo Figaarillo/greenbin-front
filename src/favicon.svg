@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="GreenBin">
+  <defs>
+    <linearGradient id="gb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34D399"/>
+      <stop offset="1" stop-color="#0F5132"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#gb)"/>
+  <!-- Hoja: identidad "Green" de GreenBin -->
+  <path d="M16 46 C16 27 29 15 49 15 C49 35 36 49 16 46 Z" fill="#ffffff"/>
+  <!-- Nervadura central -->
+  <path d="M18 44 C29 39 40 28 46 19" fill="none" stroke="#1E9E5A" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

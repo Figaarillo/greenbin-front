@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Vecino } from '../../services/interfaces/vecino'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { EntidadService } from '../../services/entidad/entidad.service'
@@ -18,7 +17,6 @@ import { CommonModule } from '@angular/common'
   selector: 'app-registrar-vecino',
   standalone: true,
   imports: [
-    NavbarComponent,
     MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
@@ -66,11 +64,7 @@ export class RegistrarVecinoComponent implements OnInit {
   entitySelect = ''
   ngOnInit(): void {
     this.entityServices.list(0, 100).subscribe((resp: any) => {
-      console.log('resp')
-      console.log(resp)
       this.entities = resp
-      console.log('%%%')
-      console.log(this.entities)
     })
   }
   // Validador para que la fecha de nacimiento sea menor a la actual
@@ -104,7 +98,6 @@ export class RegistrarVecinoComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.setDateFormat()
-      console.log(<Vecino>this.form.value)
       this.vecinoService.create(<Vecino>this.form.value).subscribe()
     }
   }

@@ -7,7 +7,7 @@
 .v-header {
   background: linear-gradient(150deg, var(--accent), var(--accent-ink));
   color: #fff;
-  padding: 26px 22px 30px;
+  padding: 20px 20px 28px;
 }
 
 .v-topbar {
@@ -137,9 +137,9 @@
   &:hover { opacity: 0.8; }
 }
 
-// ── Mobile: espacio para hamburger ─────────────────────────────────────
+// ── Mobile ──────────────────────────────────────────────────────────────
 @media (max-width: 959px) {
-  .v-header { padding-top: 56px; }
+  .v-header { padding-top: 24px; }
 }
 
 // ── Desktop: padding extra ────────────────────────────────────────────

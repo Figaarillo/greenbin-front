@@ -1,4 +1,5 @@
-<div class="login-page" data-role="entidad">
+<div class="login-page has-form" data-role="entidad">
+  <div class="login-bg"></div>
   <div class="login-card">
     <div class="login-hero">
       <div class="hero-icon"><mat-icon>admin_panel_settings</mat-icon></div>
@@ -7,7 +8,6 @@
     </div>
     <div class="login-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
         <mat-form-field class="w-100">
           <mat-label>Usuario</mat-label>
           <span matTextPrefix class="input-icon"><mat-icon>person</mat-icon></span>
@@ -23,9 +23,7 @@
           </button>
         </mat-form-field>
 
-        <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid">
-          Ingresar
-        </button>
+        <button mat-raised-button class="btn-submit w-100" type="submit" [disabled]="form.invalid">Ingresar</button>
       </form>
     </div>
   </div>

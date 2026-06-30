@@ -13,10 +13,12 @@ import { Login } from '../../services/interfaces/login'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, inject, Inject } from '@angular/core'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
+import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
+import { switchMap } from 'rxjs'
 
 @Component({
   selector: 'app-login-entidad',
@@ -43,15 +45,17 @@ export class LoginEntidadComponent {
   router = inject(Router)
   hide = true
   recaptchaToken = ''
-  recaptchaSiteKey = '6Lfgqq8sAAAAALwsy8mZSWfWJeoIfoxHAwQ6Vbhy'
+  recaptchaSiteKey: string
 
   form: FormGroup
 
   constructor(
+    @Inject(RECAPTCHA_SITE_KEY) recaptchaSiteKey: string,
     private fb: FormBuilder,
     private entidadServ: EntidadService,
     private sesionService: SesionService
   ) {
+    this.recaptchaSiteKey = recaptchaSiteKey
     this.form = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -65,17 +69,26 @@ export class LoginEntidadComponent {
   onSubmit() {
     if (this.form.valid && this.recaptchaToken) {
       const login = this.setLoginObject()
-      this.entidadServ.login(login).subscribe((obj: any) => {
-        this.sesionService.setAccessToken(obj.data.accessToken)
-        this.sesionService.setRefreshToken(obj.data.refreshToken)
-        this.sesionService.setUserId(obj.data.id)
-        this.storage.setItem('rol', 'admin')
-
-        this.entidadServ.get(obj.data.id).subscribe((resp: any) => {
-          this.storage.setItem('entidadInfo', JSON.stringify(resp.data))
-          this.router.navigateByUrl('/entidad')
+      this.entidadServ
+        .login(login)
+        .pipe(
+          switchMap((obj: any) => {
+            this.sesionService.setAccessToken(obj.data.accessToken)
+            this.sesionService.setRefreshToken(obj.data.refreshToken)
+            this.sesionService.setUserId(obj.data.id)
+            this.sesionService.setRole('entity')
+            return this.entidadServ.get(obj.data.id)
+          })
+        )
+        .subscribe({
+          next: (resp: any) => {
+            this.storage.setItem('entidadInfo', JSON.stringify(resp.data))
+            this.router.navigateByUrl('/entidad')
+          },
+          error: () => {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo iniciar sesión' })
+          }
         })
-      })
     } else if (!this.recaptchaToken) {
       Swal.fire({
         icon: 'warning',

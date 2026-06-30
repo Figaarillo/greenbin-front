@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject } from '@angular/core'
+import { Component, inject, Inject } from '@angular/core'
 
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -17,7 +17,16 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
-import { catchError, of, tap } from 'rxjs'
+import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
+import { catchError, map, of } from 'rxjs'
+
+type Role = 'neighbor' | 'reward-partner' | 'responsible'
+
+const ROLE_ROUTES: Record<Role, string> = {
+  neighbor: '/vecino',
+  'reward-partner': '/local',
+  responsible: '/responsable'
+}
 
 @Component({
   selector: 'app-login',
@@ -46,17 +55,19 @@ export class LoginComponent {
   loginAs = 0
   userRole: string[] = ['Vecino', 'Local adherido', 'Responsable']
   recaptchaToken = ''
-  recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+  recaptchaSiteKey: string
 
   form: FormGroup
 
   constructor(
+    @Inject(RECAPTCHA_SITE_KEY) recaptchaSiteKey: string,
     private fb: FormBuilder,
     private neighborService: VecinoService,
     private businessService: LocalAdheridoService,
     private responsibleService: ResponsableService,
     private sesionService: SesionService
   ) {
+    this.recaptchaSiteKey = recaptchaSiteKey
     this.form = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -68,50 +79,40 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.form.valid && this.recaptchaToken) {
-      const loginData = this.setLoginObject()
-
-      // Intentar login como Vecino
-      this.neighborService
-        .login(loginData)
-        .pipe(
-          catchError(() => {
-            // Si falla Vecino, intentar como Local
-            return this.businessService.login(loginData).pipe(
-              catchError(() => {
-                // Si falla Local, intentar como Responsable
-                return this.responsibleService.login(loginData).pipe(
-                  catchError(() => {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Error de acceso',
-                      text: 'Credenciales inválidas para cualquier rol'
-                    })
-                    return of(null)
-                  })
-                )
-              })
-            )
-          })
-        )
-        .subscribe(response => {
-          if (response) {
-            this.handleLoginSuccess(response)
-          }
-        })
-    } else if (!this.recaptchaToken) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'reCAPTCHA',
-        text: 'Por favor, completá el reCAPTCHA'
-      })
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Campos inválidos'
-      })
+    if (!this.recaptchaToken) {
+      Swal.fire({ icon: 'warning', title: 'reCAPTCHA', text: 'Por favor, completá el reCAPTCHA' })
+      return
     }
+    if (this.form.invalid) {
+      Swal.fire({ icon: 'error', title: 'Oops...', text: 'Campos inválidos' })
+      return
+    }
+
+    const loginData = this.setLoginObject()
+
+    // Cada intento queda tageado con su rol: el primero que responde OK gana.
+    this.neighborService
+      .login(loginData)
+      .pipe(
+        map((r: any) => ({ response: r, role: 'neighbor' as Role })),
+        catchError(() =>
+          this.businessService.login(loginData).pipe(
+            map((r: any) => ({ response: r, role: 'reward-partner' as Role })),
+            catchError(() =>
+              this.responsibleService.login(loginData).pipe(
+                map((r: any) => ({ response: r, role: 'responsible' as Role })),
+                catchError(() => {
+                  Swal.fire({ icon: 'error', title: 'Error de acceso', text: 'Credenciales inválidas' })
+                  return of(null)
+                })
+              )
+            )
+          )
+        )
+      )
+      .subscribe(result => {
+        if (result) this.handleLoginSuccess(result.response, result.role)
+      })
   }
 
   setLoginObject(): Login {
@@ -132,49 +133,35 @@ export class LoginComponent {
     }
   }
 
-  private handleLoginSuccess(obj: any) {
-    // El backend suele devolver el rol en el token o en el objeto de respuesta
-    // Aquí detectamos qué tipo de usuario es según la estructura de la respuesta o probando roles
+  private handleLoginSuccess(obj: any, role: Role) {
     this.sesionService.setAccessToken(obj.data.accessToken)
     this.sesionService.setRefreshToken(obj.data.refreshToken)
     this.sesionService.setUserId(obj.data.id)
-
-    // Determinamos el rol (esto depende de cómo tu backend identifique al usuario)
-    // Por ahora, usamos una lógica basada en el objeto devuelto o la URL de éxito
-    const role = this.determineRole(obj.data)
     this.sesionService.setRole(role)
 
-    // Obtener información adicional según el rol
-    this.fetchUserInfo(role, obj.data.id)
-
-    this.sesionService.refreshUserData().subscribe(() => {
-      // Redirigir según el rol detectado
-      const routes: any = {
-        neighbor: '/vecino',
-        'reward-partner': '/local',
-        responsible: '/responsable'
-      }
-      this.router.navigateByUrl(routes[role] || '/')
-    })
-  }
-
-  private determineRole(data: any): string {
-    // Lógica para identificar el rol. Puedes ajustarla según lo que devuelva tu API.
-    if (data.role) return data.role // Si el API ya lo devuelve
-    // Fallback: Si no viene el rol, el sistema de intentos arriba ya sabe cuál funcionó.
-    // Nota: En una implementación real, el JWT suele tener el rol.
-    return data.accessToken ? 'neighbor' : 'neighbor' // Ajustar según necesidad
-  }
-
-  private fetchUserInfo(role: string, id: string) {
-    const serviceMap: any = {
+    const serviceMap: Record<Role, any> = {
       neighbor: this.neighborService,
       'reward-partner': this.businessService,
       responsible: this.responsibleService
     }
 
-    serviceMap[role]?.get(id).subscribe((resp: any) => {
-      this.storage.setItem('usuarioInfo', JSON.stringify(resp.data))
+    // Fetcheamos el perfil completo antes de navegar para que el sidenav
+    // tenga todos los datos disponibles desde el primer render.
+    serviceMap[role].get(obj.data.id).subscribe({
+      next: (resp: any) => {
+        const data = resp.data
+        this.storage.setItem('usuarioInfo', JSON.stringify(data))
+        this.sesionService.setUsername(data.username ?? '')
+        // name cubre el caso de local adherido que usa razón social en lugar de firstname
+        this.sesionService.setFirstname(data.firstname ?? data.name ?? '')
+        this.sesionService.setLastname(data.lastname ?? '')
+        this.sesionService.setDni(data.dni ?? '')
+        this.sesionService.setPoints(data.points ?? '')
+        this.router.navigateByUrl(ROLE_ROUTES[role])
+      },
+      error: () => {
+        Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo obtener la información del usuario' })
+      }
     })
   }
 }

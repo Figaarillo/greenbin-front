@@ -31,7 +31,7 @@ h1.color-texto-resaltado {
 
 .home-subtitle {
   font-size: 1.3em;
-  color: var(--muted);
+  color: var(--green-deep);
 }
 
 #backdrop {
@@ -127,12 +127,13 @@ h1.color-texto-resaltado {
   }
 
   .btn-ghost-custom {
-    background: transparent;
+    background: var(--surface);
     color: var(--accent-ink);
-    border: 1.5px solid var(--line);
+    border: 2px solid var(--accent);
 
     &:hover {
-      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateY(-1px);
     }
   }
 }
