@@ -11,14 +11,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const refreshToken = sesionService.getRefreshToken()
     const isRefreshTokenRequest = req.context.get(IS_REFRESH_TOKEN_REQUEST)
     if (isRefreshTokenRequest) {
-      console.log('voy a setear el access token pero refresh: ' + refreshToken)
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${refreshToken}`
         }
       })
     } else {
-      console.log('voy a setear el access token: ' + accessToken)
       req = req.clone({
         setHeaders: {
           Authorization: `Bearer ${accessToken}`
