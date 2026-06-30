@@ -26,7 +26,7 @@ export function app(): express.Express {
 
   const apiUrl = process.env['API_URL'] || 'http://localhost:8080';
   const apiPublicUrl = process.env['API_PUBLIC_URL'] || apiUrl;
-  const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY'] || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+  const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY']
   const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY'] || '';
 
   server.get('/health', async (_req, res) => {
