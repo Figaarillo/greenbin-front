@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject } from '@angular/core'
+import { Component, inject, Inject } from '@angular/core'
 
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -17,6 +17,7 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
+import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
 import { catchError, map, of } from 'rxjs'
 
 type Role = 'neighbor' | 'reward-partner' | 'responsible'
@@ -54,17 +55,19 @@ export class LoginComponent {
   loginAs = 0
   userRole: string[] = ['Vecino', 'Local adherido', 'Responsable']
   recaptchaToken = ''
-  recaptchaSiteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+  recaptchaSiteKey: string
 
   form: FormGroup
 
   constructor(
+    @Inject(RECAPTCHA_SITE_KEY) recaptchaSiteKey: string,
     private fb: FormBuilder,
     private neighborService: VecinoService,
     private businessService: LocalAdheridoService,
     private responsibleService: ResponsableService,
     private sesionService: SesionService
   ) {
+    this.recaptchaSiteKey = recaptchaSiteKey
     this.form = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]

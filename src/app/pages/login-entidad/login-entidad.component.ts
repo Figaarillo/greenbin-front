@@ -13,10 +13,11 @@ import { Login } from '../../services/interfaces/login'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { CommonModule } from '@angular/common'
-import { Component, inject } from '@angular/core'
+import { Component, inject, Inject } from '@angular/core'
 import { EntidadService } from '../../services/entidad/entidad.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
+import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
 import { switchMap } from 'rxjs'
 
 @Component({
@@ -44,15 +45,17 @@ export class LoginEntidadComponent {
   router = inject(Router)
   hide = true
   recaptchaToken = ''
-  recaptchaSiteKey = '6Lfgqq8sAAAAALwsy8mZSWfWJeoIfoxHAwQ6Vbhy'
+  recaptchaSiteKey: string
 
   form: FormGroup
 
   constructor(
+    @Inject(RECAPTCHA_SITE_KEY) recaptchaSiteKey: string,
     private fb: FormBuilder,
     private entidadServ: EntidadService,
     private sesionService: SesionService
   ) {
+    this.recaptchaSiteKey = recaptchaSiteKey
     this.form = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
