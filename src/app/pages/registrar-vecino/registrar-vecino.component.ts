@@ -64,11 +64,7 @@ export class RegistrarVecinoComponent implements OnInit {
   entitySelect = ''
   ngOnInit(): void {
     this.entityServices.list(0, 100).subscribe((resp: any) => {
-      console.log('resp')
-      console.log(resp)
       this.entities = resp
-      console.log('%%%')
-      console.log(this.entities)
     })
   }
   // Validador para que la fecha de nacimiento sea menor a la actual
