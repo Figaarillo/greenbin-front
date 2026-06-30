@@ -29,6 +29,22 @@ export function app(): express.Express {
   const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY'] || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
   const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY'] || '';
 
+  server.get('/health', async (_req, res) => {
+    try {
+      const response = await fetch(`${apiUrl}/health`)
+      if (response.ok) {
+        console.log('[Health] Frontend OK — Backend reachable')
+        res.status(200).json({ status: 'ok', backend: 'reachable' })
+      } else {
+        console.warn('[Health] Frontend OK — Backend unhealthy')
+        res.status(200).json({ status: 'ok', backend: 'unhealthy' })
+      }
+    } catch {
+      console.error('[Health] Frontend OK — Backend unreachable')
+      res.status(200).json({ status: 'ok', backend: 'unreachable' })
+    }
+  })
+
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
