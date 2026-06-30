@@ -92,12 +92,9 @@ export class ConsultarPuntosVerdesComponent {
       })
       .then(result => {
         if (result.isConfirmed) {
-          this.service.delete(id).subscribe(
-            () => {
-              swal.fire('¡Eliminado!', 'El punto verde fue eliminado.', 'success').then(() => this.getItems())
-            },
-            error => console.error(error)
-          )
+          this.service.delete(id).subscribe(() => {
+            swal.fire('¡Eliminado!', 'El punto verde fue eliminado.', 'success').then(() => this.getItems())
+          })
         }
       })
   }

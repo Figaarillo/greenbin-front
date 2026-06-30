@@ -29,7 +29,6 @@ export class RegistrarCuponComponent {
 
   registrarCupon() {
     if (this.formGroup.valid) {
-      console.log(this.formGroup.value)
       const info = this.storage.getItem('usuarioInfo') || ''
       const userInfo = JSON.parse(info)
       const id = userInfo.id
@@ -42,9 +41,7 @@ export class RegistrarCuponComponent {
         isAvailable: true,
         rewardPartnerId: id
       }
-      this.localServ.createCupon(cupon).subscribe(resp => {
-        console.log(resp)
-      })
+      this.localServ.createCupon(cupon).subscribe()
     }
   }
 }

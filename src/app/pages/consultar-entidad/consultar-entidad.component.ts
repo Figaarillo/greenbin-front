@@ -128,7 +128,6 @@ export class ConsultarEntidadComponent implements OnInit {
     this.cant = Number(selectElement.value)
   }
   editEntity(id: string) {
-    console.log('%$$')
     this.router.navigate(['/modificar-entidad', id])
   }
 
@@ -150,23 +149,15 @@ export class ConsultarEntidadComponent implements OnInit {
       })
       .then(result => {
         if (result.isConfirmed) {
-          this.entityService.delete(id).subscribe(
-            () => {
-              swalWithBootstrapButtons
-                .fire({
-                  title: '¡Eliminada!',
-                  text: 'La entidad ha sido eliminada.',
-                  icon: 'success'
-                })
-                .then(() => {
-                  console.log('eliminado')
-                  this.listEntities()
-                })
-            },
-            error => {
-              console.error('Error al eliminar la entidad:', error)
-            }
-          )
+          this.entityService.delete(id).subscribe(() => {
+            swalWithBootstrapButtons
+              .fire({
+                title: '¡Eliminada!',
+                text: 'La entidad ha sido eliminada.',
+                icon: 'success'
+              })
+              .then(() => this.listEntities())
+          })
         } else {
           swalWithBootstrapButtons.fire({
             title: 'Cancelado',
@@ -175,20 +166,5 @@ export class ConsultarEntidadComponent implements OnInit {
           })
         }
       })
-    // this.entityService.delete(id).subscribe(
-    //   () => {
-    //     this.entityService.list(0, 100).subscribe((response: any) => {
-    //       this.entidades = []
-    //       response.data.forEach((entidad: Entidad) => {
-    //         this.entidades.push(entidad)
-    //       })
-    //       this.dataSource = new MatTableDataSource(this.entidades)
-    //     })
-    //     console.log('eliminado');
-    //   },
-    //   (error) => {
-    //     console.error('Error al eliminar la entidad:', error);
-    //   }
-    // );
   }
 }

@@ -60,7 +60,6 @@ export class RegistrarPuntoVerdeComponent {
         lng: entidadInfo.coordinates.longitude
       }
     }
-    console.log(entidadInfo)
     if (entidadInfo?.city) {
       this.entidadCity = `, ${entidadInfo.city}, Argentina`
     }
@@ -92,9 +91,7 @@ export class RegistrarPuntoVerdeComponent {
         },
         entityId: entidadInfo.id
       }
-      console.log(<PuntoVerde>pv)
       this.service.create(<PuntoVerde>pv).subscribe()
     }
-    //console.log(this.form.value)
   }
 }

@@ -58,11 +58,7 @@ export class RegistrarLocalComponent implements OnInit {
       this.sign = resp.sign
     })
     this.entityServices.list(0, 100).subscribe((resp: any) => {
-      console.log('resp')
-      console.log(resp)
       this.entities = resp
-      console.log('%%%')
-      console.log(this.entities)
     })
   }
   private readonly _formBuilder = inject(FormBuilder)
@@ -98,9 +94,6 @@ export class RegistrarLocalComponent implements OnInit {
     this.mapCompnent.getByAddress(this.formGroup.get('address')?.value!)
   }
   getCoordinates(coordinates: google.maps.LatLngLiteral) {
-    console.log('$$')
-    console.log(coordinates)
-    console.log('$$$$$$')
     this.formGroup.get('latitude')?.setValue(coordinates.lat)
     this.formGroup.get('longitude')?.setValue(coordinates.lng)
   }
@@ -114,7 +107,6 @@ export class RegistrarLocalComponent implements OnInit {
     })
 
     if (this.formGroup.valid) {
-      console.log(this.formGroup.value)
       let localToSave = <LocalAdherido>this.formGroup.value
       localToSave.coordinates = {
         latitude: this.formGroup.get('latitude')?.value!,
@@ -133,8 +125,7 @@ export class RegistrarLocalComponent implements OnInit {
               this.router.navigate([''])
             })
         },
-        error => {
-          console.log(error.error.message)
+        () => {
           swalWithBootstrapButtons
             .fire({
               title: 'Ha ocurrido un error',
@@ -142,7 +133,7 @@ export class RegistrarLocalComponent implements OnInit {
             })
             .then(result => {
               if (result.isConfirmed) {
-                this.router.navigate(['/registrar-local']) // Navega al home si se cancela
+                this.router.navigate(['/registrar-local'])
               }
             })
         }
@@ -168,7 +159,6 @@ export class RegistrarLocalComponent implements OnInit {
   }
 
   cuitAuth(cuit: any) {
-    console.log(cuit)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',
@@ -200,8 +190,7 @@ export class RegistrarLocalComponent implements OnInit {
         this.formGroup.get('email')?.enable()
         this.formGroup.get('phoneNumber')?.enable()
       },
-      error => {
-        console.log(error)
+      () => {
         swalWithBootstrapButtons.fire({
           title: 'Ha ocurrido un error al validar su cuit.',
           icon: 'error'

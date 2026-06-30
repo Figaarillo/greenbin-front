@@ -102,8 +102,6 @@ export class RegistrarEntidadComponent {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid) {
-            console.log('entra')
-            console.log(this.form.value)
             this.service.create(<Entidad>this.form.value).subscribe(
               () => {
                 swalWithBootstrapButtons

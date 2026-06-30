@@ -29,7 +29,6 @@ export class MapInputComponent implements AfterViewInit {
 
   actualizarAncho() {
     this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
-    //console.log("ancho actual "+this.anchoVariable)
   }
 
   position = {
@@ -59,9 +58,7 @@ export class MapInputComponent implements AfterViewInit {
         })
         resizeObserver.observe(this.contenedorPadre.nativeElement)
       })
-      .catch(error => {
-        console.error('Error al cargar la biblioteca de marcadores:', error)
-      })
+      .catch(() => {})
   }
 
   getByAddress(address: string): void {
@@ -77,10 +74,8 @@ export class MapInputComponent implements AfterViewInit {
         this.position = this.center
         this.zoom = 16
         this.coordinates.emit(this.position)
-        console.log('Coordinates:', this.coordinates) // Muestra las coordenadas en la consola
       } else {
         this.zoom = 13
-        console.log('Geocode was not successful for the following reason: ' + status)
       }
     })
   }

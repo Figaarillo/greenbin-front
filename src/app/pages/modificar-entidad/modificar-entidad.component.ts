@@ -71,7 +71,6 @@ export class ModificarEntidadComponent {
     const prov = ''
     this.id = this.route.snapshot.paramMap.get('id')
     this.service.get(this.id!).subscribe((obj: any) => {
-      console.log(obj.data)
       this.province = obj.data.province
       this.form = this.fb.group({
         name: [obj.data.name, Validators.required],
@@ -105,8 +104,6 @@ export class ModificarEntidadComponent {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid && this.id) {
-            console.log('entra')
-            console.log(this.form.value)
             this.service.update(<Entidad>this.form.value, this.id).subscribe(
               () => {
                 swalWithBootstrapButtons

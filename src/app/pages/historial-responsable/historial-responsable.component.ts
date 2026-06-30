@@ -63,9 +63,7 @@ export class HistorialResponsableComponent implements OnInit {
         this.allTransactions = resp.data ?? []
         this.applyFilterAndBuild()
       },
-      error: (err: any) => {
-        console.error('[historial-responsable] error:', err)
-      }
+      error: () => {}
     })
   }
 
