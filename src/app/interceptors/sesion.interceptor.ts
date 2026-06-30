@@ -9,10 +9,9 @@ export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError(error => {
-      // Verifica si el error es un 401
       if (error.status === 401) {
         const isRefreshTokenRequest = req.context.get(IS_REFRESH_TOKEN_REQUEST)
-        if (isRefreshTokenRequest) {
+        if (isRefreshTokenRequest || req.url.includes('/auth/login')) {
           sesionService.logout()
           return throwError(() => error)
         }
