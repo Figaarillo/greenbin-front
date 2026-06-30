@@ -25,6 +25,7 @@ export function app(): express.Express {
   }));
 
   const apiUrl = process.env['API_URL'] || 'http://localhost:8080';
+  const apiPublicUrl = process.env['API_PUBLIC_URL'] || apiUrl;
   const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY'] || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
   const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY'] || '';
 
@@ -44,7 +45,7 @@ export function app(): express.Express {
         res.send(
           html.replace(
             '</head>',
-            `<script>window.__API_URL__=${JSON.stringify(apiUrl)};window.__RECAPTCHA_SITE_KEY__=${JSON.stringify(recaptchaSiteKey)}</script>${googleMapsApiKey ? `<script async defer src="https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}"></script>` : ''}</head>`
+            `<script>window.__API_URL__=${JSON.stringify(apiPublicUrl)};window.__RECAPTCHA_SITE_KEY__=${JSON.stringify(recaptchaSiteKey)}</script>${googleMapsApiKey ? `<script async defer src="https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&loading=async"></script>` : ''}</head>`
           )
         )
       )
