@@ -132,7 +132,6 @@ export class CuponSheetComponent {
       },
       error: (err: any) => {
         this.cargando = false
-        console.error('Error al canjear cupón:', err)
         alert('No se pudo canjear el cupón. ' + (err?.error?.message ?? 'Intentá de nuevo.'))
       }
     })

@@ -15,9 +15,6 @@ export class ModalPvComponent {
   data: any = {}
   openModal(data: PuntoVerde) {
     this.data = data
-    console.log('%%data')
-    console.log(this.data)
-    console.log('%%data')
     $(this.modal?.nativeElement).modal('show')
   }
 

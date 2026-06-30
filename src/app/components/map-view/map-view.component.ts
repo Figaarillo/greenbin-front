@@ -28,7 +28,6 @@ export class MapViewComponent implements AfterViewInit {
 
   actualizarAncho() {
     this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
-    //console.log("ancho actual "+this.anchoVariable)
   }
 
   localAdheridoPinElement!: google.maps.marker.PinElement
@@ -46,9 +45,7 @@ export class MapViewComponent implements AfterViewInit {
         })
         resizeObserver.observe(this.contenedorPadre.nativeElement)
       })
-      .catch(error => {
-        console.error('Error al cargar la biblioteca de marcadores:', error)
-      })
+      .catch(() => {})
   }
 
   /** Crea el SVG de la tiendita (reemplaza el Material Icon 'store') */
@@ -112,8 +109,6 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   getLocalAdheridoMarkerOptions(localAdherido: LocalAdherido): google.maps.marker.AdvancedMarkerElementOptions {
-    console.log('soy el mapview')
-    console.log(localAdherido)
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
       position: {
         lat: localAdherido.coordinates.latitude,
@@ -125,8 +120,6 @@ export class MapViewComponent implements AfterViewInit {
   }
 
   coordToPosition(obj: PuntoVerde | LocalAdherido) {
-    console.log('soy el mapview')
-    console.log(obj)
     return {
       lat: obj.coordinates.latitude,
       lng: obj.coordinates.longitude

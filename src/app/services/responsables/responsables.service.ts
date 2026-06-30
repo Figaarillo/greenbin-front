@@ -20,15 +20,9 @@ export class ResponsablesService {
   list(offset: number, limit: number, entityId?: string): Observable<Responsable[]> {
     let params = `?offset=${offset}&limit=${limit}`
     if (entityId) params += `&entityId=${entityId}`
-    return this.http.get<Responsable[]>(`${this.url}${params}`).pipe(
-      map((resp: any) => {
-        console.log(resp.data)
-        return resp.data
-      })
-    )
+    return this.http.get<Responsable[]>(`${this.url}${params}`).pipe(map((resp: any) => resp.data))
   }
   delete(id: string) {
-    console.log(typeof id)
     return this.http.delete(`${this.url}/${id}`)
   }
 

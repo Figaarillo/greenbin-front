@@ -35,8 +35,6 @@ export class ConsultarCategoriasComponent implements OnInit {
   listCategorias() {
     this.service.list(0, 100, true).subscribe({
       next: (response: any) => {
-        console.log('response:', response)
-        console.log('primer item:', response[0])
         this.categorias = response.map((c: any) => ({
           ...c,
           isActive: c.isActive ? 'Habilitado' : 'Deshabilitado'

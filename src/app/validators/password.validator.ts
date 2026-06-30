@@ -6,9 +6,6 @@ export const confirmPasswordValidator: ValidatorFn = (
 ): ValidationErrors | null => {
   const password = formGroupControl.value.password
   const confirmPassword = formGroupControl.value.confirmPassword
-  console.log('#const')
-  console.log(password)
-  console.log(confirmPassword)
   return password !== confirmPassword ? { confirmPasswordError: true } : null
 }
 
