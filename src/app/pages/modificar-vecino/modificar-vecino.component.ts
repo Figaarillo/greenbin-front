@@ -38,13 +38,7 @@ export class ModificarVecinoComponent {
     private route: ActivatedRoute,
     private sesionService: SesionService
   ) {
-    //console.log(this.sesionService.getAccessToken())
-    //console.log(this.sesionService.getRefreshToken())
-    //console.log(this.sesionService.getRole())
-    //console.log(this.sesionService.getUserId())
-
     this.service.get(this.sesionService.getUserId()).subscribe((obj: any) => {
-      //console.log(obj.data)
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
         lastname: [obj.data.lastname, [Validators.required, Validators.minLength(2)]],

@@ -75,8 +75,6 @@ export class RegistrarResponsableComponent {
           if (this.form.valid) {
             const id = this.storage.getItem('userId')
             const formData = { ...this.form.value, entityId: id }
-            console.log('entra')
-            console.log(this.form.value)
             this.service.create(formData).subscribe(
               () => {
                 swalWithBootstrapButtons
@@ -89,8 +87,7 @@ export class RegistrarResponsableComponent {
                     this.router.navigate(['/listar-responsables'])
                   })
               },
-              error => {
-                console.log(error)
+              () => {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',

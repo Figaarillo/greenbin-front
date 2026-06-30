@@ -39,7 +39,6 @@ export class ModificarResponsableComponent implements OnInit {
   ) {
     this.id = this.route.snapshot.paramMap.get('id')
     this.service.get(this.id!).subscribe((obj: any) => {
-      console.log(obj)
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
         lastname: [obj.data.lastname, [Validators.required, Validators.minLength(2)]],
@@ -80,25 +79,18 @@ export class ModificarResponsableComponent implements OnInit {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid && this.id) {
-            console.log('entra')
-            console.log(this.form.value)
-            this.service.update(<Responsable>this.form.value, this.id).subscribe(
-              () => {
-                swalWithBootstrapButtons
-                  .fire({
-                    title: '¡El Usuario ha sido modificado.!',
+            this.service.update(<Responsable>this.form.value, this.id).subscribe(() => {
+              swalWithBootstrapButtons
+                .fire({
+                  title: '¡El Usuario ha sido modificado.!',
 
-                    icon: 'success'
-                  })
-                  .then(() => {
-                    this.storage.setItem('respoEdit', 'false')
-                    this.router.navigate([this.ruta])
-                  })
-              },
-              error => {
-                console.error('Error al eliminar la entidad:', error)
-              }
-            )
+                  icon: 'success'
+                })
+                .then(() => {
+                  this.storage.setItem('respoEdit', 'false')
+                  this.router.navigate([this.ruta])
+                })
+            })
           } else {
             swalWithBootstrapButtons
               .fire({

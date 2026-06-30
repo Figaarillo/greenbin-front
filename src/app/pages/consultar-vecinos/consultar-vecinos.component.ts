@@ -69,14 +69,11 @@ export class ConsultarVecinosComponent implements OnInit {
       })
       .then(result => {
         if (result.isConfirmed) {
-          this.vecinoService.delete(id).subscribe(
-            () => {
-              swal
-                .fire({ title: '¡Deshabilitado!', text: 'El vecino fue deshabilitado.', icon: 'success' })
-                .then(() => this.listVecinos())
-            },
-            error => console.error(error)
-          )
+          this.vecinoService.delete(id).subscribe(() => {
+            swal
+              .fire({ title: '¡Deshabilitado!', text: 'El vecino fue deshabilitado.', icon: 'success' })
+              .then(() => this.listVecinos())
+          })
         }
       })
   }

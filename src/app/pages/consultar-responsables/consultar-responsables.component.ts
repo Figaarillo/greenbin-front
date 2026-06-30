@@ -102,23 +102,15 @@ export class ConsultarResponsablesComponent implements OnInit {
       })
       .then(result => {
         if (result.isConfirmed) {
-          this.respService.delete(id).subscribe(
-            () => {
-              swalWithBootstrapButtons
-                .fire({
-                  title: '¡Eliminada!',
-                  text: 'El responsable ha sido eliminada.',
-                  icon: 'success'
-                })
-                .then(() => {
-                  console.log('eliminado')
-                  this.listRespo()
-                })
-            },
-            error => {
-              console.error('Error al eliminar el responsable:', error)
-            }
-          )
+          this.respService.delete(id).subscribe(() => {
+            swalWithBootstrapButtons
+              .fire({
+                title: '¡Eliminada!',
+                text: 'El responsable ha sido eliminada.',
+                icon: 'success'
+              })
+              .then(() => this.listRespo())
+          })
         } else {
           swalWithBootstrapButtons.fire({
             title: 'Cancelado',

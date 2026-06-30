@@ -66,7 +66,6 @@ export class EntregaResiduosComponent {
         ...category,
         disabled: false
       }))
-      console.log(this.categories)
     })
     this.fechaActual = new Date().toISOString().split('T')[0]
     this.dniValidator = this.fb.group({
@@ -81,7 +80,6 @@ export class EntregaResiduosComponent {
   }
 
   onSubmit(form: any) {
-    console.log(form)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',
@@ -100,8 +98,6 @@ export class EntregaResiduosComponent {
       Swal.showLoading()
 
       const responsibleId = this.storage.getItem('userId') || ''
-      console.log('responsable')
-      console.log(responsibleId)
       const greenPoint = this.storage.getItem('puntoVerde') || ''
       const wasteDelivery: WasteDelivery = {
         responsibleId: responsibleId,
@@ -113,31 +109,19 @@ export class EntregaResiduosComponent {
           weight: detalle.cantidad
         }))
       }
-      console.log(wasteDelivery)
 
       this.wasteDelServ.create(wasteDelivery).subscribe(
-        (resp: any) => {
-          console.log('Entrega exitosa', resp)
-
-          emailjs
-            .send(
-              'service_8zvqn0h',
-              'template_scqxmg9',
-              {
-                puntos_asignados: this.totalPuntos,
-                email: this.emailVecino,
-                nombre: this.nombreVecino
-              },
-              'ERADTS6Ll5n_u1NKh'
-            )
-            .then(
-              result => {
-                console.log('Correo enviado con éxito:', result.text)
-              },
-              error => {
-                console.error('Error al enviar el correo:', error)
-              }
-            )
+        () => {
+          emailjs.send(
+            'service_8zvqn0h',
+            'template_scqxmg9',
+            {
+              puntos_asignados: this.totalPuntos,
+              email: this.emailVecino,
+              nombre: this.nombreVecino
+            },
+            'ERADTS6Ll5n_u1NKh'
+          )
           Swal.close()
           swalWithBootstrapButtons
             .fire({
@@ -149,7 +133,6 @@ export class EntregaResiduosComponent {
             })
         },
         (error: any) => {
-          console.error('Error en la actualización', error)
           Swal.close()
 
           swalWithBootstrapButtons.fire({
@@ -188,9 +171,6 @@ export class EntregaResiduosComponent {
           this.emailVecino = resp.data.email
           this.nombreVecino = resp.data.firstname + ' ' + resp.data.lastname
           this.form.patchValue({ vecino: this.nombreVecino })
-          console.log('nombre')
-          console.log(this.nombreVecino)
-          console.log(this.idVeci)
         },
         error => {
           Swal.close()
@@ -224,21 +204,16 @@ export class EntregaResiduosComponent {
         icon: 'error'
       })
     } else {
-      console.log('entra')
       this.categories = this.categories.map(categoria => {
         if (categoria.name === residuo) {
           return { ...categoria, disabled: true }
         }
         return categoria
       })
-      console.log(this.categories)
       const puntos = residuoFiltrado[0].pointsPerWeight
       const id = residuoFiltrado[0].id
       this.totalPuntos = this.totalPuntos + residuoFiltrado[0].pointsPerWeight * cantidad
-      console.log(this.form)
       this.detalle.push({ puntos, cantidad, residuo, id })
-      console.log('%%detalle')
-      console.log(this.detalle)
     }
   }
 
