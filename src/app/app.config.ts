@@ -9,7 +9,7 @@ import { requestInterceptor } from './interceptors/request.interceptor'
 import { authInterceptor } from './interceptors/auth.interceptor'
 import { loaderInterceptor } from './interceptors/loader.interceptor'
 import { sesionInterceptor } from './interceptors/sesion.interceptor'
-import { API_BASE_URL, DEFAULT_API_BASE_URL } from './config/api.config'
+import { API_BASE_URL, DEFAULT_API_BASE_URL, RECAPTCHA_SITE_KEY, DEFAULT_RECAPTCHA_SITE_KEY } from './config/api.config'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,8 +19,13 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     {
       provide: API_BASE_URL,
-      // Injected by the SSR server into the HTML at request time; falls back for `ng serve`.
       useFactory: () => (globalThis as unknown as { __API_URL__?: string }).__API_URL__ ?? DEFAULT_API_BASE_URL
+    },
+    {
+      provide: RECAPTCHA_SITE_KEY,
+      useFactory: () =>
+        (globalThis as unknown as { __RECAPTCHA_SITE_KEY__?: string }).__RECAPTCHA_SITE_KEY__ ??
+        DEFAULT_RECAPTCHA_SITE_KEY
     }
   ]
 }
