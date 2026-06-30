@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.3.0](https://github.com/Figaarillo/greenbin-front/compare/greenbin-front-v1.2.0...greenbin-front-v1.3.0) (2026-06-30)
+
+
+### Features
+
+* add /health endpoint with backend connectivity check ([9a1428c](https://github.com/Figaarillo/greenbin-front/commit/9a1428c97b31040b301d0e0d233736fcd8bb81e6))
+* **map:** icono tiendita SVG para reward partner en ámbar ([b439805](https://github.com/Figaarillo/greenbin-front/commit/b439805b5f3f442518da81c946b06f4aff3a32e2))
+* reemplazar sidebar por bottom-sheet menu en mobile ([e92022e](https://github.com/Figaarillo/greenbin-front/commit/e92022e393b94db2ce273e962f5808acc364a96d))
+* **sidebar:** oculto por defecto en todos los tamaños, toggle con hamburguesa ([520c704](https://github.com/Figaarillo/greenbin-front/commit/520c704f033c03afddd8f2b9de6136fa79308275))
+* **ui:** middleItems rotable - los 3 items centrales se pasan en orden exacto ([d49a48a](https://github.com/Figaarillo/greenbin-front/commit/d49a48af934656b7744c8c01ba60101d80350611))
+* **ui:** rediseñar MobileTabbarComponent con 5 botones fijos y @Inputs por rol ([8e5add6](https://github.com/Figaarillo/greenbin-front/commit/8e5add620ef5c2ca458d8237aeddb400bae92343))
+* **ui:** unificar barra inferior mobile en MobileTabbarComponent compartido ([f110cb0](https://github.com/Figaarillo/greenbin-front/commit/f110cb0569adbbc05f64d22522dbdbd14117ff3a))
+
+
+### Bug Fixes
+
+* merge develop with env var and debug cleanup fixes ([8db2041](https://github.com/Figaarillo/greenbin-front/commit/8db20411e1b9411da10ac8b3bf3ac351e8753bc5))
+* **mobile-menu:** backdrop no cubre tabbar, wrapper pasa clicks ([dfdb935](https://github.com/Figaarillo/greenbin-front/commit/dfdb9359705d16f965d6eda07be025766760deb6))
+* **mobile-menu:** panel flota arriba del tabbar, foto no recortada, mayor altura ([7b291c1](https://github.com/Figaarillo/greenbin-front/commit/7b291c1c3fefab83b6aa9fb32950b8ae8c1a68fe))
+* **mobile:** ocultar botón de volver atrás en mobile ([96b4e70](https://github.com/Figaarillo/greenbin-front/commit/96b4e702316922d5f105c0314618d64a745a5d8e))
+* move hardcoded api keys to runtime env vars ([9b65e61](https://github.com/Figaarillo/greenbin-front/commit/9b65e613036910850c6cb62ad89761ff3600a588))
+* move hardcoded api keys to runtime env vars ([#107](https://github.com/Figaarillo/greenbin-front/issues/107)) ([53b3d42](https://github.com/Figaarillo/greenbin-front/commit/53b3d42936ea4d1d02d68d0ab06c2b13e492c7b9))
+* remove all debug console.logs across services and components ([63b7710](https://github.com/Figaarillo/greenbin-front/commit/63b7710d559e453a85b107808f3b178baca01574))
+* remove all debug console.logs from entidad service and registrar-vecino ([9164302](https://github.com/Figaarillo/greenbin-front/commit/9164302e077b79e46fc7cfc0a1df64a67e372cbe))
+* remove debug logs from registrar-vecino component ([1085b3d](https://github.com/Figaarillo/greenbin-front/commit/1085b3dafac12750f74c610b60b2a54cf2840eba))
+* revert sidebar desktop a siempre visible, solo mobile cambia ([c616a8d](https://github.com/Figaarillo/greenbin-front/commit/c616a8d8d646effb418226a03229365fbd6a5d80))
+* separate private and public API URLs for SSR vs browser ([ae53b26](https://github.com/Figaarillo/greenbin-front/commit/ae53b26c5c4951ae6acdbc89bb081b561e16d288))
+* skip auth header when token is null ([e213f36](https://github.com/Figaarillo/greenbin-front/commit/e213f36fcb37044c4a64ff350b0fea732adf2d41))
+* skip auth header when token is null ([#114](https://github.com/Figaarillo/greenbin-front/issues/114)) ([128e6ac](https://github.com/Figaarillo/greenbin-front/commit/128e6ac1f009b6fe730b0ac6041baee1ea8cd356))
+* skip token refresh on login 401, remove debug logs from auth interceptor ([51ec2ba](https://github.com/Figaarillo/greenbin-front/commit/51ec2ba477b8df672b733b346b1956c8d9bb0143))
+* **tabbar:** z-index 300 para estar siempre por sobre el menú ([79e7a39](https://github.com/Figaarillo/greenbin-front/commit/79e7a3954e489d1790bc76a5963d39d8b83e4678))
+* **ui:** aislar tabbar y sidebar de la transición de ruta para evitar parpadeo ([1035c99](https://github.com/Figaarillo/greenbin-front/commit/1035c9902881700542a8aa246e56e2323e396687))
+* **ui:** eliminar botón hamburguesa flotante mobile (ahora está en la tabbar inferior) ([b8cdbea](https://github.com/Figaarillo/greenbin-front/commit/b8cdbea9ea4b75d8b6be84201acf0336162237eb))
+* **ui:** eliminar fade-out en transición de ruta para evitar blanco intermedio ([b73c99f](https://github.com/Figaarillo/greenbin-front/commit/b73c99fe6195df31039d8ae096d21f0cc2b044e8))
+* **ui:** eliminar notificación Swal de éxito al loguearse ([8486274](https://github.com/Figaarillo/greenbin-front/commit/8486274d9d7f005cfde9a03fe64938f5bad936c4))
+* **ui:** ruta de perfil responsable ahora es child del layout para mantener tabbar ([3ea8fdf](https://github.com/Figaarillo/greenbin-front/commit/3ea8fdfc0f6996c855dd23476c4dc065798588c8))
+
 ## [1.2.0](https://github.com/Figaarillo/greenbin-front/compare/greenbin-front-v1.1.0...greenbin-front-v1.2.0) (2026-06-29)
 
 
