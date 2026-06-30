@@ -14,3 +14,8 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL')
 
 /** Fallback used for local dev when no runtime value is provided. */
 export const DEFAULT_API_BASE_URL = 'http://localhost:8080'
+
+export const RECAPTCHA_SITE_KEY = new InjectionToken<string>('RECAPTCHA_SITE_KEY')
+
+/** Google's public test key — only for local dev. Set RECAPTCHA_SITE_KEY in Railway for production. */
+export const DEFAULT_RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
