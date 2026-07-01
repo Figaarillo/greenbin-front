@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 
 @Component({
@@ -84,64 +74,33 @@ export class MapInputComponent implements AfterViewInit {
     if (this.type == 'local') {
       this.markerOptions = {
         position: this.position,
-        content: this.localMarker().element
+        content: this.localMarker()
       }
     } else if (this.type == 'punto-verde') {
       this.markerOptions = {
         position: this.position,
-        content: this.puntoVerdeMarker().element
+        content: this.puntoVerdeMarker()
       }
     }
   }
 
   puntoVerdeMarker(): google.maps.marker.PinElement {
-    const icon = document.createElement('span')
-    icon.className = 'material-icons'
-    icon.style.color = '#FFFFFF' // Color del icono
-    icon.innerText = 'recycling' // Nombre del icono}
-    const pinElement = new google.maps.marker.PinElement({
-      background: '##20a517', // Color verde
-      glyph: icon, //'♻️',
+    return new google.maps.marker.PinElement({
+      background: '#20a517',
+      glyph: '♻',
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#20a517'
     })
-    return pinElement
   }
-  /** Crea el SVG de la tiendita */
-  private createTienditaSvg(): SVGElement {
-    const xmlns = 'http://www.w3.org/2000/svg'
-    const svg = document.createElementNS(xmlns, 'svg')
-    svg.setAttribute('viewBox', '0 0 64 64')
-    svg.setAttribute('width', '100%')
-    svg.setAttribute('height', '100%')
-
-    const roof = document.createElementNS(xmlns, 'path')
-    roof.setAttribute('d', 'M8 26 L32 10 L56 26 L56 30 L8 30 Z')
-    roof.setAttribute('fill', '#ffffff')
-
-    const body = document.createElementNS(xmlns, 'rect')
-    body.setAttribute('x', '14')
-    body.setAttribute('y', '30')
-    body.setAttribute('width', '36')
-    body.setAttribute('height', '20')
-    body.setAttribute('rx', '3')
-    body.setAttribute('fill', '#ffffff')
-
-    svg.appendChild(roof)
-    svg.appendChild(body)
-    return svg
-  }
-
   localMarker(): google.maps.marker.PinElement {
-    const pinElement = new google.maps.marker.PinElement({
+    return new google.maps.marker.PinElement({
       background: '#b87d0d',
-      glyph: this.createTienditaSvg(),
+      glyph: '🏪',
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#e0a019'
     })
-    return pinElement
   }
   selectCoords(event: google.maps.MapMouseEvent): void {
     if (event.latLng != null) {

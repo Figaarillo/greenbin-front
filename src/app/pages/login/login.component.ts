@@ -134,6 +134,10 @@ export class LoginComponent {
   }
 
   private handleLoginSuccess(obj: any, role: Role) {
+    // Pizarra limpia: cualquier sesión previa en este dispositivo se descarta
+    // ANTES de armar la nueva. Nunca confiar en pisar claves una por una.
+    this.storage.clear()
+
     this.sesionService.setAccessToken(obj.data.accessToken)
     this.sesionService.setRefreshToken(obj.data.refreshToken)
     this.sesionService.setUserId(obj.data.id)

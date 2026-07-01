@@ -6,6 +6,10 @@
 // ── Bootstrap ────────────────────────────────────────────────────────────
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+// ── Angular Material core: CSS estructural del CDK overlay (mat-select,
+//    datepicker, menús). Sin esto los overlays caen al final del <body>.
+@include mat.core();
+
 // ═════════════════════════════════════════════════════════════════════════
 //  DESIGN TOKENS (CSS custom properties)
 // ═════════════════════════════════════════════════════════════════════════
@@ -156,6 +160,19 @@ body {
   color: var(--ink);
 }
 
+// ── Quitar los botones de subir/bajar (spinners) en inputs numéricos ──────
+/* Chrome, Safari, Edge, Opera */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 // ── Headings: Sora ──────────────────────────────────────────────────────
 h1,
 h2,
@@ -169,7 +186,9 @@ h6 {
 
 // ── Transición unificada entre pantallas (View Transitions API) ──────────
 @keyframes vt-fade-in {
-  from { opacity: 0; }
+  from {
+    opacity: 0;
+  }
 }
 
 // Fondo del contenedor de captura: evita el flash negro
@@ -216,12 +235,10 @@ h6 {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   transform: scaleX(-1);
-  -webkit-mask-image:
-    linear-gradient(to right, #000 65%, transparent 100%),
+  -webkit-mask-image: linear-gradient(to right, #000 65%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, #000 28%);
   -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, #000 65%, transparent 100%),
+  mask-image: linear-gradient(to right, #000 65%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, #000 28%);
   mask-composite: intersect;
   filter: blur(0px);
@@ -239,8 +256,14 @@ h6 {
 
 // ── Entrada de la card (una sola fase, GPU-friendly) ─────────────────────
 @keyframes authCardIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-card,
@@ -250,8 +273,16 @@ h6 {
 
 // ── Transición suave al revelar el formulario dentro de la card ──────────
 @keyframes formSlideIn {
-  from { opacity: 0; filter: blur(3px); transform: translateY(6px); }
-  to   { opacity: 1; filter: blur(0);   transform: translateY(0); }
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 }
 
 .form-view {
@@ -299,7 +330,9 @@ h6 {
     place-items: center;
     margin-bottom: 12px;
 
-    mat-icon { font-size: 24px; }
+    mat-icon {
+      font-size: 24px;
+    }
   }
 
   h2 {
@@ -333,7 +366,9 @@ h6 {
       text-decoration: none;
       font-weight: 600;
 
-      &:hover { text-decoration: underline; }
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
@@ -348,7 +383,9 @@ h6 {
     font-weight: 600;
     transition: all 300ms;
 
-    &:hover { font-size: 16px; }
+    &:hover {
+      font-size: 16px;
+    }
   }
 
   .brand-footer {
@@ -367,8 +404,12 @@ h6 {
     font-size: 13px;
     transition: color 0.15s;
 
-    mat-icon { font-size: 18px; }
-    &:hover { color: var(--accent); }
+    mat-icon {
+      font-size: 18px;
+    }
+    &:hover {
+      color: var(--accent);
+    }
   }
 }
 
@@ -383,8 +424,12 @@ h6 {
   justify-content: center;
   transition: color 0.15s;
 
-  &:hover { color: var(--accent); }
-  mat-icon { font-size: 18px; }
+  &:hover {
+    color: var(--accent);
+  }
+  mat-icon {
+    font-size: 18px;
+  }
 }
 
 // Seleccionar rol / Ir al inicio — desktop: estilo home-link (sin fondo)
@@ -399,11 +444,14 @@ h6 {
   cursor: pointer;
   padding: 4px 20px 20px;
   transition: color 0.15s;
-  &:hover { color: var(--accent); }
+  &:hover {
+    color: var(--accent);
+  }
 }
 
 // Olvidé mi contraseña — acent color
-.login-body, .auth-body {
+.login-body,
+.auth-body {
   .mat-mdc-form-field-hint a,
   .mat-hint a {
     color: var(--accent) !important;
@@ -412,8 +460,7 @@ h6 {
 }
 
 .btn-submit {
-  background: var(--accent) !important;
-  color: #fff;
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink)) !important;
   border-radius: var(--r-pill);
   font-weight: 600;
   font-size: 14px;
@@ -421,13 +468,22 @@ h6 {
   box-shadow: 0 4px 14px var(--accent-soft);
   width: 100%;
   margin-top: 8px;
+  color: #fff !important;
 }
 
 @media (max-width: 768px) {
-  .login-page  { padding: 16px 12px; }
-  .login-card  { max-width: 100%; }
-  .login-hero  { padding: 24px 18px 20px; }
-  .login-body  { padding: 20px 16px 24px; }
+  .login-page {
+    padding: 16px 12px;
+  }
+  .login-card {
+    max-width: 100%;
+  }
+  .login-hero {
+    padding: 24px 18px 20px;
+  }
+  .login-body {
+    padding: 20px 16px 24px;
+  }
 }
 
 // ── Ocultar scrollbar en mobile (barra nativa innecesaria) ──────────────
@@ -564,6 +620,8 @@ h6 {
     font-size: 14px;
     padding: 11px 20px;
     box-shadow: 0 4px 14px var(--accent-soft);
+    --mdc-protected-button-label-text-color: #fff;
+    --mdc-filled-button-label-text-color: #fff;
   }
 }
 
@@ -584,7 +642,9 @@ h6 {
 }
 
 // ── AUTH BRAND — oculto en desktop, visible en el header mobile ──────────
-.auth-brand { display: none; }
+.auth-brand {
+  display: none;
+}
 
 // ═════════════════════════════════════════════════════════════════════════
 //  AUTH/LOGIN MOBILE — card transparente + campos glass flotando sobre
@@ -597,15 +657,22 @@ h6 {
     gap: 8px;
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: .06em;
-    opacity: .88;
+    letter-spacing: 0.06em;
+    opacity: 0.88;
     margin-bottom: 14px;
 
-    mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
   }
 
   // "No tengo usuario" con accent color en mobile
-  .login-footer .register-link { color: var(--accent); font-weight: 600; }
+  .login-footer .register-link {
+    color: var(--accent);
+    font-weight: 600;
+  }
 
   // ── Login shell ──────────────────────────────────────────────────────
   .login-page {
@@ -631,7 +698,9 @@ h6 {
     text-align: left;
     padding: 52px 24px 32px;
 
-    .hero-icon { display: none; }
+    .hero-icon {
+      display: none;
+    }
 
     h2 {
       font-size: 24px;
@@ -662,12 +731,21 @@ h6 {
     padding: 10px 20px 14px;
     text-align: center;
 
-    .register-link { font-size: 13px; &:hover { font-size: 13px; } }
-    .brand-footer  { display: none; }
+    .register-link {
+      font-size: 13px;
+      &:hover {
+        font-size: 13px;
+      }
+    }
+    .brand-footer {
+      display: none;
+    }
   }
 
   // oculta el botón de volver (el back del desktop — mobile usa el link de abajo)
-  .form-header { display: none; }
+  .form-header {
+    display: none;
+  }
 
   // "Seleccionar rol" — texto simple centrado al fondo
   .login-back-mobile {
@@ -675,11 +753,13 @@ h6 {
     flex-shrink: 0;
     text-align: center;
     font-size: 13px;
-    color: rgba(20,44,20,0.50);
+    color: rgba(20, 44, 20, 0.5);
     font-weight: 500;
     cursor: pointer;
     padding: 4px 20px 30px;
-    &:hover { color: var(--accent); }
+    &:hover {
+      color: var(--accent);
+    }
   }
 
   // ── Auth shell (registrar-*) ──────────────────────────────────────────
@@ -706,10 +786,17 @@ h6 {
     text-align: left;
     padding: 52px 24px 32px;
 
-    .hero-icon { display: none; }
-    .auth-back  { display: none; }
+    .hero-icon {
+      display: none;
+    }
+    .auth-back {
+      display: none;
+    }
 
-    h2 { font-size: 24px; margin-top: 0; }
+    h2 {
+      font-size: 24px;
+      margin-top: 0;
+    }
   }
 
   .auth-body {
@@ -724,8 +811,8 @@ h6 {
     border-radius: 999px !important;
     font-size: 15px !important;
     font-weight: 700 !important;
-    letter-spacing: .01em !important;
-    box-shadow: 0 4px 18px rgba(46,125,50,0.30) !important;
+    letter-spacing: 0.01em !important;
+    box-shadow: 0 4px 18px rgba(46, 125, 50, 0.3) !important;
     color: #fff !important;
     // fuerza el token MDC de color de texto (mat-raised-button lo sobreescribe)
     --mdc-protected-button-label-text-color: #fff;
@@ -734,13 +821,15 @@ h6 {
   }
 
   // el <p class="p-4"> que envuelve el botón en login suma padding innecesario
-  .login-body .p-4 { padding: 4px 0 0 !important; }
+  .login-body .p-4 {
+    padding: 4px 0 0 !important;
+  }
 
   // ── Links del footer — fondo glass muy sutil para que se lean ────────
   .login-back-mobile,
   .login-footer .register-link,
   .home-link {
-    background: rgba(255,255,255,0.42);
+    background: rgba(255, 255, 255, 0.42);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 999px;
@@ -759,7 +848,9 @@ h6 {
   }
 
   // más margen al inicio de los forms de registro
-  .auth-form { padding-top: 8px; }
+  .auth-form {
+    padding-top: 8px;
+  }
 
   // ── Edit-form pages (modificar-vecino, modificar-local, etc.) ─────────
   .edit-form-page {
@@ -770,7 +861,9 @@ h6 {
     padding: 20px 20px 100px;
     background: transparent;
 
-    mat-form-field { width: 100%; }
+    mat-form-field {
+      width: 100%;
+    }
 
     .btn-primary-custom {
       width: 100%;
@@ -798,21 +891,27 @@ h6 {
   }
 
   // ── Glass mat-form-fields ─────────────────────────────────────────────
-  .login-body, .auth-body, .edit-form-body {
+  .login-body,
+  .auth-body,
+  .edit-form-body {
     .mat-mdc-text-field-wrapper {
-      background: rgba(255,255,255,0.60) !important;
+      background: rgba(255, 255, 255, 0.6) !important;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: 14px !important;
     }
 
-    .mdc-line-ripple { display: none !important; }
+    .mdc-line-ripple {
+      display: none !important;
+    }
 
     .mat-mdc-form-field:focus-within .mat-mdc-text-field-wrapper {
-      outline: 2px solid rgba(46,125,50,0.28);
+      outline: 2px solid rgba(46, 125, 50, 0.28);
       outline-offset: 0;
     }
 
-    .mat-mdc-form-field-error { color: #c62828; }
+    .mat-mdc-form-field-error {
+      color: #c62828;
+    }
   }
 }

@@ -40,15 +40,23 @@ export class VisualizarPvComponent implements OnInit {
   puntosVerdes: any[] = []
 
   ngOnInit() {
+    // La entidad usa 'entidadInfo' (su sesión); el vecino usa 'usuarioInfo.entity',
+    // que el backend ahora puebla con la entidad completa (id + coordinates).
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
-    if (entidadInfo?.coordinates) {
+    const usuarioInfo = JSON.parse(this.storage.getItem('usuarioInfo') || '{}')
+    const entidad = entidadInfo?.id ? entidadInfo : usuarioInfo.entity
+    const entityId = entidad?.id ?? usuarioInfo.entityId
+
+    // Centramos el mapa en la ciudad de la entidad, haya o no puntos verdes.
+    if (entidad?.coordinates) {
       this.options = {
         ...this.options,
-        center: { lat: entidadInfo.coordinates.latitude, lng: entidadInfo.coordinates.longitude }
+        center: { lat: entidad.coordinates.latitude, lng: entidad.coordinates.longitude }
       }
     }
-    this.pvServices.list(entidadInfo.id).subscribe((res: any) => {
-      this.puntosVerdes = res
+
+    this.pvServices.list(entityId).subscribe((res: any) => {
+      this.puntosVerdes = res ?? []
 
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
