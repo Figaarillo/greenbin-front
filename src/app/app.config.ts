@@ -2,7 +2,7 @@ import { ApplicationConfig } from '@angular/core'
 import { provideRouter, withViewTransitions } from '@angular/router'
 
 import { routes } from './app.routes'
-import { provideClientHydration } from '@angular/platform-browser'
+import { provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import { requestInterceptor } from './interceptors/request.interceptor'
@@ -14,7 +14,12 @@ import { API_BASE_URL, DEFAULT_API_BASE_URL, RECAPTCHA_SITE_KEY, DEFAULT_RECAPTC
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withViewTransitions()),
-    provideClientHydration(),
+    // El SSR no tiene acceso a localStorage, así que sus peticiones salen sin
+    // auth y devuelven vacío. Con el transfer cache activo (default en v17) el
+    // cliente reusaba esas respuestas vacías en el primer render y los datos
+    // recién cargaban al re-navegar. Lo desactivamos: la hidratación del DOM se
+    // mantiene, pero los datos siempre se piden frescos a la red con el token.
+    provideClientHydration(withNoHttpTransferCache()),
     provideHttpClient(withInterceptors([requestInterceptor, loaderInterceptor, authInterceptor, sesionInterceptor])),
     provideAnimationsAsync(),
     {

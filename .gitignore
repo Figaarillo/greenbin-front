@@ -39,6 +39,7 @@ testem.log
 
 # Gentle AI / OpenCode
 .atl/
+.env
 
 # System files
 .DS_Store

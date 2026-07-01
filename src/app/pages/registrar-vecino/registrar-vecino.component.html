@@ -15,10 +15,9 @@
     </div>
     <div class="auth-body">
       <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-
         <mat-form-field>
           <mat-label>Nombre</mat-label>
-          <input matInput placeholder="Nombre" formControlName="firstname">
+          <input matInput placeholder="Nombre" formControlName="firstname" />
           @if (form.get('firstname')!.hasError('required')) {
             <mat-error>Ingrese un nombre</mat-error>
           }
@@ -26,7 +25,7 @@
 
         <mat-form-field>
           <mat-label>Apellido</mat-label>
-          <input matInput placeholder="Apellido" formControlName="lastname">
+          <input matInput placeholder="Apellido" formControlName="lastname" />
           @if (form.get('lastname')!.hasError('required')) {
             <mat-error>Ingrese un apellido</mat-error>
           }
@@ -34,7 +33,7 @@
 
         <mat-form-field>
           <mat-label>Nombre de Usuario</mat-label>
-          <input matInput placeholder="Nombre de Usuario" formControlName="username">
+          <input matInput placeholder="Nombre de Usuario" formControlName="username" />
           @if (form.get('username')!.hasError('required')) {
             <mat-error>Ingrese un Nombre de Usuario</mat-error>
           }
@@ -42,7 +41,7 @@
 
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+          <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com" />
           @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
             <mat-error>Ingrese un email válido</mat-error>
           }
@@ -55,36 +54,53 @@
           <mat-label>Selecciona tu ciudad</mat-label>
           <mat-select #mySelect (selectionChange)="onSelectChange($event.value)" formControlName="entityId">
             <mat-option *ngFor="let entity of entities" [value]="entity.id">
-              {{ entity.name }} - {{entity.city}}
+              {{ entity.name }}
+              <!-- {{ entity.name }} - {{ entity.city }} -->
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Contraseña</mat-label>
-          <input matInput placeholder="Contraseña" type="password" formControlName="password">
+          <input matInput placeholder="Contraseña" type="password" formControlName="password" />
           <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           @if (form.get('password')!.hasError('required')) {
             <mat-error>Ingrese una contraseña</mat-error>
           }
           @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
-            <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
+            <mat-error>
+              @if (form.get('password')!.hasError('minlength')) {
+                <div>• Mínimo 8 caracteres</div>
+              }
+              @if (form.get('password')!.hasError('missingLowercase')) {
+                <div>• Al menos una minúscula</div>
+              }
+              @if (form.get('password')!.hasError('missingUppercase')) {
+                <div>• Al menos una mayúscula</div>
+              }
+              @if (form.get('password')!.hasError('missingSpecial')) {
+                <div>• Al menos un carácter especial</div>
+              }
+            </mat-error>
           }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>DNI</mat-label>
-          <input type="number" matInput placeholder="DNI" formControlName="dni">
+          <input type="number" matInput placeholder="DNI" formControlName="dni" />
           @if (form.get('dni')!.hasError('required')) {
             <mat-error>Ingrese un DNI</mat-error>
+          }
+          @if (!form.get('dni')!.hasError('required') && form.get('dni')!.hasError('pattern')) {
+            <mat-error>El DNI debe tener 8 o 9 dígitos numéricos</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Fecha de Nacimiento</mat-label>
-          <input type="date" matInput data-date-format="dd/mm/yyyy" formControlName="birthdate">
+          <input type="date" matInput data-date-format="dd/mm/yyyy" formControlName="birthdate" />
           @if (form.get('birthdate')!.invalid) {
             <mat-error>Ingrese una fecha de nacimiento válida</mat-error>
           }
@@ -93,7 +109,7 @@
         <mat-form-field floatLabel="always">
           <mat-label>Teléfono</mat-label>
           <span matTextPrefix>+54 &nbsp;</span>
-          <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
+          <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber" />
           @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
             <mat-error>Ingrese un teléfono válido</mat-error>
           }
@@ -102,8 +118,7 @@
           }
         </mat-form-field>
 
-        <button mat-raised-button class="btn-submit" [disabled]="form.invalid" type="submit">Guardar</button>
-
+        <button mat-raised-button class="btn-submit" [disabled]="form.invalid" type="submit">Registrar</button>
       </form>
     </div>
     <div class="login-back-mobile" [routerLink]="'/login'">Volver al login</div>

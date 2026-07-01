@@ -15,10 +15,14 @@ export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
           sesionService.logout()
           return throwError(() => error)
         }
+        const role = sesionService.getRole()
+        if (!role) {
+          return throwError(() => error)
+        }
         //refrescar el token (ESTAS PETICIONES SIGUIENTES NO PASARAN POR LOS INTERCEPTORS ANTERIORES)
-        sesionService.sendRefreshToken(sesionService.getRole()).subscribe(obj => {
+        sesionService.sendRefreshToken(role).subscribe(obj => {
           sesionService.setAccessToken(obj.data.accessToken)
-          sesionService.sendRefreshToken(obj.data.refreshToken)
+          sesionService.setRefreshToken(obj.data.refreshToken)
         })
         //volver a enviar la peticion
         const clonedRequest = req.clone({

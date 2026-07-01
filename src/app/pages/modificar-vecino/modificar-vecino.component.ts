@@ -39,12 +39,17 @@ export class ModificarVecinoComponent {
     private sesionService: SesionService
   ) {
     this.service.get(this.sesionService.getUserId()).subscribe((obj: any) => {
+      // El backend ahora puebla 'entity', así que la ciudad viene directo con el vecino.
+      // 'city' puede estar vacío en algunas entidades; caemos al 'name' para no dejarlo en blanco.
+      const entidad = obj.data.entity
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
         lastname: [obj.data.lastname, [Validators.required, Validators.minLength(2)]],
         username: [obj.data.username, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
         email: [obj.data.email, [Validators.required, Validators.email]],
-        phoneNumber: [obj.data.phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10,15}$')]]
+        phoneNumber: [obj.data.phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
+        // Ciudad elegida al registrarse: solo lectura. Al estar disabled, no se envía en el update.
+        ciudad: [{ value: entidad?.city || entidad?.name || '', disabled: true }]
       })
     })
   }
