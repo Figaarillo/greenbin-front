@@ -1,62 +1,102 @@
-<div data-role="entidad">
-<div class="container mt-3">
+<div class="form-page" data-role="entidad">
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Registrar Punto Verde</h1>
+        <div class="sub">Nuevo punto de recolección para el municipio</div>
+      </div>
+      <div class="hero-icon"><span class="material-icons">add_location_alt</span></div>
+    </div>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <mat-form-field>
-      <mat-label>Nombre</mat-label>
-      <input matInput placeholder="Nombre" formControlName="name">
-      @if (form.get('name')!.hasError('required')) {
-        <mat-error>Ingrese un nombre</mat-error>
-      }
-    </mat-form-field>
-
-    <div class="d-flex">
-      <mat-form-field>
-        <mat-label>Dirección</mat-label>
-        <input matInput placeholder="Dirección" formControlName="address"><!-- (blur)="coordsByAdress()"-->
-        @if (form.get('address')!.hasError('required')) {
-          <mat-error>Ingrese una dirección</mat-error>
-        }
-        @if (form.get('address')!.valid) {
-          <mat-hint class="color-light">Puedes cambiar la localización en el mapa haciendo click si no es la correcta</mat-hint>
-        }
-      </mat-form-field>
-      <button mat-flat-button color="accent" type="button" (click)="coordsByAdress()" [disabled]="form.get('address')!.invalid">Localizar</button>
+  <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">recycling</span></div>
+        <h4>Identificación</h4>
+        <p>Nombre con el que los vecinos van a encontrar el punto.</p>
+      </div>
+      <div class="fset-fields">
+        <mat-form-field class="full">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="Nombre" formControlName="name">
+          @if (form.get('name')!.hasError('required')) {
+            <mat-error>Ingrese un nombre</mat-error>
+          }
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="w-100" style="text-align: -webkit-center; margin-bottom: 22px">
-      @defer (on immediate) {
-        <app-map-input [type]="'punto-verde'" [initialCenter]="entidadCenter" [city]="entidadCity" (coordinates)="getCoordinates($event)"></app-map-input>
-      } @placeholder {
-        <div class="map-placeholder">Cargando mapa…</div>
-      }
-    </div> 
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">place</span></div>
+        <h4>Ubicación</h4>
+        <p>Ingresá la dirección y ajustá la posición exacta haciendo click en el mapa.</p>
+      </div>
+      <div class="fset-fields">
+        <div class="full address-row">
+          <mat-form-field class="address-field">
+            <mat-label>Dirección</mat-label>
+            <input matInput placeholder="Dirección" formControlName="address">
+            @if (form.get('address')!.hasError('required')) {
+              <mat-error>Ingrese una dirección</mat-error>
+            }
+          </mat-form-field>
+          <button mat-flat-button color="accent" type="button" (click)="coordsByAdress()" [disabled]="form.get('address')!.invalid">Localizar</button>
+        </div>
+        <div class="full map-slot">
+          @defer (on immediate) {
+            <app-map-input [type]="'punto-verde'" [initialCenter]="entidadCenter" [city]="entidadCity" (coordinates)="getCoordinates($event)"></app-map-input>
+          } @placeholder {
+            <div class="map-placeholder">Cargando mapa…</div>
+          }
+        </div>
+      </div>
+    </div>
 
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="juanpedro@gmail.com" formControlName="email">
-      @if (form.get('email')!.hasError('required')) {
-        <mat-error>Ingrese un email</mat-error>
-      }
-    </mat-form-field>
-        
-    <mat-form-field>
-      <mat-label>Teléfono</mat-label>
-      <input matInput placeholder="3533403876" formControlName="phoneNumber">
-      @if (form.get('phoneNumber')!.hasError('required')) {
-        <mat-error>Ingrese un teléfono</mat-error>
-      }
-    </mat-form-field>
-    
-    <mat-form-field>
-      <mat-label>Horarios</mat-label>
-      <textarea matInput placeholder="Horarios" formControlName="description"></textarea>
-    </mat-form-field>
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">call</span></div>
+        <h4>Contacto</h4>
+        <p>Datos de contacto del punto verde.</p>
+      </div>
+      <div class="fset-fields">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="juanpedro@gmail.com" formControlName="email">
+          @if (form.get('email')!.hasError('required')) {
+            <mat-error>Ingrese un email</mat-error>
+          }
+        </mat-form-field>
 
-    <button mat-raised-button class="w-100" [disabled]="form.invalid" type="submit">Guardar</button>
+        <mat-form-field>
+          <mat-label>Teléfono</mat-label>
+          <input matInput placeholder="3533403876" formControlName="phoneNumber">
+          @if (form.get('phoneNumber')!.hasError('required')) {
+            <mat-error>Ingrese un teléfono</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
 
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">schedule</span></div>
+        <h4>Horarios</h4>
+        <p>Días y horarios de atención del punto.</p>
+      </div>
+      <div class="fset-fields">
+        <mat-form-field class="full">
+          <mat-label>Horarios</mat-label>
+          <textarea matInput placeholder="Horarios" formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="sec-footer">
+      <button type="submit" class="btn-pill" [disabled]="form.invalid">
+        <span class="material-icons">check</span> Guardar punto verde
+      </button>
+    </div>
   </form>
-  
-</div>
 </div>

@@ -1,16 +1,30 @@
-form {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-}
+// La dirección y el botón Localizar comparten fila dentro de la sección.
+.address-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
 
-form mat-form-field {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-@media (max-width: 500px) {
-  form {
-    padding: 0 5%;
+  .address-field {
+    flex: 1;
   }
+
+  button {
+    margin-top: 6px;
+    border-radius: var(--r-pill);
+  }
+}
+
+.map-slot {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.map-placeholder {
+  height: 300px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  border-radius: var(--r-field);
+  color: var(--muted);
+  font-size: 14px;
 }

@@ -3,6 +3,8 @@
     [columns]="columns"
     [title]="title"
     [tableData]="categorias"
+    [createLabel]="'Nueva categoría'"
+    [createRoute]="'/entidad/registrar-categoria'"
     (edit)="editCategoria($event)"
     (delete)="toggleCategoria($event)">
   </app-table>

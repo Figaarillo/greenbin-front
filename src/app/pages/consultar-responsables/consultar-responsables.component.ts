@@ -18,7 +18,7 @@ export class ConsultarResponsablesComponent implements OnInit {
   private storage = inject(StorageService)
   private respService = inject(ResponsablesService)
   columns: Column[] = []
-  title: string = 'Listar Responsables'
+  title: string = 'Responsables'
   responsibles: Responsable[] = []
   constructor(private router: Router) {}
   ngOnInit(): void {

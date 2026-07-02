@@ -5,14 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule, ActivatedRoute, Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 
 @Component({
   selector: 'app-modificar-punto-verde',
   standalone: true,
   imports: [
-    NavbarComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

@@ -947,3 +947,288 @@ h6 {
     }
   }
 }
+
+// ═════════════════════════════════════════════════════════════════════════
+//  PAGE HERO (shell desktop de entidad: dashboard, listados y formularios)
+//  Hero gradiente con título, subtítulo y acciones (chips glass / botón).
+// ═════════════════════════════════════════════════════════════════════════
+.page-hero {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  color: #fff;
+  border-radius: var(--r-card);
+  padding: 22px 26px;
+  box-shadow: var(--sh-2);
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: -60px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+  }
+
+  .sub {
+    opacity: 0.82;
+    font-size: 13.5px;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .material-icons {
+      font-size: 15px;
+    }
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.16);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    position: relative;
+
+    .material-icons {
+      font-size: 24px;
+    }
+  }
+
+  .hdr-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--r-pill);
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+
+    .material-icons {
+      font-size: 17px;
+    }
+
+    input {
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13px;
+      width: 128px;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      &::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+      }
+    }
+  }
+
+  .btn-hero {
+    background: #fff;
+    color: var(--accent-ink);
+    border: 0;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 9px 18px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+
+    .material-icons {
+      font-size: 18px;
+    }
+  }
+}
+
+// ── Botones pill (submit gradiente + ghost) ─────────────────────────────
+.btn-pill {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  color: #fff;
+  border: 0;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 28px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  box-shadow: 0 4px 18px var(--accent-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  .material-icons {
+    font-size: 19px;
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &.ghost {
+    background: transparent;
+    color: var(--muted);
+    box-shadow: none;
+    font-weight: 600;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  FORM SECTIONS (propuesta "2 · Secciones": bloques temáticos con título
+//  y descripción a la izquierda, campos a la derecha — patrón settings)
+// ═════════════════════════════════════════════════════════════════════════
+.form-page {
+  max-width: 1060px;
+  margin: 0 auto;
+
+  // Páginas fuera del layout de entidad (modificar-*): agregan su propio aire.
+  &.standalone {
+    padding: 24px;
+  }
+}
+
+.form-sections {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  .fset {
+    background: var(--surface);
+    border-radius: var(--r-card);
+    box-shadow: var(--sh-1);
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 30px;
+    padding: 24px 28px;
+  }
+
+  .fset-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .ic {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      margin-bottom: 4px;
+
+      .material-icons {
+        font-size: 21px;
+      }
+    }
+
+    h4 {
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      margin: 0;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 12.5px;
+      margin: 0;
+      line-height: 1.45;
+    }
+  }
+
+  .fset-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+    align-content: start;
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .sec-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+  }
+
+  // Campos Material suavizados: fondo surface-2, esquinas redondeadas,
+  // sin subrayado y borde de acento al foco (mismo lenguaje que el mock).
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: var(--surface-2);
+    border-radius: var(--r-field);
+  }
+
+  .mdc-text-field--filled .mdc-line-ripple {
+    display: none;
+  }
+
+  .mdc-text-field--filled.mdc-text-field--focused:not(.mdc-text-field--disabled) {
+    background-color: var(--surface);
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+  }
+}
+
+@media (max-width: 900px) {
+  .form-sections .fset {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .form-sections .fset-fields {
+    grid-template-columns: 1fr;
+  }
+}

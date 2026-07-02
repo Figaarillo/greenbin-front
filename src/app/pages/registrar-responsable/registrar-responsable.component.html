@@ -1,17 +1,22 @@
-<div class="auth-page" data-role="responsable">
-  <div class="login-bg"></div>
-  <div class="auth-card">
-    <div class="auth-hero">
-      <button mat-icon-button class="auth-back" [routerLink]="'/login'" aria-label="Volver">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <div class="hero-icon"><mat-icon>recycling</mat-icon></div>
-      <h2>Crear cuenta</h2>
-      <p>Registrate como Responsable</p>
+<div class="form-page" data-role="entidad">
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Registrar Responsable</h1>
+        <div class="sub">{{ entityName || 'Nuevo responsable para tu municipio' }}</div>
+      </div>
+      <div class="hero-icon"><span class="material-icons">person_add</span></div>
     </div>
-    <div class="auth-body">
-      <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  </div>
 
+  <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">badge</span></div>
+        <h4>Datos personales</h4>
+        <p>Identidad del responsable dentro del sistema.</p>
+      </div>
+      <div class="fset-fields">
         <mat-form-field>
           <mat-label>Nombre</mat-label>
           <input matInput placeholder="Nombre" formControlName="firstname">
@@ -28,22 +33,28 @@
           }
         </mat-form-field>
 
+        <mat-form-field class="full">
+          <mat-label>DNI</mat-label>
+          <input type="number" matInput placeholder="DNI" formControlName="dni">
+          @if (form.get('dni')!.hasError('required')) {
+            <mat-error>Ingrese un DNI</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">lock</span></div>
+        <h4>Acceso</h4>
+        <p>Credenciales con las que iniciará sesión.</p>
+      </div>
+      <div class="fset-fields">
         <mat-form-field>
           <mat-label>Nombre de Usuario</mat-label>
           <input matInput placeholder="Nombre de Usuario" formControlName="username">
           @if (form.get('username')!.hasError('required')) {
             <mat-error>Ingrese un Nombre de Usuario</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
-          @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
-            <mat-error>Ingrese un email válido</mat-error>
-          }
-          @if (form.get('email')!.hasError('required')) {
-            <mat-error>Ingrese un email</mat-error>
           }
         </mat-form-field>
 
@@ -60,12 +71,24 @@
             <mat-error>La contraseña debe tener 8 caracteres (1 mayuscula y 1 caracter especial)</mat-error>
           }
         </mat-form-field>
+      </div>
+    </div>
 
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">call</span></div>
+        <h4>Contacto</h4>
+        <p>Para notificaciones y comunicación oficial.</p>
+      </div>
+      <div class="fset-fields">
         <mat-form-field>
-          <mat-label>DNI</mat-label>
-          <input type="number" matInput placeholder="DNI" formControlName="dni">
-          @if (form.get('dni')!.hasError('required')) {
-            <mat-error>Ingrese un DNI</mat-error>
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
+          @if (form.get('email')!.hasError('email') && !form.get('email')!.hasError('required')) {
+            <mat-error>Ingrese un email válido</mat-error>
+          }
+          @if (form.get('email')!.hasError('required')) {
+            <mat-error>Ingrese un email</mat-error>
           }
         </mat-form-field>
 
@@ -80,10 +103,14 @@
             <mat-error>Ingrese un teléfono</mat-error>
           }
         </mat-form-field>
-
-        <button mat-raised-button class="btn-submit" type="submit">Guardar</button>
-
-      </form>
+      </div>
     </div>
-  </div>
+
+    <div class="sec-footer">
+      <button type="button" class="btn-pill ghost" (click)="goBack()">Cancelar</button>
+      <button type="submit" class="btn-pill">
+        <span class="material-icons">check</span> Guardar responsable
+      </button>
+    </div>
+  </form>
 </div>
