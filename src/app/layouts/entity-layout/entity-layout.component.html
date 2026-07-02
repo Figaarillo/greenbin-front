@@ -44,17 +44,6 @@
   </div>
 
   <div class="main-content">
-    <header>
-      @if (!isMobile) {
-        <button class="back-btn" (click)="goBack()" aria-label="Go back">
-          <span class="las la-arrow-left"></span>
-        </button>
-      }
-      <button class="hamburger-btn" (click)="onHamburgerClick()" aria-label="Toggle menu">
-        <span class="las la-bars"></span>
-      </button>
-      <span class="header-title">{{ currentTitle }}</span>
-    </header>
     <main>
       <router-outlet></router-outlet>
     </main>

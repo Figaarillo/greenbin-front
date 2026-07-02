@@ -926,7 +926,9 @@ h6 {
   border-radius: var(--r-card);
   padding: 22px 26px;
   box-shadow: var(--sh-2);
-  position: relative;
+  position: sticky;
+  top: 16px;
+  z-index: 10;
   overflow: hidden;
 
   &::after {

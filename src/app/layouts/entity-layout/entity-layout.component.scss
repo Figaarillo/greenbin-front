@@ -158,47 +158,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-// ── Header (floating card) ─────────────────────
-header {
-  position: sticky;
-  top: 16px;
-  z-index: 15;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 20px 20px 0;
-  padding: 10px 14px;
-  background: var(--surface);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-
-  .back-btn,
-  .hamburger-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    font-size: 1.25rem;
-    cursor: pointer;
-    color: var(--ink);
-    transition: background 0.15s;
-    border: none;
-    background: none;
-
-    &:hover { background: var(--surface-2); }
-  }
-
-  .header-title {
-    font-family: 'Sora', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--accent);
-    margin-left: 4px;
-  }
-}
-
 // ── Main content ─────────────────────────────────
 .main-content {
   margin-left: 280px;
@@ -206,9 +165,9 @@ header {
 }
 
 main {
-  padding: 1.5rem;
+  padding: 16px 1.5rem 1.5rem;
   background: var(--bg);
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
 }
 
 // ── Toggle ─────────────────────────────────────
@@ -234,17 +193,8 @@ main {
 
   .sidebar-close { display: block; }
 
-  // Header becomes fixed + positioned at top-left on mobile
-  header {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    right: 16px;
-    margin: 0;
-  }
-
   main {
-    padding: 76px 1rem 100px;
+    padding: 1rem 1rem 100px;
     min-height: 100vh;
   }
 
@@ -254,9 +204,6 @@ main {
 
 @media (min-width: 1125px) {
   .sidebar-close { display: none !important; }
-
-  // En web el sidebar es permanente: ocultamos el botón hamburguesa
-  header .hamburger-btn { display: none !important; }
 
   #sidebar-toggle:checked ~ .sidebar { left: 0; }
   #sidebar-toggle:checked ~ .main-content { margin-left: 280px; }
