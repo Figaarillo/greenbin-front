@@ -1,96 +1,91 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
-import { MatTableDataSource, MatTableModule } from '@angular/material/table'
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatIcon } from '@angular/material/icon'
-import { MatTooltipModule } from '@angular/material/tooltip'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
-import { Column } from '../../services/interfaces/columns'
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
-import { NgArrayPipesModule } from 'ngx-pipes'
-import { MatSelect, MatOption } from '@angular/material/select'
-import { EntitiesPipe } from '../../pipes/entities.pipe'
 import { FormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
+import { Column } from '../../services/interfaces/columns'
+
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [
-    MatInputModule,
-    MatFormFieldModule,
-    NavbarComponent,
-    MatTableModule,
-    MatToolbarModule,
-    MatIcon,
-    MatTooltipModule,
-    MatPaginatorModule,
-    CommonModule,
-    EntitiesFilterPipe,
-    NgArrayPipesModule,
-    MatSelect,
-    MatOption,
-    EntitiesPipe,
-    FormsModule
-  ],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
 export class TableComponent implements OnChanges {
-  dataSource: any = []
-  page: number = 0
-  nPage: number = 1
-  cant: number = 15
+  nPage = 1
+  cant = 15
   selectedFilter = ''
   search = ''
-  @Input() tableData: any[] = []
 
+  @Input() tableData: any[] = []
   @Input() title: String = ''
-  displayedColumns: string[] = []
+  @Input() subtitle = ''
+  @Input() createLabel = ''
+  @Input() createRoute = ''
+
   tableColumns: Column[] = []
 
   @Input() set columns(columns: Column[]) {
     this.tableColumns = columns
-
-    this.displayedColumns = this.tableColumns.map(col => col.key)
+    const first = this.getFilteredColumns()[0]
+    if (!this.selectedFilter && first) this.selectedFilter = first.key
   }
 
   @Output() delete = new EventEmitter<any>()
   @Output() edit = new EventEmitter<any>()
   @Output() filter = new EventEmitter<any>()
-  @Output() pagination = new EventEmitter<any>()
 
-  constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.dataSource = new MatTableDataSource([])
-
-    this.dataSource.data = this.tableData
+    if (changes['tableData']) this.nPage = 1
   }
-  onSelectChange(event: Event) {
-    const selectElement = event.target as HTMLSelectElement
-    this.cant = Number(selectElement.value)
+
+  get firstColumnKey(): string {
+    return this.tableColumns[0]?.key ?? ''
+  }
+
+  get filtered(): any[] {
+    const query = this.search.trim().toLowerCase()
+    if (!query) return this.tableData
+    return this.tableData.filter(row => {
+      const value = row[this.selectedFilter]
+      const valueAsString = value != null ? value.toString() : ''
+      return valueAsString.toLowerCase().includes(query)
+    })
+  }
+
+  get paged(): any[] {
+    const start = (this.nPage - 1) * this.cant
+    return this.filtered.slice(start, start + this.cant)
+  }
+
+  get hasNext(): boolean {
+    return this.nPage * this.cant < this.filtered.length
+  }
+
+  onSearchChange() {
+    this.nPage = 1
+  }
+
+  onPageSizeChange() {
+    this.nPage = 1
   }
 
   nextPage() {
-    this.nPage += 1
-    this.page += this.cant
+    if (this.hasNext) this.nPage += 1
   }
 
   prevPage() {
-    if (this.page > 0) {
-      this.nPage -= 1
-      this.page -= this.cant
-    }
+    if (this.nPage > 1) this.nPage -= 1
   }
 
   deleteAction(item: string) {
     this.delete.emit(item)
   }
+
   editAction(item: string) {
     this.edit.emit(item)
   }
-  applyFilter(event: Event) {}
+
   getFilteredColumns(): Column[] {
     return this.tableColumns.filter(column => column.key !== 'actions')
   }
