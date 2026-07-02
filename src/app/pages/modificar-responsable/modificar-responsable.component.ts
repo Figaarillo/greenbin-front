@@ -10,10 +10,12 @@ import { ResponsableService } from '../../services/responsable/responsable.servi
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { Responsable } from '../../services/interfaces/responsable'
 import Swal from 'sweetalert2'
+import { NavbarComponent } from '../../components/navbar/navbar.component'
 @Component({
   selector: 'app-modificar-responsable',
   standalone: true,
   imports: [
+    NavbarComponent,
     MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
