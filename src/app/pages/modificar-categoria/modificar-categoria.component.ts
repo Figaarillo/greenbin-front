@@ -5,14 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule, ActivatedRoute, Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
 
 @Component({
   selector: 'app-modificar-categoria',
   standalone: true,
   imports: [
-    NavbarComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

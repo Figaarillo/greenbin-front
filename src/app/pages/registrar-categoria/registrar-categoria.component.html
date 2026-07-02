@@ -1,41 +1,69 @@
-<div data-role="entidad">
-<div class="container mt-3">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="form-page" data-role="entidad">
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Registrar Categoría</h1>
+        <div class="sub">Nueva categoría de residuo para el municipio</div>
+      </div>
+      <div class="hero-icon"><span class="material-icons">sell</span></div>
+    </div>
+  </div>
 
-    <mat-form-field class="w-100">
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="name">
-      @if (form.get('name')!.hasError('required')) {
-        <mat-error>Ingrese un nombre</mat-error>
-      }
-    </mat-form-field>
+  <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">sell</span></div>
+        <h4>Identificación</h4>
+        <p>Nombre y descripción con los que se mostrará la categoría.</p>
+      </div>
+      <div class="fset-fields">
+        <mat-form-field class="full">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name">
+          @if (form.get('name')!.hasError('required')) {
+            <mat-error>Ingrese un nombre</mat-error>
+          }
+        </mat-form-field>
 
-    <mat-form-field class="w-100">
-      <mat-label>Descripción</mat-label>
-      <textarea matInput formControlName="description"></textarea>
-      @if (form.get('description')!.hasError('required')) {
-        <mat-error>Ingrese una descripción</mat-error>
-      }
-    </mat-form-field>
+        <mat-form-field class="full">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+          @if (form.get('description')!.hasError('required')) {
+            <mat-error>Ingrese una descripción</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
 
-    <mat-form-field class="w-100">
-      <mat-label>Puntos por kg</mat-label>
-      <input type="number" matInput formControlName="pointsPerWeight">
-      @if (form.get('pointsPerWeight')!.hasError('required')) {
-        <mat-error>Ingrese los puntos por kg</mat-error>
-      }
-    </mat-form-field>
+    <div class="fset">
+      <div class="fset-head">
+        <div class="ic"><span class="material-icons">star</span></div>
+        <h4>Valores</h4>
+        <p>Puntos que otorga por kg reciclado y CO2 que evita.</p>
+      </div>
+      <div class="fset-fields">
+        <mat-form-field>
+          <mat-label>Puntos por kg</mat-label>
+          <input type="number" matInput formControlName="pointsPerWeight">
+          @if (form.get('pointsPerWeight')!.hasError('required')) {
+            <mat-error>Ingrese los puntos por kg</mat-error>
+          }
+        </mat-form-field>
 
-    <mat-form-field class="w-100">
-      <mat-label>CO2 (kg)</mat-label>
-      <input type="number" matInput formControlName="co2">
-      @if (form.get('co2')!.hasError('required')) {
-        <mat-error>Ingrese el valor de CO2</mat-error>
-      }
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>CO2 (kg)</mat-label>
+          <input type="number" matInput formControlName="co2">
+          @if (form.get('co2')!.hasError('required')) {
+            <mat-error>Ingrese el valor de CO2</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
 
-    <button mat-raised-button color="primary" class="w-100" type="submit">Registrar categoría</button>
-
+    <div class="sec-footer">
+      <button type="submit" class="btn-pill">
+        <span class="material-icons">check</span> Registrar categoría
+      </button>
+    </div>
   </form>
-</div>
 </div>

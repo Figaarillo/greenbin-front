@@ -1,12 +1,1 @@
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-
-    mat-form-field {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-}
+// El layout vive en el shell compartido `.form-sections` (src/styles.scss).
