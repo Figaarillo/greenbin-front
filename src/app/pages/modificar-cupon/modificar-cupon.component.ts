@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -27,6 +27,12 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
   styleUrl: './modificar-cupon.component.scss'
 })
 export class ModificarCuponComponent implements OnInit {
+  /** Cuando es true, se renderiza compacto dentro de un bottom-sheet (sin chrome de página). */
+  @Input() embedded = false
+  /** Id a usar en modo embedded, ya que ahí no hay param de ruta disponible. */
+  @Input() couponIdOverride?: string
+  @Output() saved = new EventEmitter<void>()
+
   form!: FormGroup
   couponId: string = ''
 
@@ -38,7 +44,7 @@ export class ModificarCuponComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.couponId = this.route.snapshot.paramMap.get('id') ?? ''
+    this.couponId = this.couponIdOverride ?? this.route.snapshot.paramMap.get('id') ?? ''
     this.service.getCupon(this.couponId).subscribe((res: any) => {
       const c = res.data
       this.form = this.fb.group({
@@ -54,7 +60,11 @@ export class ModificarCuponComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.service.updateCupon(this.form.value, this.couponId).subscribe(() => {
-        this.router.navigate(['/cupones-ofrecidos'])
+        if (this.embedded) {
+          this.saved.emit()
+        } else {
+          this.router.navigate(['/cupones-ofrecidos'])
+        }
       })
     }
   }

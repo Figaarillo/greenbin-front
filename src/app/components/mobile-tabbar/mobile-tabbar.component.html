@@ -30,12 +30,19 @@
     }
   }
 
-  <!-- Perfil (extremo derecho, fijo) -->
-  <a class="tab-item"
-     [routerLink]="profileRoute"
-     routerLinkActive="active"
-     [routerLinkActiveOptions]="{ exact: true }">
-    <mat-icon>account_circle</mat-icon>
-    <span>Perfil</span>
-  </a>
+  <!-- Perfil / Opciones (extremo derecho, fijo) -->
+  @if (userPhoto) {
+    <button class="tab-item options-item" [class.active]="optionsOpen" (click)="optionsClick.emit()">
+      <span class="tab-avatar"><img [src]="userPhoto" alt="Opciones"></span>
+      <span>Opciones</span>
+    </button>
+  } @else {
+    <a class="tab-item"
+       [routerLink]="profileRoute"
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon>account_circle</mat-icon>
+      <span>Perfil</span>
+    </a>
+  }
 </div>

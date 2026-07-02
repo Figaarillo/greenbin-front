@@ -1,25 +1,49 @@
-<div data-role="local">
-<app-navbar [title]="'Usar Cupón'" [route]="'/local'"></app-navbar>
-<div class="container mt-3">
+<div class="page-wrap" data-role="local">
+<app-page-header title="Usar cupón"></app-page-header>
+
+<div class="uc-body">
+
+  <div class="seg-toggle">
+    <button type="button" [class.on]="mode === 'code'" (click)="mode = 'code'">
+      <mat-icon>keyboard</mat-icon>Código
+    </button>
+    <button type="button" [class.on]="mode === 'scan'" (click)="mode = 'scan'">
+      <mat-icon>qr_code_scanner</mat-icon>Escanear
+      <span class="beta-badge">Beta</span>
+    </button>
+  </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <mat-form-field class="w-100">
-      <mat-label>Código del cupón</mat-label>
-      <input matInput placeholder="ABC123" formControlName="code" maxlength="6">
-      @if (form.get('code')!.hasError('required')) {
-        <mat-error>Ingrese el código</mat-error>
-      }
-      @if (form.get('code')!.hasError('minlength')) {
-        <mat-error>El código debe tener 6 caracteres</mat-error>
-      }
-    </mat-form-field>
+    @if (mode === 'code') {
+      <div class="ticket">
+        <div class="lbl">Código del cupón</div>
+        <input class="ticket-input" placeholder="ABC123" formControlName="code" maxlength="6">
+        @if (form.get('code')!.hasError('required')) {
+          <div class="ticket-error">Ingresá el código</div>
+        }
+        @if (form.get('code')!.hasError('minlength')) {
+          <div class="ticket-error">El código debe tener 6 caracteres</div>
+        }
+      </div>
+    }
+
+    @if (mode === 'scan') {
+      <div class="scan-frame">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="scan-hint">
+          <mat-icon>qr_code_scanner</mat-icon>
+          Todavía no lee QR — usá "Código" mientras tanto
+        </div>
+      </div>
+    }
 
     @if (error) {
       <p class="error-msg">{{ error }}</p>
     }
 
-    <button class="btn-primary-custom" type="submit" [disabled]="cargando">
+    <button class="btn-primary-custom btn-fixed-bottom" type="submit" [disabled]="cargando">
       @if (cargando) { Validando... } @else { Validar cupón }
     </button>
 

@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit } from '@angular/core'
+import { SesionService } from '../../services/sesion/sesion.service'
+import { inject, Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -28,6 +29,14 @@ import Swal from 'sweetalert2'
 })
 export class ModificarResponsableComponent implements OnInit {
   private storage = inject(StorageService)
+  private sesionService = inject(SesionService)
+
+  /** Cuando es true, se renderiza compacto dentro del sheet de opciones (sin chrome de página). */
+  @Input() embedded = false
+  /** Id a usar en modo embedded, ya que ahí no hay param de ruta disponible. */
+  @Input() userIdOverride?: string
+  @Output() saved = new EventEmitter<void>()
+
   form!: FormGroup
   id: string | null = null
   ruta = ''
@@ -36,8 +45,12 @@ export class ModificarResponsableComponent implements OnInit {
     private service: ResponsableService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.id = this.route.snapshot.paramMap.get('id')
+  ) {}
+
+  ngOnInit(): void {
+    // La resolución de id se hace acá (no en el constructor) para poder leer
+    // @Input() userIdOverride, que Angular recién liga después de construir.
+    this.id = this.userIdOverride ?? this.route.snapshot.paramMap.get('id') ?? this.sesionService.getUserId()
     this.service.get(this.id!).subscribe((obj: any) => {
       this.form = this.fb.group({
         firstname: [obj.data.firstname, [Validators.required, Validators.minLength(2)]],
@@ -50,9 +63,7 @@ export class ModificarResponsableComponent implements OnInit {
       this.form.get('lastname')?.disable()
       this.form.get('firstname')?.disable()
     })
-  }
 
-  ngOnInit(): void {
     const edit = this.storage.getItem('respoEdit') || ''
     if (edit == 'true') {
       this.ruta = '/entidad'
@@ -60,7 +71,16 @@ export class ModificarResponsableComponent implements OnInit {
       this.ruta = '/responsable'
     }
   }
+
   onSubmit() {
+    if (this.embedded) {
+      // El sheet ya exige un tap explícito en "Guardar": sin confirmación doble de SweetAlert.
+      if (this.form.valid && this.id) {
+        this.service.update(<Responsable>this.form.value, this.id).subscribe(() => this.saved.emit())
+      }
+      return
+    }
+
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',

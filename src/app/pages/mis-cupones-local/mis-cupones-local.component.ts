@@ -1,14 +1,9 @@
-import { Component } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { Component, viewChild } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
-import { MatInputModule } from '@angular/material/input'
-import { MatSortModule } from '@angular/material/sort'
-import { MatTableModule, MatTableDataSource } from '@angular/material/table'
-import { MatTooltipModule } from '@angular/material/tooltip'
-import { RouterModule, Router } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { MatTableDataSource } from '@angular/material/table'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
+import { BottomSheetComponent } from '../../components/bottom-sheet/bottom-sheet.component'
+import { ModificarCuponComponent } from '../modificar-cupon/modificar-cupon.component'
 import { Coupon } from '../../services/interfaces/coupon'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SesionService } from '../../services/sesion/sesion.service'
@@ -17,55 +12,48 @@ import Swal from 'sweetalert2'
 @Component({
   selector: 'app-mis-cupones-local',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatCardModule,
-    MatButtonModule,
-    RouterModule,
-    NavbarComponent,
-    MatTooltipModule
-  ],
+  imports: [MatIconModule, PageHeaderComponent, BottomSheetComponent, ModificarCuponComponent],
   templateUrl: './mis-cupones-local.component.html',
   styleUrl: './mis-cupones-local.component.scss'
 })
 export class MisCuponesLocalComponent {
+  private readonly editSheet = viewChild.required(BottomSheetComponent)
+
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
-  puntos = 0
   items: Coupon[] = []
   localId: string = ''
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-    this.dataSource.filter = filterValue.trim().toLowerCase()
-  }
+  titleFilter = ''
+  cuponEnEdicion: Coupon | null = null
+
   constructor(
     private service: LocalAdheridoService,
-    private sesionService: SesionService,
-    private router: Router
+    private sesionService: SesionService
   ) {
     this.localId = this.sesionService.getUserId()
     this.getItems()
   }
 
-  verMas(cupon: any) {
-    Swal.fire({
-      title: cupon.title,
-      html: `
-      <p><b>Descripción:</b> ${cupon.description}</p>
-      <p><b>Descuento:</b> ${cupon.discount}%</p>
-      <p><b>Costo:</b> ${cupon.costInPoints} puntos</p>
-      <p><b>Días de vigencia:</b> ${cupon.validDays}</p>
-      <p><b>Estado:</b> ${cupon.isAvailable ? 'Disponible' : 'No disponible'}</p>
-    `,
-      icon: 'info'
-    })
+  onTitleFilter(event: Event) {
+    this.titleFilter = (event.target as HTMLInputElement).value.trim().toLowerCase()
+    this.applyFilters()
   }
 
-  edit(cupon: any) {
-    this.router.navigate(['/modificar-cupon', cupon.id])
+  private applyFilters() {
+    this.dataSource.data = this.items.filter(c => c.title.toLowerCase().includes(this.titleFilter))
+  }
+
+  edit(cupon: Coupon) {
+    this.cuponEnEdicion = cupon
+    this.editSheet().open()
+  }
+
+  onCuponGuardado() {
+    this.editSheet().closeSheet()
+    this.getItems()
+  }
+
+  closeEdit() {
+    this.editSheet().closeSheet()
   }
 
   toggleDisponible(cupon: any) {
@@ -95,7 +83,9 @@ export class MisCuponesLocalComponent {
   getItems() {
     this.service.listCupon().subscribe(obj => {
       this.items = <Coupon[]>obj.data
-      this.dataSource = new MatTableDataSource(this.items.filter(c => c.rewardPartner == this.localId))
+      this.items = this.items.filter(c => c.rewardPartner == this.localId)
+      this.dataSource = new MatTableDataSource(this.items)
+      this.applyFilters()
     })
   }
 }

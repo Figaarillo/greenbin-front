@@ -56,7 +56,7 @@ export class SidenavComponent implements OnInit {
     const menuByRole: Record<string, MenuItem[]> = {
       responsible: [
         { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
-        { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
+        { icon: 'recycling', label: 'Registrar entrega', route: '/responsable/entrega' },
         { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ],

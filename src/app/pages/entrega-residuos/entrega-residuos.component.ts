@@ -1,24 +1,22 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, Inject, inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
-import { MatDividerModule } from '@angular/material/divider'
-import { MatChipsModule } from '@angular/material/chips'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { MatSelectModule } from '@angular/material/select'
-import { MatTableModule } from '@angular/material/table'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { CommonModule } from '@angular/common'
 import Swal from 'sweetalert2'
 import { Router, RouterModule } from '@angular/router'
-import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser'
+import emailjs from '@emailjs/browser'
 import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
-import { ResponsableService } from '../../services/responsable/responsable.service'
+import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
 import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
+import { PuntoVerde } from '../../services/interfaces/punto-verde'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -28,12 +26,9 @@ import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    NavbarComponent,
+    PageHeaderComponent,
     ReactiveFormsModule,
-    MatChipsModule,
-    MatDividerModule,
     MatSelectModule,
-    MatTableModule,
     CommonModule,
     RouterModule
   ],
@@ -42,24 +37,32 @@ import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
 })
 export class EntregaResiduosComponent {
   private storage = inject(StorageService)
+
+  /** Paso 0 (elegir punto verde) se salta solo si ya hay uno guardado de una entrega anterior. */
+  pvSelected = false
   dniValidated = false
+
   totalPuntos = 0
   fechaActual: string = ''
-  route = inject(Router)
   categories: any[] = []
-  responsibleServ = inject(ResponsableService)
+  puntosVerdes: PuntoVerde[] = []
+  currentPvName = ''
 
   form!: FormGroup
   dniValidator!: FormGroup
+  pvForm!: FormGroup
   detalle: { puntos: number; cantidad: number; residuo: string; id: string }[] = []
   idVeci = ''
   emailVecino = ''
   nombreVecino = ''
+
   constructor(
     private fb: FormBuilder,
+    private route: Router,
     private vecinoService: VecinoService,
     private wasteCatServ: WasteCategoryService,
-    private wasteDelServ: WasteDeliveryService
+    private wasteDelServ: WasteDeliveryService,
+    private pvService: PuntoVerdeService
   ) {
     this.wasteCatServ.list(0, 100).subscribe(resp => {
       this.categories = resp.map((category: any) => ({
@@ -68,6 +71,8 @@ export class EntregaResiduosComponent {
       }))
     })
     this.fechaActual = new Date().toISOString().split('T')[0]
+
+    this.pvForm = this.fb.group({ puntoVerdeId: ['', Validators.required] })
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
     })
@@ -77,6 +82,24 @@ export class EntregaResiduosComponent {
       fechaEntrega: [{ value: this.fechaActual, disabled: true }],
       vecino: [{ value: this.nombreVecino, disabled: true }]
     })
+
+    const pvGuardado = this.storage.getItem('puntoVerde') || ''
+    this.pvSelected = !!pvGuardado
+
+    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
+    this.pvService.list(entidadInfo.id).subscribe((res: any) => {
+      this.puntosVerdes = res
+      const actual = this.puntosVerdes.find(p => p.id === pvGuardado)
+      this.currentPvName = actual?.name ?? ''
+    })
+  }
+
+  confirmarPuntoVerde() {
+    if (this.pvForm.invalid) return
+    const id = this.pvForm.value.puntoVerdeId
+    this.storage.setItem('puntoVerde', id)
+    this.currentPvName = this.puntosVerdes.find(p => p.id === id)?.name ?? ''
+    this.pvSelected = true
   }
 
   onSubmit(form: any) {
@@ -132,16 +155,14 @@ export class EntregaResiduosComponent {
               this.route.navigateByUrl('/responsable')
             })
         },
-        (error: any) => {
+        () => {
           Swal.close()
-
           swalWithBootstrapButtons.fire({
             title: 'Error al registrar la entrega.',
             icon: 'error'
           })
         }
       )
-    } else {
     }
   }
 
@@ -172,7 +193,7 @@ export class EntregaResiduosComponent {
           this.nombreVecino = resp.data.firstname + ' ' + resp.data.lastname
           this.form.patchValue({ vecino: this.nombreVecino })
         },
-        error => {
+        () => {
           Swal.close()
           this.dniValidated = false
           swalWithBootstrapButtons.fire({
@@ -225,6 +246,22 @@ export class EntregaResiduosComponent {
         return { ...categoria, disabled: false }
       }
       return categoria
+    })
+  }
+
+  cancelarEntrega() {
+    Swal.fire({
+      title: '¿Cancelar esta entrega?',
+      text: 'Vas a perder los residuos que ya cargaste.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'Seguir cargando',
+      confirmButtonColor: '#e5484d'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.route.navigateByUrl('/responsable/inicio')
+      }
     })
   }
 }

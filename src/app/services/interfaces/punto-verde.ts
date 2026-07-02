@@ -10,4 +10,5 @@ export interface PuntoVerde {
     latitude: number
     longitude: number
   }
+  isActive?: boolean
 }

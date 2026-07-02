@@ -65,6 +65,38 @@
   --accent-soft: rgba(15, 81, 50, 0.12);
 }
 
+// ── Tema oscuro: solo overrides de tokens, sin re-tema de Material ──────
+// --accent/--danger/--warning/--info no se tocan: ya son tonos saturados
+// que se leen bien sobre fondo claro y oscuro.
+[data-theme='dark'] {
+  --bg: #10171f;
+  --surface: #1a232c;
+  --surface-2: #212c36;
+  --ink: #eef2f0;
+  --muted: #8fa39a;
+  --line: #2c3841;
+}
+[data-theme='dark'] .login-bg {
+  opacity: 0.35; // la ilustración no está pensada para fondo oscuro
+}
+
+// Transición suave al cambiar de tema. Selectores más específicos que ya
+// declaran su propio `transition` (ej. .tab-item { transition: all .15s })
+// pisan esta regla para ese elemento, así que no hay conflicto.
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+// ── Tamaño de texto (accesibilidad, toggle en el sheet de opciones) ─────
+html.gb-text-lg {
+  font-size: 112%;
+}
+
 // ── Chip reutilizable dentro de app-page-header (frosted glass) ──────────
 .hdr-chip {
   display: inline-flex;

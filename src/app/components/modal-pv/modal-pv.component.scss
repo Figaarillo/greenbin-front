@@ -1,0 +1,157 @@
+// La mecánica del sheet (wrapper, clip, backdrop, panel) vive en app-bottom-sheet.
+// Acá solo el contenido proyectado.
+
+.pv-close-x {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--surface-2);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.pv-head {
+  padding: 16px 44px 4px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  .ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  padding: 2px 9px;
+  border-radius: 999px;
+  margin-top: 5px;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  &.inactive {
+    color: var(--muted);
+    background: var(--surface-2);
+
+    .dot {
+      background: var(--muted);
+    }
+  }
+}
+
+.pv-actions {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px 4px;
+}
+
+.pv-action {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 4px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-2);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+
+  mat-icon {
+    color: var(--accent);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+}
+
+.pv-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 10px 20px 4px;
+}
+
+.pv-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 20px;
+
+  mat-icon {
+    color: var(--accent);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .l {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .v {
+    font-size: 13px;
+    margin-top: 2px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+}

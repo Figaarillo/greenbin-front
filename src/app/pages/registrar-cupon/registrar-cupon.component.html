@@ -1,42 +1,58 @@
-<div data-role="local">
-  <app-navbar class="" [title]="'Registrar Cupón'" [route]="'/local'"></app-navbar>
-  <div class="container mt-5">
+<div class="page-wrap" data-role="local">
+  <app-page-header title="Crear cupón"></app-page-header>
+
+  <div class="rc-body">
+    <div class="preview-label">Así se va a ver</div>
+    <div class="c-card">
+      <div class="c-card-icon">
+        <mat-icon>local_activity</mat-icon>
+      </div>
+      <div class="c-card-body">
+        <div class="c-card-title">{{ formGroup.value.titulo || 'Título del cupón' }}</div>
+        <div class="c-card-desc">{{ formGroup.value.description || 'Descripción del cupón' }}</div>
+        <span class="c-card-price">{{ formGroup.value.costo || 0 }} pts</span>
+      </div>
+      <div class="c-card-badge">{{ formGroup.value.descuento || 0 }}<span>%</span></div>
+    </div>
+
     <form [formGroup]="formGroup" (ngSubmit)="registrarCupon()">
-      <mat-form-field>
-        <mat-label>Título</mat-label>
-        <input matInput type="text" formControlName="titulo">
-        @if (formGroup.controls.titulo.hasError('required')) {
-          <mat-error>Este campo es obligatorio.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Descripción</mat-label>
-        <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
-        @if (formGroup.controls.description.hasError('required')) {
-          <mat-error>Este campo es obligatorio.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Descuento</mat-label>
-        <input matInput type="number" formControlName="descuento" placeholder="Ejemplo: 10">
-        @if (formGroup.controls.descuento.hasError('required')) {
-          <mat-error>Este campo es obligatorio.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Costo</mat-label>
-        <input matInput type="number" formControlName="costo" placeholder="Ejemplo: 800">
-        @if (formGroup.controls.costo.hasError('required')) {
-          <mat-error>Este campo es obligatorio.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Días de vigencia</mat-label>
-        <input matInput type="number" formControlName="diasVigente" placeholder="Ejemplo: 15">
-        @if (formGroup.controls.diasVigente.hasError('required')) {
-          <mat-error>Este campo es obligatorio.</mat-error>
-        }
-      </mat-form-field>
+      <div class="field-card">
+        <mat-form-field class="w-100">
+          <mat-label>Título</mat-label>
+          <input matInput type="text" formControlName="titulo">
+          @if (formGroup.controls.titulo.hasError('required')) {
+            <mat-error>Este campo es obligatorio.</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+          @if (formGroup.controls.description.hasError('required')) {
+            <mat-error>Este campo es obligatorio.</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Descuento (%)</mat-label>
+          <input matInput type="number" formControlName="descuento" placeholder="Ejemplo: 10">
+          @if (formGroup.controls.descuento.hasError('required')) {
+            <mat-error>Este campo es obligatorio.</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Costo en puntos</mat-label>
+          <input matInput type="number" formControlName="costo" placeholder="Ejemplo: 800">
+          @if (formGroup.controls.costo.hasError('required')) {
+            <mat-error>Este campo es obligatorio.</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Días de vigencia</mat-label>
+          <input matInput type="number" formControlName="diasVigente" placeholder="Ejemplo: 15">
+          @if (formGroup.controls.diasVigente.hasError('required')) {
+            <mat-error>Este campo es obligatorio.</mat-error>
+          }
+        </mat-form-field>
+      </div>
       <button mat-raised-button class="btn-submit" type="submit">Registrar cupón</button>
     </form>
   </div>

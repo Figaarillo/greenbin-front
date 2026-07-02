@@ -4,10 +4,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon'
-import { MatCardModule } from '@angular/material/card'
 import { RouterModule } from '@angular/router'
 import { CommonModule } from '@angular/common'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import Swal from 'sweetalert2'
@@ -16,7 +15,7 @@ import Swal from 'sweetalert2'
   selector: 'app-usar-cupon',
   standalone: true,
   imports: [
-    NavbarComponent,
+    PageHeaderComponent,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -24,8 +23,7 @@ import Swal from 'sweetalert2'
     MatButtonModule,
     RouterModule,
     CommonModule,
-    MatIconModule,
-    MatCardModule
+    MatIconModule
   ],
   templateUrl: './usar-cupon.component.html',
   styleUrl: './usar-cupon.component.scss'
@@ -34,6 +32,8 @@ export class UsarCuponComponent {
   form: FormGroup
   error: string = ''
   cargando: boolean = false
+  /** Modo por defecto: carga manual del código. "scan" es solo una vista previa, todavía no lee QR. */
+  mode: 'code' | 'scan' = 'code'
 
   constructor(
     private fb: FormBuilder,
