@@ -22,8 +22,11 @@
     <app-mobile-tabbar
       [middleItems]="middleItems"
       [profileRoute]="profileRoute"
+      [userPhoto]="userPhoto"
+      [optionsOpen]="optionsSheet()?.isOpen() ?? false"
       (hamburgerClick)="onHamburgerClick()"
       (middleClick)="onMiddleClick($event)"
+      (optionsClick)="onOptionsClick()"
     />
 
     <!-- ═══════ Mobile Menú (bottom-sheet, reemplaza el sidebar en mobile) ═══════ -->
@@ -34,6 +37,18 @@
       [userDetail]="userDetail"
       (navigate)="onMenuNavigate($event)"
       (doLogout)="onMenuLogout()"
+    />
+
+    <!-- ═══════ Sheet de Opciones (editar perfil, tema, texto, notificaciones) ═══════ -->
+    <app-mobile-options-sheet
+      [role]="role"
+      [userId]="userId"
+      [userName]="userName"
+      [userSubtitle]="userSubtitle"
+      [userDetail]="userDetail"
+      [userPhoto]="userPhoto"
+      [profileRoute]="profileRoute"
+      (navigateFullPage)="onOptionsFullPageNav($event)"
     />
   }
 </div>

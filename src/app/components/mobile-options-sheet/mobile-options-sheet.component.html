@@ -1,0 +1,86 @@
+<app-bottom-sheet [handle]="false" (closed)="onSheetClosed()">
+
+  @if (view === 'options') {
+    <!-- Foto de perfil (sobresale) -->
+    <div class="opt-photo">
+      <img [src]="displayPhoto()" alt="Foto de perfil">
+    </div>
+
+    <!-- Información del usuario -->
+    <div class="opt-user">
+      <span class="user-name">{{ userName }}</span>
+      @if (userSubtitle) {
+        <span class="user-subtitle">{{ userSubtitle }}</span>
+      }
+      @if (userDetail) {
+        <span class="user-detail">{{ userDetail }}</span>
+      }
+    </div>
+
+    <div class="opt-divider"></div>
+
+    <div class="opt-items">
+      <button class="opt-item" (click)="openEdit()">
+        <mat-icon>edit</mat-icon>
+        <span class="opt-text">Editar datos de perfil</span>
+        <mat-icon class="chevron">chevron_right</mat-icon>
+      </button>
+
+      <div class="opt-row">
+        <mat-icon>dark_mode</mat-icon>
+        <span class="opt-text">Tema oscuro</span>
+        <mat-slide-toggle [checked]="themeMode === 'dark'" (change)="onThemeToggle()"></mat-slide-toggle>
+      </div>
+
+      <div class="opt-row">
+        <mat-icon>format_size</mat-icon>
+        <span class="opt-text">Texto grande</span>
+        <span class="beta-badge">Beta</span>
+        <mat-slide-toggle [checked]="textSizeMode === 'large'" (change)="onTextSizeToggle()"></mat-slide-toggle>
+      </div>
+
+      <div class="opt-row">
+        <mat-icon>notifications</mat-icon>
+        <span class="opt-text">Notificaciones</span>
+        <span class="beta-badge">Beta</span>
+        <mat-slide-toggle [checked]="notificationsEnabled" (change)="onNotificationsToggle()"></mat-slide-toggle>
+      </div>
+    </div>
+  }
+
+  @if (view === 'edit') {
+    <div class="opt-edit-header">
+      <button class="back-btn" (click)="backToOptions()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Editar datos de perfil</span>
+    </div>
+
+    <!-- Foto: solo vista previa local (no sube nada todavía) -->
+    <div class="edit-photo">
+      <div class="edit-photo-frame">
+        <img [src]="displayPhoto()" alt="Foto de perfil">
+        <button class="edit-photo-badge" type="button" (click)="photoInput.click()">
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+      </div>
+      <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event)">
+      <span class="edit-photo-caption">Vista previa — todavía no se guarda</span>
+    </div>
+
+    @switch (role) {
+      @case ('vecino') {
+        <app-modificar-vecino [embedded]="true" (saved)="backToOptions()" />
+      }
+      @case ('responsable') {
+        <app-modificar-responsable [embedded]="true" [userIdOverride]="userId" (saved)="backToOptions()" />
+      }
+      @case ('local') {
+        <app-modificar-local [embedded]="true" (saved)="backToOptions()" />
+      }
+    }
+
+    <button class="gestionar-link" (click)="onGestionarCuentaCompleta()">Gestionar cuenta completa</button>
+  }
+
+</app-bottom-sheet>

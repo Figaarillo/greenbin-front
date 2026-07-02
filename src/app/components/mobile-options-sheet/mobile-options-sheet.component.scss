@@ -1,0 +1,219 @@
+// La mecánica del sheet (wrapper, clip, backdrop, panel) vive en app-bottom-sheet.
+// Acá solo el contenido proyectado.
+
+// ── Foto de perfil (sobresale del panel) ────────────
+.opt-photo {
+  display: flex;
+  justify-content: center;
+  margin-top: -40px;
+  z-index: 1;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid var(--surface);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+    background: var(--surface);
+  }
+}
+
+// ── Info del usuario ────────────────────────────────
+.opt-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 20px 8px;
+
+  .user-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .user-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .user-detail {
+    font-size: 11.5px;
+    color: var(--muted);
+    opacity: 0.75;
+  }
+}
+
+// ── Separador ───────────────────────────────────────
+.opt-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 4px 20px 6px;
+}
+
+// ── Filas de opciones ────────────────────────────────
+.opt-items {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.opt-item,
+.opt-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+
+  mat-icon:first-child {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+  }
+}
+
+.opt-item {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  &:active {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+}
+
+.opt-text {
+  flex: 1;
+}
+
+// ── Badge "Beta" para toggles todavía no implementados del todo ─────
+.beta-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.chevron {
+  color: var(--muted);
+  font-size: 19px;
+}
+
+// ── Vista de edición rápida ──────────────────────────
+.opt-edit-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 4px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+
+.back-btn {
+  border: 0;
+  background: var(--surface-2);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ink);
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// ── Foto en la vista de edición (vista previa local, sin subir) ─────
+.edit-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 20px 8px;
+}
+.edit-photo-frame {
+  position: relative;
+  width: 68px;
+  height: 68px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--surface);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    background: var(--surface);
+  }
+}
+.edit-photo-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--surface);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    color: #fff;
+  }
+}
+.edit-photo-caption {
+  font-size: 10.5px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.gestionar-link {
+  display: block;
+  margin: 4px auto 10px;
+  border: 0;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 20px;
+
+  &:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+}

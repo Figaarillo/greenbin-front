@@ -7,14 +7,22 @@ import { filter } from 'rxjs'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-menu/mobile-menu.component'
+import { MobileOptionsSheetComponent } from '../../components/mobile-options-sheet/mobile-options-sheet.component'
 import { SesionService } from '../../services/sesion/sesion.service'
-import Swal from 'sweetalert2'
 import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-role-layout',
   standalone: true,
-  imports: [RouterModule, RouterOutlet, SidenavComponent, CommonModule, MobileTabbarComponent, MobileMenuComponent],
+  imports: [
+    RouterModule,
+    RouterOutlet,
+    SidenavComponent,
+    CommonModule,
+    MobileTabbarComponent,
+    MobileMenuComponent,
+    MobileOptionsSheetComponent
+  ],
   templateUrl: './role-layout.component.html',
   styleUrl: './role-layout.component.scss'
 })
@@ -31,6 +39,7 @@ export class RoleLayoutComponent implements OnInit {
   userId = ''
 
   readonly menu = viewChild(MobileMenuComponent)
+  readonly optionsSheet = viewChild(MobileOptionsSheetComponent)
 
   middleItems: [TabExtraItem, TabExtraItem, TabExtraItem] = [
     { icon: '', label: '' },
@@ -38,6 +47,8 @@ export class RoleLayoutComponent implements OnInit {
     { icon: '', label: '' }
   ]
   profileRoute: string = ''
+  /** No hay foto de perfil real en el backend todavía: mismo default que usa MobileMenuComponent. */
+  userPhoto: string = '/assets/profile.png'
 
   menuItems: MobileMenuItem[] = []
   userName = ''
@@ -78,7 +89,6 @@ export class RoleLayoutComponent implements OnInit {
         profile: '/vecino/modificar-vecino',
         menu: [
           { icon: 'home', label: 'Inicio', route: '/vecino/inicio' },
-          { icon: 'account_circle', label: 'Mi perfil', route: '/vecino/modificar-vecino' },
           { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/mis-cupones' },
           { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
           { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
@@ -94,7 +104,7 @@ export class RoleLayoutComponent implements OnInit {
         profile: '/responsable/modificar-responsable/' + this.userId,
         menu: [
           { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
-          { icon: 'recycling', label: 'Registrar entrega', route: '/entrega' },
+          { icon: 'recycling', label: 'Registrar entrega', route: '/responsable/entrega' },
           { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
           { icon: 'close', label: 'Cerrar Sesión', route: '' }
         ]
@@ -108,7 +118,6 @@ export class RoleLayoutComponent implements OnInit {
         profile: '/local/modificar-local',
         menu: [
           { icon: 'home', label: 'Inicio', route: '/local/inicio' },
-          { icon: 'account_circle', label: 'Mi perfil', route: '/local/modificar-local' },
           { icon: 'confirmation_number', label: 'Mis cupones', route: '/local/cupones-ofrecidos' },
           { icon: 'confirmation_number', label: 'Crear cupón', route: '/local/registrar-cupon' },
           { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/local/usar-cupon' },
@@ -132,16 +141,32 @@ export class RoleLayoutComponent implements OnInit {
         filter(e => e instanceof NavigationStart),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => this.menu()?.closeSheet())
+      .subscribe(() => {
+        this.menu()?.closeSheet()
+        this.optionsSheet()?.closeSheet()
+      })
   }
 
   onHamburgerClick(): void {
     if (this.isMobile) {
+      // Solo puede haber un bottom-sheet abierto a la vez.
+      this.optionsSheet()?.closeSheet()
       this.menu()?.toggle()
     } else {
       const cb = document.getElementById('sidebar-toggle') as HTMLInputElement | null
       if (cb) cb.checked = !cb.checked
     }
+  }
+
+  onOptionsClick(): void {
+    if (this.isMobile) {
+      this.menu()?.closeSheet()
+      this.optionsSheet()?.toggle()
+    }
+  }
+
+  onOptionsFullPageNav(route: string): void {
+    this.router.navigateByUrl(route)
   }
 
   onMenuNavigate(route: string): void {
@@ -154,17 +179,10 @@ export class RoleLayoutComponent implements OnInit {
 
   onMiddleClick(index: number): void {
     this.menu()?.closeSheet()
+    this.optionsSheet()?.closeSheet()
     if (this.middleItems[index].icon === 'recycling' && this.role === 'responsable') {
-      this.goEntrega()
-    }
-  }
-
-  goEntrega(): void {
-    const pvSelec = this.storage.getItem('puntoVerde') || ''
-    if (pvSelec) {
-      this.router.navigate(['/entrega'])
-    } else {
-      Swal.fire({ title: 'Tienes que seleccionar un punto verde.', icon: 'error' })
+      // La propia pantalla de Entregar pide el punto verde si todavía no hay uno elegido.
+      this.router.navigate(['/responsable/entrega'])
     }
   }
 }

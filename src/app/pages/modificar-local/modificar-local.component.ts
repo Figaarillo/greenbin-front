@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-modificar-local',
@@ -32,6 +33,10 @@ import { MatIconModule } from '@angular/material/icon'
   styleUrl: './modificar-local.component.scss'
 })
 export class ModificarLocalComponent {
+  /** Cuando es true, se renderiza compacto dentro del sheet de opciones (sin chrome de página). */
+  @Input() embedded = false
+  @Output() saved = new EventEmitter<void>()
+
   form!: FormGroup
 
   constructor(
@@ -53,16 +58,30 @@ export class ModificarLocalComponent {
   onSubmit() {
     if (this.form.valid) {
       this.service.update(this.form.value, this.sesionService.getUserId()).subscribe(() => {
-        this.router.navigateByUrl('/local')
+        if (this.embedded) {
+          this.saved.emit()
+        } else {
+          this.router.navigateByUrl('/local')
+        }
       })
     }
   }
 
   onDelete() {
-    if (confirm('¿Estás seguro que querés eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-      this.service.delete(this.sesionService.getUserId()).subscribe(() => {
-        this.sesionService.logout()
-      })
-    }
+    Swal.fire({
+      title: '¿Eliminar tu cuenta?',
+      text: 'Esta acción no se puede deshacer. Vas a perder tus cupones y el historial del local.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#e5484d'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.service.delete(this.sesionService.getUserId()).subscribe(() => {
+          this.sesionService.logout()
+        })
+      }
+    })
   }
 }

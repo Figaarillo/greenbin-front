@@ -96,7 +96,7 @@ export class LandingResponsableComponent implements OnInit {
 
   routeEntrega() {
     if (this.pvSelec != '') {
-      this.router.navigate(['/entrega'])
+      this.router.navigate(['/responsable/entrega'])
     } else {
       Swal.fire({
         title: 'Tienes que seleccionar un punto verde.',

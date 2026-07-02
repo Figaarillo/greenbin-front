@@ -1,59 +1,102 @@
-<div data-role="responsable">
-  <app-navbar [title]="'Registrar Entrega'" [route]="'/responsable'"></app-navbar>
+<div class="page-wrap" data-role="responsable">
+  <app-page-header title="Registrar Entrega">
+    @if (currentPvName) {
+      <div class="hdr-chip"><mat-icon>place</mat-icon>{{ currentPvName }}</div>
+    }
+  </app-page-header>
 
-  @if(!dniValidated){
-    <div class="container mt-3">
+  <div class="er-body">
+
+    @if (!pvSelected) {
+      <!-- Paso 0: elegir punto verde (solo si todavía no hay uno guardado) -->
+      <div class="step0-icon"><mat-icon>place</mat-icon></div>
+      <h3 class="step0-title">¿Desde qué punto verde vas a entregar?</h3>
+      <p class="step0-sub">Elegí el punto verde en el que estás parado ahora. Lo vamos a recordar para tus próximas entregas.</p>
+      <form [formGroup]="pvForm" (ngSubmit)="confirmarPuntoVerde()">
+        <div class="field-card">
+          <mat-form-field class="w-100">
+            <mat-label>Punto verde</mat-label>
+            <mat-select formControlName="puntoVerdeId">
+              @for (pv of puntosVerdes; track pv.id) {
+                <mat-option [value]="pv.id">{{ pv.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button class="btn-primary-custom" type="submit" [disabled]="pvForm.invalid">Continuar</button>
+      </form>
+    } @else if (!dniValidated) {
+      <!-- Paso 1: validar DNI (mismo lenguaje que "Usar cupón") -->
+      <p class="subtitle">Ingresá el DNI del vecino para validarlo.</p>
       <form [formGroup]="dniValidator" (ngSubmit)="validateDni()">
-        <h4 class="form-subtitle">Ingrese el DNI del vecino para validarlo.</h4>
-        <mat-form-field>
-          <mat-label>DNI</mat-label>
-          <input type="number" matInput placeholder="DNI" formControlName="dni">
+        <div class="ticket">
+          <div class="lbl">DNI del vecino</div>
+          <input class="ticket-input" type="number" placeholder="30111222" formControlName="dni">
           @if (dniValidator.get('dni')!.hasError('required')) {
-            <mat-error>Ingrese un DNI</mat-error>
+            <div class="ticket-error">Ingresá el DNI</div>
           }
-        </mat-form-field>
+        </div>
         <button mat-raised-button class="btn-primary-custom" [disabled]="dniValidator.invalid" type="submit">Validar DNI</button>
       </form>
-    </div>
-  }
-  @else {
-    <div class="container mt-3">
+    } @else {
+      <!-- Paso 2: cargar residuos -->
       <form [formGroup]="form">
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha de Entrega</mat-label>
-          <input matInput type="date" formControlName="fechaEntrega" [value]="fechaActual | date: 'yyyy-MM-dd'">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Vecino</mat-label>
-          <input matInput type="text" formControlName="vecino">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Categoria</mat-label>
-          <mat-select formControlName="categoria" name="category">
-            @for (cat of categories; track cat) {
-              <mat-option [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Peso aproximado</mat-label>
-          <input type="number" matInput placeholder="Peso aproximado en kilos" formControlName="kilos">
-        </mat-form-field>
-        <button mat-raised-button class="btn-secondary-custom" (click)="aggResiduo()">Agregar</button>
-
-        <div class="detalle-section">
-          <mat-divider></mat-divider>
-          <mat-chip-set>
-            @for (item of detalle; track item) {
-              <mat-chip class="w-100"><b>{{item.cantidad}} Kg de {{item.residuo}} ({{item.cantidad}}kg*{{item.puntos}}pts)</b> <mat-icon matChipRemove (click)="delete(item)">cancel</mat-icon></mat-chip>
-            }
-          </mat-chip-set>
-          <mat-divider></mat-divider>
-          <h2 class="total-pts">Total: {{totalPuntos}} Puntos.</h2>
+        <div class="field-card">
+          <mat-form-field class="w-100">
+            <mat-label>Fecha de Entrega</mat-label>
+            <input matInput type="date" formControlName="fechaEntrega">
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Vecino</mat-label>
+            <input matInput type="text" formControlName="vecino">
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoria" name="category">
+              @for (cat of categories; track cat) {
+                <mat-option [disabled]="cat.disabled" [value]="cat.id">{{cat.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Peso aproximado (kg)</mat-label>
+            <input type="number" matInput placeholder="Peso aproximado en kilos" formControlName="kilos">
+          </mat-form-field>
         </div>
 
-        <button mat-raised-button class="btn-primary-custom" [disabled]="form.invalid" type="submit" (click)="onSubmit(form)">Guardar</button>
+        <button class="btn-add" type="button" (click)="aggResiduo()">
+          <mat-icon>add</mat-icon> Agregar residuo
+        </button>
+
+        @for (item of detalle; track item) {
+          <div class="item-card">
+            <div class="ic"><mat-icon>recycling</mat-icon></div>
+            <div class="info">
+              <div class="name">{{ item.residuo }}</div>
+              <div class="sub">{{ item.cantidad }} kg</div>
+            </div>
+            <div class="pts">+{{ item.cantidad * item.puntos }}</div>
+            <button class="rm" type="button" (click)="delete(item)"><mat-icon>close</mat-icon></button>
+          </div>
+        }
+
+        <div class="total-row">
+          <span class="lbl">Total</span>
+          <span class="val">{{ totalPuntos }} pts</span>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-cancel" type="button" (click)="cancelarEntrega()">Cancelar</button>
+          <button
+            class="btn-save"
+            type="submit"
+            [disabled]="form.invalid || detalle.length === 0"
+            (click)="onSubmit(form)">
+            Guardar entrega
+          </button>
+        </div>
       </form>
-    </div>
-  }
+    }
+
+  </div>
 </div>

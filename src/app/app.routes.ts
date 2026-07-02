@@ -94,13 +94,9 @@ export const routes: Routes = [
       }
     ]
   },
-  // ── Shared across roles (no specific layout) ─────
-  {
-    path: 'entrega',
-    canActivate: [isLogged, authGuardGuard],
-    loadComponent: () =>
-      import('./pages/entrega-residuos/entrega-residuos.component').then(m => m.EntregaResiduosComponent)
-  },
+  // Movida adentro de responsable/ para que renderice con RoleLayoutComponent
+  // (tabbar mobile) en vez de quedar huérfana sin layout.
+  { path: 'entrega', redirectTo: 'responsable/entrega', pathMatch: 'full' },
   {
     path: 'test',
     loadComponent: () => import('./components/map-view/map-view.component').then(m => m.MapViewComponent)
@@ -205,6 +201,12 @@ export const routes: Routes = [
           import('./pages/modificar-responsable/modificar-responsable.component').then(
             m => m.ModificarResponsableComponent
           )
+      },
+      {
+        path: 'entrega',
+        canActivate: [isLogged, authGuardGuard],
+        loadComponent: () =>
+          import('./pages/entrega-residuos/entrega-residuos.component').then(m => m.EntregaResiduosComponent)
       }
     ]
   },

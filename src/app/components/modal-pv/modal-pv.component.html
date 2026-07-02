@@ -1,26 +1,49 @@
-<!-- Button trigger modal -->
+<app-bottom-sheet [handle]="false">
 
-  <!-- Modal -->
-  <div #modal class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Punto Verde: {{data.name}} </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h1>Dirección: {{data.address}}</h1>
-          <h2>Horario: {{data.description}}</h2>
-          <h2>Contacto:</h2>
-          <ul>
-            <li><b>Email: {{data.email}}</b> </li>
-            <li><b>N° de teléfono: {{data.phoneNumber}}</b> </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          
-        </div>
+  @if (data) {
+    <button class="pv-close-x" type="button" (click)="closeModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="pv-head">
+      <div class="ic"><mat-icon>recycling</mat-icon></div>
+      <div>
+        <h3>{{ data.name }}</h3>
+        <div class="sub">{{ data.address }}</div>
+        @if (data.isActive !== undefined) {
+          <span class="status-chip" [class.inactive]="!data.isActive">
+            <span class="dot"></span>{{ data.isActive ? 'Activo' : 'Inactivo' }}
+          </span>
+        }
       </div>
     </div>
-  </div>
+
+    <div class="pv-actions">
+      <a class="pv-action" [href]="directionsUrl()" target="_blank" rel="noopener">
+        <mat-icon>directions</mat-icon>Cómo llegar
+      </a>
+      <a class="pv-action" [href]="telHref()">
+        <mat-icon>call</mat-icon>Llamar
+      </a>
+      <button class="pv-action" type="button" (click)="copyAddress()">
+        <mat-icon>{{ copied ? 'check' : 'content_copy' }}</mat-icon>{{ copied ? '¡Copiado!' : 'Copiar dir.' }}
+      </button>
+    </div>
+
+    <div class="pv-divider"></div>
+
+    <div class="pv-row">
+      <mat-icon>info</mat-icon>
+      <div><div class="l">Información</div><div class="v">{{ data.description }}</div></div>
+    </div>
+    <div class="pv-row">
+      <mat-icon>mail</mat-icon>
+      <div><div class="l">Email</div><div class="v">{{ data.email }}</div></div>
+    </div>
+    <div class="pv-row">
+      <mat-icon>call</mat-icon>
+      <div><div class="l">Teléfono</div><div class="v">{{ data.phoneNumber }}</div></div>
+    </div>
+  }
+
+</app-bottom-sheet>

@@ -1,45 +1,204 @@
-.container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
+.page-wrap {
+  background: var(--bg);
+  min-height: 100vh;
+}
 
-    mat-form-field {
-        width: 100%;
-        margin-bottom: 8px;
-    }
+.uc-body {
+  padding: 16px 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+// ── Toggle Código / Escanear ──────────────────────────────────────────────
+.seg-toggle {
+  display: flex;
+  background: var(--surface-2);
+  border-radius: var(--r-pill);
+  padding: 3px;
+  margin-bottom: 18px;
+}
+
+.seg-toggle button {
+  flex: 1;
+  border: 0;
+  background: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 10px 6px;
+  border-radius: var(--r-pill);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &.on {
+    background: var(--accent);
+    color: #fff;
+  }
+}
+
+.beta-badge {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+.seg-toggle button.on .beta-badge {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+// ── Ticket (código manual) ────────────────────────────────────────────────
+.ticket {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ticket .lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.ticket-input {
+  width: 100%;
+  text-align: center;
+  border: 0;
+  border-bottom: 2px dashed var(--line);
+  background: transparent;
+  font-family: 'Sora', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--ink);
+  padding: 6px 0 10px;
+  text-transform: uppercase;
+
+  &::placeholder {
+    color: var(--line);
+    letter-spacing: 0.15em;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+}
+
+.ticket-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+// ── Vista previa de escaneo (mock, sin cámara real) ───────────────────────
+.scan-frame {
+  background: #111;
+  border-radius: var(--r-card);
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-frame .corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 3px solid var(--accent);
+}
+.scan-frame .tl {
+  top: 14px;
+  left: 14px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.scan-frame .tr {
+  top: 14px;
+  right: 14px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.scan-frame .bl {
+  bottom: 14px;
+  left: 14px;
+  border-right: 0;
+  border-top: 0;
+}
+.scan-frame .br {
+  bottom: 14px;
+  right: 14px;
+  border-left: 0;
+  border-top: 0;
+}
+
+.scan-hint {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  text-align: center;
+  padding: 0 30px;
+
+  mat-icon {
+    display: block;
+    margin: 0 auto 8px;
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .btn-primary-custom {
-    width: 100%;
-    border-radius: var(--r-pill) !important;
-    padding: 10px 20px !important;
-    background: var(--accent) !important;
-    color: #fff !important;
-    font-weight: 600;
-    box-shadow: 0 4px 14px var(--accent-soft);
-    border: none;
+  width: 100%;
+  height: 46px !important;
+  border-radius: var(--r-pill) !important;
+  padding: 0 20px !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 14.5px !important;
+  box-shadow: 0 4px 14px var(--accent-soft);
+  border: none;
 }
+
+// Fijo a ~27% de la altura de pantalla desde abajo: cerca del contenido
+// (no pegado al tabbar) y sin dejar hueco de scroll vacío al final.
+// .btn-fixed-bottom {
+//   position: fixed;
+//   left: 16px;
+//   right: 16px;
+//   bottom: 27vh;
+//   width: auto;
+//   max-width: 468px;
+//   margin: 0 auto;
+//   z-index: 250;
+// }
 
 .error-msg {
-    color: #e53935;
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-
-.resultado-card {
-    margin-top: 16px;
-
-    .detalle {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--line);
-    }
-
-    .precio-final {
-        color: var(--accent);
-        font-size: 1.2rem;
-    }
+  color: var(--danger);
+  font-size: 14px;
+  margin-bottom: 8px;
 }

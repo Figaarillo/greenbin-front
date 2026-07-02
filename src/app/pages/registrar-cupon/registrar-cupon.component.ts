@@ -1,17 +1,17 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatButton } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
 import { MatInput } from '@angular/material/input'
-import { MatCardModule } from '@angular/material/card'
+import { Router } from '@angular/router'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
-import { Coupon } from '../../services/interfaces/coupon'
 @Component({
   selector: 'app-registrar-cupon',
   standalone: true,
-  imports: [NavbarComponent, MatFormFieldModule, MatButton, MatInput, MatCardModule, ReactiveFormsModule],
+  imports: [PageHeaderComponent, MatFormFieldModule, MatButton, MatInput, MatIconModule, ReactiveFormsModule],
   templateUrl: './registrar-cupon.component.html',
   styleUrl: './registrar-cupon.component.scss'
 })
@@ -19,6 +19,7 @@ export class RegistrarCuponComponent {
   private storage = inject(StorageService)
   private readonly formBuilder = inject(FormBuilder)
   private localServ = inject(LocalAdheridoService)
+  private router = inject(Router)
   formGroup = this.formBuilder.group({
     titulo: ['', Validators.required],
     description: ['', Validators.required],
@@ -41,7 +42,9 @@ export class RegistrarCuponComponent {
         isAvailable: true,
         rewardPartnerId: id
       }
-      this.localServ.createCupon(cupon).subscribe()
+      this.localServ.createCupon(cupon).subscribe(() => {
+        this.router.navigateByUrl('/local/cupones-ofrecidos')
+      })
     }
   }
 }

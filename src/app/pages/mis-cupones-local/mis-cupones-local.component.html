@@ -1,48 +1,57 @@
-<div data-role="local">
-  <app-navbar [title]="'Mis Cupones'"  [route]="'/local'"></app-navbar>
-  <div class="container mt-3">
-    <mat-form-field class="w-100">
-      <mat-label>Buscar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input>
-    </mat-form-field>
+<div class="page-wrap" data-role="local">
 
-    <h4 class="total-label">Total: {{dataSource.filteredData.length}} cupones</h4>
+  <app-page-header title="Mis Cupones"></app-page-header>
 
-    <div class="catalog">
-      @if(!dataSource.filteredData || dataSource.filteredData.length == 0){
-        <div class="empty-state">
-          <h5><b>Aquí veras los cupones que ofrezcas</b></h5>
-        </div>
-      }
+  <div class="c-body">
+
+    <div class="c-search-row">
+      <label class="c-search-input">
+        <mat-icon>search</mat-icon>
+        <input placeholder="Buscar cupón..." (keyup)="onTitleFilter($event)">
+      </label>
+    </div>
+
+    <div class="c-total">Total: {{ dataSource.filteredData.length }} cupones</div>
+
+    @if (!dataSource.filteredData || dataSource.filteredData.length === 0) {
+      <div class="c-empty">Acá vas a ver los cupones que ofrezcas</div>
+    }
+
+    <div class="c-list">
       @for (data of dataSource.filteredData; track data) {
-        <div class="my-2 cupon-container">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>{{data.title}} <i>({{data.discount}}%)</i></mat-card-title>
-              <mat-card-subtitle>{{data.description}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-between">
-              <div>
-                <div>
-                  <span class="price"><b>Costo: {{data.costInPoints}} puntos</b></span>
-                </div>
-                @if(data.isAvailable){
-                  <span class="badge-available">Disponible</span>
-                }
-                @else{
-                  <span class="badge-unavailable">No Disponible</span>
-                }
-              </div>
-              <div class="actions">
-                <button class="btn-icon btn-edit" (click)="edit(data)"><mat-icon>edit</mat-icon></button>
-                <button class="btn-icon btn-toggle" (click)="toggleDisponible(data)" [matTooltip]="data.isAvailable ? 'Deshabilitar' : 'Habilitar'">
-                  <mat-icon>{{ data.isAvailable ? 'block' : 'check_circle' }}</mat-icon>
-                </button>
-              </div>
-            </mat-card-content>
-          </mat-card>
+        <div class="c-card">
+          <div class="c-card-icon">
+            <mat-icon>local_activity</mat-icon>
+          </div>
+          <div class="c-card-body">
+            <div class="c-card-title">{{ data.title }}</div>
+            <div class="c-card-desc">{{ data.description }}</div>
+            <span class="c-card-price">{{ data.costInPoints }} pts</span>
+            <span class="c-card-status" [class.off]="!data.isAvailable">
+              {{ data.isAvailable ? 'Disponible' : 'No disponible' }}
+            </span>
+          </div>
+          <div class="c-card-badge">{{ data.discount }}<span>%</span></div>
+          <div class="c-card-actions">
+            <button class="c-icon-btn" (click)="edit(data)"><mat-icon>edit</mat-icon></button>
+            <button class="c-icon-btn" (click)="toggleDisponible(data)">
+              <mat-icon>{{ data.isAvailable ? 'block' : 'check_circle' }}</mat-icon>
+            </button>
+          </div>
         </div>
       }
     </div>
+
   </div>
+
+  <app-bottom-sheet [handle]="false">
+    @if (cuponEnEdicion) {
+      <button class="c-sheet-close-x" type="button" (click)="closeEdit()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <div class="c-sheet-title">Editar cupón</div>
+      <app-modificar-cupon [embedded]="true" [couponIdOverride]="cuponEnEdicion.id" (saved)="onCuponGuardado()" />
+    }
+  </app-bottom-sheet>
+
 </div>
