@@ -31,6 +31,7 @@ export function app(): express.Express {
   const apiUrl = process.env['API_URL']!
   const apiPublicUrl = process.env['API_PUBLIC_URL'] ?? apiUrl
   const recaptchaSiteKey = process.env['RECAPTCHA_SITE_KEY']!
+  const googleMapsApiKey = process.env['GOOGLE_MAPS_API_KEY']!
 
   server.get('/health', async (_req, res) => {
     try {
@@ -62,10 +63,12 @@ export function app(): express.Express {
       })
       .then(html =>
         res.send(
-          html.replace(
-            '</head>',
-            `<script>window.__API_URL__=${JSON.stringify(apiPublicUrl)};window.__RECAPTCHA_SITE_KEY__=${JSON.stringify(recaptchaSiteKey)}</script></head>`
-          )
+          html
+            .replace(
+              '</head>',
+              `<script>window.__API_URL__=${JSON.stringify(apiPublicUrl)};window.__RECAPTCHA_SITE_KEY__=${JSON.stringify(recaptchaSiteKey)};window.__GOOGLE_MAPS_API_KEY__=${JSON.stringify(googleMapsApiKey)}</script></head>`
+            )
+            .replace('__GOOGLE_MAPS_API_KEY__', googleMapsApiKey)
         )
       )
       .catch(err => next(err))
