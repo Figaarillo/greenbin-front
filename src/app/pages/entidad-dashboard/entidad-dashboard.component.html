@@ -1,62 +1,188 @@
-<div class="page-header">
-  <div>
-    <h1>Panel de administración</h1>
+<div class="dash">
+  <!-- ── HERO + filtro de rango segmentado ── -->
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Panel de administración</h1>
+        <div class="sub">
+          <span class="material-icons">calendar_today</span>
+          {{ name }} · {{ rangeLabel }}
+        </div>
+      </div>
+      <div class="hero-actions">
+        <div class="range">
+          <button type="button" [class.on]="selectedRange === '7d'" (click)="setRange('7d')">7 días</button>
+          <button type="button" [class.on]="selectedRange === '30d'" (click)="setRange('30d')">30 días</button>
+          <button type="button" [class.on]="selectedRange === '90d'" (click)="setRange('90d')">90 días</button>
+          <button type="button" [class.on]="selectedRange === '1y'" (click)="setRange('1y')">Año</button>
+          <button type="button" class="custom" [class.on]="selectedRange === 'custom'" (click)="setRange('custom')">
+            <span class="material-icons">event</span> Personalizado
+          </button>
+        </div>
+      </div>
+    </div>
+    @if (selectedRange === 'custom') {
+      <div class="custom-range">
+        <span class="hdr-chip">
+          <span class="material-icons">event</span>
+          <input type="date" [(ngModel)]="dateFrom" aria-label="Desde" />
+        </span>
+        <span class="hdr-chip">
+          <span class="material-icons">event</span>
+          <input type="date" [(ngModel)]="dateTo" aria-label="Hasta" />
+        </span>
+        <button type="button" class="btn-hero" (click)="applyCustomRange()">
+          <span class="material-icons">tune</span> Aplicar
+        </button>
+      </div>
+    }
   </div>
-</div>
 
-<div class="global-filter">
-  <span class="global-filter-label">
-    <span class="las la-calendar" style="font-size: 1.3rem; vertical-align: middle;"></span>
-    Período
-  </span>
-  <label>Desde <input type="date" [(ngModel)]="dateFrom"></label>
-  <label>Hasta <input type="date" [(ngModel)]="dateTo"></label>
-  <button class="filter-btn" (click)="applyGlobalFilter()">Aplicar</button>
-  @if (dateFrom || dateTo) {
-    <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
-  }
-</div>
+  <!-- ── KPIs con tendencia y sparkline ── -->
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-head">
+        <div class="ic g"><span class="material-icons">scale</span></div>
+        @if (trendWeight !== null) {
+          <span class="trend" [class.down]="trendWeight < 0">
+            <span class="material-icons">{{ trendWeight < 0 ? 'trending_down' : 'trending_up' }}</span>
+            {{ trendWeight >= 0 ? '+' : '' }}{{ trendWeight | number: '1.0-0' }}%
+          </span>
+        }
+      </div>
+      <div class="val">{{ totalWeight | number: '1.1-1' }} kg</div>
+      <div class="lbl">Total reciclado</div>
+      @if (sparkPoints) {
+        <svg class="spark" width="100%" height="34" viewBox="0 0 220 34" preserveAspectRatio="none">
+          <polygon fill="rgba(30, 158, 90, 0.1)" [attr.points]="sparkFill" />
+          <polyline fill="none" stroke="#1e9e5a" stroke-width="2.5" [attr.points]="sparkPoints" />
+        </svg>
+      }
+    </div>
 
-<div class="summary-cards">
-  <div class="summary-card">
-    <span class="las la-weight" style="font-size: 2rem; color: var(--accent);"></span>
-    <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
-    <small>Total reciclado</small>
-  </div>
-  <div class="summary-card">
-    <span class="las la-star" style="font-size: 2rem; color: #f59e0b;"></span>
-    <h2>{{ totalPoints | number }}</h2>
-    <small>Puntos otorgados</small>
-  </div>
-  <div class="summary-card">
-    <span class="las la-exchange-alt" style="font-size: 2rem; color: #3b82f6;"></span>
-    <h2>{{ totalTransactions }}</h2>
-    <small>Total de entregas de residuos</small>
-  </div>
-</div>
+    <div class="kpi">
+      <div class="kpi-head">
+        <div class="ic y"><span class="material-icons">star</span></div>
+        @if (trendPoints !== null) {
+          <span class="trend" [class.down]="trendPoints < 0">
+            <span class="material-icons">{{ trendPoints < 0 ? 'trending_down' : 'trending_up' }}</span>
+            {{ trendPoints >= 0 ? '+' : '' }}{{ trendPoints | number: '1.0-0' }}%
+          </span>
+        }
+      </div>
+      <div class="val">{{ totalPoints | number }}</div>
+      <div class="lbl">Puntos otorgados</div>
+    </div>
 
-<div class="charts-grid">
-  <div class="chart-card">
-    <h3>Distribución de residuos por categoría</h3>
-    <div class="chart-container pie-container">
-      <canvas baseChart [data]="pieData" [options]="pieOptions" type="pie"></canvas>
+    <div class="kpi">
+      <div class="kpi-head">
+        <div class="ic b"><span class="material-icons">swap_horiz</span></div>
+        @if (trendTransactions !== null) {
+          <span class="trend" [class.down]="trendTransactions < 0">
+            <span class="material-icons">{{ trendTransactions < 0 ? 'trending_down' : 'trending_up' }}</span>
+            {{ trendTransactions >= 0 ? '+' : '' }}{{ trendTransactions | number: '1.0-0' }}%
+          </span>
+        }
+      </div>
+      <div class="val">{{ totalTransactions }}</div>
+      <div class="lbl">Entregas de residuos</div>
     </div>
   </div>
 
-  <div class="chart-card">
-    <h3>Ranking puntos verdes (kg recolectados)</h3>
-    <div class="chart-container">
-      <canvas baseChart [data]="rankingData" [options]="rankingOptions" type="bar"></canvas>
-    </div>
-  </div>
+  <!-- ── Columna principal + rail derecho ── -->
+  <div class="grid-main">
+    <div class="col">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Residuos reciclados por período</h3>
+            <div class="card-sub">Kg recolectados en el período</div>
+          </div>
+          @if (trendWeight !== null && trendWeight >= 0) {
+            <span class="tag">▲ Tendencia positiva</span>
+          }
+        </div>
+        <div class="chart-area">
+          <canvas baseChart [data]="periodData" [options]="periodOptions" type="line"></canvas>
+        </div>
+      </div>
 
-  <div class="chart-card full-width">
-    <div class="chart-header">
-      <h3>Residuos reciclados por período</h3>
+      <div class="split-charts">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Por categoría</h3>
+              <div class="card-sub">Participación de cada residuo</div>
+            </div>
+          </div>
+          <div class="chart-donut">
+            <canvas baseChart [data]="pieData" [options]="pieOptions" type="doughnut"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Ranking puntos</h3>
+              <div class="card-sub">Kg por punto verde</div>
+            </div>
+          </div>
+          <div class="chart-bars">
+            <canvas baseChart [data]="rankingData" [options]="rankingOptions" type="bar"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="period-scroll-container">
-      <div class="period-chart-inner" [style.width]="periodChartWidth">
-        <canvas baseChart [data]="periodData" [options]="periodOptions" type="bar"></canvas>
+
+    <div class="col">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Top categorías</h3>
+            <div class="card-sub">Kg del período</div>
+          </div>
+        </div>
+        <div class="tc">
+          @for (categoria of topCategories; track categoria.name) {
+            <div class="tc-row">
+              <div class="tc-top">
+                <b>{{ categoria.name }}</b>
+                <span>{{ categoria.weight | number: '1.0-1' }} kg</span>
+              </div>
+              <div class="track"><i [style.width.%]="categoria.pct" [style.background]="categoria.color"></i></div>
+            </div>
+          } @empty {
+            <div class="empty-hint">Sin datos en el período</div>
+          }
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Mi municipio</h3>
+            <div class="card-sub">Estado general</div>
+          </div>
+        </div>
+        <div class="rail-item">
+          <div class="r-ic"><span class="material-icons">place</span></div>
+          <div class="r-body"><b>Puntos verdes</b><small>Activos en el municipio</small></div>
+          <span class="r-val">{{ countPuntosVerdes ?? '—' }}</span>
+        </div>
+        <div class="rail-item">
+          <div class="r-ic"><span class="material-icons">contacts</span></div>
+          <div class="r-body"><b>Responsables</b><small>Gestionan los puntos</small></div>
+          <span class="r-val">{{ countResponsables ?? '—' }}</span>
+        </div>
+        <div class="rail-item">
+          <div class="r-ic"><span class="material-icons">groups</span></div>
+          <div class="r-body"><b>Vecinos</b><small>Registrados</small></div>
+          <span class="r-val">{{ countVecinos ?? '—' }}</span>
+        </div>
+        <div class="rail-item">
+          <div class="r-ic"><span class="material-icons">storefront</span></div>
+          <div class="r-body"><b>Locales</b><small>Adheridos al programa</small></div>
+          <span class="r-val">{{ countLocales ?? '—' }}</span>
+        </div>
       </div>
     </div>
   </div>

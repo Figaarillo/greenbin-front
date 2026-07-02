@@ -19,7 +19,7 @@ export class ConsultarPuntosVerdesComponent {
   private storage = inject(StorageService)
   private service = inject(PuntoVerdeService)
   columns: Column[] = []
-  title: string = 'Listar Puntos Verdes'
+  title: string = 'Puntos Verdes'
   puntosVerdes: PuntoVerde[] = []
   constructor(private router: Router) {}
   ngOnInit(): void {

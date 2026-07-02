@@ -1,49 +1,96 @@
-<div data-role="entidad">
-  <app-navbar [title]="'Editar Responsable'" [route]="ruta"></app-navbar>
-  <div class="container mt-3">
-    @if(form){
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-          <mat-label>Nombre</mat-label>
-          <input matInput placeholder="Nombre" formControlName="firstname">
-          @if (form.get('firstname')!.hasError('required')) {
-            <mat-error>Ingrese un nombre</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Apellido</mat-label>
-          <input matInput placeholder="Apellido" formControlName="lastname">
-          @if (form.get('lastname')!.hasError('required')) {
-            <mat-error>Ingrese un apellido</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>DNI</mat-label>
-          <input type="number" matInput placeholder="DNI" formControlName="dni">
-          @if (form.get('dni')!.hasError('required')) {
-            <mat-error>Ingrese un DNI</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Nombre de Usuario</mat-label>
-          <input matInput placeholder="Nombre de Usuario" formControlName="username">
-          @if (form.get('username')!.hasError('required')) {
-            <mat-error>Ingrese un Nombre de Usuario</mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Teléfono</mat-label>
-          <span matTextPrefix>+54 &nbsp;</span>
-          <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
-          @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
-            <mat-error>Ingrese un teléfono válido</mat-error>
-          }
-          @if (form.get('phoneNumber')!.hasError('required')) {
-            <mat-error>Ingrese un teléfono</mat-error>
-          }
-        </mat-form-field>
-        <button mat-raised-button class="btn-primary-custom" type="submit">Guardar</button>
-      </form>
-    }
+<div class="form-page standalone" [attr.data-role]="ruta === '/entidad' ? 'entidad' : 'responsable'">
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Editar Responsable</h1>
+        <div class="sub">Actualizá los datos de la cuenta</div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-hero" [routerLink]="ruta">
+          <span class="material-icons">arrow_back</span> Volver
+        </a>
+      </div>
+    </div>
   </div>
+
+  @if(form){
+    <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="fset">
+        <div class="fset-head">
+          <div class="ic"><span class="material-icons">badge</span></div>
+          <h4>Datos personales</h4>
+          <p>La identidad no puede modificarse una vez creada la cuenta.</p>
+        </div>
+        <div class="fset-fields">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="firstname">
+            @if (form.get('firstname')!.hasError('required')) {
+              <mat-error>Ingrese un nombre</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Apellido</mat-label>
+            <input matInput placeholder="Apellido" formControlName="lastname">
+            @if (form.get('lastname')!.hasError('required')) {
+              <mat-error>Ingrese un apellido</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="full">
+            <mat-label>DNI</mat-label>
+            <input type="number" matInput placeholder="DNI" formControlName="dni">
+            @if (form.get('dni')!.hasError('required')) {
+              <mat-error>Ingrese un DNI</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="fset">
+        <div class="fset-head">
+          <div class="ic"><span class="material-icons">alternate_email</span></div>
+          <h4>Cuenta</h4>
+          <p>Nombre de usuario con el que inicia sesión.</p>
+        </div>
+        <div class="fset-fields">
+          <mat-form-field class="full">
+            <mat-label>Nombre de Usuario</mat-label>
+            <input matInput placeholder="Nombre de Usuario" formControlName="username">
+            @if (form.get('username')!.hasError('required')) {
+              <mat-error>Ingrese un Nombre de Usuario</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="fset">
+        <div class="fset-head">
+          <div class="ic"><span class="material-icons">call</span></div>
+          <h4>Contacto</h4>
+          <p>Para notificaciones y comunicación oficial.</p>
+        </div>
+        <div class="fset-fields">
+          <mat-form-field class="full" floatLabel="always">
+            <mat-label>Teléfono</mat-label>
+            <span matTextPrefix>+54 &nbsp;</span>
+            <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
+            @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
+              <mat-error>Ingrese un teléfono válido</mat-error>
+            }
+            @if (form.get('phoneNumber')!.hasError('required')) {
+              <mat-error>Ingrese un teléfono</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="sec-footer">
+        <button type="submit" class="btn-pill">
+          <span class="material-icons">check</span> Guardar cambios
+        </button>
+      </div>
+    </form>
+  }
 </div>

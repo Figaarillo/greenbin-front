@@ -18,7 +18,7 @@ export class ConsultarLocalesComponent implements OnInit {
   private storage = inject(StorageService)
   private localService = inject(LocalAdheridoService)
   columns: Column[] = []
-  title: string = 'Listar Locales Adheridos'
+  title: string = 'Locales adheridos'
   locales: any[] = []
   constructor(private router: Router) {}
 

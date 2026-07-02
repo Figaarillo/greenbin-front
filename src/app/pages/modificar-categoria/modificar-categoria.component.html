@@ -1,38 +1,75 @@
-<div data-role="entidad">
-  <app-navbar [title]="'Modificar Categoría'" [route]="'/consultar-categorias'"></app-navbar>
-  <div class="container mt-3">
-    @if (form) {
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <mat-form-field class="w-100">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="name">
-        @if (form.get('name')!.hasError('required')) {
-          <mat-error>Ingrese un nombre</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field class="w-100">
-        <mat-label>Descripción</mat-label>
-        <textarea matInput formControlName="description"></textarea>
-        @if (form.get('description')!.hasError('required')) {
-          <mat-error>Ingrese una descripción</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field class="w-100">
-        <mat-label>Puntos por kg</mat-label>
-        <input type="number" matInput formControlName="pointsPerWeight">
-        @if (form.get('pointsPerWeight')!.hasError('required')) {
-          <mat-error>Ingrese los puntos por kg</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field class="w-100">
-        <mat-label>CO2 (kg)</mat-label>
-        <input type="number" matInput formControlName="co2">
-        @if (form.get('co2')!.hasError('required')) {
-          <mat-error>Ingrese el valor de CO2</mat-error>
-        }
-      </mat-form-field>
-      <button mat-raised-button class="btn-primary-custom" type="submit">Guardar cambios</button>
-    </form>
-    }
+<div class="form-page standalone" data-role="entidad">
+  <div class="page-hero">
+    <div class="hero-top">
+      <div>
+        <h1>Modificar Categoría</h1>
+        <div class="sub">Actualizá los datos de la categoría de residuo</div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-hero" [routerLink]="'/consultar-categorias'">
+          <span class="material-icons">arrow_back</span> Volver
+        </a>
+      </div>
+    </div>
   </div>
+
+  @if (form) {
+    <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="fset">
+        <div class="fset-head">
+          <div class="ic"><span class="material-icons">sell</span></div>
+          <h4>Identificación</h4>
+          <p>Nombre y descripción con los que se muestra la categoría.</p>
+        </div>
+        <div class="fset-fields">
+          <mat-form-field class="full">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name">
+            @if (form.get('name')!.hasError('required')) {
+              <mat-error>Ingrese un nombre</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="full">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+            @if (form.get('description')!.hasError('required')) {
+              <mat-error>Ingrese una descripción</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="fset">
+        <div class="fset-head">
+          <div class="ic"><span class="material-icons">star</span></div>
+          <h4>Valores</h4>
+          <p>Puntos que otorga por kg reciclado y CO2 que evita.</p>
+        </div>
+        <div class="fset-fields">
+          <mat-form-field>
+            <mat-label>Puntos por kg</mat-label>
+            <input type="number" matInput formControlName="pointsPerWeight">
+            @if (form.get('pointsPerWeight')!.hasError('required')) {
+              <mat-error>Ingrese los puntos por kg</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>CO2 (kg)</mat-label>
+            <input type="number" matInput formControlName="co2">
+            @if (form.get('co2')!.hasError('required')) {
+              <mat-error>Ingrese el valor de CO2</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="sec-footer">
+        <button type="submit" class="btn-pill">
+          <span class="material-icons">check</span> Guardar cambios
+        </button>
+      </div>
+    </form>
+  }
 </div>

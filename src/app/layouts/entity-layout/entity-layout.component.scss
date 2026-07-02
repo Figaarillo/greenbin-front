@@ -6,15 +6,15 @@
   padding: 0;
 }
 
-// ── Sidebar ──────────────────────────────────────
+// ── Sidebar (gradiente de acento entidad) ────────
 .sidebar {
   width: 280px;
   position: fixed;
   left: 0;
   top: 0;
   height: 100%;
-  padding: 1rem 1.5rem;
-  background: #0E2A1D;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(165deg, var(--accent), var(--accent-ink));
   color: #fff;
   z-index: 20;
   transition: left 300ms;
@@ -56,26 +56,56 @@
 }
 
 .sidebar-user {
-  margin: 1rem 0;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0.75rem 0.25rem 1rem;
+  padding: 12px;
+  border-radius: var(--r-card);
+  background: rgba(255, 255, 255, 0.09);
 
-  h3 { font-size: 1rem; color: #fff; }
-  span { font-size: 0.85rem; opacity: 0.8; }
+  .av {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    color: #fff;
+  }
 
-  img {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
+  .sidebar-user-text {
+    min-width: 0;
+  }
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  span {
+    font-size: 0.72rem;
+    opacity: 0.7;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
 .menu-head {
   text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: rgba(255,255,255,0.6);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  padding: 0 0.85rem;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .sidebar-menu ul { margin-bottom: 2rem; }
@@ -94,14 +124,24 @@
   transition: background 0.15s, color 0.15s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.1);
     color: #fff;
   }
 
+  // Ítem activo: pastilla blanca con tinta de acento (variante gradiente).
   &.active {
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
+    background: #fff;
+    color: var(--accent-ink);
     font-weight: 600;
+  }
+
+  &.logout {
+    color: #ffb4b4;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffd3d3;
+    }
   }
 
   span:first-child {
@@ -118,47 +158,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-// ── Header (floating card) ─────────────────────
-header {
-  position: sticky;
-  top: 16px;
-  z-index: 15;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 20px 20px 0;
-  padding: 10px 14px;
-  background: var(--surface);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-
-  .back-btn,
-  .hamburger-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    font-size: 1.25rem;
-    cursor: pointer;
-    color: var(--ink);
-    transition: background 0.15s;
-    border: none;
-    background: none;
-
-    &:hover { background: var(--surface-2); }
-  }
-
-  .header-title {
-    font-family: 'Sora', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--accent);
-    margin-left: 4px;
-  }
-}
-
 // ── Main content ─────────────────────────────────
 .main-content {
   margin-left: 280px;
@@ -166,9 +165,9 @@ header {
 }
 
 main {
-  padding: 1.5rem;
+  padding: 16px 1.5rem 1.5rem;
   background: var(--bg);
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
 }
 
 // ── Toggle ─────────────────────────────────────
@@ -194,17 +193,8 @@ main {
 
   .sidebar-close { display: block; }
 
-  // Header becomes fixed + positioned at top-left on mobile
-  header {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    right: 16px;
-    margin: 0;
-  }
-
   main {
-    padding: 76px 1rem 100px;
+    padding: 1rem 1rem 100px;
     min-height: 100vh;
   }
 
@@ -214,9 +204,6 @@ main {
 
 @media (min-width: 1125px) {
   .sidebar-close { display: none !important; }
-
-  // En web el sidebar es permanente: ocultamos el botón hamburguesa
-  header .hamburger-btn { display: none !important; }
 
   #sidebar-toggle:checked ~ .sidebar { left: 0; }
   #sidebar-toggle:checked ~ .main-content { margin-left: 280px; }

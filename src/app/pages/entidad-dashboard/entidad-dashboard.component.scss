@@ -1,174 +1,311 @@
-.page-header {
+// ── Filtro de rango segmentado (vive dentro del hero) ───────────────────
+.range {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  flex-wrap: wrap;
 
-  h1 {
-    font-family: 'Sora', sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--ink);
+  button {
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 7px 15px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    transition: 0.15s;
+
+    &.on {
+      background: #fff;
+      color: var(--accent-ink);
+    }
+
+    &.custom {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      .material-icons {
+        font-size: 16px;
+      }
+    }
   }
 }
 
-// ── Summary cards ────────────────────────────────
-.summary-cards {
+.custom-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  position: relative;
+}
+
+// ── KPIs con sparkline ───────────────────────────────────────────────────
+.kpis {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 16px;
+  margin-top: 20px;
 }
 
-.summary-card {
+.kpi {
   background: var(--surface);
-  padding: 1.5rem;
   border-radius: var(--r-card);
   box-shadow: var(--sh-1);
-  text-align: center;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 
-  h2 {
-    font-size: 1.8rem;
-    color: var(--ink);
-    margin: 0.5rem 0 0.25rem;
+  .kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+
+    .material-icons {
+      font-size: 20px;
+    }
+
+    &.g {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    &.y {
+      background: rgba(224, 160, 25, 0.15);
+      color: var(--warning);
+    }
+
+    &.b {
+      background: rgba(58, 119, 181, 0.13);
+      color: var(--info);
+    }
+  }
+
+  .trend {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--green);
+
+    .material-icons {
+      font-size: 15px;
+    }
+
+    &.down {
+      color: var(--danger);
+    }
+  }
+
+  .val {
     font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    margin-top: 12px;
   }
 
-  small {
+  .lbl {
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .spark {
+    margin-top: 12px;
   }
 }
 
-// ── Charts ───────────────────────────────────────
-.charts-grid {
+// ── Layout principal: columna + rail derecho ─────────────────────────────
+.grid-main {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
 }
 
-.chart-card {
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.card {
   background: var(--surface);
-  padding: 1.5rem;
   border-radius: var(--r-card);
   box-shadow: var(--sh-1);
-
-  h3 {
-    margin-bottom: 1rem;
-    color: var(--ink);
-    font-size: 1.1rem;
-  }
-
-  &.full-width {
-    grid-column: 1 / -1;
-  }
+  padding: 20px 22px;
 }
 
-.chart-container {
-  position: relative;
-  width: 100%;
-}
-
-.period-scroll-container {
-  overflow-x: auto;
-  width: 100%;
-}
-
-.period-chart-inner {
-  position: relative;
-  min-height: 300px;
-}
-
-.pie-container {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.chart-header {
+.card-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
 
-  h3 { margin-bottom: 0; }
-}
+  h3 {
+    font-size: 16px;
+    margin: 0;
+  }
 
-.date-filters {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  label {
-    font-size: 0.85rem;
+  .card-sub {
     color: var(--muted);
-  }
-
-  input[type='date'] {
-    padding: 0.4rem 0.5rem;
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    font-size: 0.85rem;
-    background: var(--surface);
-    color: var(--ink);
+    font-size: 12.5px;
+    margin-top: 2px;
   }
 }
 
-.filter-btn {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: filter 0.15s;
-
-  &:hover { filter: brightness(1.06); }
+.tag {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
 }
 
-.filter-btn-secondary {
-  background: #757575;
-
-  &:hover { background: #616161; }
+// ── Alturas de charts ────────────────────────────────────────────────────
+.chart-area {
+  position: relative;
+  height: 240px;
 }
 
-.global-filter {
+.split-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chart-donut,
+.chart-bars {
+  position: relative;
+  height: 240px;
+}
+
+// ── Top categorías (barras de progreso) ──────────────────────────────────
+.tc {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tc-row .tc-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+
+  b {
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--muted);
+    font-weight: 700;
+  }
+}
+
+.track {
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: var(--r-pill);
+  }
+}
+
+.empty-hint {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+// ── Rail: filas de Mi municipio ──────────────────────────────────────────
+.rail-item {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-left: 4px solid #4caf50;
-  border-radius: 6px;
-  padding: 0.85rem 1rem;
-  margin-bottom: 1.5rem;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
 
-  .global-filter-label {
-    font-weight: 600;
-    color: #2e7d32;
-    margin-right: 0.5rem;
+  &:first-of-type {
+    border-top: 0;
   }
 
-  label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
-    color: #555;
+  .r-ic {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    .material-icons {
+      font-size: 19px;
+      color: var(--accent);
+    }
   }
 
-  input[type='date'] {
-    padding: 0.4rem 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.85rem;
+  .r-body {
+    flex: 1;
+    min-width: 0;
+
+    b {
+      font-size: 13.5px;
+      font-weight: 600;
+      display: block;
+    }
+
+    small {
+      color: var(--muted);
+      font-size: 11.5px;
+    }
+  }
+
+  .r-val {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent-ink);
   }
 }
 
-@media only screen and (max-width: 1124px) {
-  .charts-grid { grid-template-columns: 1fr; }
-  .summary-cards { grid-template-columns: 1fr; }
+// ── Responsive ───────────────────────────────────────────────────────────
+@media (max-width: 1280px) {
+  .grid-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1124px) {
+  .kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .split-charts {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component } from '@angular/core'
+import { Location } from '@angular/common'
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -29,13 +30,21 @@ import { MatIconModule } from '@angular/material/icon'
 })
 export class RegistrarResponsableComponent {
   private storage = inject(StorageService)
+  private location = inject(Location)
   form: FormGroup
+  entityName = ''
 
   constructor(
     private fb: FormBuilder,
     private service: ResponsableService,
     private router: Router
   ) {
+    try {
+      const info = this.storage.getItem('entidadInfo')
+      this.entityName = info ? JSON.parse(info).name ?? '' : ''
+    } catch {
+      this.entityName = ''
+    }
     this.form = this.fb.group({
       firstname: ['', [Validators.required, Validators.minLength(2)]],
       lastname: ['', [Validators.required, Validators.minLength(2)]],
@@ -123,6 +132,10 @@ export class RegistrarResponsableComponent {
       })
   }
   hidePassword = true
+
+  goBack(): void {
+    this.location.back()
+  }
 
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword

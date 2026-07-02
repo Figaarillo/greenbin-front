@@ -18,7 +18,7 @@ export class ConsultarVecinosComponent implements OnInit {
   private storage = inject(StorageService)
   private vecinoService = inject(VecinoService)
   columns: Column[] = []
-  title: string = 'Listar Vecinos'
+  title: string = 'Vecinos'
   vecinos: any[] = []
   constructor(private router: Router) {}
 
