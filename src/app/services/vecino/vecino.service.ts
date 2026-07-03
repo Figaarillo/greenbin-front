@@ -21,6 +21,9 @@ export class VecinoService {
   create(object: Vecino): Observable<Vecino> {
     return this.http.post<Vecino>(this.url, object)
   }
+  requestRegisterOtp(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiBase}/api/auth/register/request-otp`, { email, userType: 'neighbor' })
+  }
   update(object: VecinoUpdate, id: string): Observable<VecinoUpdate> {
     return this.http.put<VecinoUpdate>(this.url + '/' + id, object)
   }
