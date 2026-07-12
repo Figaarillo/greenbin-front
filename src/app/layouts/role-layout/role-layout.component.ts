@@ -177,6 +177,13 @@ export class RoleLayoutComponent implements OnInit {
     this.sesionService.logout()
   }
 
+  /** Tocar un tab en la ruta en la que ya estás no navega (Angular ignora
+   *  la misma URL), así que le avisamos directo a la pantalla ruteada: si
+   *  implementa closeOpenSheet(), que cierre lo que tenga abierto. */
+  onSameRouteClick(routedComponent: unknown): void {
+    ;(routedComponent as { closeOpenSheet?: () => void } | null)?.closeOpenSheet?.()
+  }
+
   onMiddleClick(index: number): void {
     this.menu()?.closeSheet()
     this.optionsSheet()?.closeSheet()
