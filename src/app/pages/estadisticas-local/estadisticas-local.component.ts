@@ -1,6 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
@@ -8,20 +8,23 @@ import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
 Chart.register(...registerables)
 
 @Component({
   selector: 'app-estadisticas-local',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, NgChartsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, NgChartsModule, NavbarComponent, SkeletonComponent],
   templateUrl: './estadisticas-local.component.html',
   styleUrl: './estadisticas-local.component.scss'
 })
 export class EstadisticasLocalComponent implements OnInit {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
   private rewardPartnerId = ''
   private allTransactions: any[] = []
+  loading = true
 
   dateFrom = ''
   dateTo = ''
@@ -71,13 +74,18 @@ export class EstadisticasLocalComponent implements OnInit {
   ngOnInit(): void {
     const info = this.storage.getItem('usuarioInfo') || '{}'
     this.rewardPartnerId = JSON.parse(info).id
-    this.loadData()
+    if (isPlatformBrowser(this.platformId)) this.loadData()
   }
 
   loadData(): void {
-    this.localService.getCouponTransactions(this.rewardPartnerId).subscribe((resp: any) => {
-      this.allTransactions = resp.data ?? []
-      this.applyFilterAndBuild()
+    this.loading = true
+    this.localService.getCouponTransactions(this.rewardPartnerId).subscribe({
+      next: (resp: any) => {
+        this.allTransactions = resp.data ?? []
+        this.applyFilterAndBuild()
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 

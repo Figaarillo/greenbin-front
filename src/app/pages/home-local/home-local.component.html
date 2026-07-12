@@ -17,6 +17,9 @@
     <div class="v-body">
       <h4>Canjes realizados</h4>
 
+      @if (loading) {
+        <app-skeleton type="list" [count]="4" />
+      } @else {
       @if (transactions.length === 0) {
         <p class="empty-state">No hay canjes aún</p>
       }
@@ -78,6 +81,7 @@
         <div class="tx-more" (click)="toggleHistorial()">
           {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
         </div>
+      }
       }
     </div>
 
