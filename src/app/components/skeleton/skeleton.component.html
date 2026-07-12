@@ -1,0 +1,68 @@
+<div class="sk" role="status" aria-busy="true" aria-live="polite">
+  <span class="sk-sr">Cargando…</span>
+
+  @switch (type) {
+    @case ('card') {
+      <div class="sk-cards">
+        @for (i of items; track $index) {
+          <div class="sk-card">
+            <div class="sk-box sk-avatar"></div>
+            <div class="sk-grow">
+              <div class="sk-box sk-line w60"></div>
+              <div class="sk-box sk-line w90"></div>
+              <div class="sk-box sk-line w30"></div>
+            </div>
+            <div class="sk-box sk-badge"></div>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('table') {
+      <div class="sk-table">
+        <div class="sk-tr sk-th">
+          @for (c of cols; track $index) { <div class="sk-box sk-line"></div> }
+        </div>
+        @for (i of items; track $index) {
+          <div class="sk-tr">
+            @for (c of cols; track $index) { <div class="sk-box sk-line"></div> }
+          </div>
+        }
+      </div>
+    }
+
+    @case ('stat') {
+      <div class="sk-stats">
+        @for (i of items; track $index) {
+          <div class="sk-stat">
+            <div class="sk-box sk-avatar sm"></div>
+            <div class="sk-box sk-line big w40"></div>
+            <div class="sk-box sk-line w60"></div>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('list') {
+      <div class="sk-list">
+        @for (i of items; track $index) {
+          <div class="sk-row">
+            <div class="sk-box sk-avatar"></div>
+            <div class="sk-grow">
+              <div class="sk-box sk-line w50"></div>
+              <div class="sk-box sk-line w80"></div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('block') {
+      @for (i of items; track $index) { <div class="sk-box sk-block"></div> }
+    }
+
+    @default {
+      @for (i of items; track $index) { <div class="sk-box sk-line"></div> }
+    }
+  }
+</div>
