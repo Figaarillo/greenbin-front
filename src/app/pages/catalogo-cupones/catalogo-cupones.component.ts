@@ -12,6 +12,8 @@ import { forkJoin } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
+export type CampoOrdenCupon = 'discount' | 'costInPoints' | 'validDays'
+
 @Component({
   selector: 'app-catalogo-cupones',
   standalone: true,
@@ -29,18 +31,25 @@ export class CatalogoCuponesComponent {
   items: Coupon[] = []
   redeemedCouponIds: Set<string> = new Set()
   titleFilter = ''
+  sortField: CampoOrdenCupon = 'discount'
   sortDir: 'desc' | 'asc' = 'desc'
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
     const dir = this.sortDir === 'desc' ? -1 : 1
+    const field = this.sortField
     this.dataSource.data = this.items
       .filter(c => c.title.toLowerCase().includes(title))
-      .sort((a, b) => (a.discount - b.discount) * dir)
+      .sort((a, b) => (a[field] - b[field]) * dir)
   }
 
   onTitleFilter(event: Event) {
     this.titleFilter = (event.target as HTMLInputElement).value
+    this.applyFilters()
+  }
+
+  setSortField(field: CampoOrdenCupon) {
+    this.sortField = field
     this.applyFilters()
   }
 
@@ -102,6 +111,12 @@ export class CatalogoCuponesComponent {
 
   abrirModal(cupon: Coupon) {
     this.sheet?.openCatalog(cupon)
+  }
+
+  /** Llamado por RoleLayoutComponent cuando se vuelve a tocar el tab "Cupones"
+   *  estando ya en esta pantalla, para cerrar el detalle si quedó abierto. */
+  closeOpenSheet(): void {
+    this.sheet?.cerrar()
   }
 
   onCuponCanjeado(puntosRestantes: number) {
