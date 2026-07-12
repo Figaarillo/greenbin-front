@@ -14,6 +14,8 @@ import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
+export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
+
 @Component({
   selector: 'app-home-local',
   standalone: true,
@@ -41,10 +43,13 @@ export class HomeLocalComponent implements OnInit {
   loading = true
   name: string = ''
   transactions: any[] = []
+  filtered: any[] = []
   historialVisible: any[] = []
   mostrarTodo: boolean = false
   LIMITE = 5
   expandedItems = new Set<number>()
+  statusFilter: EstadoCuponFiltro = 'TODOS'
+  sortDir: 'desc' | 'asc' = 'desc'
 
   private rewardPartnerId: string = ''
 
@@ -64,21 +69,43 @@ export class HomeLocalComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) return
     this.localService.getCouponTransactions(this.rewardPartnerId).subscribe({
       next: (resp: any) => {
-        this.transactions = (resp.data || []).sort(
-          (a: any, b: any) =>
-            new Date(b.redeemDate ?? b.adquisitionDate ?? b.createdAt).getTime() -
-            new Date(a.redeemDate ?? a.adquisitionDate ?? a.createdAt).getTime()
-        )
-        this.historialVisible = this.transactions.slice(0, this.LIMITE)
+        this.transactions = resp.data || []
+        this.applyFiltersAndSort()
         this.loading = false
       },
       error: () => (this.loading = false)
     })
   }
 
+  setStatusFilter(status: EstadoCuponFiltro): void {
+    this.statusFilter = status
+    this.applyFiltersAndSort()
+  }
+
+  toggleSortDir(): void {
+    this.sortDir = this.sortDir === 'desc' ? 'asc' : 'desc'
+    this.applyFiltersAndSort()
+  }
+
+  private applyFiltersAndSort(): void {
+    let result = this.transactions
+    if (this.statusFilter !== 'TODOS') {
+      result = result.filter(t => t.status === this.statusFilter)
+    }
+
+    const dir = this.sortDir === 'desc' ? -1 : 1
+    result = [...result].sort(
+      (a, b) => (new Date(this.getFecha(a)).getTime() - new Date(this.getFecha(b)).getTime()) * dir
+    )
+
+    this.filtered = result
+    this.mostrarTodo = false
+    this.historialVisible = this.filtered.slice(0, this.LIMITE)
+  }
+
   toggleHistorial(): void {
     this.mostrarTodo = !this.mostrarTodo
-    this.historialVisible = this.mostrarTodo ? this.transactions : this.transactions.slice(0, this.LIMITE)
+    this.historialVisible = this.mostrarTodo ? this.filtered : this.filtered.slice(0, this.LIMITE)
   }
 
   toggleItem(index: number): void {
@@ -95,11 +122,11 @@ export class HomeLocalComponent implements OnInit {
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'UTILIZADO':
+      case 'USADO':
         return '#4caf50'
       case 'ADQUIRIDO':
         return '#2196f3'
-      case 'VENCIDO':
+      case 'EXPIRADO':
         return '#f44336'
       default:
         return '#9e9e9e'

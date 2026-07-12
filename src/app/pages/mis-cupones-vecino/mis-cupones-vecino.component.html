@@ -2,10 +2,30 @@
   <app-navbar [title]="'Mis Cupones'" [route]="'/vecino'"></app-navbar>
 
   <div class="container mt-3">
-    <mat-form-field class="w-100">
-      <mat-label>Buscar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Cupón de descuento" #input />
-    </mat-form-field>
+    <div class="c-search-row">
+      <label class="c-search-input">
+        <mat-icon>search</mat-icon>
+        <input placeholder="Buscar cupón..." (keyup)="applyFilter($event)">
+      </label>
+    </div>
+
+    <div class="filters-row">
+      <div class="status-chips">
+        <button type="button" class="chip" [class.active]="statusFilter === 'TODOS'" (click)="setStatusFilter('TODOS')">Todos</button>
+        <button type="button" class="chip chip-adquirido" [class.active]="statusFilter === 'ADQUIRIDO'" (click)="setStatusFilter('ADQUIRIDO')">Adquiridos</button>
+        <button type="button" class="chip chip-usado" [class.active]="statusFilter === 'USADO'" (click)="setStatusFilter('USADO')">Usados</button>
+        <button type="button" class="chip chip-vencido" [class.active]="statusFilter === 'EXPIRADO'" (click)="setStatusFilter('EXPIRADO')">Vencidos</button>
+      </div>
+      <button
+        type="button"
+        class="sort-btn"
+        (click)="toggleSortDir()"
+        [title]="sortDir === 'desc' ? 'Más recientes primero' : 'Más antiguos primero'"
+      >
+        <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
+        Fecha
+      </button>
+    </div>
 
     <h4 class="total-label">Total: {{ dataSource.data.length }} cupones</h4>
 
@@ -40,6 +60,9 @@
                 }"
                 >{{ data.status === 'EXPIRADO' ? 'VENCIDO' : data.status }}</span
               >
+              @if (data.status === 'ADQUIRIDO') {
+                <span class="vigencia">{{ textoVigencia(data) }}</span>
+              }
             </mat-card-content>
           </mat-card>
         </div>

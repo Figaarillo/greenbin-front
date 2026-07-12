@@ -1,3 +1,40 @@
+.c-search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.c-search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: var(--r-field, 14px);
+  padding: 10px 14px;
+  box-shadow: var(--sh-1);
+
+  mat-icon {
+    color: var(--muted);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    width: 100%;
+
+    &::placeholder { color: var(--muted); }
+  }
+}
+
 .catalog {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -60,6 +97,13 @@
   margin-left: 8px;
 }
 
+.vigencia {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
 .estado-adquirido {
   background: rgba(30, 158, 90, 0.12);
   color: #1E9E5A;
@@ -73,4 +117,70 @@
 .estado-vencido {
   background: rgba(229, 57, 53, 0.10);
   color: #e53935;
+}
+
+.filters-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 8px;
+}
+
+.status-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: var(--r-pill, 999px);
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+
+  &.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+}
+
+.chip-adquirido.active { background: #1e9e5a; border-color: #1e9e5a; }
+.chip-usado.active { background: var(--muted); border-color: var(--muted); }
+.chip-vencido.active { background: #e53935; border-color: #e53935; }
+
+.sort-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--r-field, 12px);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    border-color: var(--accent);
+  }
 }

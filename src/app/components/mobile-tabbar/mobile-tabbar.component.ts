@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { RouterModule } from '@angular/router'
+import { Router, RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 
 export type TabExtraItem = {
@@ -20,6 +20,8 @@ export type TabExtraItem = {
   styleUrl: './mobile-tabbar.component.scss'
 })
 export class MobileTabbarComponent {
+  private router = inject(Router)
+
   /** Tres ítems del centro, en el orden exacto en que se renderizan.
    *  Cualquiera puede llevar isFab:true para recibir estilo de FAB. */
   @Input({ required: true }) middleItems!: [TabExtraItem, TabExtraItem, TabExtraItem]
@@ -45,4 +47,16 @@ export class MobileTabbarComponent {
 
   /** Emitido al clickear el botón de Opciones (solo cuando hay userPhoto) */
   @Output() optionsClick = new EventEmitter<void>()
+
+  /** Emitido al tocar el tab de la ruta en la que ya estás parado (routerLink
+   *  no dispara nada en ese caso: Angular ignora la navegación a la misma URL
+   *  por default). El layout lo usa para avisarle a la pantalla actual que
+   *  cierre cualquier sheet/modal que tenga abierto. */
+  @Output() sameRouteClick = new EventEmitter<void>()
+
+  onTabClick(item: TabExtraItem): void {
+    if (item.route && this.router.url === item.route) {
+      this.sameRouteClick.emit()
+    }
+  }
 }

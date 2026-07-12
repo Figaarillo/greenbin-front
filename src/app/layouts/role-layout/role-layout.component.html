@@ -11,7 +11,7 @@
 
   <!-- Main content -->
   <div class="main-content">
-    <router-outlet></router-outlet>
+    <router-outlet #outlet="outlet"></router-outlet>
   </div>
 
   <!-- Sidebar overlay -->
@@ -27,6 +27,7 @@
       (hamburgerClick)="onHamburgerClick()"
       (middleClick)="onMiddleClick($event)"
       (optionsClick)="onOptionsClick()"
+      (sameRouteClick)="onSameRouteClick(outlet.component)"
     />
 
     <!-- ═══════ Mobile Menú (bottom-sheet, reemplaza el sidebar en mobile) ═══════ -->

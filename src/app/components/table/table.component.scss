@@ -105,6 +105,27 @@ thead th {
   &.th-actions {
     text-align: right;
   }
+
+  &.sortable {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+.sort-icon {
+  font-size: 14px;
+  vertical-align: middle;
+  margin-left: 2px;
+  opacity: 0.35;
+
+  &.active {
+    opacity: 1;
+    color: var(--accent);
+  }
 }
 
 tbody td {
