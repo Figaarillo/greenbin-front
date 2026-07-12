@@ -4,7 +4,7 @@
   <div class="container mt-3">
     <div class="w-100 map-container">
       @defer (on immediate) {
-        <google-map class="rounded-map" height="80vh" width="100%" [options]="options">
+        <google-map class="rounded-map" [height]="mapHeight" width="100%" [options]="options">
           <map-advanced-marker #markerElem="mapAdvancedMarker"
             *ngFor="let location of puntosVerdes"
             [title]="'Punto Verde'"

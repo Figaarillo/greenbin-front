@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit, ViewChild } from '@angular/core'
+import { BreakpointObserver } from '@angular/cdk/layout'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
@@ -29,6 +30,7 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 })
 export class VisualizarPvComponent implements OnInit {
   private storage = inject(StorageService)
+  private breakpointObserver = inject(BreakpointObserver)
   @ViewChild(ModalPvComponent) modal?: ModalPvComponent
   pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
@@ -38,8 +40,16 @@ export class VisualizarPvComponent implements OnInit {
   }
 
   puntosVerdes: any[] = []
+  // En mobile el mapa a 80vh se extendía por detrás del tabbar fijo (z-index 300,
+  // ~90px de alto), tapando los markers de la parte inferior y capturando el tap
+  // el tabbar en vez del mapa. Se achica para que quede por completo arriba de él.
+  mapHeight = '80vh'
 
   ngOnInit() {
+    this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
+      this.mapHeight = result.matches ? '55vh' : '80vh'
+    })
+
     // La entidad usa 'entidadInfo' (su sesión); el vecino usa 'usuarioInfo.entity',
     // que el backend ahora puebla con la entidad completa (id + coordinates).
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
@@ -64,11 +74,24 @@ export class VisualizarPvComponent implements OnInit {
 
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
-        let imgTag = document.createElement('img')
+        // El icono visual mide 24px, pero el area tocable es de 44px (minimo
+        // recomendado para touch): asi el marker sigue siendo facil de tocar
+        // con el dedo aunque se vea igual de chico.
+        const hitArea = document.createElement('div')
+        hitArea.style.display = 'flex'
+        hitArea.style.alignItems = 'center'
+        hitArea.style.justifyContent = 'center'
+        hitArea.style.width = '44px'
+        hitArea.style.height = '44px'
+        hitArea.style.cursor = 'pointer'
+
+        const imgTag = document.createElement('img')
         imgTag.src = img
         imgTag.width = 24
         imgTag.height = 24
-        location.content = imgTag
+        hitArea.appendChild(imgTag)
+
+        location.content = hitArea
       })
     })
   }
