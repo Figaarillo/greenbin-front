@@ -24,6 +24,19 @@ export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
         // el token viejo (getAccessToken aún no actualizado) y el reintento
         // fallaba siempre con 401.
         return sesionService.sendRefreshToken(role).pipe(
+          catchError(refreshError => {
+            // Solo el fallo del REFRESH en si (token vencido/invalido) implica
+            // cerrar sesion. El catchError va ANTES del switchMap a propósito:
+            // si en cambio envolviera tambien el reintento, cualquier fallo del
+            // reintento (por una razon ajena al login, ej. un 401/500 puntual
+            // de OTRO endpoint) cerraba la sesion igual, aunque el refresh
+            // hubiera funcionado bien. Esto se notaba con navegacion rapida
+            // (ej. boton atras varias veces), donde varios guards disparan
+            // validate-role en simultaneo y cualquier reintento con hipo
+            // desloguea al usuario sin que su token haya expirado.
+            sesionService.logout()
+            return throwError(() => refreshError)
+          }),
           switchMap(obj => {
             const accessToken = obj.data.accessToken
             sesionService.setAccessToken(accessToken)
@@ -31,11 +44,6 @@ export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
               setHeaders: { Authorization: `Bearer ${accessToken}` }
             })
             return next(clonedRequest)
-          }),
-          catchError(refreshError => {
-            // Si el refresh falla (refresh token vencido), cerramos sesión.
-            sesionService.logout()
-            return throwError(() => refreshError)
           })
         )
       }
