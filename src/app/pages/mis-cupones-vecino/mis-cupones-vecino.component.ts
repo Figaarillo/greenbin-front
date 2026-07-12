@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, ViewChild } from '@angular/core'
+import { inject, Component, ViewChild, PLATFORM_ID } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -13,7 +13,8 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { CouponTransaction } from '../../services/interfaces/coupon'
-import { CommonModule } from '@angular/common'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
 @Component({
   selector: 'app-mis-cupones-vecino',
@@ -29,14 +30,17 @@ import { CommonModule } from '@angular/common'
     MatCardModule,
     MatButtonModule,
     RouterModule,
-    NavbarComponent
+    NavbarComponent,
+    SkeletonComponent
   ],
   templateUrl: './mis-cupones-vecino.component.html',
   styleUrl: './mis-cupones-vecino.component.scss'
 })
 export class MisCuponesVecinoComponent {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
   @ViewChild(CuponSheetComponent) sheet?: CuponSheetComponent
+  loading = true
   dataSource: MatTableDataSource<CouponTransaction> = new MatTableDataSource()
   puntos = 0
   transactions: CouponTransaction[] = []
@@ -53,14 +57,19 @@ export class MisCuponesVecinoComponent {
     const info = this.storage.getItem('usuarioInfo') || '{}'
     const usuarioInfo = JSON.parse(info)
     this.puntos = usuarioInfo.points
-    this.getItems()
+    if (isPlatformBrowser(this.platformId)) this.getItems()
   }
 
   getItems() {
+    this.loading = true
     const neighborId = this.sesionService.getUserId()
-    this.vecinoService.getMyTransactions(neighborId).subscribe(obj => {
-      this.transactions = <CouponTransaction[]>obj.data
-      this.dataSource = new MatTableDataSource(this.transactions)
+    this.vecinoService.getMyTransactions(neighborId).subscribe({
+      next: obj => {
+        this.transactions = <CouponTransaction[]>obj.data
+        this.dataSource = new MatTableDataSource(this.transactions)
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 
