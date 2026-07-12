@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, OnInit } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { ResponsablesService } from '../../services/responsables/responsables.service'
@@ -17,6 +18,8 @@ import { Router } from '@angular/router'
 export class ConsultarResponsablesComponent implements OnInit {
   private storage = inject(StorageService)
   private respService = inject(ResponsablesService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   columns: Column[] = []
   title: string = 'Responsables'
   responsibles: Responsable[] = []
@@ -52,15 +55,17 @@ export class ConsultarResponsablesComponent implements OnInit {
         label: 'Acciones'
       }
     ]
-    this.listRespo()
+    if (isPlatformBrowser(this.platformId)) this.listRespo()
   }
   listRespo() {
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.respService.list(0, 100, entidadInfo.id).subscribe({
       next: (response: any) => {
         this.responsibles = response
+        this.loading = false
       },
       error: () => {
+        this.loading = false
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'

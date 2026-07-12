@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
 import { TableComponent } from '../../components/table/table.component'
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router'
+import { isPlatformBrowser } from '@angular/common'
 
 @Component({
   selector: 'app-consultar-categorias',
@@ -15,6 +16,8 @@ import { Router } from '@angular/router'
 })
 export class ConsultarCategoriasComponent implements OnInit {
   private service = inject(WasteCategoryService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   columns: Column[] = []
   title: string = 'Categorías de Residuo'
   categorias: any[] = []
@@ -29,7 +32,7 @@ export class ConsultarCategoriasComponent implements OnInit {
       { key: 'isActive', label: 'Estado' },
       { key: 'actions', label: 'Acciones' }
     ]
-    this.listCategorias()
+    if (isPlatformBrowser(this.platformId)) this.listCategorias()
   }
 
   listCategorias() {
@@ -39,8 +42,10 @@ export class ConsultarCategoriasComponent implements OnInit {
           ...c,
           isActive: c.isActive ? 'Habilitado' : 'Deshabilitado'
         }))
+        this.loading = false
       },
       error: () => {
+        this.loading = false
         Swal.fire({ title: 'Ha ocurrido un error', icon: 'error' }).then(() => {
           this.router.navigate(['/entidad'])
         })
