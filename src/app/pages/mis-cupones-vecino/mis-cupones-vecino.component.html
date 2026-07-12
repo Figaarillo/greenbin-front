@@ -60,6 +60,9 @@
                 }"
                 >{{ data.status === 'EXPIRADO' ? 'VENCIDO' : data.status }}</span
               >
+              @if (data.status === 'ADQUIRIDO') {
+                <span class="vigencia">{{ textoVigencia(data) }}</span>
+              }
             </mat-card-content>
           </mat-card>
         </div>

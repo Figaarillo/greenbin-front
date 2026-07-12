@@ -104,4 +104,24 @@ export class MisCuponesVecinoComponent {
   abrirModal(transaction: CouponTransaction) {
     this.sheet?.openOwned(transaction.coupon, transaction)
   }
+
+  /** Días restantes hasta expirationDate, comparando por fecha (sin hora) para
+   *  no contar un día de más/menos solo por la hora del día en que se mira. */
+  private diasRestantes(transaction: CouponTransaction): number {
+    const hoy = new Date()
+    hoy.setHours(0, 0, 0, 0)
+    const vencimiento = new Date(transaction.expirationDate)
+    vencimiento.setHours(0, 0, 0, 0)
+    return Math.round((vencimiento.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24))
+  }
+
+  /** Texto de vigencia restante; solo tiene sentido para cupones ADQUIRIDO
+   *  (activos, sin usar todavía). */
+  textoVigencia(transaction: CouponTransaction): string {
+    const dias = this.diasRestantes(transaction)
+    if (dias < 0) return 'Vencido'
+    if (dias === 0) return 'Vence hoy'
+    if (dias === 1) return 'Vence mañana'
+    return `Vence en ${dias} días`
+  }
 }
