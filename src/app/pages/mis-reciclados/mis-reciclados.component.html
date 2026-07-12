@@ -14,7 +14,10 @@
         <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
       }
     </div>
-    @if (deliveries.length === 0) {
+    @if (loading) {
+      <app-skeleton type="stat" [count]="3" />
+      <app-skeleton type="block" [count]="2" />
+    } @else if (deliveries.length === 0) {
       <div class="empty-state">
         <span class="las la-recycle" style="font-size: 3rem; color: var(--muted);"></span>
         <p>No hay entregas en el período seleccionado</p>

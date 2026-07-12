@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, OnInit } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
@@ -17,6 +18,8 @@ import { Router } from '@angular/router'
 export class ConsultarLocalesComponent implements OnInit {
   private storage = inject(StorageService)
   private localService = inject(LocalAdheridoService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   columns: Column[] = []
   title: string = 'Locales adheridos'
   locales: any[] = []
@@ -30,7 +33,7 @@ export class ConsultarLocalesComponent implements OnInit {
       { key: 'phoneNumber', label: 'Teléfono' },
       { key: 'isActive', label: 'Estado' }
     ]
-    this.listLocales()
+    if (isPlatformBrowser(this.platformId)) this.listLocales()
   }
 
   listLocales() {
@@ -41,8 +44,10 @@ export class ConsultarLocalesComponent implements OnInit {
           ...l,
           isActive: l.isActive ? 'Habilitado' : 'Deshabilitado'
         }))
+        this.loading = false
       },
       error: () => {
+        this.loading = false
         Swal.fire({ title: 'Ha ocurrido un error', icon: 'error' }).then(() => {
           this.router.navigate(['/entidad'])
         })

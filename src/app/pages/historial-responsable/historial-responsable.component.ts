@@ -1,24 +1,27 @@
-import { Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
 Chart.register(...registerables)
 
 @Component({
   selector: 'app-historial-responsable',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule, SkeletonComponent],
   templateUrl: './historial-responsable.component.html',
   styleUrl: './historial-responsable.component.scss'
 })
 export class HistorialResponsableComponent implements OnInit {
   allTransactions: any[] = []
   transactions: any[] = []
+  private platformId = inject(PLATFORM_ID)
+  loading = true
 
   totalWeight = 0
   totalPoints = 0
@@ -57,13 +60,15 @@ export class HistorialResponsableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return
     const responsibleId = this.sesionService.getUserId()
     this.wasteDeliveryService.listByResponsible(responsibleId).subscribe({
       next: (resp: any) => {
         this.allTransactions = resp.data ?? []
         this.applyFilterAndBuild()
+        this.loading = false
       },
-      error: () => {}
+      error: () => (this.loading = false)
     })
   }
 

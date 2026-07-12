@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatButtonModule } from '@angular/material/button'
 import { Entidad } from '../../services/interfaces/entidad'
 import { EntidadService } from '../../services/entidad/entidad.service'
-import { ActivatedRoute, RouterModule, Router, Route } from '@angular/router'
+import { RouterModule, Router } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 
 import Swal from 'sweetalert2'
@@ -114,7 +114,7 @@ export class RegistrarEntidadComponent {
                     this.router.navigate(['/listar-entidades'])
                   })
               },
-              error => {
+              () => {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',

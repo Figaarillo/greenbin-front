@@ -6,7 +6,6 @@ import { LocalAdherido } from '../interfaces/local-adherido'
 import { Observable } from 'rxjs'
 import { Login } from '../interfaces/login'
 import { LoginResponse } from '../interfaces/login-response'
-import { Coupon } from '../interfaces/coupon'
 
 @Injectable({
   providedIn: 'root'

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { Column } from '../../services/interfaces/columns'
+import { SkeletonComponent } from '../skeleton/skeleton.component'
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, SkeletonComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
@@ -22,6 +23,7 @@ export class TableComponent implements OnChanges {
   @Input() subtitle = ''
   @Input() createLabel = ''
   @Input() createRoute = ''
+  @Input() loading = false
 
   tableColumns: Column[] = []
 

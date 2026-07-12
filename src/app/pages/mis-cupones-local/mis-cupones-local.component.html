@@ -13,6 +13,9 @@
 
     <div class="c-total">Total: {{ dataSource.filteredData.length }} cupones</div>
 
+    @if (loading) {
+      <app-skeleton type="card" [count]="4" />
+    } @else {
     @if (!dataSource.filteredData || dataSource.filteredData.length === 0) {
       <div class="c-empty">Acá vas a ver los cupones que ofrezcas</div>
     }
@@ -41,6 +44,7 @@
         </div>
       }
     </div>
+    }
 
   </div>
 

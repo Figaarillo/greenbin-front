@@ -22,7 +22,10 @@
     }
   </div>
 
-  @if (!hasData) {
+  @if (loading) {
+    <app-skeleton type="stat" [count]="4" />
+    <app-skeleton type="block" [count]="2" />
+  } @else if (!hasData) {
     <div class="empty-state">
       <mat-icon>bar_chart</mat-icon>
       <p>No hay canjes en el período seleccionado</p>

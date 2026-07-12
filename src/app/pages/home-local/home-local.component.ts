@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit } from '@angular/core'
+import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
@@ -10,8 +10,9 @@ import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { RouterModule } from '@angular/router'
 import { MatCardModule } from '@angular/material/card'
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { CommonModule, DatePipe } from '@angular/common'
+import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
 @Component({
   selector: 'app-home-local',
@@ -28,13 +29,16 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
     MatCardModule,
     MatTooltipModule,
     CommonModule,
-    DatePipe
+    DatePipe,
+    SkeletonComponent
   ],
   templateUrl: './home-local.component.html',
   styleUrl: './home-local.component.scss'
 })
 export class HomeLocalComponent implements OnInit {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   name: string = ''
   transactions: any[] = []
   historialVisible: any[] = []
@@ -57,13 +61,18 @@ export class HomeLocalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localService.getCouponTransactions(this.rewardPartnerId).subscribe((resp: any) => {
-      this.transactions = (resp.data || []).sort(
-        (a: any, b: any) =>
-          new Date(b.redeemDate ?? b.adquisitionDate ?? b.createdAt).getTime() -
-          new Date(a.redeemDate ?? a.adquisitionDate ?? a.createdAt).getTime()
-      )
-      this.historialVisible = this.transactions.slice(0, this.LIMITE)
+    if (!isPlatformBrowser(this.platformId)) return
+    this.localService.getCouponTransactions(this.rewardPartnerId).subscribe({
+      next: (resp: any) => {
+        this.transactions = (resp.data || []).sort(
+          (a: any, b: any) =>
+            new Date(b.redeemDate ?? b.adquisitionDate ?? b.createdAt).getTime() -
+            new Date(a.redeemDate ?? a.adquisitionDate ?? a.createdAt).getTime()
+        )
+        this.historialVisible = this.transactions.slice(0, this.LIMITE)
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 

@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit } from '@angular/core'
+import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
@@ -16,7 +16,8 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import Swal from 'sweetalert2'
-import { CommonModule, DatePipe } from '@angular/common'
+import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -34,13 +35,16 @@ import { CommonModule, DatePipe } from '@angular/common'
     SidenavComponent,
     RouterModule,
     CommonModule,
-    DatePipe
+    DatePipe,
+    SkeletonComponent
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
 })
 export class LandingResponsableComponent implements OnInit {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   listPtoVerde: PuntoVerde[] = []
   ptoVerde = new FormControl()
   nombre: string = ''
@@ -58,25 +62,32 @@ export class LandingResponsableComponent implements OnInit {
   ) {
     this.nombre = this.formatearNombre(this.sesionService.getFirstname())
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
-    this.pvService.list(entidadInfo.id).subscribe((res: any) => {
-      this.listPtoVerde = res
-    })
+    if (isPlatformBrowser(this.platformId)) {
+      this.pvService.list(entidadInfo.id).subscribe((res: any) => {
+        this.listPtoVerde = res
+      })
+    }
     const ptoVerdeSeleccionado = this.storage.getItem('puntoVerde') || ''
     this.pvSelec = ptoVerdeSeleccionado
     this.ptoVerde = new FormControl(ptoVerdeSeleccionado)
   }
 
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return
     const responsibleId = this.sesionService.getUserId()
-    this.wasteDeliveryService.listByResponsible(responsibleId).subscribe((resp: any) => {
-      this.historial = (resp.data || [])
-        .map((t: any) => ({
-          descripcion: `Entrega de ${t.neighbor?.firstname} ${t.neighbor?.lastname} en ${t.greenPoint?.name ?? 'Punto Verde'}`,
-          puntos: t.totalPoints,
-          fecha: t.date
-        }))
-        .sort((a: any, b: any) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
-      this.historialVisible = this.historial.slice(0, this.LIMITE)
+    this.wasteDeliveryService.listByResponsible(responsibleId).subscribe({
+      next: (resp: any) => {
+        this.historial = (resp.data || [])
+          .map((t: any) => ({
+            descripcion: `Entrega de ${t.neighbor?.firstname} ${t.neighbor?.lastname} en ${t.greenPoint?.name ?? 'Punto Verde'}`,
+            puntos: t.totalPoints,
+            fecha: t.date
+          }))
+          .sort((a: any, b: any) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+        this.historialVisible = this.historial.slice(0, this.LIMITE)
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 

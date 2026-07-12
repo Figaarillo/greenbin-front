@@ -1,8 +1,9 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
 import { ChartData, ChartOptions } from 'chart.js'
@@ -14,12 +15,14 @@ Chart.register(...registerables)
 @Component({
   selector: 'app-mis-reciclados',
   standalone: true,
-  imports: [CommonModule, FormsModule, PageHeaderComponent, NgChartsModule],
+  imports: [CommonModule, FormsModule, PageHeaderComponent, NgChartsModule, SkeletonComponent],
   templateUrl: './mis-reciclados.component.html',
   styleUrl: './mis-reciclados.component.scss'
 })
 export class MisRecicladosComponent implements OnInit {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   deliveries: NeighborDelivery[] = []
   id = ''
 
@@ -57,18 +60,23 @@ export class MisRecicladosComponent implements OnInit {
   constructor(private statsService: StatisticsService) {}
 
   ngOnInit(): void {
-    const info = this.storage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || '{}'
     const userInfo = JSON.parse(info)
     this.id = userInfo.id
-    this.loadDeliveries()
+    if (isPlatformBrowser(this.platformId)) this.loadDeliveries()
   }
 
   loadDeliveries(): void {
+    this.loading = true
     const from = this.dateFrom || undefined
     const to = this.dateTo || undefined
-    this.statsService.getNeighborDeliveries(this.id, from, to).subscribe((res: any) => {
-      this.deliveries = res.data ?? []
-      this.buildStats()
+    this.statsService.getNeighborDeliveries(this.id, from, to).subscribe({
+      next: (res: any) => {
+        this.deliveries = res.data ?? []
+        this.buildStats()
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 

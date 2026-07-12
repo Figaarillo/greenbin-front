@@ -30,7 +30,7 @@ export class RegistrarCuponComponent {
 
   registrarCupon() {
     if (this.formGroup.valid) {
-      const info = this.storage.getItem('usuarioInfo') || ''
+      const info = this.storage.getItem('usuarioInfo') || '{}'
       const userInfo = JSON.parse(info)
       const id = userInfo.id
       const cupon = {

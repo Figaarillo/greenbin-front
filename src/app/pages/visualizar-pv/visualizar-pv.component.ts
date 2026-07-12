@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit, ViewChild } from '@angular/core'
+import { BreakpointObserver } from '@angular/cdk/layout'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
@@ -7,7 +8,7 @@ import { CommonModule } from '@angular/common'
 import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { MatIconModule } from '@angular/material/icon'
-import { Router, RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 
 @Component({
@@ -29,6 +30,7 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 })
 export class VisualizarPvComponent implements OnInit {
   private storage = inject(StorageService)
+  private breakpointObserver = inject(BreakpointObserver)
   @ViewChild(ModalPvComponent) modal?: ModalPvComponent
   pvServices = inject(PuntoVerdeService)
   options: google.maps.MapOptions = {
@@ -38,8 +40,16 @@ export class VisualizarPvComponent implements OnInit {
   }
 
   puntosVerdes: any[] = []
+  // En mobile el mapa a 80vh se extendía por detrás del tabbar fijo (z-index 300,
+  // ~90px de alto), tapando los markers de la parte inferior y capturando el tap
+  // el tabbar en vez del mapa. Se achica para que quede por completo arriba de él.
+  mapHeight = '80vh'
 
   ngOnInit() {
+    this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
+      this.mapHeight = result.matches ? '55vh' : '80vh'
+    })
+
     // La entidad usa 'entidadInfo' (su sesión); el vecino usa 'usuarioInfo.entity',
     // que el backend ahora puebla con la entidad completa (id + coordinates).
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
@@ -58,12 +68,25 @@ export class VisualizarPvComponent implements OnInit {
     this.pvServices.list(entityId).subscribe((res: any) => {
       this.puntosVerdes = res ?? []
 
+      // En SSR no hay DOM: los markers (document.createElement) se arman en el
+      // cliente cuando ngOnInit vuelve a correr tras hidratar.
+      if (typeof document === 'undefined') return
+
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
-        let imgTag = document.createElement('img')
+        const imgTag = document.createElement('img')
         imgTag.src = img
         imgTag.width = 24
         imgTag.height = 24
+        // Padding en vez de envolver en un <div>: un wrapper adicional como
+        // content del AdvancedMarkerElement rompía el marker (TypeError interno
+        // de la librería de Google, "getRootNode" sobre un nodo indefinido).
+        // Con padding el icono visual sigue midiendo 24px pero el area tocable
+        // total queda en 44px (minimo recomendado para touch), sin agregar
+        // ningun nodo nuevo: mismo <img> suelto que ya funcionaba antes.
+        imgTag.style.padding = '10px'
+        imgTag.style.boxSizing = 'content-box'
+        imgTag.style.cursor = 'pointer'
         location.content = imgTag
       })
     })

@@ -9,7 +9,7 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'
+import { MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
 import Swal from 'sweetalert2'
 

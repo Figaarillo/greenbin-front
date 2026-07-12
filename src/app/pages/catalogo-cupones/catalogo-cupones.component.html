@@ -20,25 +20,29 @@
       </label>
     </div>
 
-    @if (!dataSource.filteredData || dataSource.filteredData.length === 0) {
-      <div class="c-empty">No se encontraron cupones</div>
-    }
-
-    <div class="c-list">
-      @for (data of dataSource.filteredData; track data) {
-        <div class="c-card" (click)="abrirModal(data)">
-          <div class="c-card-icon">
-            <mat-icon>local_activity</mat-icon>
-          </div>
-          <div class="c-card-body">
-            <div class="c-card-title">{{ data.title }}</div>
-            <div class="c-card-desc">{{ data.description }}</div>
-            <span class="c-card-price">{{ data.costInPoints }} pts</span>
-          </div>
-          <div class="c-card-badge">{{ data.discount }}<span>%</span></div>
-        </div>
+    @if (loading) {
+      <app-skeleton type="card" [count]="6" />
+    } @else {
+      @if (!dataSource.filteredData || dataSource.filteredData.length === 0) {
+        <div class="c-empty">No se encontraron cupones</div>
       }
-    </div>
+
+      <div class="c-list">
+        @for (data of dataSource.filteredData; track data) {
+          <div class="c-card" (click)="abrirModal(data)">
+            <div class="c-card-icon">
+              <mat-icon>local_activity</mat-icon>
+            </div>
+            <div class="c-card-body">
+              <div class="c-card-title">{{ data.title }}</div>
+              <div class="c-card-desc">{{ data.description }}</div>
+              <span class="c-card-price">{{ data.costInPoints }} pts</span>
+            </div>
+            <div class="c-card-badge">{{ data.discount }}<span>%</span></div>
+          </div>
+        }
+      </div>
+    }
 
   </div>
 

@@ -10,7 +10,7 @@ export const confirmPasswordValidator: ValidatorFn = (
 }
 
 export class PasswordStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: AbstractControl, form: FormGroupDirective | NgForm): boolean {
+  isErrorState(control: AbstractControl, _form: FormGroupDirective | NgForm): boolean {
     if (!control || !control.parent) {
       return false
     }

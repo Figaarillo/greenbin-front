@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { Vecino } from '../../services/interfaces/vecino'
@@ -40,7 +40,6 @@ export class ModificarVecinoComponent {
   constructor(
     private fb: FormBuilder,
     private service: VecinoService,
-    private route: ActivatedRoute,
     private sesionService: SesionService
   ) {
     this.service.get(this.sesionService.getUserId()).subscribe((obj: any) => {

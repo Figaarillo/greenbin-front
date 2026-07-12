@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, OnInit } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -17,6 +18,8 @@ import { Router } from '@angular/router'
 export class ConsultarVecinosComponent implements OnInit {
   private storage = inject(StorageService)
   private vecinoService = inject(VecinoService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   columns: Column[] = []
   title: string = 'Vecinos'
   vecinos: any[] = []
@@ -30,7 +33,7 @@ export class ConsultarVecinosComponent implements OnInit {
       { key: 'email', label: 'Email' },
       { key: 'isActive', label: 'Estado' }
     ]
-    this.listVecinos()
+    if (isPlatformBrowser(this.platformId)) this.listVecinos()
   }
 
   listVecinos() {
@@ -41,8 +44,10 @@ export class ConsultarVecinosComponent implements OnInit {
           ...v,
           isActive: v.isActive ? 'Habilitado' : 'Deshabilitado'
         }))
+        this.loading = false
       },
       error: () => {
+        this.loading = false
         Swal.fire({ title: 'Ha ocurrido un error', icon: 'error' }).then(() => {
           this.router.navigate(['/entidad'])
         })

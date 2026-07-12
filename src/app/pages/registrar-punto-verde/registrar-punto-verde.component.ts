@@ -52,7 +52,7 @@ export class RegistrarPuntoVerdeComponent {
       description: ['']
     })
 
-    const info = this.storage.getItem('entidadInfo') || ''
+    const info = this.storage.getItem('entidadInfo') || '{}'
     const entidadInfo = JSON.parse(info)
     if (entidadInfo?.coordinates) {
       this.entidadCenter = {
@@ -76,7 +76,7 @@ export class RegistrarPuntoVerdeComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      const info = this.storage.getItem('entidadInfo') || ''
+      const info = this.storage.getItem('entidadInfo') || '{}'
       const entidadInfo = JSON.parse(info)
 
       const pv: PuntoVerde = {
