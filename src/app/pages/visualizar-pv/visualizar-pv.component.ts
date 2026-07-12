@@ -58,6 +58,10 @@ export class VisualizarPvComponent implements OnInit {
     this.pvServices.list(entityId).subscribe((res: any) => {
       this.puntosVerdes = res ?? []
 
+      // En SSR no hay DOM: los markers (document.createElement) se arman en el
+      // cliente cuando ngOnInit vuelve a correr tras hidratar.
+      if (typeof document === 'undefined') return
+
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
         let imgTag = document.createElement('img')

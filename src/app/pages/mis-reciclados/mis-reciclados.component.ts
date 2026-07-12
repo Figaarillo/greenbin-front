@@ -57,7 +57,7 @@ export class MisRecicladosComponent implements OnInit {
   constructor(private statsService: StatisticsService) {}
 
   ngOnInit(): void {
-    const info = this.storage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || '{}'
     const userInfo = JSON.parse(info)
     this.id = userInfo.id
     this.loadDeliveries()

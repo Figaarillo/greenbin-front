@@ -50,7 +50,7 @@ export class MisCuponesVecinoComponent {
     private sesionService: SesionService,
     private vecinoService: VecinoService
   ) {
-    const info = this.storage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || '{}'
     const usuarioInfo = JSON.parse(info)
     this.puntos = usuarioInfo.points
     this.getItems()

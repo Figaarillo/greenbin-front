@@ -69,7 +69,7 @@ export class EstadisticasLocalComponent implements OnInit {
   constructor(private localService: LocalAdheridoService) {}
 
   ngOnInit(): void {
-    const info = this.storage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || '{}'
     this.rewardPartnerId = JSON.parse(info).id
     this.loadData()
   }

@@ -50,7 +50,7 @@ export class LandingVecinoComponent implements OnInit {
     private vecinoServ: VecinoService,
     private breakpointObserver: BreakpointObserver
   ) {
-    const info = this.storage.getItem('usuarioInfo') || ''
+    const info = this.storage.getItem('usuarioInfo') || '{}'
     const usuarioInfo = JSON.parse(info)
     this.name = usuarioInfo.firstname
     this.id = usuarioInfo.id
