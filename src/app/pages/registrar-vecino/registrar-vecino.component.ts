@@ -21,6 +21,7 @@ import { Entidad } from '../../services/interfaces/entidad'
 import { MatSelectModule } from '@angular/material/select'
 import { CommonModule } from '@angular/common'
 import { StorageService } from '../../services/storage/storage.service'
+import { ThemeService } from '../../services/theme/theme.service'
 import Swal from 'sweetalert2'
 
 @Component({
@@ -51,6 +52,7 @@ export class RegistrarVecinoComponent implements OnInit {
     private vecinoService: VecinoService,
     private entityServices: EntidadService,
     private storage: StorageService,
+    private themeService: ThemeService,
     private router: Router
   ) {
     this.form = this.fb.group({
@@ -128,6 +130,7 @@ export class RegistrarVecinoComponent implements OnInit {
           // El alta no inicia sesión: descartamos cualquier sesión previa viva
           // en este dispositivo para no quedar navegando con otra identidad.
           this.storage.clear()
+          this.themeService.apply()
           Swal.fire({
             icon: 'success',
             title: 'Cuenta creada',

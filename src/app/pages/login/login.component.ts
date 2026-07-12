@@ -16,6 +16,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
+import { ThemeService } from '../../services/theme/theme.service'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
 import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
 import { catchError, map, of } from 'rxjs'
@@ -50,6 +51,7 @@ const ROLE_ROUTES: Record<Role, string> = {
 })
 export class LoginComponent {
   private storage = inject(StorageService)
+  private themeService = inject(ThemeService)
   router = inject(Router)
   hide = true
   loginAs = 0
@@ -137,6 +139,9 @@ export class LoginComponent {
     // Pizarra limpia: cualquier sesión previa en este dispositivo se descarta
     // ANTES de armar la nueva. Nunca confiar en pisar claves una por una.
     this.storage.clear()
+    // clear() borra tambien la clave del tema; re-sincronizamos el DOM (que
+    // no se toca solo) para que no quede "pegado" al valor anterior.
+    this.themeService.apply()
 
     this.sesionService.setAccessToken(obj.data.accessToken)
     this.sesionService.setRefreshToken(obj.data.refreshToken)
