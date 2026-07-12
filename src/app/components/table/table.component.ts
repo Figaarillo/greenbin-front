@@ -17,6 +17,8 @@ export class TableComponent implements OnChanges {
   cant = 15
   selectedFilter = ''
   search = ''
+  sortKey: string | null = null
+  sortDir: 'asc' | 'desc' = 'asc'
 
   @Input() tableData: any[] = []
   @Input() title: String = ''
@@ -47,12 +49,40 @@ export class TableComponent implements OnChanges {
 
   get filtered(): any[] {
     const query = this.search.trim().toLowerCase()
-    if (!query) return this.tableData
-    return this.tableData.filter(row => {
-      const value = row[this.selectedFilter]
-      const valueAsString = value != null ? value.toString() : ''
-      return valueAsString.toLowerCase().includes(query)
+    const base = !query
+      ? this.tableData
+      : this.tableData.filter(row => {
+          const value = row[this.selectedFilter]
+          const valueAsString = value != null ? value.toString() : ''
+          return valueAsString.toLowerCase().includes(query)
+        })
+
+    if (!this.sortKey) return base
+
+    const key = this.sortKey
+    const dir = this.sortDir === 'asc' ? 1 : -1
+    return [...base].sort((a, b) => {
+      const av = a[key]
+      const bv = b[key]
+      if (av == null && bv == null) return 0
+      if (av == null) return -1 * dir
+      if (bv == null) return 1 * dir
+      if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * dir
+      // localeCompare con numeric:true ordena fechas ISO cronologicamente
+      // (orden lexicografico == orden cronologico) sin parsear Date aparte.
+      return String(av).localeCompare(String(bv), 'es', { numeric: true, sensitivity: 'base' }) * dir
     })
+  }
+
+  toggleSort(column: Column): void {
+    if (column.key === 'actions') return
+    if (this.sortKey === column.key) {
+      this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc'
+    } else {
+      this.sortKey = column.key
+      this.sortDir = 'asc'
+    }
+    this.nPage = 1
   }
 
   get paged(): any[] {
