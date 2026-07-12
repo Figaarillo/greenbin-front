@@ -74,24 +74,20 @@ export class VisualizarPvComponent implements OnInit {
 
       const img = 'assets/recycle.png'
       this.puntosVerdes.forEach(location => {
-        // El icono visual mide 24px, pero el area tocable es de 44px (minimo
-        // recomendado para touch): asi el marker sigue siendo facil de tocar
-        // con el dedo aunque se vea igual de chico.
-        const hitArea = document.createElement('div')
-        hitArea.style.display = 'flex'
-        hitArea.style.alignItems = 'center'
-        hitArea.style.justifyContent = 'center'
-        hitArea.style.width = '44px'
-        hitArea.style.height = '44px'
-        hitArea.style.cursor = 'pointer'
-
         const imgTag = document.createElement('img')
         imgTag.src = img
         imgTag.width = 24
         imgTag.height = 24
-        hitArea.appendChild(imgTag)
-
-        location.content = hitArea
+        // Padding en vez de envolver en un <div>: un wrapper adicional como
+        // content del AdvancedMarkerElement rompía el marker (TypeError interno
+        // de la librería de Google, "getRootNode" sobre un nodo indefinido).
+        // Con padding el icono visual sigue midiendo 24px pero el area tocable
+        // total queda en 44px (minimo recomendado para touch), sin agregar
+        // ningun nodo nuevo: mismo <img> suelto que ya funcionaba antes.
+        imgTag.style.padding = '10px'
+        imgTag.style.boxSizing = 'content-box'
+        imgTag.style.cursor = 'pointer'
+        location.content = imgTag
       })
     })
   }
