@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
-import { ActivatedRoute, RouterModule, Router } from '@angular/router'
+import { RouterModule } from '@angular/router'
 
 @Component({
   selector: 'app-home',

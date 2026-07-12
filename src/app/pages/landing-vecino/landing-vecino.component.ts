@@ -6,9 +6,8 @@ import { MatListModule } from '@angular/material/list'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
-import { Router, RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
-import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -48,8 +47,6 @@ export class LandingVecinoComponent implements OnInit {
   isDesktop = false
 
   constructor(
-    private router: Router,
-    private sesionService: SesionService,
     private vecinoServ: VecinoService,
     private breakpointObserver: BreakpointObserver
   ) {

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common'
 import { ModalPvComponent } from '../../components/modal-pv/modal-pv.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { MatIconModule } from '@angular/material/icon'
-import { Router, RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 
 @Component({
