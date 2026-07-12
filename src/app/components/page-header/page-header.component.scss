@@ -8,6 +8,14 @@
   padding: 22px 20px 26px;
 }
 
+@media (max-width: 959px) {
+  .page-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+}
+
 .ph-brand {
   display: flex;
   align-items: center;
