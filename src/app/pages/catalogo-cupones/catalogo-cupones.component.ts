@@ -30,11 +30,15 @@ export class CatalogoCuponesComponent {
   redeemedCouponIds: Set<string> = new Set()
   titleFilter = ''
   minDiscount: number | null = null
+  sortDir: 'desc' | 'asc' = 'desc'
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
     const min = this.minDiscount ?? 0
-    this.dataSource.data = this.items.filter(c => c.title.toLowerCase().includes(title) && c.discount >= min)
+    const dir = this.sortDir === 'desc' ? -1 : 1
+    this.dataSource.data = this.items
+      .filter(c => c.title.toLowerCase().includes(title) && c.discount >= min)
+      .sort((a, b) => (a.discount - b.discount) * dir)
   }
 
   onTitleFilter(event: Event) {
@@ -45,6 +49,11 @@ export class CatalogoCuponesComponent {
   onDiscountFilter(event: Event) {
     const val = (event.target as HTMLInputElement).value
     this.minDiscount = val !== '' ? Number(val) : null
+    this.applyFilters()
+  }
+
+  toggleSortDir() {
+    this.sortDir = this.sortDir === 'desc' ? 'asc' : 'desc'
     this.applyFilters()
   }
 

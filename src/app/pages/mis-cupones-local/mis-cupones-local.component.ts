@@ -11,6 +11,8 @@ import Swal from 'sweetalert2'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
+export type DisponibilidadFiltro = 'TODOS' | 'DISPONIBLE' | 'NO_DISPONIBLE'
+
 @Component({
   selector: 'app-mis-cupones-local',
   standalone: true,
@@ -27,6 +29,8 @@ export class MisCuponesLocalComponent {
   items: Coupon[] = []
   localId: string = ''
   titleFilter = ''
+  statusFilter: DisponibilidadFiltro = 'TODOS'
+  sortDir: 'desc' | 'asc' = 'desc'
   cuponEnEdicion: Coupon | null = null
 
   constructor(
@@ -42,8 +46,28 @@ export class MisCuponesLocalComponent {
     this.applyFilters()
   }
 
+  setStatusFilter(status: DisponibilidadFiltro) {
+    this.statusFilter = status
+    this.applyFilters()
+  }
+
+  toggleSortDir() {
+    this.sortDir = this.sortDir === 'desc' ? 'asc' : 'desc'
+    this.applyFilters()
+  }
+
   private applyFilters() {
-    this.dataSource.data = this.items.filter(c => c.title.toLowerCase().includes(this.titleFilter))
+    let result = this.items.filter(c => c.title.toLowerCase().includes(this.titleFilter))
+
+    if (this.statusFilter !== 'TODOS') {
+      const wantAvailable = this.statusFilter === 'DISPONIBLE'
+      result = result.filter(c => c.isAvailable === wantAvailable)
+    }
+
+    const dir = this.sortDir === 'desc' ? -1 : 1
+    result = [...result].sort((a, b) => (a.discount - b.discount) * dir)
+
+    this.dataSource.data = result
   }
 
   edit(cupon: Coupon) {

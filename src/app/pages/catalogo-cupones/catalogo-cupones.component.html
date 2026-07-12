@@ -20,6 +20,18 @@
       </label>
     </div>
 
+    <div class="filters-row">
+      <button
+        type="button"
+        class="sort-btn"
+        (click)="toggleSortDir()"
+        [title]="sortDir === 'desc' ? 'Mayor descuento primero' : 'Menor descuento primero'"
+      >
+        <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
+        Descuento
+      </button>
+    </div>
+
     @if (loading) {
       <app-skeleton type="card" [count]="6" />
     } @else {
