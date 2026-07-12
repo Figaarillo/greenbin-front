@@ -45,7 +45,21 @@
     &::placeholder { color: var(--muted); }
   }
 
-  &.narrow { flex: 0 0 120px; }
+  &.narrow {
+    flex: 0 0 120px;
+
+    input {
+      // Ocultar las flechitas del spinner nativo de type="number": en un
+      // espacio tan chico comían lugar y descuadraban la pildora.
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+  }
 }
 
 .filters-row {
