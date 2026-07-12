@@ -2,9 +2,7 @@ import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, ViewChild, PLATFORM_ID } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
-import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
-import { MatInputModule } from '@angular/material/input'
 import { MatSortModule } from '@angular/material/sort'
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { RouterModule } from '@angular/router'
@@ -23,10 +21,8 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
   standalone: true,
   imports: [
     CommonModule,
-    MatFormFieldModule,
     CuponSheetComponent,
     MatIconModule,
-    MatInputModule,
     MatTableModule,
     MatSortModule,
     MatCardModule,

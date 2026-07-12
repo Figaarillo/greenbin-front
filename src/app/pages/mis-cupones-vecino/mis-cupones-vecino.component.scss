@@ -1,3 +1,40 @@
+.c-search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.c-search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: var(--r-field, 14px);
+  padding: 10px 14px;
+  box-shadow: var(--sh-1);
+
+  mat-icon {
+    color: var(--muted);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    width: 100%;
+
+    &::placeholder { color: var(--muted); }
+  }
+}
+
 .catalog {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
