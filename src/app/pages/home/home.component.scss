@@ -2,6 +2,11 @@
   background: var(--bg);
   padding: 0 10%;
   min-height: 620px;
+  // #banner mide 100vw y esta position-absolute: sin este corte, se extiende
+  // mas alla del borde derecho del viewport y genera scroll horizontal en
+  // mobile. El diseño ya usa mascaras para desvanecerlo en el borde, asi que
+  // recortar el excedente no cambia como se ve.
+  overflow-x: hidden;
 }
 
 #section-content {
