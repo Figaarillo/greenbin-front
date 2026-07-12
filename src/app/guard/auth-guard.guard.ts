@@ -1,140 +1,61 @@
-import { inject } from '@angular/core'
+import { inject, PLATFORM_ID, Type } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { CanActivateFn, Router } from '@angular/router'
+import { SesionService } from '../services/sesion/sesion.service'
 import { ResponsablesService } from '../services/responsables/responsables.service'
 import { VecinoService } from '../services/vecino/vecino.service'
 import { LocalAdheridoService } from '../services/local-adherido/local-adherido.service'
-import { visitAll } from '@angular/compiler'
-import { SesionService } from '../services/sesion/sesion.service'
 import { EntidadService } from '../services/entidad/entidad.service'
 import { SuperadminService } from '../services/superadmin/superadmin.service'
 
-export const isLogged: CanActivateFn = async (route, state) => {
-  const router = inject(Router)
-  const sesionService = inject(SesionService)
-  const token = sesionService.getAccessToken()
-  const refresh = sesionService.getRefreshToken()
-  if (token && refresh) {
-    return true
-  } else {
-    router.navigateByUrl('')
-    return false
-  }
+/**
+ * Durante el SSR no existe localStorage, así que el servidor no puede saber si
+ * el usuario está autenticado. Si el guard decidiera acá, siempre redirigiría a
+ * la home (sin token) y el cliente lo corregiría recién tras hidratar: ese es el
+ * parpadeo "pantalla de login → pantalla real" en cada refresh. Solución: en el
+ * servidor dejamos pasar y delegamos la decisión real al cliente, único que ve
+ * el token en localStorage.
+ */
+const isServer = (): boolean => !isPlatformBrowser(inject(PLATFORM_ID))
+
+interface RoleValidator {
+  // Los services tipan la respuesta como Promise<Object>, así que la dejamos
+  // laxa para que las 5 clases matcheen estructuralmente sin fricción.
+  roleValidator(): Promise<any>
 }
 
-export const authGuardGuard: CanActivateFn = async (route, state) => {
-  const responServices = inject(ResponsablesService)
+/** Fabrica un guard de rol: valida contra el backend y redirige si no es válido. */
+const roleGuard = (service: Type<RoleValidator>, redirectTo: string): CanActivateFn => {
+  return async () => {
+    if (isServer()) return true
 
-  const router = inject(Router)
-  let validate = false
-  await responServices.roleValidator().then(
-    (resp: any) => {
-      if (resp.data.isValid) {
-        validate = resp.data.isValid
-      }
-    },
-    error => {
-      validate = false
+    const router = inject(Router)
+    const validator = inject(service)
+
+    try {
+      const resp = await validator.roleValidator()
+      if (resp?.data?.isValid) return true
+    } catch {
+      /* rol inválido → cae al redirect */
     }
-  )
 
-  if (validate) {
-    return true
-  } else {
-    router.navigateByUrl('/login')
-    return false
-  }
-}
-export const vecinoGuard: CanActivateFn = async (route, state) => {
-  const neighborServices = inject(VecinoService)
-
-  const router = inject(Router)
-
-  let validate = false
-  await neighborServices.roleValidator().then(
-    (resp: any) => {
-      if (resp.data.isValid) {
-        validate = resp.data.isValid
-      }
-    },
-    error => {
-      validate = false
-    }
-  )
-
-  if (validate) {
-    return true
-  } else {
-    router.navigateByUrl('/login')
-    return false
-  }
-}
-export const localGuard: CanActivateFn = async (route, state) => {
-  const localServices = inject(LocalAdheridoService)
-
-  const router = inject(Router)
-  let validate = false
-  await localServices.roleValidator().then(
-    (resp: any) => {
-      if (resp.data.isValid) {
-        validate = resp.data.isValid
-      }
-    },
-    error => {
-      validate = false
-    }
-  )
-
-  if (validate) {
-    return true
-  } else {
-    router.navigateByUrl('/login')
-    return false
-  }
-}
-export const entityGuard: CanActivateFn = async (route, state) => {
-  const entityServices = inject(EntidadService)
-
-  const router = inject(Router)
-  let validate = false
-  await entityServices.roleValidator().then(
-    (resp: any) => {
-      if (resp.data.isValid) {
-        validate = resp.data.isValid
-      }
-    },
-    error => {
-      validate = false
-    }
-  )
-
-  if (validate) {
-    return true
-  } else {
-    router.navigateByUrl('')
+    router.navigateByUrl(redirectTo)
     return false
   }
 }
 
-export const superadminGuard: CanActivateFn = async (route, state) => {
-  const superadminService = inject(SuperadminService)
-  const router = inject(Router)
-  let validate = false
+export const isLogged: CanActivateFn = () => {
+  if (isServer()) return true
 
-  await superadminService.roleValidator().then(
-    (resp: any) => {
-      if (resp?.data?.isValid) {
-        validate = true
-      }
-    },
-    () => {
-      validate = false
-    }
-  )
+  const sesion = inject(SesionService)
+  if (sesion.getAccessToken() && sesion.getRefreshToken()) return true
 
-  if (validate) {
-    return true
-  } else {
-    router.navigateByUrl('/superadmin/login')
-    return false
-  }
+  inject(Router).navigateByUrl('')
+  return false
 }
+
+export const authGuardGuard = roleGuard(ResponsablesService, '/login')
+export const vecinoGuard = roleGuard(VecinoService, '/login')
+export const localGuard = roleGuard(LocalAdheridoService, '/login')
+export const entityGuard = roleGuard(EntidadService, '')
+export const superadminGuard = roleGuard(SuperadminService, '/superadmin/login')
