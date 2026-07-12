@@ -16,7 +16,6 @@ import Swal from 'sweetalert2'
 import { TableComponent } from '../../components/table/table.component'
 import { Column } from '../../services/interfaces/columns'
 import { Router } from '@angular/router'
-import { error } from 'console'
 
 @Component({
   selector: 'app-consultar-entidad',
@@ -82,7 +81,7 @@ export class ConsultarEntidadComponent implements OnInit {
         this.entidades = response
         this.dataSource = new MatTableDataSource(this.entidades)
       },
-      error: err => {
+      error: () => {
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'

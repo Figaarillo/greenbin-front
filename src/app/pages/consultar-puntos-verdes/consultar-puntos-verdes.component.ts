@@ -53,7 +53,7 @@ export class ConsultarPuntosVerdesComponent {
       next: (response: any) => {
         this.puntosVerdes = response
       },
-      error: err => {
+      error: () => {
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'

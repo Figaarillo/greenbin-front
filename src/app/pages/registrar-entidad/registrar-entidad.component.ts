@@ -114,7 +114,7 @@ export class RegistrarEntidadComponent {
                     this.router.navigate(['/listar-entidades'])
                   })
               },
-              error => {
+              () => {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',

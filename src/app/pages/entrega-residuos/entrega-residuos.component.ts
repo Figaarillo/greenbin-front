@@ -102,7 +102,7 @@ export class EntregaResiduosComponent {
     this.pvSelected = true
   }
 
-  onSubmit(form: any) {
+  onSubmit(_form: any) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',

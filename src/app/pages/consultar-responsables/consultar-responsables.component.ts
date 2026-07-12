@@ -60,7 +60,7 @@ export class ConsultarResponsablesComponent implements OnInit {
       next: (response: any) => {
         this.responsibles = response
       },
-      error: err => {
+      error: () => {
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'
