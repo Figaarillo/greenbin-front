@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http'
 import { SesionService } from '../services/sesion/sesion.service'
 import { inject } from '@angular/core'
-import { catchError, throwError } from 'rxjs'
+import { catchError, switchMap, throwError } from 'rxjs'
 import { IS_REFRESH_TOKEN_REQUEST } from './httpContextToken'
 
 export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
@@ -19,18 +19,25 @@ export const sesionInterceptor: HttpInterceptorFn = (req, next) => {
         if (!role) {
           return throwError(() => error)
         }
-        //refrescar el token (ESTAS PETICIONES SIGUIENTES NO PASARAN POR LOS INTERCEPTORS ANTERIORES)
-        sesionService.sendRefreshToken(role).subscribe(obj => {
-          sesionService.setAccessToken(obj.data.accessToken)
-          sesionService.setRefreshToken(obj.data.refreshToken)
-        })
-        //volver a enviar la peticion
-        const clonedRequest = req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${sesionService.getAccessToken()}`
-          }
-        })
-        return next(clonedRequest)
+        // Refrescar el token y RECIÉN cuando llega el nuevo, reintentar la
+        // petición con ese token fresco. Antes se reintentaba en paralelo con
+        // el token viejo (getAccessToken aún no actualizado) y el reintento
+        // fallaba siempre con 401.
+        return sesionService.sendRefreshToken(role).pipe(
+          switchMap(obj => {
+            const accessToken = obj.data.accessToken
+            sesionService.setAccessToken(accessToken)
+            const clonedRequest = req.clone({
+              setHeaders: { Authorization: `Bearer ${accessToken}` }
+            })
+            return next(clonedRequest)
+          }),
+          catchError(refreshError => {
+            // Si el refresh falla (refresh token vencido), cerramos sesión.
+            sesionService.logout()
+            return throwError(() => refreshError)
+          })
+        )
       }
       // Propaga otros errores normalmente
       return throwError(() => error)
