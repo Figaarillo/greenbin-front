@@ -1,18 +1,19 @@
 <div data-role="vecino">
-  <app-page-header title="Puntos Verdes"></app-page-header>
+  <app-page-header title="Mapa"></app-page-header>
 
   <div class="container mt-3">
     <div class="w-100 map-container">
       @defer (on immediate) {
-        <google-map class="rounded-map" [height]="mapHeight" width="100%" [options]="options" (mapInitialized)="onMapReady($event)">
-          <map-advanced-marker #markerElem="mapAdvancedMarker"
-            *ngFor="let location of puntosVerdes"
-            [title]="'Punto Verde'"
-            (mapClick)="abrirModal(location)"
-            [content]="location.content"
-            [position]="{ lat: location.coordinates.latitude, lng: location.coordinates.longitude }">
-          </map-advanced-marker>
-        </google-map>
+        <app-map-view
+          [puntosVerdes]="puntosVerdes"
+          [localesAdheridos]="localesAdheridos"
+          [center]="center"
+          [zoom]="zoom"
+          [height]="mapHeight"
+          (mapReady)="onMapReady($event)"
+          (puntoVerdeClick)="abrirModal($event)"
+          (localAdheridoClick)="abrirModalLocal($event)">
+        </app-map-view>
       } @placeholder {
         <div class="map-placeholder">Cargando mapa…</div>
       }
@@ -20,4 +21,5 @@
   </div>
 
   <app-modal-pv></app-modal-pv>
+  <app-modal-local-adherido></app-modal-local-adherido>
 </div>

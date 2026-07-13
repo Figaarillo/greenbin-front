@@ -5,13 +5,14 @@
     [center]="center"
     [zoom]="zoom"
     [mapId]="'iuhd8q3hsdads'"
+    (mapInitialized)="onMapInitialized($event)"
     >
     @if(markerLibraryReady){
         @for (pv of puntosVerdes; track pv) {
-            <map-advanced-marker [position]="coordToPosition(pv)" [options]="getPuntoVerdeMarkerOptions(pv)"></map-advanced-marker>
+            <map-advanced-marker [position]="coordToPosition(pv)" [options]="getPuntoVerdeMarkerOptions(pv)" (mapClick)="puntoVerdeClick.emit(pv)"></map-advanced-marker>
         }
         @for (la of localesAdheridos; track la) {
-            <map-advanced-marker [position]="coordToPosition(la)" [options]="getLocalAdheridoMarkerOptions(la)"></map-advanced-marker>
+            <map-advanced-marker [position]="coordToPosition(la)" [options]="getLocalAdheridoMarkerOptions(la)" (mapClick)="localAdheridoClick.emit(la)"></map-advanced-marker>
         }
     }
     </google-map>

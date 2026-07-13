@@ -93,13 +93,13 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
         middle: [
           { icon: 'local_activity', label: 'Cupones', route: '/vecino/cupones' },
           { icon: 'home', label: '', route: '/vecino/inicio', isFab: true },
-          { icon: 'recycling', label: 'Puntos', route: '/vecino/puntos-verdes' }
+          { icon: 'map', label: 'Mapa', route: '/vecino/puntos-verdes' }
         ],
         profile: '/vecino/modificar-vecino',
         menu: [
           { icon: 'home', label: 'Inicio', route: '/vecino/inicio' },
           { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/mis-cupones' },
-          { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
+          { icon: 'location_on', label: 'Mapa', route: '/vecino/puntos-verdes' },
           { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
           { icon: 'close', label: 'Cerrar Sesión', route: '' }
         ]

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
@@ -14,8 +14,11 @@ export class MapViewComponent implements AfterViewInit {
   @Input() puntosVerdes: PuntoVerde[] = []
   @Input() localesAdheridos: LocalAdherido[] = []
   @Input() height: string | number = 220
+  @Input() zoom = 13
 
-  zoom = 13
+  @Output() puntoVerdeClick = new EventEmitter<PuntoVerde>()
+  @Output() localAdheridoClick = new EventEmitter<LocalAdherido>()
+  @Output() mapReady = new EventEmitter<google.maps.Map>()
 
   @Input() center: google.maps.LatLngLiteral = {
     //centro, puesto a mano las coordenadas de vm
@@ -48,7 +51,7 @@ export class MapViewComponent implements AfterViewInit {
       .catch(() => {})
   }
 
-  /** Crea el SVG de la tiendita (reemplaza el Material Icon 'store') */
+  /** Crea el SVG de la tiendita (reward partner) */
   private createTienditaSvg(): SVGElement {
     const xmlns = 'http://www.w3.org/2000/svg'
     const svg = document.createElementNS(xmlns, 'svg')
@@ -56,12 +59,10 @@ export class MapViewComponent implements AfterViewInit {
     svg.setAttribute('width', '100%')
     svg.setAttribute('height', '100%')
 
-    // Techo a dos aguas
     const roof = document.createElementNS(xmlns, 'path')
     roof.setAttribute('d', 'M8 26 L32 10 L56 26 L56 30 L8 30 Z')
     roof.setAttribute('fill', '#ffffff')
 
-    // Base de la tienda
     const body = document.createElementNS(xmlns, 'rect')
     body.setAttribute('x', '14')
     body.setAttribute('y', '30')
@@ -125,6 +126,10 @@ export class MapViewComponent implements AfterViewInit {
       content: this.createLocalAdheridoPin().element //el pin element da el estilo al marcador
     }
     return markerOptions
+  }
+
+  onMapInitialized(map: google.maps.Map) {
+    this.mapReady.emit(map)
   }
 
   coordToPosition(obj: PuntoVerde | LocalAdherido) {
