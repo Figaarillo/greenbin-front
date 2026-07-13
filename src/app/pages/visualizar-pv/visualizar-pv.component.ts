@@ -45,9 +45,38 @@ export class VisualizarPvComponent implements OnInit {
   // el tabbar en vez del mapa. Se achica para que quede por completo arriba de él.
   mapHeight = '80vh'
 
+  // El mapa se inicializa mientras su contenedor todavia puede estar
+  // asentando el layout (dentro de un @defer, con el header sticky recien
+  // pintandose). Si el tamano cambia despues sin avisarle a la API, el mapa
+  // sigue creyendo que tiene el tamano viejo: los tiles se ven bien (el
+  // browser los reescala visualmente) pero la capa interactiva de los
+  // markers queda desalineada, por eso el primer tap no abre nada. Entrar y
+  // salir de pantalla completa dispara un resize nativo que la Maps API sí
+  // escucha, y "arregla" el desalineo -- de ahi el bug. Se disparan resizes
+  // explicitos en los mismos momentos en que el contenedor puede cambiar de
+  // tamano, sin depender de que el usuario togglee fullscreen.
+  private googleMapInstance: google.maps.Map | null = null
+
+  onMapReady(map: google.maps.Map): void {
+    this.googleMapInstance = map
+    this.triggerMapResize()
+  }
+
+  private triggerMapResize(): void {
+    if (this.googleMapInstance == null) return
+    // Un tick despues del cambio de layout, para que el contenedor ya tenga
+    // su tamano final cuando la API recalcula.
+    setTimeout(() => {
+      if (this.googleMapInstance != null) {
+        google.maps.event.trigger(this.googleMapInstance, 'resize')
+      }
+    })
+  }
+
   ngOnInit() {
     this.breakpointObserver.observe('(max-width: 959px)').subscribe(result => {
       this.mapHeight = result.matches ? '55vh' : '80vh'
+      this.triggerMapResize()
     })
 
     // La entidad usa 'entidadInfo' (su sesión); el vecino usa 'usuarioInfo.entity',
