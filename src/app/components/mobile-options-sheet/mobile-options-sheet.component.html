@@ -39,12 +39,16 @@
         <mat-slide-toggle [checked]="textSizeMode === 'large'" (change)="onTextSizeToggle()"></mat-slide-toggle>
       </div>
 
-      <div class="opt-row">
-        <mat-icon>notifications</mat-icon>
-        <span class="opt-text">Notificaciones</span>
-        <span class="beta-badge">Beta</span>
-        <mat-slide-toggle [checked]="notificationsEnabled" (change)="onNotificationsToggle()"></mat-slide-toggle>
-      </div>
+      @if (preferences(); as prefs) {
+        <div class="opt-section-title">Notificaciones</div>
+        @for (row of visiblePreferenceRows(); track row.key) {
+          <div class="opt-row">
+            <mat-icon>notifications</mat-icon>
+            <span class="opt-text">{{ row.label }}</span>
+            <mat-slide-toggle [checked]="prefs[row.key]" (change)="onPreferenceToggle(row)"></mat-slide-toggle>
+          </div>
+        }
+      }
     </div>
   }
 

@@ -1,15 +1,16 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit, ViewChild, PLATFORM_ID } from '@angular/core'
+import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
 import { MatDividerModule } from '@angular/material/divider'
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
@@ -22,10 +23,11 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    MatSidenavModule,
     MatToolbarModule,
     SidenavComponent,
     PageHeaderComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent,
     RouterModule,
     CommonModule,
     DatePipe,
@@ -39,8 +41,6 @@ export class LandingVecinoComponent implements OnInit {
   private platformId = inject(PLATFORM_ID)
   loading = true
   title = 'GreenBin'
-  @ViewChild(MatSidenav, { static: true })
-  sidenav!: MatSidenav
   id = ''
   puntos: string = ''
   name = ''

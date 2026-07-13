@@ -160,6 +160,7 @@ export class RegistrarVecinoComponent implements OnInit {
         // El alta no inicia sesión: descartamos cualquier sesión previa viva
         // en este dispositivo para no quedar navegando con otra identidad.
         this.storage.clear()
+        this.themeService.apply()
         Swal.fire({
           icon: 'success',
           title: 'Cuenta creada',

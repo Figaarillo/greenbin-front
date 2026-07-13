@@ -1,4 +1,16 @@
-import { Component, EventEmitter, Input, OnDestroy, Output, inject, viewChild } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  inject,
+  signal,
+  viewChild
+} from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component'
@@ -7,7 +19,25 @@ import { ModificarResponsableComponent } from '../../pages/modificar-responsable
 import { ModificarLocalComponent } from '../../pages/modificar-local/modificar-local.component'
 import { ThemeService } from '../../services/theme/theme.service'
 import { TextSizeService } from '../../services/text-size/text-size.service'
-import { NotificationsPrefService } from '../../services/notifications-pref/notifications-pref.service'
+import { NotificationService } from '../../services/notification/notification.service'
+import { NotificationPreference } from '../../services/interfaces/notification'
+
+interface PreferenceRow {
+  key: keyof NotificationPreference
+  label: string
+  /** Roles (vocabulario de UI: 'vecino' | 'responsable' | 'local') a los que aplica esta categoría. */
+  roles: string[]
+}
+
+// Mapea cada categoría de notificación a los roles que realmente pueden
+// recibirla (según qué evento de negocio la dispara en el backend), para no
+// mostrarle a un local un toggle de "compra de cupones" que nunca le aplica.
+const PREFERENCE_ROWS: PreferenceRow[] = [
+  { key: 'couponPurchased', label: 'Compra de cupones', roles: ['vecino'] },
+  { key: 'couponRedeemed', label: 'Canje de cupones', roles: ['vecino'] },
+  { key: 'couponCreated', label: 'Cupones creados', roles: ['local'] },
+  { key: 'pointsDelivered', label: 'Entregas de puntos', roles: ['vecino', 'responsable'] }
+]
 
 @Component({
   selector: 'app-mobile-options-sheet',
@@ -23,7 +53,7 @@ import { NotificationsPrefService } from '../../services/notifications-pref/noti
   templateUrl: './mobile-options-sheet.component.html',
   styleUrl: './mobile-options-sheet.component.scss'
 })
-export class MobileOptionsSheetComponent implements OnDestroy {
+export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
   /** 'vecino' | 'responsable' | 'local' — decide qué form embebido renderizar. */
   @Input({ required: true }) role!: string
   @Input() userName: string = ''
@@ -39,18 +69,28 @@ export class MobileOptionsSheetComponent implements OnDestroy {
   @Output() navigateFullPage = new EventEmitter<string>()
 
   private readonly sheet = viewChild.required(BottomSheetComponent)
+  private readonly platformId = inject(PLATFORM_ID)
   private theme = inject(ThemeService)
   private textSize = inject(TextSizeService)
-  private notifPref = inject(NotificationsPrefService)
+  private notificationService = inject(NotificationService)
 
   view: 'options' | 'edit' = 'options'
   themeMode = this.theme.getTheme()
   textSizeMode = this.textSize.getSize()
-  notificationsEnabled = this.notifPref.isEnabled()
+  readonly preferences = signal<NotificationPreference | null>(null)
 
   /** Vista previa local de la nueva foto (blob URL). No se sube a ningún lado
    *  todavía — es solo para mostrar cómo se vería el cambio reflejado arriba. */
   previewPhoto: string | null = null
+
+  ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return
+
+    this.notificationService.getPreferences().subscribe({
+      next: resp => this.preferences.set(resp.data),
+      error: () => {}
+    })
+  }
 
   ngOnDestroy(): void {
     this.revokePreview()
@@ -81,6 +121,10 @@ export class MobileOptionsSheetComponent implements OnDestroy {
   open(): void {
     this.view = 'options'
     this.sheet().open()
+  }
+
+  visiblePreferenceRows(): PreferenceRow[] {
+    return PREFERENCE_ROWS.filter(row => row.roles.includes(this.role))
   }
 
   toggle(): void {
@@ -115,8 +159,13 @@ export class MobileOptionsSheetComponent implements OnDestroy {
     this.textSizeMode = this.textSize.toggle()
   }
 
-  onNotificationsToggle(): void {
-    this.notificationsEnabled = this.notifPref.toggle()
+  onPreferenceToggle(row: PreferenceRow): void {
+    const current = this.preferences()
+    if (current == null) return
+
+    const next = !current[row.key]
+    this.preferences.set({ ...current, [row.key]: next })
+    this.notificationService.updatePreferences({ [row.key]: next }).subscribe({ error: () => {} })
   }
 
   onGestionarCuentaCompleta(): void {

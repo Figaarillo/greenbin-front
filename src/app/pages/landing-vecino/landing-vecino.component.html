@@ -1,18 +1,15 @@
-<div data-role="vecino">
-  <mat-drawer-container class="landing-drawer" autosize>
+<div data-role="vecino" class="landing-drawer">
+  <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
+    <div class="hdr-chip">
+      <mat-icon>stars</mat-icon>
+      {{ puntos }} pts acumulados
+    </div>
+    <app-notification-bell #bell (opened)="panel.open()" />
+  </app-page-header>
 
-    <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
-      <div class="hdr-chip">
-        <mat-icon>stars</mat-icon>
-        {{ puntos }} pts acumulados
-      </div>
-    </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
-    <mat-drawer #buzon mode="over" [position]="'end'">
-      <p>Buzón</p>
-    </mat-drawer>
-
-    <div class="v-body">
+  <div class="v-body">
       <h4>Historial</h4>
 
       @if (loading) {
@@ -44,6 +41,4 @@
       }
       }
     </div>
-
-  </mat-drawer-container>
 </div>

@@ -1,0 +1,34 @@
+<app-bottom-sheet [handle]="false" (closed)="onSheetClosed()">
+  <div class="panel-header">
+    <span class="panel-title">Notificaciones</span>
+    @if (hasUnread()) {
+      <button type="button" class="mark-all-btn" (click)="markAllAsRead()">Marcar todas como leídas</button>
+    }
+  </div>
+
+  <div class="panel-body">
+    @if (loading()) {
+      <app-skeleton type="list" [count]="4" />
+    } @else {
+      @if (notifications().length === 0) {
+        <p class="empty-state">No tenés notificaciones</p>
+      }
+
+      @for (n of notifications(); track n.id) {
+        <div class="notif-item" [class.unread]="n.readAt == null" (click)="onNotificationClick(n)">
+          <div class="notif-icon">
+            <mat-icon>{{ iconFor(n.category) }}</mat-icon>
+          </div>
+          <div class="notif-info">
+            <b>{{ n.title }}</b>
+            <span>{{ n.body }}</span>
+            <span class="notif-date">{{ n.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          @if (n.readAt == null) {
+            <span class="unread-dot"></span>
+          }
+        </div>
+      }
+    }
+  </div>
+</app-bottom-sheet>

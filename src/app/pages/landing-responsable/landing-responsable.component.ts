@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
 import { MatSelectModule } from '@angular/material/select'
-import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule, Router } from '@angular/router'
 import { SesionService } from '../../services/sesion/sesion.service'
@@ -18,6 +17,8 @@ import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import Swal from 'sweetalert2'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -27,7 +28,6 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    MatSidenavModule,
     MatToolbarModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -36,7 +36,9 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
     RouterModule,
     CommonModule,
     DatePipe,
-    SkeletonComponent
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
