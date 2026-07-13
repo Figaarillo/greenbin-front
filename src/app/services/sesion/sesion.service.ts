@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../../config/api.config'
-import { inject, Injectable } from '@angular/core'
+import { inject, Injectable, signal } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http'
@@ -46,11 +46,21 @@ export class SesionService {
     this.router.navigateByUrl('/login')
   }
 
+  // Signal reactivo para UI que necesita enterarse de cambios de puntos en
+  // vivo (ej. contador animado). getPoints()/setPoints() siguen devolviendo
+  // el string crudo de siempre para no romper a nadie que ya los use.
+  readonly points = signal<number>(this.parsePoints(this.storage.getItem('points')))
+
   setPoints(data: string) {
     this.storage.setItem('points', data)
+    this.points.set(this.parsePoints(data))
   }
   getPoints() {
     return this.storage.getItem('points')!
+  }
+  private parsePoints(raw: string | null): number {
+    const parsed = Number(raw)
+    return Number.isFinite(parsed) ? parsed : 0
   }
   setFirstname(data: string) {
     this.storage.setItem('firstname', data)

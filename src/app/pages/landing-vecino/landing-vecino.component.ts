@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
+import { inject, Component, DestroyRef, OnInit, PLATFORM_ID } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
@@ -7,11 +8,15 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
+import { filter } from 'rxjs'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
+import { AnimatedNumberComponent } from '../../components/animated-number/animated-number.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { SesionService } from '../../services/sesion/sesion.service'
+import { RealtimeService } from '../../services/notification/realtime.service'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
@@ -28,6 +33,7 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
     PageHeaderComponent,
     NotificationBellComponent,
     NotificationPanelComponent,
+    AnimatedNumberComponent,
     RouterModule,
     CommonModule,
     DatePipe,
@@ -39,10 +45,13 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 export class LandingVecinoComponent implements OnInit {
   private storage = inject(StorageService)
   private platformId = inject(PLATFORM_ID)
+  private sesionService = inject(SesionService)
+  private realtimeService = inject(RealtimeService)
+  private destroyRef = inject(DestroyRef)
   loading = true
   title = 'GreenBin'
   id = ''
-  puntos: string = ''
+  readonly puntos = this.sesionService.points
   name = ''
   historial: any[] = []
   historialVisible: any[] = []
@@ -71,9 +80,22 @@ export class LandingVecinoComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) return
 
     this.vecinoServ.get(this.id).subscribe((resp: any) => {
-      this.puntos = resp.data.points
-      this.storage.setItem('points', this.puntos)
+      this.sesionService.setPoints(String(resp.data.points))
     })
+
+    // Cuando el responsable registra una entrega, el saldo sube en vivo (con
+    // animación) sin que el vecino tenga que recargar la página.
+    this.realtimeService.events$
+      .pipe(
+        filter(event => event.category === 'POINTS_DELIVERED'),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        const totalPoints = event.data?.['totalPoints']
+        if (typeof totalPoints === 'number') {
+          this.sesionService.setPoints(String(totalPoints))
+        }
+      })
 
     this.vecinoServ.getMyTransactions(this.id).subscribe({
       next: (resp: any) => {

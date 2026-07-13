@@ -2,7 +2,7 @@
   <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
     <div class="hdr-chip">
       <mat-icon>stars</mat-icon>
-      {{ puntos }} pts acumulados
+      <app-animated-number [value]="puntos()" /> pts acumulados
     </div>
     <app-notification-bell #bell (opened)="panel.open()" />
   </app-page-header>

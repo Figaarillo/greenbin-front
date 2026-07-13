@@ -1,15 +1,16 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, DestroyRef, OnInit, inject, viewChild } from '@angular/core'
+import { Component, DestroyRef, OnDestroy, OnInit, PLATFORM_ID, inject, viewChild } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { filter } from 'rxjs'
+import { isPlatformBrowser, CommonModule } from '@angular/common'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-menu/mobile-menu.component'
 import { MobileOptionsSheetComponent } from '../../components/mobile-options-sheet/mobile-options-sheet.component'
 import { SesionService } from '../../services/sesion/sesion.service'
-import { CommonModule } from '@angular/common'
+import { RealtimeService } from '../../services/notification/realtime.service'
 
 @Component({
   selector: 'app-role-layout',
@@ -26,12 +27,14 @@ import { CommonModule } from '@angular/common'
   templateUrl: './role-layout.component.html',
   styleUrl: './role-layout.component.scss'
 })
-export class RoleLayoutComponent implements OnInit {
+export class RoleLayoutComponent implements OnInit, OnDestroy {
   private storage = inject(StorageService)
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   private breakpointObserver = inject(BreakpointObserver)
   private sesionService = inject(SesionService)
+  private realtimeService = inject(RealtimeService)
+  private platformId = inject(PLATFORM_ID)
   private destroyRef = inject(DestroyRef)
 
   role = 'vecino'
@@ -56,6 +59,12 @@ export class RoleLayoutComponent implements OnInit {
   userDetail = ''
 
   ngOnInit(): void {
+    // El stream SSE solo tiene sentido en el navegador (SSR no mantiene
+    // conexiones abiertas) y una vez que hay sesión.
+    if (isPlatformBrowser(this.platformId)) {
+      this.realtimeService.start()
+    }
+
     this.role = this.route.snapshot.data['role'] || 'vecino'
     this.userId = this.sesionService.getUserId()
 
@@ -145,6 +154,10 @@ export class RoleLayoutComponent implements OnInit {
         this.menu()?.closeSheet()
         this.optionsSheet()?.closeSheet()
       })
+  }
+
+  ngOnDestroy(): void {
+    this.realtimeService.stop()
   }
 
   onHamburgerClick(): void {
