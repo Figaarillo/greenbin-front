@@ -84,22 +84,6 @@ export class MapInputComponent implements AfterViewInit {
     }
   }
 
-  /** Crea el SVG de la hojita (Punto Verde, misma forma del favicon) */
-  private createHojaSvg(): SVGElement {
-    const xmlns = 'http://www.w3.org/2000/svg'
-    const svg = document.createElementNS(xmlns, 'svg')
-    svg.setAttribute('viewBox', '0 0 64 64')
-    svg.setAttribute('width', '100%')
-    svg.setAttribute('height', '100%')
-
-    const leaf = document.createElementNS(xmlns, 'path')
-    leaf.setAttribute('d', 'M16 46 C16 27 29 15 49 15 C49 35 36 49 16 46 Z')
-    leaf.setAttribute('fill', '#ffffff')
-
-    svg.appendChild(leaf)
-    return svg
-  }
-
   /** Crea el SVG de la tiendita (reward partner) */
   private createTienditaSvg(): SVGElement {
     const xmlns = 'http://www.w3.org/2000/svg'
@@ -128,7 +112,7 @@ export class MapInputComponent implements AfterViewInit {
   puntoVerdeMarker(): google.maps.marker.PinElement {
     return new google.maps.marker.PinElement({
       background: '#20a517',
-      glyph: this.createHojaSvg(),
+      glyph: '♻',
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#20a517'
