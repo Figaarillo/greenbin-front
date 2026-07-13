@@ -106,37 +106,18 @@ export class RegistrarLocalComponent implements OnInit {
     })
 
     if (this.formGroup.valid) {
-      let localToSave = <LocalAdherido>this.formGroup.value
-      localToSave.coordinates = {
-        latitude: this.formGroup.get('latitude')?.value!,
-        longitude: this.formGroup.get('longitude')?.value!
-      }
-      localToSave.entityId = this.entitySelect
-      this.localService.create(localToSave).subscribe(
-        () => {
-          swalWithBootstrapButtons
-            .fire({
-              title: '¡Creado con éxito!',
-
-              icon: 'success'
-            })
-            .then(() => {
-              this.router.navigate([''])
-            })
+      const email = this.formGroup.get('email')?.value
+      // Paso 1: pedimos el código de verificación al mail antes de crear el local.
+      this.localService.requestRegisterOtp(email!).subscribe({
+        next: res => {
+          const registerToken = res.data?.registerToken
+          void this.verifyAndCreate(registerToken, swalWithBootstrapButtons)
         },
-        () => {
-          swalWithBootstrapButtons
-            .fire({
-              title: 'Ha ocurrido un error',
-              icon: 'error'
-            })
-            .then(result => {
-              if (result.isConfirmed) {
-                this.router.navigate(['/registrar-local'])
-              }
-            })
+        error: err => {
+          const title = err?.error?.message ?? 'No se pudo enviar el código de verificación'
+          swalWithBootstrapButtons.fire({ title, icon: 'error' })
         }
-      )
+      })
     } else {
       swalWithBootstrapButtons
         .fire({
@@ -149,6 +130,56 @@ export class RegistrarLocalComponent implements OnInit {
           }
         })
     }
+  }
+
+  private async verifyAndCreate(registerToken: string, swalWithBootstrapButtons: typeof Swal): Promise<void> {
+    // Paso 2: el usuario ingresa el OTP y RECIÉN ahí se crea el local.
+    const { value: otp } = await Swal.fire({
+      title: 'Verificá tu email',
+      text: 'Ingresá el código de 6 dígitos que enviamos a tu correo',
+      input: 'text',
+      inputAttributes: { maxlength: '6', inputmode: 'numeric', autocapitalize: 'off' },
+      showCancelButton: true,
+      confirmButtonText: 'Verificar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: value => (!value || value.length !== 6 ? 'El código tiene 6 dígitos' : null)
+    })
+
+    if (!otp) return
+
+    let localToSave = <LocalAdherido>this.formGroup.value
+    localToSave.coordinates = {
+      latitude: this.formGroup.get('latitude')?.value!,
+      longitude: this.formGroup.get('longitude')?.value!
+    }
+    localToSave.entityId = this.entitySelect
+    ;(localToSave as any).registerToken = registerToken
+    ;(localToSave as any).otp = otp
+
+    this.localService.create(localToSave).subscribe(
+      () => {
+        swalWithBootstrapButtons
+          .fire({
+            title: '¡Creado con éxito!',
+            icon: 'success'
+          })
+          .then(() => {
+            this.router.navigate([''])
+          })
+      },
+      err => {
+        swalWithBootstrapButtons
+          .fire({
+            title: err?.error?.message ?? 'Ha ocurrido un error',
+            icon: 'error'
+          })
+          .then(result => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/registrar-local'])
+            }
+          })
+      }
+    )
   }
 
   togglePasswordVisibility(): void {

@@ -125,22 +125,51 @@ export class RegistrarVecinoComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       this.setDateFormat()
-      this.vecinoService.create(<Vecino>this.form.value).subscribe({
-        next: () => {
-          // El alta no inicia sesión: descartamos cualquier sesión previa viva
-          // en este dispositivo para no quedar navegando con otra identidad.
-          this.storage.clear()
-          this.themeService.apply()
-          Swal.fire({
-            icon: 'success',
-            title: 'Cuenta creada',
-            text: 'Ya podés iniciar sesión con tu nueva cuenta'
-          }).then(() => this.router.navigateByUrl('/login'))
+      const email = this.form.get('email')?.value
+      // Paso 1: pedimos el código de verificación al mail antes de crear la cuenta.
+      this.vecinoService.requestRegisterOtp(email).subscribe({
+        next: res => {
+          const registerToken = res.data?.registerToken
+          void this.verifyAndCreate(registerToken)
         },
-        error: () => {
-          Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo crear la cuenta' })
+        error: err => {
+          const text = err?.error?.message ?? 'No se pudo enviar el código de verificación'
+          Swal.fire({ icon: 'error', title: 'Error', text })
         }
       })
     }
+  }
+
+  private async verifyAndCreate(registerToken: string): Promise<void> {
+    // Paso 2: el usuario ingresa el OTP y RECIÉN ahí se crea la cuenta.
+    const { value: otp } = await Swal.fire({
+      title: 'Verificá tu email',
+      text: 'Ingresá el código de 6 dígitos que enviamos a tu correo',
+      input: 'text',
+      inputAttributes: { maxlength: '6', inputmode: 'numeric', autocapitalize: 'off' },
+      showCancelButton: true,
+      confirmButtonText: 'Verificar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: value => (!value || value.length !== 6 ? 'El código tiene 6 dígitos' : null)
+    })
+
+    if (!otp) return
+
+    this.vecinoService.create(<Vecino>{ ...this.form.value, registerToken, otp }).subscribe({
+      next: () => {
+        // El alta no inicia sesión: descartamos cualquier sesión previa viva
+        // en este dispositivo para no quedar navegando con otra identidad.
+        this.storage.clear()
+        Swal.fire({
+          icon: 'success',
+          title: 'Cuenta creada',
+          text: 'Ya podés iniciar sesión con tu nueva cuenta'
+        }).then(() => this.router.navigateByUrl('/login'))
+      },
+      error: err => {
+        const text = err?.error?.message ?? 'No se pudo crear la cuenta'
+        Swal.fire({ icon: 'error', title: 'Error', text })
+      }
+    })
   }
 }
