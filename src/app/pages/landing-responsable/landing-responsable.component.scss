@@ -139,7 +139,12 @@
 
 // ── Mobile ──────────────────────────────────────────────────────────────
 @media (max-width: 959px) {
-  .v-header { padding-top: 24px; }
+  .v-header {
+    padding-top: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
 }
 
 // ── Desktop: padding extra ────────────────────────────────────────────

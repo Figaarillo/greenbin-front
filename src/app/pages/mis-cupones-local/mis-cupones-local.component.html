@@ -11,6 +11,23 @@
       </label>
     </div>
 
+    <div class="filters-row">
+      <div class="status-chips">
+        <button type="button" class="chip" [class.active]="statusFilter === 'TODOS'" (click)="setStatusFilter('TODOS')">Todos</button>
+        <button type="button" class="chip chip-adquirido" [class.active]="statusFilter === 'DISPONIBLE'" (click)="setStatusFilter('DISPONIBLE')">Disponibles</button>
+        <button type="button" class="chip chip-vencido" [class.active]="statusFilter === 'NO_DISPONIBLE'" (click)="setStatusFilter('NO_DISPONIBLE')">No disponibles</button>
+      </div>
+      <button
+        type="button"
+        class="sort-btn"
+        (click)="toggleSortDir()"
+        [title]="sortDir === 'desc' ? 'Mayor descuento primero' : 'Menor descuento primero'"
+      >
+        <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
+        Descuento
+      </button>
+    </div>
+
     <div class="c-total">Total: {{ dataSource.filteredData.length }} cupones</div>
 
     @if (loading) {

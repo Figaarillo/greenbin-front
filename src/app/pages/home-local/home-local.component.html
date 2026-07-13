@@ -17,11 +17,33 @@
     <div class="v-body">
       <h4>Canjes realizados</h4>
 
+      @if (!loading) {
+        <div class="filters-row">
+          <div class="status-chips">
+            <button type="button" class="chip" [class.active]="statusFilter === 'TODOS'" (click)="setStatusFilter('TODOS')">Todos</button>
+            <button type="button" class="chip chip-adquirido" [class.active]="statusFilter === 'ADQUIRIDO'" (click)="setStatusFilter('ADQUIRIDO')">Adquiridos</button>
+            <button type="button" class="chip chip-usado" [class.active]="statusFilter === 'USADO'" (click)="setStatusFilter('USADO')">Usados</button>
+            <button type="button" class="chip chip-vencido" [class.active]="statusFilter === 'EXPIRADO'" (click)="setStatusFilter('EXPIRADO')">Vencidos</button>
+          </div>
+          <button
+            type="button"
+            class="sort-btn"
+            (click)="toggleSortDir()"
+            [title]="sortDir === 'desc' ? 'Más recientes primero' : 'Más antiguos primero'"
+          >
+            <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
+            Fecha
+          </button>
+        </div>
+      }
+
       @if (loading) {
         <app-skeleton type="list" [count]="4" />
       } @else {
-      @if (transactions.length === 0) {
-        <p class="empty-state">No hay canjes aún</p>
+      @if (filtered.length === 0) {
+        <p class="empty-state">
+          {{ transactions.length === 0 ? 'No hay canjes aún' : 'No hay canjes que coincidan con el filtro' }}
+        </p>
       }
 
       @for (item of historialVisible; track item; let i = $index) {
@@ -77,7 +99,7 @@
         <mat-divider></mat-divider>
       }
 
-      @if (transactions.length > LIMITE) {
+      @if (filtered.length > LIMITE) {
         <div class="tx-more" (click)="toggleHistorial()">
           {{ mostrarTodo ? 'Ver menos' : 'Ver historial completo' }}
         </div>

@@ -49,7 +49,18 @@
         <thead>
           <tr>
             @for (column of tableColumns; track column.key) {
-              <th [class.th-actions]="column.key === 'actions'">{{ column.label }}</th>
+              <th
+                [class.th-actions]="column.key === 'actions'"
+                [class.sortable]="column.key !== 'actions'"
+                (click)="toggleSort(column)"
+              >
+                {{ column.label }}
+                @if (column.key !== 'actions') {
+                  <span class="material-icons sort-icon" [class.active]="sortKey === column.key">
+                    {{ sortKey === column.key ? (sortDir === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more' }}
+                  </span>
+                }
+              </th>
             }
           </tr>
         </thead>

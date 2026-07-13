@@ -12,6 +12,8 @@ import { forkJoin } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
+export type CampoOrdenCupon = 'discount' | 'costInPoints' | 'validDays'
+
 @Component({
   selector: 'app-catalogo-cupones',
   standalone: true,
@@ -29,12 +31,16 @@ export class CatalogoCuponesComponent {
   items: Coupon[] = []
   redeemedCouponIds: Set<string> = new Set()
   titleFilter = ''
-  minDiscount: number | null = null
+  sortField: CampoOrdenCupon = 'discount'
+  sortDir: 'desc' | 'asc' = 'desc'
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
-    const min = this.minDiscount ?? 0
-    this.dataSource.data = this.items.filter(c => c.title.toLowerCase().includes(title) && c.discount >= min)
+    const dir = this.sortDir === 'desc' ? -1 : 1
+    const field = this.sortField
+    this.dataSource.data = this.items
+      .filter(c => c.title.toLowerCase().includes(title))
+      .sort((a, b) => (a[field] - b[field]) * dir)
   }
 
   onTitleFilter(event: Event) {
@@ -42,9 +48,13 @@ export class CatalogoCuponesComponent {
     this.applyFilters()
   }
 
-  onDiscountFilter(event: Event) {
-    const val = (event.target as HTMLInputElement).value
-    this.minDiscount = val !== '' ? Number(val) : null
+  setSortField(field: CampoOrdenCupon) {
+    this.sortField = field
+    this.applyFilters()
+  }
+
+  toggleSortDir() {
+    this.sortDir = this.sortDir === 'desc' ? 'asc' : 'desc'
     this.applyFilters()
   }
 
@@ -101,6 +111,12 @@ export class CatalogoCuponesComponent {
 
   abrirModal(cupon: Coupon) {
     this.sheet?.openCatalog(cupon)
+  }
+
+  /** Llamado por RoleLayoutComponent cuando se vuelve a tocar el tab "Cupones"
+   *  estando ya en esta pantalla, para cerrar el detalle si quedó abierto. */
+  closeOpenSheet(): void {
+    this.sheet?.cerrar()
   }
 
   onCuponCanjeado(puntosRestantes: number) {

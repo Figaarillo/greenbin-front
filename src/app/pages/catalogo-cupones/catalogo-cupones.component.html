@@ -14,10 +14,22 @@
         <mat-icon>search</mat-icon>
         <input placeholder="Buscar cupón..." (keyup)="onTitleFilter($event)">
       </label>
-      <label class="c-search-input narrow">
-        <mat-icon>percent</mat-icon>
-        <input type="number" min="0" max="100" placeholder="Desc. mín." (input)="onDiscountFilter($event)">
-      </label>
+    </div>
+
+    <div class="filters-row">
+      <div class="status-chips">
+        <button type="button" class="chip" [class.active]="sortField === 'discount'" (click)="setSortField('discount')">Descuento</button>
+        <button type="button" class="chip" [class.active]="sortField === 'costInPoints'" (click)="setSortField('costInPoints')">Costo</button>
+        <button type="button" class="chip" [class.active]="sortField === 'validDays'" (click)="setSortField('validDays')">Vigencia</button>
+      </div>
+      <button
+        type="button"
+        class="sort-btn"
+        (click)="toggleSortDir()"
+        [title]="sortDir === 'desc' ? 'Mayor primero' : 'Menor primero'"
+      >
+        <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
+      </button>
     </div>
 
     @if (loading) {
