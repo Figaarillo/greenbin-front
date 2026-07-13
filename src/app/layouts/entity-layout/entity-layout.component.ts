@@ -4,7 +4,6 @@ import { NavigationEnd, NavigationStart, Router, RouterModule, RouterOutlet } fr
 import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
-import { filter } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MobileTabbarComponent, TabExtraItem } from '../../components/mobile-tabbar/mobile-tabbar.component'
 import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-menu/mobile-menu.component'

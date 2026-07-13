@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Entidad } from '../services/interfaces/entidad'
 import { MatTableDataSource } from '@angular/material/table'
 
 @Pipe({

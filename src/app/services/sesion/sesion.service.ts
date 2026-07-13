@@ -2,16 +2,18 @@ import { API_BASE_URL } from '../../config/api.config'
 import { inject, Injectable } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
 import { BehaviorSubject, Observable, tap } from 'rxjs'
-import { HttpClient, HttpContext, HttpContextToken, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http'
 import { IS_REFRESH_TOKEN_REQUEST } from '../../interceptors/httpContextToken'
 import { Router } from '@angular/router'
 import { StorageService } from '../storage/storage.service'
+import { ThemeService } from '../theme/theme.service'
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
   private apiBase = inject(API_BASE_URL)
   private storage = inject(StorageService)
+  private themeService = inject(ThemeService)
   constructor(
     private http: HttpClient,
     private router: Router
@@ -19,7 +21,6 @@ export class SesionService {
   private apiUrl = `${this.apiBase}/api`
 
   //borrar?
-  private logging: boolean = false
   private loggingSubject = new BehaviorSubject<boolean>(false)
   isLogging$ = this.loggingSubject.asObservable()
   setLoginData(login: LoginResponse) {
@@ -38,6 +39,10 @@ export class SesionService {
 
   logout() {
     this.storage.clear()
+    // storage.clear() borra la clave del tema, pero el atributo data-theme
+    // queda en el <html> (vive en el DOM, no en localStorage): sin este
+    // re-sync, el modo oscuro sigue visible en la home tras cerrar sesión.
+    this.themeService.apply()
     this.router.navigateByUrl('/login')
   }
 

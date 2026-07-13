@@ -68,7 +68,6 @@ export class ModificarEntidadComponent {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    const prov = ''
     this.id = this.route.snapshot.paramMap.get('id')
     this.service.get(this.id!).subscribe((obj: any) => {
       this.province = obj.data.province
@@ -116,7 +115,7 @@ export class ModificarEntidadComponent {
                     this.router.navigate(['/listar-entidades'])
                   })
               },
-              error => {
+              () => {
                 swalWithBootstrapButtons
                   .fire({
                     title: 'Ha ocurrido un error',

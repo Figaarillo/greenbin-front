@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { LoaderComponent } from './components/loader/loader.component'
 import { ThemeService } from './services/theme/theme.service'

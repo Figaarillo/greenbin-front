@@ -7,7 +7,6 @@ import {
   superadminGuard,
   vecinoGuard
 } from './guard/auth-guard.guard'
-import { response } from 'express'
 
 export const routes: Routes = [
   {

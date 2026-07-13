@@ -45,5 +45,4 @@ export class EntidadService {
 
     return this.http.get(this.url + '/auth/validate-role', { headers }).toPromise()
   }
-  private transforDataToEntity() {}
 }

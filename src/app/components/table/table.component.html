@@ -40,6 +40,9 @@
     </label>
   </div>
 
+  @if (loading) {
+    <app-skeleton type="table" [count]="8" />
+  } @else {
   <div class="table-card">
     <div class="table-scroll">
       <table>
@@ -87,4 +90,5 @@
       </div>
     </div>
   </div>
+  }
 </div>

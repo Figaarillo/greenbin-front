@@ -1,7 +1,7 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { Router } from '@angular/router'
-import { CommonModule } from '@angular/common'
+import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
@@ -12,6 +12,7 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { ResponsablesService } from '../../services/responsables/responsables.service'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import type {
   TotalRecycled,
   GreenPointRanking,
@@ -30,12 +31,14 @@ const DAY_MS = 86400000
 @Component({
   selector: 'app-entidad-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgChartsModule],
+  imports: [CommonModule, FormsModule, NgChartsModule, SkeletonComponent],
   templateUrl: './entidad-dashboard.component.html',
   styleUrl: './entidad-dashboard.component.scss'
 })
 export class EntidadDashboardComponent implements OnInit {
   private storage = inject(StorageService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   name = ''
   email = ''
   entidadId = ''
@@ -123,8 +126,10 @@ export class EntidadDashboardComponent implements OnInit {
     this.email = entidadInfo?.email ?? ''
     this.name = entidadInfo?.name ?? ''
     this.entidadId = entidadInfo?.id ?? ''
-    this.loadAllStats()
-    this.loadMunicipio()
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadAllStats()
+      this.loadMunicipio()
+    }
   }
 
   setRange(range: RangeKey): void {
@@ -171,12 +176,16 @@ export class EntidadDashboardComponent implements OnInit {
   }
 
   loadTotals(from?: string, to?: string): void {
-    this.statsServ.getTotalRecycled(this.entidadId, from, to).subscribe((res: any) => {
-      const data: TotalRecycled = res.data
-      this.totalWeight = data.totalWeight
-      this.totalPoints = data.totalPoints
-      this.totalTransactions = data.totalTransactions
-      this.loadTrends(data, from, to)
+    this.statsServ.getTotalRecycled(this.entidadId, from, to).subscribe({
+      next: (res: any) => {
+        const data: TotalRecycled = res.data
+        this.totalWeight = data.totalWeight
+        this.totalPoints = data.totalPoints
+        this.totalTransactions = data.totalTransactions
+        this.loadTrends(data, from, to)
+        this.loading = false
+      },
+      error: () => (this.loading = false)
     })
   }
 

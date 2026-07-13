@@ -75,7 +75,7 @@
               <div class="name">{{ item.residuo }}</div>
               <div class="sub">{{ item.cantidad }} kg</div>
             </div>
-            <div class="pts">+{{ item.cantidad * item.puntos }}</div>
+            <div class="pts">+{{ item.puntosItem }}</div>
             <button class="rm" type="button" (click)="delete(item)"><mat-icon>close</mat-icon></button>
           </div>
         }

@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject } from '@angular/core'
+import { isPlatformBrowser } from '@angular/common'
+import { Component, inject, PLATFORM_ID } from '@angular/core'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { Router } from '@angular/router'
@@ -18,6 +19,8 @@ import { TableComponent } from '../../components/table/table.component'
 export class ConsultarPuntosVerdesComponent {
   private storage = inject(StorageService)
   private service = inject(PuntoVerdeService)
+  private platformId = inject(PLATFORM_ID)
+  loading = true
   columns: Column[] = []
   title: string = 'Puntos Verdes'
   puntosVerdes: PuntoVerde[] = []
@@ -45,15 +48,17 @@ export class ConsultarPuntosVerdesComponent {
         label: 'Acciones'
       }
     ]
-    this.getItems()
+    if (isPlatformBrowser(this.platformId)) this.getItems()
   }
   getItems() {
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.service.list(entidadInfo.id).subscribe({
       next: (response: any) => {
         this.puntosVerdes = response
+        this.loading = false
       },
-      error: err => {
+      error: () => {
+        this.loading = false
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'

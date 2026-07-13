@@ -51,7 +51,7 @@ export class EntregaResiduosComponent {
   form!: FormGroup
   dniValidator!: FormGroup
   pvForm!: FormGroup
-  detalle: { puntos: number; cantidad: number; residuo: string; id: string }[] = []
+  detalle: { puntos: number; cantidad: number; residuo: string; id: string; puntosItem: number }[] = []
   idVeci = ''
   emailVecino = ''
   nombreVecino = ''
@@ -102,7 +102,7 @@ export class EntregaResiduosComponent {
     this.pvSelected = true
   }
 
-  onSubmit(form: any) {
+  onSubmit(_form: any) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success ',
@@ -233,14 +233,17 @@ export class EntregaResiduosComponent {
       })
       const puntos = residuoFiltrado[0].pointsPerWeight
       const id = residuoFiltrado[0].id
-      this.totalPuntos = this.totalPuntos + residuoFiltrado[0].pointsPerWeight * cantidad
-      this.detalle.push({ puntos, cantidad, residuo, id })
+      // Redondeado por ítem, igual que el backend (WasteEntity.calculatePoints):
+      // así el preview coincide con lo que realmente se guarda al confirmar.
+      const puntosItem = Math.round(puntos * cantidad)
+      this.totalPuntos = this.totalPuntos + puntosItem
+      this.detalle.push({ puntos, cantidad, residuo, id, puntosItem })
     }
   }
 
   delete(item: any) {
     this.detalle = this.detalle.filter(detalle => detalle.residuo !== item.residuo)
-    this.totalPuntos = this.totalPuntos - item.cantidad * item.puntos
+    this.totalPuntos = this.totalPuntos - item.puntosItem
     this.categories = this.categories.map(categoria => {
       if (categoria.name === item.residuo) {
         return { ...categoria, disabled: false }

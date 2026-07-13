@@ -9,16 +9,13 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { EntidadService } from '../../services/entidad/entidad.service'
-import { runInThisContext } from 'vm'
-import { PageEvent, MatPaginatorModule } from '@angular/material/paginator'
+import { MatPaginatorModule } from '@angular/material/paginator'
 import { Entidad } from '../../services/interfaces/entidad'
 import { EntitiesFilterPipe } from '../../pipes/entities-filter.pipe'
-import e from 'express'
 import Swal from 'sweetalert2'
 import { TableComponent } from '../../components/table/table.component'
 import { Column } from '../../services/interfaces/columns'
 import { Router } from '@angular/router'
-import { error } from 'console'
 
 @Component({
   selector: 'app-consultar-entidad',
@@ -84,7 +81,7 @@ export class ConsultarEntidadComponent implements OnInit {
         this.entidades = response
         this.dataSource = new MatTableDataSource(this.entidades)
       },
-      error: err => {
+      error: () => {
         const swalWithBootstrapButtons = Swal.mixin({
           customClass: {
             cancelButton: 'btn btn-danger'
