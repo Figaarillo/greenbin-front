@@ -21,12 +21,17 @@ export function app(): express.Express {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get(
-    '*.*',
-    express.static(browserDistFolder, {
-      maxAge: '1y'
-    })
-  )
+  const serveStatic = express.static(browserDistFolder, {
+    maxAge: '1y'
+  })
+  server.get('*.*', (req, res, next) => {
+    // index.html must always go through the SSR route below: it's the one that
+    // injects window.__API_URL__ / __RECAPTCHA_SITE_KEY__ at request time. Serving
+    // the raw built file here (it matches '*.*') leaves those globals undefined,
+    // and the service worker then precaches that broken shell for good.
+    if (req.path === '/index.html') return next()
+    serveStatic(req, res, next)
+  })
 
   const apiUrl = process.env['API_URL']!
   const apiPublicUrl = process.env['API_PUBLIC_URL'] ?? apiUrl
