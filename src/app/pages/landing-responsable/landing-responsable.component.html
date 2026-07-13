@@ -1,31 +1,28 @@
-<div data-role="responsable">
-  <mat-drawer-container class="landing-drawer" autosize>
-
-    <div class="v-header">
-      <div class="v-topbar">
-        <span class="v-brand">GreenBin</span>
-        <span class="spacer"></span>
-      </div>
-
-      <div class="v-hello">¡Hola, {{nombre}}!</div>
-
-      <div class="select-container">
-        <mat-form-field class="pto-select">
-          <mat-label>Punto Verde Actual</mat-label>
-          <mat-select [formControl]="ptoVerde" (selectionChange)="onChange($event)">
-            <mat-option *ngFor="let pv of listPtoVerde" [value]="pv.id">
-              {{ pv.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+<div data-role="responsable" class="landing-drawer">
+  <div class="v-header">
+    <div class="v-topbar">
+      <span class="v-brand">GreenBin</span>
+      <span class="spacer"></span>
+      <app-notification-bell #bell (opened)="panel.open()" />
     </div>
 
-    <mat-drawer #buzon mode="over" [position]="'end'">
-      <p>Buzón</p>
-    </mat-drawer>
+    <div class="v-hello">¡Hola, {{nombre}}!</div>
 
-    <div class="v-body">
+    <div class="select-container">
+      <mat-form-field class="pto-select">
+        <mat-label>Punto Verde Actual</mat-label>
+        <mat-select [formControl]="ptoVerde" (selectionChange)="onChange($event)">
+          <mat-option *ngFor="let pv of listPtoVerde" [value]="pv.id">
+            {{ pv.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <app-notification-panel #panel (closed)="bell.refresh()" />
+
+  <div class="v-body">
       <h4>Historial</h4>
 
       @if (loading) {
@@ -55,6 +52,4 @@
       }
       }
     </div>
-
-  </mat-drawer-container>
 </div>

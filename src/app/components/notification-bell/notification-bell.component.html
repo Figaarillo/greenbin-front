@@ -1,0 +1,8 @@
+<button type="button" class="bell-btn" (click)="onClick()" aria-label="Notificaciones">
+  <mat-icon
+    [matBadge]="unreadCount()"
+    matBadgeColor="warn"
+    matBadgeSize="small"
+    [matBadgeHidden]="unreadCount() === 0"
+  >notifications</mat-icon>
+</button>

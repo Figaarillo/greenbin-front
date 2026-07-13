@@ -1,20 +1,17 @@
-<div data-role="local">
-  <mat-drawer-container class="landing-drawer" autosize>
-
-    <div class="v-header">
-      <div class="v-topbar">
-        <span class="v-brand">GreenBin</span>
-        <span class="spacer"></span>
-      </div>
-
-      <div class="v-hello">¡Hola, {{name}}! 🎉</div>
+<div data-role="local" class="landing-drawer">
+  <div class="v-header">
+    <div class="v-topbar">
+      <span class="v-brand">GreenBin</span>
+      <span class="spacer"></span>
+      <app-notification-bell #bell (opened)="panel.open()" />
     </div>
 
-    <mat-drawer #buzon mode="over" [position]="'end'">
-      <p>Buzón</p>
-    </mat-drawer>
+    <div class="v-hello">¡Hola, {{name}}! 🎉</div>
+  </div>
 
-    <div class="v-body">
+  <app-notification-panel #panel (closed)="bell.refresh()" />
+
+  <div class="v-body">
       <h4>Canjes realizados</h4>
 
       @if (!loading) {
@@ -106,6 +103,4 @@
       }
       }
     </div>
-
-  </mat-drawer-container>
 </div>

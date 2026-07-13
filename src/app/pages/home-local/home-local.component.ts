@@ -4,7 +4,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
-import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { RouterModule } from '@angular/router'
@@ -13,6 +12,8 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
 
@@ -24,7 +25,6 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    MatSidenavModule,
     MatToolbarModule,
     SidenavComponent,
     RouterModule,
@@ -32,7 +32,9 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     MatTooltipModule,
     CommonModule,
     DatePipe,
-    SkeletonComponent
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './home-local.component.html',
   styleUrl: './home-local.component.scss'
