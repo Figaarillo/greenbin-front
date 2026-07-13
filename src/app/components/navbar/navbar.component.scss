@@ -3,6 +3,8 @@
   color: #fff;
   position: relative;
   box-shadow: var(--sh-1);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 @media (max-width: 959px) {

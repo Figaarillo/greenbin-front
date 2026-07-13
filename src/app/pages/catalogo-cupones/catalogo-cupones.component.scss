@@ -182,15 +182,26 @@
   text-overflow: ellipsis;
 }
 
+.c-card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+
 .c-card-price {
   display: inline-block;
-  margin-top: 7px;
   background: var(--accent-soft);
   color: var(--accent-ink);
   border-radius: var(--r-pill);
   padding: 3px 10px;
   font-size: 11.5px;
   font-weight: 600;
+}
+
+.c-card-vigencia {
+  background: var(--surface-2);
+  color: var(--muted);
 }
 
 .c-card-badge {

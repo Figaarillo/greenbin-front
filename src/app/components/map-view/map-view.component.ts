@@ -30,15 +30,15 @@ export class MapViewComponent implements AfterViewInit {
     this.anchoVariable = this.contenedorPadre.nativeElement.offsetWidth
   }
 
-  localAdheridoPinElement!: google.maps.marker.PinElement
-  PuntoVerdeIcon = document.createElement('span')
-  PuntoVerdePinElement!: google.maps.marker.PinElement
+  // Se marca en true recien cuando la libreria 'marker' terminó de cargar:
+  // recien ahi existe google.maps.marker.PinElement para poder crear pines.
+  markerLibraryReady = false
 
   ngAfterViewInit() {
     google.maps
       .importLibrary('marker')
       .then(() => {
-        this.createMarker()
+        this.markerLibraryReady = true
         this.actualizarAncho()
         const resizeObserver = new ResizeObserver(() => {
           this.actualizarAncho()
@@ -75,25 +75,33 @@ export class MapViewComponent implements AfterViewInit {
     return svg
   }
 
-  createMarker() {
-    // Reward Partner — tiendita ámbar
-    this.localAdheridoPinElement = new google.maps.marker.PinElement({
+  /** Punto Verde — reciclaje. Un PinElement nuevo por marcador: su `.element`
+   *  es un nodo DOM real y no puede compartirse entre varios AdvancedMarkerElement
+   *  (el browser lo reubica en el último marcador creado, dejando sin content —
+   *  y sin click funcional — a todos los anteriores). */
+  private createPuntoVerdePin(): google.maps.marker.PinElement {
+    const icon = document.createElement('span')
+    icon.className = 'material-icons'
+    icon.style.color = '#FFFFFF'
+    icon.innerText = 'recycling'
+
+    return new google.maps.marker.PinElement({
+      background: '#1e88e5',
+      glyph: icon,
+      glyphColor: '#FFFFFF',
+      scale: 1.5,
+      borderColor: '#19cb26'
+    })
+  }
+
+  /** Reward Partner — tiendita ámbar. Mismo motivo: PinElement nuevo por marcador. */
+  private createLocalAdheridoPin(): google.maps.marker.PinElement {
+    return new google.maps.marker.PinElement({
       background: '#b87d0d',
       glyph: this.createTienditaSvg(),
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#e0a019'
-    })
-    // Punto Verde — reciclaje (sin cambios)
-    this.PuntoVerdeIcon.className = 'material-icons'
-    this.PuntoVerdeIcon.style.color = '#FFFFFF'
-    this.PuntoVerdeIcon.innerText = 'recycling'
-    this.PuntoVerdePinElement = new google.maps.marker.PinElement({
-      background: '#1e88e5',
-      glyph: this.PuntoVerdeIcon,
-      glyphColor: '#FFFFFF',
-      scale: 1.5,
-      borderColor: '#19cb26'
     })
   }
 
@@ -103,7 +111,7 @@ export class MapViewComponent implements AfterViewInit {
         lat: puntoVerde.coordinates.latitude,
         lng: puntoVerde.coordinates.longitude
       },
-      content: this.PuntoVerdePinElement.element
+      content: this.createPuntoVerdePin().element
     }
     return markerOptions
   }
@@ -114,7 +122,7 @@ export class MapViewComponent implements AfterViewInit {
         lat: localAdherido.coordinates.latitude,
         lng: localAdherido.coordinates.longitude
       },
-      content: this.localAdheridoPinElement.element //el pin element da el estilo al marcador
+      content: this.createLocalAdheridoPin().element //el pin element da el estilo al marcador
     }
     return markerOptions
   }

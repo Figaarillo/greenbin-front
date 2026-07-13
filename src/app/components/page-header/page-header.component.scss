@@ -6,6 +6,8 @@
   background: linear-gradient(150deg, var(--accent), var(--accent-ink));
   color: #fff;
   padding: 22px 20px 26px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 @media (max-width: 959px) {

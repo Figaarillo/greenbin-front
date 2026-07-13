@@ -48,7 +48,10 @@
             <div class="c-card-body">
               <div class="c-card-title">{{ data.title }}</div>
               <div class="c-card-desc">{{ data.description }}</div>
-              <span class="c-card-price">{{ data.costInPoints }} pts</span>
+              <div class="c-card-pills">
+                <span class="c-card-price">{{ data.costInPoints }} pts</span>
+                <span class="c-card-price c-card-vigencia">{{ data.validDays }} días</span>
+              </div>
             </div>
             <div class="c-card-badge">{{ data.discount }}<span>%</span></div>
           </div>

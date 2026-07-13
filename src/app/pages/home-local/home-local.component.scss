@@ -8,6 +8,8 @@
   background: linear-gradient(150deg, var(--accent), var(--accent-ink));
   color: #fff;
   padding: 20px 20px 28px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .v-topbar {

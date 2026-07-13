@@ -6,7 +6,7 @@
     [zoom]="zoom"
     [mapId]="'iuhd8q3hsdads'"
     >
-    @if(PuntoVerdePinElement && localAdheridoPinElement){
+    @if(markerLibraryReady){
         @for (pv of puntosVerdes; track pv) {
             <map-advanced-marker [position]="coordToPosition(pv)" [options]="getPuntoVerdeMarkerOptions(pv)"></map-advanced-marker>
         }
