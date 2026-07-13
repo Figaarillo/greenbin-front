@@ -7,8 +7,8 @@
         <app-map-view
           [puntosVerdes]="puntosVerdes"
           [localesAdheridos]="localesAdheridos"
-          [center]="options.center!"
-          [zoom]="options.zoom!"
+          [center]="center"
+          [zoom]="zoom"
           [height]="mapHeight"
           (mapReady)="onMapReady($event)"
           (puntoVerdeClick)="abrirModal($event)"

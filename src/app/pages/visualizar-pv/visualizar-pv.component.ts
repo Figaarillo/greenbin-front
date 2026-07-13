@@ -36,11 +36,8 @@ export class VisualizarPvComponent implements OnInit {
   @ViewChild(ModalLocalAdheridoComponent) modalLocal?: ModalLocalAdheridoComponent
   pvServices = inject(PuntoVerdeService)
   localAdheridoService = inject(LocalAdheridoService)
-  options: google.maps.MapOptions = {
-    mapId: 'DEMO_MAP_ID',
-    center: { lat: -32.938055555556, lng: -63.241666666667 },
-    zoom: 15
-  }
+  center: google.maps.LatLngLiteral = { lat: -32.938055555556, lng: -63.241666666667 }
+  zoom = 15
 
   puntosVerdes: PuntoVerde[] = []
   localesAdheridos: LocalAdherido[] = []
@@ -92,10 +89,7 @@ export class VisualizarPvComponent implements OnInit {
 
     // Centramos el mapa en la ciudad de la entidad, haya o no puntos verdes.
     if (entidad?.coordinates) {
-      this.options = {
-        ...this.options,
-        center: { lat: entidad.coordinates.latitude, lng: entidad.coordinates.longitude }
-      }
+      this.center = { lat: entidad.coordinates.latitude, lng: entidad.coordinates.longitude }
     }
 
     this.pvServices.list(entityId).subscribe((res: any) => {
