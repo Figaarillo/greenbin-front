@@ -48,7 +48,7 @@ export class MapViewComponent implements AfterViewInit {
       .catch(() => {})
   }
 
-  /** Crea el SVG de la tiendita (reemplaza el Material Icon 'store') */
+  /** Crea el SVG de la tiendita (reward partner) */
   private createTienditaSvg(): SVGElement {
     const xmlns = 'http://www.w3.org/2000/svg'
     const svg = document.createElementNS(xmlns, 'svg')
@@ -56,12 +56,10 @@ export class MapViewComponent implements AfterViewInit {
     svg.setAttribute('width', '100%')
     svg.setAttribute('height', '100%')
 
-    // Techo a dos aguas
     const roof = document.createElementNS(xmlns, 'path')
     roof.setAttribute('d', 'M8 26 L32 10 L56 26 L56 30 L8 30 Z')
     roof.setAttribute('fill', '#ffffff')
 
-    // Base de la tienda
     const body = document.createElementNS(xmlns, 'rect')
     body.setAttribute('x', '14')
     body.setAttribute('y', '30')
@@ -75,19 +73,30 @@ export class MapViewComponent implements AfterViewInit {
     return svg
   }
 
+  /** Crea el SVG de la hojita (Punto Verde, misma forma del favicon) */
+  private createHojaSvg(): SVGElement {
+    const xmlns = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(xmlns, 'svg')
+    svg.setAttribute('viewBox', '0 0 64 64')
+    svg.setAttribute('width', '100%')
+    svg.setAttribute('height', '100%')
+
+    const leaf = document.createElementNS(xmlns, 'path')
+    leaf.setAttribute('d', 'M16 46 C16 27 29 15 49 15 C49 35 36 49 16 46 Z')
+    leaf.setAttribute('fill', '#ffffff')
+
+    svg.appendChild(leaf)
+    return svg
+  }
+
   /** Punto Verde — reciclaje. Un PinElement nuevo por marcador: su `.element`
    *  es un nodo DOM real y no puede compartirse entre varios AdvancedMarkerElement
    *  (el browser lo reubica en el último marcador creado, dejando sin content —
    *  y sin click funcional — a todos los anteriores). */
   private createPuntoVerdePin(): google.maps.marker.PinElement {
-    const icon = document.createElement('span')
-    icon.className = 'material-icons'
-    icon.style.color = '#FFFFFF'
-    icon.innerText = 'recycling'
-
     return new google.maps.marker.PinElement({
       background: '#1e88e5',
-      glyph: icon,
+      glyph: this.createHojaSvg(),
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#19cb26'

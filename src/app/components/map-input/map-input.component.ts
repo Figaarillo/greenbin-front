@@ -84,10 +84,51 @@ export class MapInputComponent implements AfterViewInit {
     }
   }
 
+  /** Crea el SVG de la hojita (Punto Verde, misma forma del favicon) */
+  private createHojaSvg(): SVGElement {
+    const xmlns = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(xmlns, 'svg')
+    svg.setAttribute('viewBox', '0 0 64 64')
+    svg.setAttribute('width', '100%')
+    svg.setAttribute('height', '100%')
+
+    const leaf = document.createElementNS(xmlns, 'path')
+    leaf.setAttribute('d', 'M16 46 C16 27 29 15 49 15 C49 35 36 49 16 46 Z')
+    leaf.setAttribute('fill', '#ffffff')
+
+    svg.appendChild(leaf)
+    return svg
+  }
+
+  /** Crea el SVG de la tiendita (reward partner) */
+  private createTienditaSvg(): SVGElement {
+    const xmlns = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(xmlns, 'svg')
+    svg.setAttribute('viewBox', '0 0 64 64')
+    svg.setAttribute('width', '100%')
+    svg.setAttribute('height', '100%')
+
+    const roof = document.createElementNS(xmlns, 'path')
+    roof.setAttribute('d', 'M8 26 L32 10 L56 26 L56 30 L8 30 Z')
+    roof.setAttribute('fill', '#ffffff')
+
+    const body = document.createElementNS(xmlns, 'rect')
+    body.setAttribute('x', '14')
+    body.setAttribute('y', '30')
+    body.setAttribute('width', '36')
+    body.setAttribute('height', '20')
+    body.setAttribute('rx', '3')
+    body.setAttribute('fill', '#ffffff')
+
+    svg.appendChild(roof)
+    svg.appendChild(body)
+    return svg
+  }
+
   puntoVerdeMarker(): google.maps.marker.PinElement {
     return new google.maps.marker.PinElement({
       background: '#20a517',
-      glyph: '♻',
+      glyph: this.createHojaSvg(),
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#20a517'
@@ -96,7 +137,7 @@ export class MapInputComponent implements AfterViewInit {
   localMarker(): google.maps.marker.PinElement {
     return new google.maps.marker.PinElement({
       background: '#b87d0d',
-      glyph: '🏪',
+      glyph: this.createTienditaSvg(),
       glyphColor: '#FFFFFF',
       scale: 1.5,
       borderColor: '#e0a019'
