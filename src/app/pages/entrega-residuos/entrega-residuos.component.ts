@@ -65,7 +65,7 @@ export class EntregaResiduosComponent {
     private pvService: PuntoVerdeService
   ) {
     this.wasteCatServ.list(0, 100).subscribe(resp => {
-      this.categories = resp.map((category: any) => ({
+      this.categories = (resp ?? []).map((category: any) => ({
         ...category,
         disabled: false
       }))
@@ -88,7 +88,7 @@ export class EntregaResiduosComponent {
 
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.pvService.list(entidadInfo.id).subscribe((res: any) => {
-      this.puntosVerdes = res
+      this.puntosVerdes = res ?? []
       const actual = this.puntosVerdes.find(p => p.id === pvGuardado)
       this.currentPvName = actual?.name ?? ''
     })

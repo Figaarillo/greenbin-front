@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { StorageService } from '../storage/storage.service'
 import { LocalAdherido } from '../interfaces/local-adherido'
-import { Observable } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { Login } from '../interfaces/login'
 import { LoginResponse } from '../interfaces/login-response'
 
@@ -120,11 +120,11 @@ export class LocalAdheridoService {
     return this.http.put<any>(this.urlCoupon + '/' + id, { isAvailable: false, state: 'DISABLED' })
   }
 
-  list(entityId?: string, includeInactive = false): Observable<any> {
+  list(entityId?: string, includeInactive = false): Observable<LocalAdherido[]> {
     const query = new URLSearchParams()
     if (entityId) query.set('entityId', entityId)
     if (includeInactive) query.set('includeInactive', 'true')
     const params = query.toString() ? `?${query.toString()}` : ''
-    return this.http.get<any>(`${this.url}${params}`)
+    return this.http.get<any>(`${this.url}${params}`).pipe(map((resp: any) => resp.data ?? []))
   }
 }

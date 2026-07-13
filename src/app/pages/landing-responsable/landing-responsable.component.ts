@@ -66,7 +66,7 @@ export class LandingResponsableComponent implements OnInit {
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     if (isPlatformBrowser(this.platformId)) {
       this.pvService.list(entidadInfo.id).subscribe((res: any) => {
-        this.listPtoVerde = res
+        this.listPtoVerde = res ?? []
       })
     }
     const ptoVerdeSeleccionado = this.storage.getItem('puntoVerde') || ''
