@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component'
 import { SkeletonComponent } from '../skeleton/skeleton.component'
 import { NotificationService } from '../../services/notification/notification.service'
+import { PushNotificationService } from '../../services/notification/push-notification.service'
 import { Notification, NotificationCategory } from '../../services/interfaces/notification'
 
 const CATEGORY_ICONS: Record<NotificationCategory, string> = {
@@ -24,14 +25,18 @@ export class NotificationPanelComponent {
   @Output() closed = new EventEmitter<void>()
 
   private readonly notificationService = inject(NotificationService)
+  private readonly pushNotificationService = inject(PushNotificationService)
   private readonly sheet = viewChild.required(BottomSheetComponent)
 
   readonly loading = signal(true)
   readonly notifications = signal<Notification[]>([])
+  readonly pushSupported = signal(false)
+  readonly pushSubscribed = signal(false)
 
   open(): void {
     this.sheet().open()
     this.fetch()
+    this.refreshPushState()
   }
 
   closeSheet(): void {
@@ -63,6 +68,25 @@ export class NotificationPanelComponent {
     const now = new Date().toISOString()
     this.notifications.update(list => list.map(n => ({ ...n, readAt: n.readAt ?? now })))
     this.notificationService.markAllAsRead().subscribe({ error: () => {} })
+  }
+
+  async togglePush(): Promise<void> {
+    try {
+      if (this.pushSubscribed()) {
+        await this.pushNotificationService.unsubscribe()
+      } else {
+        await this.pushNotificationService.subscribe()
+      }
+    } catch (error) {
+      console.error('No se pudo actualizar la suscripción a notificaciones push', error)
+    }
+    await this.refreshPushState()
+  }
+
+  private async refreshPushState(): Promise<void> {
+    this.pushSupported.set(this.pushNotificationService.isSupported)
+    if (!this.pushSupported()) return
+    this.pushSubscribed.set(await this.pushNotificationService.isSubscribed())
   }
 
   private fetch(): void {

@@ -1,10 +1,11 @@
-import { ApplicationConfig } from '@angular/core'
+import { ApplicationConfig, isDevMode } from '@angular/core'
 import { provideRouter, withViewTransitions } from '@angular/router'
 
 import { routes } from './app.routes'
 import { provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser'
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
+import { provideServiceWorker } from '@angular/service-worker'
 import { requestInterceptor } from './interceptors/request.interceptor'
 import { authInterceptor } from './interceptors/auth.interceptor'
 import { loaderInterceptor } from './interceptors/loader.interceptor'
@@ -22,6 +23,13 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withNoHttpTransferCache()),
     provideHttpClient(withInterceptors([requestInterceptor, loaderInterceptor, authInterceptor, sesionInterceptor])),
     provideAnimationsAsync(),
+    // El service worker de Angular es lo que permite recibir push con la app cerrada
+    // (SwPush escucha el evento 'push' y muestra la notificación del sistema).
+    // Deshabilitado en dev porque interfiere con el hot-reload.
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
     {
       provide: API_BASE_URL,
       useFactory: () => (globalThis as unknown as { __API_URL__?: string }).__API_URL__ ?? DEFAULT_API_BASE_URL

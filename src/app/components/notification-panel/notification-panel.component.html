@@ -1,5 +1,10 @@
 <app-bottom-sheet [handle]="false" (closed)="onSheetClosed()">
   <div class="panel-header">
+    @if (pushSupported()) {
+      <button type="button" class="icon-btn" (click)="togglePush()" [attr.aria-label]="pushSubscribed() ? 'Desactivar notificaciones push' : 'Activar notificaciones push'">
+        <mat-icon>{{ pushSubscribed() ? 'notifications_active' : 'notifications_off' }}</mat-icon>
+      </button>
+    }
     <span class="panel-title">Notificaciones</span>
     @if (hasUnread()) {
       <button type="button" class="mark-all-btn" (click)="markAllAsRead()">Marcar todas como leídas</button>

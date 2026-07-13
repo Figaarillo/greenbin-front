@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { inject, Component, ViewChild, PLATFORM_ID } from '@angular/core'
+import { inject, Component, DestroyRef, ViewChild, PLATFORM_ID } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
 import { CuponSheetComponent } from '../../components/cupon-sheet/cupon-sheet.component'
@@ -7,8 +8,9 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { RealtimeService } from '../../services/notification/realtime.service'
 import { Coupon } from '../../services/interfaces/coupon'
-import { forkJoin } from 'rxjs'
+import { forkJoin, filter } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 
@@ -24,6 +26,8 @@ export type CampoOrdenCupon = 'discount' | 'costInPoints' | 'validDays'
 export class CatalogoCuponesComponent {
   private storage = inject(StorageService)
   private platformId = inject(PLATFORM_ID)
+  private realtimeService = inject(RealtimeService)
+  private destroyRef = inject(DestroyRef)
   @ViewChild(CuponSheetComponent) sheet?: CuponSheetComponent
   loading = true
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
@@ -68,6 +72,15 @@ export class CatalogoCuponesComponent {
     // servidor renderiza el skeleton en la pantalla correcta.
     if (isPlatformBrowser(this.platformId)) {
       this.getItems()
+
+      // Cuando un local crea un cupón nuevo para esta entidad, refrescamos el
+      // catálogo en vivo (sin que el vecino tenga que recargar la página).
+      this.realtimeService.events$
+        .pipe(
+          filter(event => event.category === 'COUPON_CREATED'),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(() => this.getItems())
     }
   }
 
