@@ -65,7 +65,7 @@ export class SidenavComponent implements OnInit {
         { icon: 'account_circle', label: 'Mi perfil', route: '/vecino/modificar-vecino' },
         { icon: 'redeem', label: 'Catálogo', route: '/vecino/cupones' },
         { icon: 'local_activity', label: 'Mis Cupones', route: '/vecino/mis-cupones' },
-        { icon: 'location_on', label: 'Puntos verdes', route: '/vecino/puntos-verdes' },
+        { icon: 'location_on', label: 'Mapa', route: '/vecino/puntos-verdes' },
         { icon: 'history', label: 'Historial entregas', route: '/vecino/mis-reciclados' },
         { icon: 'close', label: 'Cerrar Sesión', route: '' }
       ],

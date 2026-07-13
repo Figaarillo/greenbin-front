@@ -1,0 +1,40 @@
+<app-bottom-sheet [handle]="false">
+
+  @if (data) {
+    <button class="pv-close-x" type="button" (click)="closeModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div class="pv-head">
+      <div class="ic"><mat-icon>store</mat-icon></div>
+      <div>
+        <h3>{{ data.name }}</h3>
+        <div class="sub">{{ data.address }}</div>
+      </div>
+    </div>
+
+    <div class="pv-actions">
+      <a class="pv-action" [href]="directionsUrl()" target="_blank" rel="noopener">
+        <mat-icon>directions</mat-icon>Cómo llegar
+      </a>
+      <a class="pv-action" [href]="telHref()">
+        <mat-icon>call</mat-icon>Llamar
+      </a>
+      <button class="pv-action" type="button" (click)="copyAddress()">
+        <mat-icon>{{ copied ? 'check' : 'content_copy' }}</mat-icon>{{ copied ? '¡Copiado!' : 'Copiar dir.' }}
+      </button>
+    </div>
+
+    <div class="pv-divider"></div>
+
+    <div class="pv-row">
+      <mat-icon>mail</mat-icon>
+      <div><div class="l">Email</div><div class="v">{{ data.email }}</div></div>
+    </div>
+    <div class="pv-row">
+      <mat-icon>call</mat-icon>
+      <div><div class="l">Teléfono</div><div class="v">{{ data.phoneNumber }}</div></div>
+    </div>
+  }
+
+</app-bottom-sheet>

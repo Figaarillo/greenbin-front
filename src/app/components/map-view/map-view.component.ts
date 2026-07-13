@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { GoogleMapsModule } from '@angular/google-maps'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
@@ -14,8 +14,11 @@ export class MapViewComponent implements AfterViewInit {
   @Input() puntosVerdes: PuntoVerde[] = []
   @Input() localesAdheridos: LocalAdherido[] = []
   @Input() height: string | number = 220
+  @Input() zoom = 13
 
-  zoom = 13
+  @Output() puntoVerdeClick = new EventEmitter<PuntoVerde>()
+  @Output() localAdheridoClick = new EventEmitter<LocalAdherido>()
+  @Output() mapReady = new EventEmitter<google.maps.Map>()
 
   @Input() center: google.maps.LatLngLiteral = {
     //centro, puesto a mano las coordenadas de vm
@@ -123,6 +126,10 @@ export class MapViewComponent implements AfterViewInit {
       content: this.createLocalAdheridoPin().element //el pin element da el estilo al marcador
     }
     return markerOptions
+  }
+
+  onMapInitialized(map: google.maps.Map) {
+    this.mapReady.emit(map)
   }
 
   coordToPosition(obj: PuntoVerde | LocalAdherido) {
