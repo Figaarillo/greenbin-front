@@ -20,7 +20,7 @@ export class WasteCategoryService {
     if (includeInactive) params += `&includeInactive=true`
     return this.http.get<WasteCategory[]>(`${this.url}${params}`).pipe(
       map((resp: any) => {
-        return resp.data
+        return resp.data ?? []
       })
     )
   }

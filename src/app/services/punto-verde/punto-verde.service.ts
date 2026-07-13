@@ -23,7 +23,7 @@ export class PuntoVerdeService {
     if (entityId) params += `&entityId=${entityId}`
     return this.http.get<PuntoVerde[]>(`${this.url}${params}`).pipe(
       map((resp: any) => {
-        return resp.data
+        return resp.data ?? []
       })
     )
   }
