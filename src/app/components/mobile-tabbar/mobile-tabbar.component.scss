@@ -5,7 +5,7 @@
   right: 16px;
   background: var(--surface);
   border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.20), 0 2px 8px rgba(0, 0, 0, 0.12);
   display: flex;
   justify-content: space-around;
   // Aislar de la transición de ruta para que no se desvanezca con el root
