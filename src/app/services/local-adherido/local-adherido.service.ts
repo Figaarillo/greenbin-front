@@ -24,6 +24,9 @@ export class LocalAdheridoService {
   create(object: LocalAdherido): Observable<LocalAdherido> {
     return this.http.post<LocalAdherido>(this.url, object)
   }
+  requestRegisterOtp(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiBase}/api/auth/register/request-otp`, { email, userType: 'reward-partner' })
+  }
 
   login(object: Login): Observable<any> {
     return this.http.post<LoginResponse>(this.url + '/auth/login', object)
