@@ -47,6 +47,7 @@
             <div class="c-card-title">{{ data.title }}</div>
             <div class="c-card-desc">{{ data.description }}</div>
             <span class="c-card-price">{{ data.costInPoints }} pts</span>
+            <span class="c-card-price c-card-vigencia">{{ data.validDays }} días</span>
             <span class="c-card-status" [class.off]="!data.isAvailable">
               {{ data.isAvailable ? 'Disponible' : 'No disponible' }}
             </span>
