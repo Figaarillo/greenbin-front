@@ -24,6 +24,98 @@
   font-size: 14px;
 }
 
+.month-summary {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.ms-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 12px;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+    color: var(--accent);
+  }
+}
+
+.ms-stats {
+  display: flex;
+  gap: 14px;
+}
+
+.ms-stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  .stat-ic {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &.g {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    &.y {
+      background: rgba(224, 160, 25, 0.15);
+      color: var(--warning);
+    }
+
+    &.b {
+      background: rgba(58, 119, 181, 0.13);
+      color: var(--info);
+    }
+  }
+
+  .ms-stat-text {
+    min-width: 0;
+
+    b {
+      display: block;
+      font-size: 14px;
+      font-family: 'Sora', sans-serif;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    small {
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .ms-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .tx-item {
   display: flex;
   align-items: center;

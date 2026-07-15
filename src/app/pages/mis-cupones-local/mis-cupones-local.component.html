@@ -55,6 +55,7 @@
           <div class="c-card-badge">{{ data.discount }}<span>%</span></div>
           <div class="c-card-actions">
             <button class="c-icon-btn" (click)="edit(data)"><mat-icon>edit</mat-icon></button>
+            <button class="c-icon-btn" [title]="'Duplicar cupón'" (click)="duplicar(data)"><mat-icon>content_copy</mat-icon></button>
             <button class="c-icon-btn" (click)="toggleDisponible(data)">
               <mat-icon>{{ data.isAvailable ? 'block' : 'check_circle' }}</mat-icon>
             </button>

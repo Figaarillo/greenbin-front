@@ -10,6 +10,29 @@
   <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="v-body">
+      @if (mesEntregas > 0) {
+        <div class="month-summary">
+          <div class="ms-head">
+            <mat-icon>calendar_month</mat-icon>
+            <span>Este mes</span>
+          </div>
+          <div class="ms-stats">
+            <div class="ms-stat">
+              <div class="stat-ic g"><mat-icon>scale</mat-icon></div>
+              <div class="ms-stat-text"><b>{{ mesKg | number:'1.1-1' }} kg</b><small>Reciclado</small></div>
+            </div>
+            <div class="ms-stat">
+              <div class="stat-ic y"><mat-icon>star</mat-icon></div>
+              <div class="ms-stat-text"><b>{{ mesPuntos | number }}</b><small>Puntos ganados</small></div>
+            </div>
+            <div class="ms-stat">
+              <div class="stat-ic b"><mat-icon>swap_horiz</mat-icon></div>
+              <div class="ms-stat-text"><b>{{ mesEntregas }}</b><small>Entregas</small></div>
+            </div>
+          </div>
+        </div>
+      }
+
       <h4>Historial</h4>
 
       @if (loading) {

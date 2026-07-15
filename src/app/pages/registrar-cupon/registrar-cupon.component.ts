@@ -28,6 +28,20 @@ export class RegistrarCuponComponent {
     diasVigente: ['', Validators.required]
   })
 
+  constructor() {
+    // Al duplicar un cupón desde "Mis cupones" llega precargado vía router state.
+    const coupon = this.router.getCurrentNavigation()?.extras?.state?.['coupon']
+    if (coupon) {
+      this.formGroup.patchValue({
+        titulo: `Copia de ${coupon.title}`,
+        description: coupon.description,
+        descuento: coupon.discount,
+        costo: coupon.costInPoints,
+        diasVigente: coupon.validDays
+      })
+    }
+  }
+
   registrarCupon() {
     if (this.formGroup.valid) {
       const info = this.storage.getItem('usuarioInfo') || '{}'

@@ -15,6 +15,7 @@ import { NotificationBellComponent } from '../../components/notification-bell/no
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 import { AnimatedNumberComponent } from '../../components/animated-number/animated-number.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
+import { StatisticsService } from '../../services/statistics/statistics.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RealtimeService } from '../../services/notification/realtime.service'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
@@ -58,9 +59,13 @@ export class LandingVecinoComponent implements OnInit {
   mostrarTodo: boolean = false
   LIMITE = 5
   isDesktop = false
+  mesKg = 0
+  mesPuntos = 0
+  mesEntregas = 0
 
   constructor(
     private vecinoServ: VecinoService,
+    private statisticsService: StatisticsService,
     private breakpointObserver: BreakpointObserver
   ) {
     const info = this.storage.getItem('usuarioInfo') || '{}'
@@ -110,6 +115,20 @@ export class LandingVecinoComponent implements OnInit {
         this.loading = false
       },
       error: () => (this.loading = false)
+    })
+
+    const primerDiaDelMes = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+    this.statisticsService.getNeighborDeliveries(this.id, primerDiaDelMes.toISOString()).subscribe({
+      next: (resp: any) => {
+        const deliveries = resp.data || []
+        this.mesEntregas = deliveries.length
+        this.mesPuntos = deliveries.reduce((sum: number, d: any) => sum + d.totalPoints, 0)
+        this.mesKg = deliveries.reduce(
+          (sum: number, d: any) => sum + d.details.reduce((s: number, det: any) => s + det.weight, 0),
+          0
+        )
+      },
+      error: () => {}
     })
 
     this.vecinoServ.getMyWasteTransactions(this.id).subscribe({
