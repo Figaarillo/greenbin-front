@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '../../config/api.config'
 import { inject, Injectable, signal } from '@angular/core'
 import { LoginResponse } from '../interfaces/login-response'
-import { BehaviorSubject, Observable, tap } from 'rxjs'
+import { Observable, tap } from 'rxjs'
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http'
 import { IS_REFRESH_TOKEN_REQUEST } from '../../interceptors/httpContextToken'
 import { Router } from '@angular/router'
@@ -20,22 +20,12 @@ export class SesionService {
   ) {}
   private apiUrl = `${this.apiBase}/api`
 
-  //borrar?
-  private loggingSubject = new BehaviorSubject<boolean>(false)
-  isLogging$ = this.loggingSubject.asObservable()
-  setLoginData(login: LoginResponse) {
+  setLoginData(login: LoginResponse, module: string): void {
     this.setAccessToken(login.accessToken)
     this.setRefreshToken(login.refreshToken)
     this.setUserId(login.id)
-    this.login()
+    this.setRole(module)
   }
-  isLogging(): boolean {
-    return this.loggingSubject.value
-  }
-  login() {
-    this.storage.setItem('isLogged', 'true')
-  }
-  ///--------
 
   logout() {
     this.storage.clear()
