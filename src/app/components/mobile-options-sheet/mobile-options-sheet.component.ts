@@ -67,6 +67,7 @@ export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
 
   @Output() close = new EventEmitter<void>()
   @Output() navigateFullPage = new EventEmitter<string>()
+  @Output() photoChanged = new EventEmitter<string>()
 
   private readonly sheet = viewChild.required(BottomSheetComponent)
   private readonly platformId = inject(PLATFORM_ID)
@@ -105,6 +106,7 @@ export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
     if (!file) return
     this.revokePreview()
     this.previewPhoto = URL.createObjectURL(file)
+    this.photoChanged.emit(this.previewPhoto)
   }
 
   private revokePreview(): void {

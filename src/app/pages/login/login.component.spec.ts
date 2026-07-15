@@ -163,14 +163,9 @@ describe('LoginComponent', () => {
   })
 
   describe('"No tengo una cuenta"', () => {
-    it('opens the register role selector', () => {
-      expect(component.registerSelector).toBeDefined()
-      const openSpy = spyOn(component.registerSelector!, 'open')
-
+    it('links to the register role selector screen', () => {
       const link = fixture.debugElement.query(By.css('.register-link'))
-      link.nativeElement.click()
-
-      expect(openSpy).toHaveBeenCalled()
+      expect(link.nativeElement.getAttribute('href')).toBe('/registrarme')
     })
   })
 })

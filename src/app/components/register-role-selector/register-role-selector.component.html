@@ -1,23 +1,38 @@
-<app-bottom-sheet>
+<div class="login-page has-form" data-role="vecino">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="login-hero">
+      <div class="hero-icon"><mat-icon>recycling</mat-icon></div>
+      <h2>Bienvenido a GreenBin</h2>
+      <p>¿Cómo querés ingresar?</p>
+    </div>
 
-  <div class="role-hint">Elegí tu perfil para continuar</div>
-  <div class="roles">
-    <a class="role r-vec" routerLink="/registrar-vecino">
-      <span class="ri"><mat-icon>account_circle</mat-icon></span>
-      <div class="role-text">
-        <b>Vecino</b>
-        <span>Reciclá y ganá puntos</span>
+    <div class="login-body">
+      <div class="role-hint">Elegí tu perfil para continuar</div>
+      <div class="roles">
+        <a class="role r-vec" routerLink="/registrar-vecino">
+          <span class="ri"><mat-icon>account_circle</mat-icon></span>
+          <div class="role-text">
+            <b>Vecino</b>
+            <span>Reciclá y ganá puntos</span>
+          </div>
+          <mat-icon class="arr">chevron_right</mat-icon>
+        </a>
+        <a class="role r-loc" routerLink="/registrar-local">
+          <span class="ri"><mat-icon>store</mat-icon></span>
+          <div class="role-text">
+            <b>Local adherido</b>
+            <span>Canjeá cupones</span>
+          </div>
+          <mat-icon class="arr">chevron_right</mat-icon>
+        </a>
       </div>
-      <mat-icon class="arr">chevron_right</mat-icon>
-    </a>
-    <a class="role r-loc" routerLink="/registrar-local">
-      <span class="ri"><mat-icon>store</mat-icon></span>
-      <div class="role-text">
-        <b>Local adherido</b>
-        <span>Canjeá cupones</span>
-      </div>
-      <mat-icon class="arr">chevron_right</mat-icon>
-    </a>
+    </div>
+
+    <div class="login-footer">
+      <a class="back-link" [routerLink]="'/login'">
+        <mat-icon>arrow_back</mat-icon> Volver al inicio
+      </a>
+    </div>
   </div>
-
-</app-bottom-sheet>
+</div>

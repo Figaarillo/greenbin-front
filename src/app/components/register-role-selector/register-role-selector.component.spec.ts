@@ -5,7 +5,6 @@ import { RegisterRoleSelectorComponent } from './register-role-selector.componen
 
 describe('RegisterRoleSelectorComponent', () => {
   let fixture: ComponentFixture<RegisterRoleSelectorComponent>
-  let component: RegisterRoleSelectorComponent
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,7 +13,6 @@ describe('RegisterRoleSelectorComponent', () => {
     })
 
     fixture = TestBed.createComponent(RegisterRoleSelectorComponent)
-    component = fixture.componentInstance
     fixture.detectChanges()
   })
 
@@ -39,15 +37,5 @@ describe('RegisterRoleSelectorComponent', () => {
   it('routes the local option to /registrar-local', () => {
     const local = fixture.debugElement.query(By.css('.role.r-loc'))
     expect(local.nativeElement.getAttribute('href')).toBe('/registrar-local')
-  })
-
-  it('open() opens the underlying bottom sheet', () => {
-    // No hay backdrop visible antes de abrir.
-    expect(fixture.nativeElement.querySelector('.sheet-wrapper.is-open')).toBeNull()
-
-    component.open()
-    fixture.detectChanges()
-
-    expect(fixture.nativeElement.querySelector('.sheet-wrapper.is-open')).not.toBeNull()
   })
 })
