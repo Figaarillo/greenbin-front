@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, Inject, ViewChild } from '@angular/core'
+import { Component, inject, Inject } from '@angular/core'
 
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -23,7 +23,6 @@ import { UnifiedLoginResponse } from '../../services/interfaces/login-response'
 import { Role } from '../../services/interfaces/role'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
 import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
-import { RegisterRoleSelectorComponent } from '../../components/register-role-selector/register-role-selector.component'
 
 type Module = 'neighbor' | 'reward-partner' | 'responsible' | 'entity'
 
@@ -90,8 +89,7 @@ const ROLE_CONFIG: Record<Role, RoleConfig> = {
     RouterModule,
     CommonModule,
     RecaptchaModule,
-    RecaptchaFormsModule,
-    RegisterRoleSelectorComponent
+    RecaptchaFormsModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -103,8 +101,6 @@ export class LoginComponent {
   hide = true
   recaptchaToken = ''
   recaptchaSiteKey: string
-
-  @ViewChild(RegisterRoleSelectorComponent) registerSelector?: RegisterRoleSelectorComponent
 
   form: FormGroup
 

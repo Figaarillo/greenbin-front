@@ -51,10 +51,8 @@
     </div>
 
     <div class="login-footer">
-      <p class="register-link" (click)="registerSelector?.open()">No tengo una cuenta</p>
+      <p class="register-link" [routerLink]="'/registrarme'">No tengo una cuenta</p>
     </div>
 
   </div>
 </div>
-
-<app-register-role-selector></app-register-role-selector>

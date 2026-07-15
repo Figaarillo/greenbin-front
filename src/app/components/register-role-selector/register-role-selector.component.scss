@@ -1,16 +1,12 @@
-// La mecánica del sheet (wrapper, clip, backdrop, panel) vive en app-bottom-sheet.
-// Acá solo el contenido proyectado — movido desde login.component.scss.
-
 .role-hint {
   font-size: 13px;
   color: var(--muted);
-  margin: 4px 20px 14px;
+  margin-bottom: 14px;
 }
 
 .roles {
   display: grid;
   gap: 10px;
-  padding: 4px 20px 20px;
 }
 
 .role {

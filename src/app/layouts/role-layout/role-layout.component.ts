@@ -182,6 +182,10 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(route)
   }
 
+  onPhotoChanged(url: string): void {
+    this.userPhoto = url
+  }
+
   onMenuNavigate(route: string): void {
     this.router.navigateByUrl(route)
   }

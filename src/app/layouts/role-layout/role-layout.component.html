@@ -36,6 +36,7 @@
       [userName]="userName"
       [userSubtitle]="userSubtitle"
       [userDetail]="userDetail"
+      [userPhoto]="userPhoto"
       (navigate)="onMenuNavigate($event)"
       (doLogout)="onMenuLogout()"
     />
@@ -50,6 +51,7 @@
       [userPhoto]="userPhoto"
       [profileRoute]="profileRoute"
       (navigateFullPage)="onOptionsFullPageNav($event)"
+      (photoChanged)="onPhotoChanged($event)"
     />
   }
 </div>
