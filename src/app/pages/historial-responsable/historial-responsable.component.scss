@@ -29,10 +29,38 @@
   box-shadow: var(--sh-1);
   text-align: center;
 
+  .stat-ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto;
+
+    .las {
+      font-size: 1.35rem;
+    }
+
+    &.g {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    &.y {
+      background: rgba(224, 160, 25, 0.15);
+      color: var(--warning);
+    }
+
+    &.b {
+      background: rgba(58, 119, 181, 0.13);
+      color: var(--info);
+    }
+  }
+
   h2 {
     font-size: 1.5rem;
     color: var(--ink);
-    margin: 0.4rem 0 0.2rem;
+    margin: 0.6rem 0 0.2rem;
     font-family: 'Sora', sans-serif;
   }
 

@@ -1,10 +1,10 @@
 <div data-role="vecino" class="landing-drawer">
   <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
     <div class="hdr-chip">
       <mat-icon>stars</mat-icon>
       <app-animated-number [value]="puntos()" /> pts acumulados
     </div>
-    <app-notification-bell #bell (opened)="panel.open()" />
   </app-page-header>
 
   <app-notification-panel #panel (closed)="bell.refresh()" />

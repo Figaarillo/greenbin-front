@@ -10,6 +10,15 @@
   padding: 20px 20px 28px;
   user-select: none;
   -webkit-user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 0 0 rgba(15, 23, 18, 0);
+  transition: box-shadow 200ms ease;
+
+  &.is-scrolled {
+    box-shadow: 0 4px 14px rgba(15, 23, 18, 0.18);
+  }
 }
 
 .v-topbar {
@@ -240,9 +249,6 @@
 @media (max-width: 959px) {
   .v-header {
     padding-top: 24px;
-    position: sticky;
-    top: 0;
-    z-index: 20;
   }
 }
 

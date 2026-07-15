@@ -1,7 +1,12 @@
-<header class="page-header">
-  <div class="ph-brand">
-    <mat-icon>recycling</mat-icon>
-    <span>GreenBin</span>
+<header class="page-header" appScrollShadow>
+  <div class="ph-top-row">
+    <div class="ph-brand">
+      <mat-icon>recycling</mat-icon>
+      <span>GreenBin</span>
+    </div>
+    <div class="ph-actions">
+      <ng-content select="[phActions]"></ng-content>
+    </div>
   </div>
 
   @if (title) {
