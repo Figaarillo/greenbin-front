@@ -2,7 +2,7 @@ import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
 import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import { RouterModule } from '@angular/router'
+import { ActivatedRoute, RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
@@ -22,9 +22,15 @@ Chart.register(...registerables)
 export class EstadisticasLocalComponent implements OnInit {
   private storage = inject(StorageService)
   private platformId = inject(PLATFORM_ID)
+  private route = inject(ActivatedRoute)
   private rewardPartnerId = ''
   private allTransactions: any[] = []
   loading = true
+
+  /** true cuando entra por la ruta de entidad (viendo el ROI de un local ajeno). */
+  viewingAsEntity = false
+  navTitle = 'Estadísticas'
+  navBackRoute = '/local'
 
   dateFrom = ''
   dateTo = ''
@@ -35,6 +41,19 @@ export class EstadisticasLocalComponent implements OnInit {
   totalUsado = 0
   totalExpirado = 0
   totalPuntos = 0
+
+  // ROI: valor de negocio para el local (clientes, no solo cupones)
+  uniqueNeighbors = 0
+  newNeighbors = 0
+  avgVisitsPerNeighbor = 0
+  byCoupon: Array<{
+    couponId: string
+    title: string
+    redemptions: number
+    uniqueNeighbors: number
+    newNeighbors: number
+    pointsSpent: number
+  }> = []
 
   // Bar chart - status distribution
   barData: ChartData<'bar'> = {
@@ -72,8 +91,16 @@ export class EstadisticasLocalComponent implements OnInit {
   constructor(private localService: LocalAdheridoService) {}
 
   ngOnInit(): void {
-    const info = this.storage.getItem('usuarioInfo') || '{}'
-    this.rewardPartnerId = JSON.parse(info).id
+    const idFromRoute = this.route.snapshot.paramMap.get('id')
+    if (idFromRoute) {
+      this.rewardPartnerId = idFromRoute
+      this.viewingAsEntity = true
+      this.navTitle = 'Panel de ROI'
+      this.navBackRoute = '/entidad/consultar-locales'
+    } else {
+      const info = this.storage.getItem('usuarioInfo') || '{}'
+      this.rewardPartnerId = JSON.parse(info).id
+    }
     if (isPlatformBrowser(this.platformId)) this.loadData()
   }
 
@@ -153,5 +180,63 @@ export class EstadisticasLocalComponent implements OnInit {
         }
       ]
     }
+
+    this.buildRoi(transactions)
+  }
+
+  // ROI: la "primera visita" de cada vecino se calcula sobre TODO el
+  // histórico (this.allTransactions), no sobre el rango filtrado — si no,
+  // un vecino que ya había venido antes del filtro parecería "nuevo" al
+  // volver a canjear dentro del rango.
+  private buildRoi(transactions: any[]): void {
+    const usadosHistorico = this.allTransactions.filter(t => t.status === 'USADO' && t.redeemDate)
+    const firstVisitByNeighbor = new Map<string, number>()
+    for (const t of usadosHistorico) {
+      const neighborId = t.neighbor?.id
+      if (!neighborId) continue
+      const ts = new Date(t.redeemDate).getTime()
+      const current = firstVisitByNeighbor.get(neighborId)
+      if (current == null || ts < current) firstVisitByNeighbor.set(neighborId, ts)
+    }
+
+    const usados = transactions.filter(t => t.status === 'USADO' && t.redeemDate)
+    const isFirstVisit = (t: any): boolean =>
+      firstVisitByNeighbor.get(t.neighbor?.id) === new Date(t.redeemDate).getTime()
+
+    this.uniqueNeighbors = new Set(usados.map(t => t.neighbor?.id)).size
+    this.newNeighbors = usados.filter(isFirstVisit).length
+    this.avgVisitsPerNeighbor = this.uniqueNeighbors > 0 ? usados.length / this.uniqueNeighbors : 0
+
+    const byCouponMap = new Map<
+      string,
+      {
+        couponId: string
+        title: string
+        redemptions: number
+        neighbors: Set<string>
+        newNeighbors: number
+        pointsSpent: number
+      }
+    >()
+    for (const t of usados) {
+      const couponId = t.coupon?.id ?? 'sin-cupon'
+      const entry = byCouponMap.get(couponId) ?? {
+        couponId,
+        title: t.coupon?.title ?? 'Cupón eliminado',
+        redemptions: 0,
+        neighbors: new Set<string>(),
+        newNeighbors: 0,
+        pointsSpent: 0
+      }
+      entry.redemptions++
+      if (t.neighbor?.id) entry.neighbors.add(t.neighbor.id)
+      entry.pointsSpent += t.costInPoints ?? 0
+      if (isFirstVisit(t)) entry.newNeighbors++
+      byCouponMap.set(couponId, entry)
+    }
+
+    this.byCoupon = Array.from(byCouponMap.values())
+      .map(({ neighbors, ...rest }) => ({ ...rest, uniqueNeighbors: neighbors.size }))
+      .sort((a, b) => b.newNeighbors - a.newNeighbors)
   }
 }
