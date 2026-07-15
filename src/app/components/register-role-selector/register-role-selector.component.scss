@@ -1,0 +1,56 @@
+// La mecánica del sheet (wrapper, clip, backdrop, panel) vive en app-bottom-sheet.
+// Acá solo el contenido proyectado — movido desde login.component.scss.
+
+.role-hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 4px 20px 14px;
+}
+
+.roles {
+  display: grid;
+  gap: 10px;
+  padding: 4px 20px 20px;
+}
+
+.role {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 15px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--surface);
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sh-1);
+  }
+
+  .ri {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+
+    mat-icon { font-size: 22px; }
+  }
+
+  .role-text {
+    flex: 1;
+
+    b    { font-size: 14.5px; display: block; color: var(--ink); }
+    span { font-size: 12px; color: var(--muted); }
+  }
+
+  .arr { color: var(--muted); font-size: 20px; }
+}
+
+.r-vec .ri { background: #1e9e5a; }
+.r-loc .ri { background: #e0a019; }
