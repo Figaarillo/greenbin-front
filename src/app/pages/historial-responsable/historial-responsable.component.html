@@ -25,17 +25,23 @@
     } @else {
       <div class="summary-cards">
         <div class="summary-card">
-          <div class="stat-ic g"><span class="las la-weight"></span></div>
+          <div class="kpi-head">
+            <div class="stat-ic g"><span class="las la-weight"></span></div>
+          </div>
           <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
           <small>Total procesado</small>
         </div>
         <div class="summary-card">
-          <div class="stat-ic y"><span class="las la-star"></span></div>
+          <div class="kpi-head">
+            <div class="stat-ic y"><span class="las la-star"></span></div>
+          </div>
           <h2>{{ totalPoints | number }}</h2>
           <small>Puntos otorgados</small>
         </div>
         <div class="summary-card">
-          <div class="stat-ic b"><span class="las la-exchange-alt"></span></div>
+          <div class="kpi-head">
+            <div class="stat-ic b"><span class="las la-exchange-alt"></span></div>
+          </div>
           <h2>{{ totalTransactions }}</h2>
           <small>Entregas procesadas</small>
         </div>
@@ -43,7 +49,10 @@
 
       <div class="charts-grid">
         <div class="chart-card">
-          <h3>Residuos por categoría</h3>
+          <div class="card-head">
+            <h3>Residuos por categoría</h3>
+            <div class="card-sub">Participación por tipo</div>
+          </div>
           <div class="chart-container pie-container">
             <canvas baseChart
               [data]="pieData"
@@ -54,7 +63,10 @@
         </div>
 
         <div class="chart-card">
-          <h3>Reciclados por mes</h3>
+          <div class="card-head">
+            <h3>Reciclados por mes</h3>
+            <div class="card-sub">Kg recolectados por mes</div>
+          </div>
           <div class="period-scroll-container">
             <div class="period-chart-inner" [style.width]="barChartWidth">
               <canvas baseChart
