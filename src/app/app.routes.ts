@@ -49,7 +49,8 @@ export const routes: Routes = [
   },
   {
     path: 'login-admin',
-    loadComponent: () => import('./pages/login-entidad/login-entidad.component').then(m => m.LoginEntidadComponent)
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   {
     path: 'forgot-password',
@@ -62,8 +63,8 @@ export const routes: Routes = [
   },
   {
     path: 'superadmin/login',
-    loadComponent: () =>
-      import('./pages/login-superadmin/login-superadmin.component').then(m => m.LoginSuperadminComponent)
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
   // ── Superadmin ─────────────────────────────────────
   {
