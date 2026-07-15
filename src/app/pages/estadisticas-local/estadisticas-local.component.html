@@ -1,4 +1,4 @@
-<app-navbar [title]="'Estadísticas'" [route]="'/local'"></app-navbar>
+<app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
 
 <div class="container">
 
@@ -55,6 +55,49 @@
         <span class="kpi-label">Puntos generados</span>
       </div>
     </div>
+
+    <!-- ROI: valor de negocio, no solo cupones -->
+    <h3 class="section-title">Retorno para el local</h3>
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-teal">
+        <mat-icon>groups</mat-icon>
+        <span class="kpi-value">{{ uniqueNeighbors }}</span>
+        <span class="kpi-label">Vecinos distintos</span>
+      </div>
+      <div class="kpi-card kpi-purple">
+        <mat-icon>person_add</mat-icon>
+        <span class="kpi-value">{{ newNeighbors }}</span>
+        <span class="kpi-label">Vecinos nuevos</span>
+      </div>
+      <div class="kpi-card kpi-blue">
+        <mat-icon>repeat</mat-icon>
+        <span class="kpi-value">{{ avgVisitsPerNeighbor | number:'1.1-1' }}</span>
+        <span class="kpi-label">Visitas por vecino</span>
+      </div>
+      <div class="kpi-card kpi-green">
+        <mat-icon>stars</mat-icon>
+        <span class="kpi-value">{{ totalPuntos | number }}</span>
+        <span class="kpi-label">Puntos gastados acá</span>
+      </div>
+    </div>
+
+    @if (byCoupon.length > 0) {
+      <div class="card roi-by-coupon">
+        <div class="card-head">
+          <h3>Por cupón</h3>
+          <div class="card-sub">Qué cupón trae más clientes nuevos</div>
+        </div>
+        @for (c of byCoupon; track c.couponId) {
+          <div class="rail-item">
+            <div class="r-body">
+              <b>{{ c.title }}</b>
+              <small>{{ c.redemptions }} canjes · {{ c.uniqueNeighbors }} vecinos</small>
+            </div>
+            <span class="r-val">{{ c.newNeighbors }} nuevos</span>
+          </div>
+        }
+      </div>
+    }
 
     <!-- Charts -->
     <div class="charts-grid">
