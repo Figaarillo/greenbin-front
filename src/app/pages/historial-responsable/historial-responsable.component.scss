@@ -24,21 +24,26 @@
 
 .summary-card {
   background: var(--surface);
-  padding: 1.25rem;
+  padding: 1.1rem 1.25rem;
   border-radius: var(--r-card);
   box-shadow: var(--sh-1);
-  text-align: center;
+  text-align: left;
+
+  .kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .stat-ic {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
     display: grid;
     place-items: center;
-    margin: 0 auto;
 
     .las {
-      font-size: 1.35rem;
+      font-size: 1.2rem;
     }
 
     &.g {
@@ -58,15 +63,17 @@
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: var(--ink);
-    margin: 0.6rem 0 0.2rem;
+    margin: 0.75rem 0 0.1rem;
     font-family: 'Sora', sans-serif;
+    font-weight: 700;
   }
 
   small {
     color: var(--muted);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 500;
   }
 }
 
@@ -78,14 +85,24 @@
 
 .chart-card {
   background: var(--surface);
-  padding: 1.5rem;
+  padding: 1.25rem 1.4rem;
   border-radius: var(--r-card);
   box-shadow: var(--sh-1);
 
-  h3 {
+  .card-head {
     margin-bottom: 1rem;
-    color: var(--ink);
-    font-size: 1.1rem;
+
+    h3 {
+      color: var(--ink);
+      font-size: 1rem;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .card-sub {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
   }
 }
 
