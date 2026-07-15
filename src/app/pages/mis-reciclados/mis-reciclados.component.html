@@ -25,17 +25,17 @@
     } @else {
       <div class="summary-cards">
         <div class="summary-card">
-          <span class="las la-weight" style="font-size: 2rem; color: var(--accent);"></span>
+          <div class="stat-ic g"><span class="las la-weight"></span></div>
           <h2>{{ totalWeight | number:'1.1-1' }} kg</h2>
           <small>Total reciclado</small>
         </div>
         <div class="summary-card">
-          <span class="las la-star" style="font-size: 2rem; color: #f59e0b;"></span>
+          <div class="stat-ic y"><span class="las la-star"></span></div>
           <h2>{{ totalPoints | number }}</h2>
           <small>Puntos obtenidos</small>
         </div>
         <div class="summary-card">
-          <span class="las la-exchange-alt" style="font-size: 2rem; color: #3b82f6;"></span>
+          <div class="stat-ic b"><span class="las la-exchange-alt"></span></div>
           <h2>{{ totalTransactions }}</h2>
           <small>Entregas realizadas</small>
         </div>

@@ -14,6 +14,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
+import { ScrollShadowDirective } from '../../directives/scroll-shadow.directive'
 
 export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
 
@@ -34,7 +35,8 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     DatePipe,
     SkeletonComponent,
     NotificationBellComponent,
-    NotificationPanelComponent
+    NotificationPanelComponent,
+    ScrollShadowDirective
   ],
   templateUrl: './home-local.component.html',
   styleUrl: './home-local.component.scss'

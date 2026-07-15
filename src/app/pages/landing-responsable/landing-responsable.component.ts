@@ -19,6 +19,7 @@ import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
+import { ScrollShadowDirective } from '../../directives/scroll-shadow.directive'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -38,7 +39,8 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
     DatePipe,
     SkeletonComponent,
     NotificationBellComponent,
-    NotificationPanelComponent
+    NotificationPanelComponent,
+    ScrollShadowDirective
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'

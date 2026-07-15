@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
+import { ScrollShadowDirective } from '../../directives/scroll-shadow.directive'
 
 /**
  * Cabecera unificada (gradiente del rol) usada en todas las pantallas mobile.
@@ -13,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon'
 @Component({
   selector: 'app-page-header',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, ScrollShadowDirective],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.scss'
 })
