@@ -1,4 +1,5 @@
 import { Component, viewChild, inject, PLATFORM_ID } from '@angular/core'
+import { Router } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTableDataSource } from '@angular/material/table'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
@@ -35,7 +36,8 @@ export class MisCuponesLocalComponent {
 
   constructor(
     private service: LocalAdheridoService,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private router: Router
   ) {
     this.localId = this.sesionService.getUserId()
     if (isPlatformBrowser(this.platformId)) this.getItems()
@@ -73,6 +75,10 @@ export class MisCuponesLocalComponent {
   edit(cupon: Coupon) {
     this.cuponEnEdicion = cupon
     this.editSheet().open()
+  }
+
+  duplicar(cupon: Coupon) {
+    this.router.navigate(['/local/registrar-cupon'], { state: { coupon: cupon } })
   }
 
   onCuponGuardado() {

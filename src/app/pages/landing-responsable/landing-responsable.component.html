@@ -23,6 +23,22 @@
   <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="v-body">
+      @if (topVecinos.length > 0) {
+        <div class="card top-vecinos">
+          <div class="card-head">
+            <h3>Top vecinos</h3>
+            <div class="card-sub">En tu punto verde</div>
+          </div>
+          @for (v of topVecinos; track v.neighborId; let i = $index) {
+            <div class="rail-item">
+              <div class="r-ic">{{ i + 1 }}</div>
+              <div class="r-body"><b>{{ v.firstname }} {{ v.lastname }}</b></div>
+              <span class="r-val">{{ v.totalWeight | number:'1.0-1' }} kg</span>
+            </div>
+          }
+        </div>
+      }
+
       <h4>Historial</h4>
 
       @if (loading) {

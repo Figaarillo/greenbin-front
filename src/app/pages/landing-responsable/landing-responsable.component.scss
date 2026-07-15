@@ -86,6 +86,74 @@
   font-size: 14px;
 }
 
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.card-head {
+  margin-bottom: 10px;
+
+  h3 {
+    font-size: 15px;
+    font-family: 'Sora', sans-serif;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .card-sub {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+}
+
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  .r-ic {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .r-body {
+    flex: 1;
+    min-width: 0;
+
+    b {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+  }
+
+  .r-val {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent-ink);
+    flex-shrink: 0;
+  }
+}
+
 .tx-item {
   display: flex;
   align-items: center;

@@ -45,4 +45,11 @@ export class StatisticsService {
     if (to) params = params.set('to', to)
     return this.http.get(`${this.url}/neighbor/${neighborId}/deliveries`, { params })
   }
+
+  getNeighborRankingByGreenPoint(greenPointId: string, from?: string, to?: string): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    return this.http.get(`${this.url}/green-point/${greenPointId}/neighbor-ranking`, { params })
+  }
 }

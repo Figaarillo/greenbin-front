@@ -13,6 +13,7 @@ import { SesionService } from '../../services/sesion/sesion.service'
 import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
+import { StatisticsService } from '../../services/statistics/statistics.service'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import Swal from 'sweetalert2'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
@@ -57,12 +58,14 @@ export class LandingResponsableComponent implements OnInit {
   historialVisible: any[] = []
   mostrarTodo: boolean = false
   LIMITE = 5
+  topVecinos: any[] = []
 
   constructor(
     private router: Router,
     private sesionService: SesionService,
     private pvService: PuntoVerdeService,
-    private wasteDeliveryService: WasteDeliveryService
+    private wasteDeliveryService: WasteDeliveryService,
+    private statisticsService: StatisticsService
   ) {
     this.nombre = this.formatearNombre(this.sesionService.getFirstname())
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
@@ -93,6 +96,19 @@ export class LandingResponsableComponent implements OnInit {
       },
       error: () => (this.loading = false)
     })
+
+    this.loadTopVecinos()
+  }
+
+  private loadTopVecinos(): void {
+    if (!this.pvSelec) {
+      this.topVecinos = []
+      return
+    }
+    this.statisticsService.getNeighborRankingByGreenPoint(this.pvSelec).subscribe({
+      next: (resp: any) => (this.topVecinos = (resp.data || []).slice(0, 5)),
+      error: () => (this.topVecinos = [])
+    })
   }
 
   toggleHistorial() {
@@ -103,6 +119,7 @@ export class LandingResponsableComponent implements OnInit {
   onChange(event: any) {
     this.storage.setItem('puntoVerde', event.value)
     this.pvSelec = event.value
+    this.loadTopVecinos()
   }
 
   editResponsible() {
