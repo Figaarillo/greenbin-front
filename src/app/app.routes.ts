@@ -315,6 +315,11 @@ export const routes: Routes = [
           import('./pages/consultar-locales/consultar-locales.component').then(m => m.ConsultarLocalesComponent)
       },
       {
+        path: 'consultar-locales/:id/roi',
+        loadComponent: () =>
+          import('./pages/estadisticas-local/estadisticas-local.component').then(m => m.EstadisticasLocalComponent)
+      },
+      {
         path: 'registrar-categoria',
         loadComponent: () =>
           import('./pages/registrar-categoria/registrar-categoria.component').then(m => m.RegistrarCategoriaComponent)
