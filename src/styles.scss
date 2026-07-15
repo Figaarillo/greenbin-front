@@ -279,7 +279,7 @@ h6 {
 
 // Blur activo cuando hay formulario. Un solo lugar, cero duplicación:
 // .auth-page = siempre formulario (registrar-*)
-// .login-page.has-form = formulario condicional (login) o siempre (login-entidad, etc.)
+// .login-page.has-form = formulario condicional (login) o siempre (registrar-*, etc.)
 .login-page.has-form .login-bg,
 .auth-page .login-bg,
 .edit-form-page .login-bg {
@@ -322,8 +322,8 @@ h6 {
 }
 
 // ═════════════════════════════════════════════════════════════════════════
-//  LOGIN PAGE SHELL — layout compartido para login, login-entidad,
-//  login-superadmin, forgot-password y reset-password.
+//  LOGIN PAGE SHELL — layout compartido para login, forgot-password
+//  y reset-password.
 //  Los componentes solo declaran lo que los diferencia (max-width, etc.).
 // ═════════════════════════════════════════════════════════════════════════
 .login-page {
