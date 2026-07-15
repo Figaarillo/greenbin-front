@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, inject, Inject } from '@angular/core'
+import { Component, inject, Inject, ViewChild } from '@angular/core'
 
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -14,19 +14,65 @@ import { VecinoService } from '../../services/vecino/vecino.service'
 import { Login } from '../../services/interfaces/login'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { ResponsableService } from '../../services/responsable/responsable.service'
+import { EntidadService } from '../../services/entidad/entidad.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { ThemeService } from '../../services/theme/theme.service'
+import { AuthService } from '../../services/auth/auth.service'
+import { UnifiedLoginResponse } from '../../services/interfaces/login-response'
+import { Role } from '../../services/interfaces/role'
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha'
 import { RECAPTCHA_SITE_KEY } from '../../config/api.config'
-import { catchError, map, of } from 'rxjs'
+import { RegisterRoleSelectorComponent } from '../../components/register-role-selector/register-role-selector.component'
 
-type Role = 'neighbor' | 'reward-partner' | 'responsible'
+type Module = 'neighbor' | 'reward-partner' | 'responsible' | 'entity'
 
-const ROLE_ROUTES: Record<Role, string> = {
-  neighbor: '/vecino',
-  'reward-partner': '/local',
-  responsible: '/responsable'
+interface RoleConfig {
+  module: Module
+  route: string
+  fetchProfile: boolean
+  profileStorageKey: 'usuarioInfo' | 'entidadInfo' | null
+  setProfileFields: boolean
+}
+
+const ROLE_CONFIG: Record<Role, RoleConfig> = {
+  neighbor: {
+    module: 'neighbor',
+    route: '/vecino',
+    fetchProfile: true,
+    profileStorageKey: 'usuarioInfo',
+    setProfileFields: true
+  },
+  rewardPartner: {
+    module: 'reward-partner',
+    route: '/local',
+    fetchProfile: true,
+    profileStorageKey: 'usuarioInfo',
+    setProfileFields: true
+  },
+  responsible: {
+    module: 'responsible',
+    route: '/responsable',
+    fetchProfile: true,
+    profileStorageKey: 'usuarioInfo',
+    setProfileFields: true
+  },
+  entity: {
+    module: 'entity',
+    route: '/entidad',
+    fetchProfile: true,
+    profileStorageKey: 'entidadInfo',
+    setProfileFields: false
+  },
+  admin: {
+    // El JWT lleva role=admin, pero el guard/URL de refresh sigue siendo el
+    // segmento 'responsible' (admin es una fila de responsible con role=ADMIN).
+    module: 'responsible',
+    route: '/superadmin/dashboard',
+    fetchProfile: false,
+    profileStorageKey: null,
+    setProfileFields: false
+  }
 }
 
 @Component({
@@ -44,7 +90,8 @@ const ROLE_ROUTES: Record<Role, string> = {
     RouterModule,
     CommonModule,
     RecaptchaModule,
-    RecaptchaFormsModule
+    RecaptchaFormsModule,
+    RegisterRoleSelectorComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -54,19 +101,21 @@ export class LoginComponent {
   private themeService = inject(ThemeService)
   router = inject(Router)
   hide = true
-  loginAs = 0
-  userRole: string[] = ['Vecino', 'Local adherido', 'Responsable']
   recaptchaToken = ''
   recaptchaSiteKey: string
+
+  @ViewChild(RegisterRoleSelectorComponent) registerSelector?: RegisterRoleSelectorComponent
 
   form: FormGroup
 
   constructor(
     @Inject(RECAPTCHA_SITE_KEY) recaptchaSiteKey: string,
     private fb: FormBuilder,
+    private authService: AuthService,
     private neighborService: VecinoService,
     private businessService: LocalAdheridoService,
     private responsibleService: ResponsableService,
+    private entidadService: EntidadService,
     private sesionService: SesionService
   ) {
     this.recaptchaSiteKey = recaptchaSiteKey
@@ -90,31 +139,10 @@ export class LoginComponent {
       return
     }
 
-    const loginData = this.setLoginObject()
-
-    // Cada intento queda tageado con su rol: el primero que responde OK gana.
-    this.neighborService
-      .login(loginData)
-      .pipe(
-        map((r: any) => ({ response: r, role: 'neighbor' as Role })),
-        catchError(() =>
-          this.businessService.login(loginData).pipe(
-            map((r: any) => ({ response: r, role: 'reward-partner' as Role })),
-            catchError(() =>
-              this.responsibleService.login(loginData).pipe(
-                map((r: any) => ({ response: r, role: 'responsible' as Role })),
-                catchError(() => {
-                  Swal.fire({ icon: 'error', title: 'Error de acceso', text: 'Credenciales inválidas' })
-                  return of(null)
-                })
-              )
-            )
-          )
-        )
-      )
-      .subscribe(result => {
-        if (result) this.handleLoginSuccess(result.response, result.role)
-      })
+    this.authService.login(this.setLoginObject()).subscribe({
+      next: response => this.handleLoginSuccess(response.data),
+      error: () => Swal.fire({ icon: 'error', title: 'Error de acceso', text: 'Credenciales inválidas' })
+    })
   }
 
   setLoginObject(): Login {
@@ -135,7 +163,7 @@ export class LoginComponent {
     }
   }
 
-  private handleLoginSuccess(obj: any, role: Role) {
+  private handleLoginSuccess(data: UnifiedLoginResponse) {
     // Pizarra limpia: cualquier sesión previa en este dispositivo se descarta
     // ANTES de armar la nueva. Nunca confiar en pisar claves una por una.
     this.storage.clear()
@@ -143,34 +171,50 @@ export class LoginComponent {
     // no se toca solo) para que no quede "pegado" al valor anterior.
     this.themeService.apply()
 
-    this.sesionService.setAccessToken(obj.data.accessToken)
-    this.sesionService.setRefreshToken(obj.data.refreshToken)
-    this.sesionService.setUserId(obj.data.id)
-    this.sesionService.setRole(role)
+    const config = ROLE_CONFIG[data.role]
+    this.sesionService.setLoginData(data, config.module)
 
-    const serviceMap: Record<Role, any> = {
-      neighbor: this.neighborService,
-      'reward-partner': this.businessService,
-      responsible: this.responsibleService
+    if (!config.fetchProfile) {
+      // admin: GET /api/responsible/:id está protegido con
+      // protect(Roles.ENTITY, Roles.RESPONSIBLE) — SIN Roles.ADMIN — así que
+      // fetchear perfil acá rompería con 403. Se navega directo.
+      this.router.navigateByUrl(config.route)
+      return
     }
+
+    const profileService = this.profileServiceFor(config.module)
 
     // Fetcheamos el perfil completo antes de navegar para que el sidenav
     // tenga todos los datos disponibles desde el primer render.
-    serviceMap[role].get(obj.data.id).subscribe({
+    profileService.get(data.id).subscribe({
       next: (resp: any) => {
-        const data = resp.data
-        this.storage.setItem('usuarioInfo', JSON.stringify(data))
-        this.sesionService.setUsername(data.username ?? '')
-        // name cubre el caso de local adherido que usa razón social en lugar de firstname
-        this.sesionService.setFirstname(data.firstname ?? data.name ?? '')
-        this.sesionService.setLastname(data.lastname ?? '')
-        this.sesionService.setDni(data.dni ?? '')
-        this.sesionService.setPoints(data.points ?? '')
-        this.router.navigateByUrl(ROLE_ROUTES[role])
+        const profile = resp.data
+        if (config.profileStorageKey) {
+          this.storage.setItem(config.profileStorageKey, JSON.stringify(profile))
+        }
+        if (config.setProfileFields) {
+          this.sesionService.setUsername(profile.username ?? '')
+          // name cubre el caso de local adherido que usa razón social en lugar de firstname
+          this.sesionService.setFirstname(profile.firstname ?? profile.name ?? '')
+          this.sesionService.setLastname(profile.lastname ?? '')
+          this.sesionService.setDni(profile.dni ?? '')
+          this.sesionService.setPoints(profile.points ?? '')
+        }
+        this.router.navigateByUrl(config.route)
       },
       error: () => {
         Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo obtener la información del usuario' })
       }
     })
+  }
+
+  private profileServiceFor(module: Module) {
+    const serviceMap: Record<Module, { get(id: string): any }> = {
+      neighbor: this.neighborService,
+      'reward-partner': this.businessService,
+      responsible: this.responsibleService,
+      entity: this.entidadService
+    }
+    return serviceMap[module]
   }
 }
