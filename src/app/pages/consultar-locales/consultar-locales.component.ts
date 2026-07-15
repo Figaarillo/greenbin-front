@@ -31,9 +31,33 @@ export class ConsultarLocalesComponent implements OnInit {
       { key: 'address', label: 'Dirección' },
       { key: 'email', label: 'Email' },
       { key: 'phoneNumber', label: 'Teléfono' },
-      { key: 'isActive', label: 'Estado' }
+      { key: 'isActive', label: 'Estado' },
+      { key: 'actions', label: 'Acciones' }
     ]
     if (isPlatformBrowser(this.platformId)) this.listLocales()
+  }
+
+  verRoi(id: string) {
+    this.router.navigate(['/entidad/consultar-locales', id, 'roi'])
+  }
+
+  toggleLocal(id: string) {
+    const local = this.locales.find(l => l.id === id)
+    if (!local) return
+    const activar = local.isActive !== 'Habilitado'
+    const titulo = activar ? '¿Habilitar este local?' : '¿Deshabilitar este local?'
+
+    Swal.fire({
+      title: titulo,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.localService.update({ isActive: activar }, id).subscribe(() => this.listLocales())
+      }
+    })
   }
 
   listLocales() {
