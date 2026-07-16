@@ -62,6 +62,7 @@ export class LandingVecinoComponent implements OnInit {
   mesKg = 0
   mesPuntos = 0
   mesEntregas = 0
+  mesLoading = true
 
   constructor(
     private vecinoServ: VecinoService,
@@ -127,8 +128,9 @@ export class LandingVecinoComponent implements OnInit {
           (sum: number, d: any) => sum + d.details.reduce((s: number, det: any) => s + det.weight, 0),
           0
         )
+        this.mesLoading = false
       },
-      error: () => {}
+      error: () => (this.mesLoading = false)
     })
 
     this.vecinoServ.getMyWasteTransactions(this.id).subscribe({
