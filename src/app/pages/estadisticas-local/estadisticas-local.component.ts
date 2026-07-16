@@ -24,7 +24,6 @@ export class EstadisticasLocalComponent implements OnInit {
   private platformId = inject(PLATFORM_ID)
   private route = inject(ActivatedRoute)
   private rewardPartnerId = ''
-  private allTransactions: any[] = []
   loading = true
 
   /** true cuando entra por la ruta de entidad (viendo el ROI de un local ajeno). */
@@ -106,10 +105,12 @@ export class EstadisticasLocalComponent implements OnInit {
 
   loadData(): void {
     this.loading = true
-    this.localService.getCouponTransactions(this.rewardPartnerId).subscribe({
+    const from = this.dateFrom ? new Date(this.dateFrom).toISOString() : undefined
+    const to = this.dateTo ? new Date(this.dateTo + 'T23:59:59').toISOString() : undefined
+
+    this.localService.getRewardPartnerStats(this.rewardPartnerId, from, to).subscribe({
       next: (resp: any) => {
-        this.allTransactions = resp.data ?? []
-        this.applyFilterAndBuild()
+        this.applyStats(resp.data)
         this.loading = false
       },
       error: () => (this.loading = false)
@@ -117,39 +118,27 @@ export class EstadisticasLocalComponent implements OnInit {
   }
 
   applyGlobalFilter(): void {
-    this.applyFilterAndBuild()
+    this.loadData()
   }
 
   clearGlobalFilter(): void {
     this.dateFrom = ''
     this.dateTo = ''
-    this.applyFilterAndBuild()
+    this.loadData()
   }
 
-  private applyFilterAndBuild(): void {
-    const from = this.dateFrom ? new Date(this.dateFrom).getTime() : null
-    const to = this.dateTo ? new Date(this.dateTo + 'T23:59:59').getTime() : null
+  private applyStats(stats: any): void {
+    this.hasData = stats.totalAdquirido + stats.totalUsado + stats.totalExpirado > 0
 
-    const filtered = this.allTransactions.filter(t => {
-      const ref = new Date(t.redeemDate ?? t.adquisitionDate ?? t.createdAt).getTime()
-      if (from != null && ref < from) return false
-      if (to != null && ref > to) return false
-      return true
-    })
+    this.totalAdquirido = stats.totalAdquirido
+    this.totalUsado = stats.totalUsado
+    this.totalExpirado = stats.totalExpirado
+    this.totalPuntos = stats.totalPuntos
+    this.uniqueNeighbors = stats.uniqueNeighbors
+    this.newNeighbors = stats.newNeighbors
+    this.avgVisitsPerNeighbor = stats.avgVisitsPerNeighbor
+    this.byCoupon = stats.byCoupon
 
-    this.buildStats(filtered)
-  }
-
-  private buildStats(transactions: any[]): void {
-    this.hasData = transactions.length > 0
-
-    // KPIs
-    this.totalAdquirido = transactions.filter(t => t.status === 'ADQUIRIDO').length
-    this.totalUsado = transactions.filter(t => t.status === 'USADO').length
-    this.totalExpirado = transactions.filter(t => t.status === 'EXPIRADO').length
-    this.totalPuntos = transactions.filter(t => t.status === 'USADO').reduce((sum, t) => sum + (t.costInPoints ?? 0), 0)
-
-    // Bar chart
     this.barData = {
       labels: ['Adquirido', 'Usado', 'Expirado'],
       datasets: [
@@ -161,82 +150,19 @@ export class EstadisticasLocalComponent implements OnInit {
       ]
     }
 
-    // Pie chart - discount ranges
-    const ranges = [0, 0, 0, 0] // <25, 25-50, 50-75, >75
-    for (const t of transactions) {
-      const d = t.coupon?.discount ?? 0
-      if (d < 25) ranges[0]++
-      else if (d < 50) ranges[1]++
-      else if (d < 75) ranges[2]++
-      else ranges[3]++
-    }
-
     this.pieData = {
       labels: ['< 25%', '25% – 50%', '50% – 75%', '> 75%'],
       datasets: [
         {
-          data: ranges,
+          data: [
+            stats.discountRanges.lt25,
+            stats.discountRanges.from25to50,
+            stats.discountRanges.from50to75,
+            stats.discountRanges.gt75
+          ],
           backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#9c27b0']
         }
       ]
     }
-
-    this.buildRoi(transactions)
-  }
-
-  // ROI: la "primera visita" de cada vecino se calcula sobre TODO el
-  // histórico (this.allTransactions), no sobre el rango filtrado — si no,
-  // un vecino que ya había venido antes del filtro parecería "nuevo" al
-  // volver a canjear dentro del rango.
-  private buildRoi(transactions: any[]): void {
-    const usadosHistorico = this.allTransactions.filter(t => t.status === 'USADO' && t.redeemDate)
-    const firstVisitByNeighbor = new Map<string, number>()
-    for (const t of usadosHistorico) {
-      const neighborId = t.neighbor?.id
-      if (!neighborId) continue
-      const ts = new Date(t.redeemDate).getTime()
-      const current = firstVisitByNeighbor.get(neighborId)
-      if (current == null || ts < current) firstVisitByNeighbor.set(neighborId, ts)
-    }
-
-    const usados = transactions.filter(t => t.status === 'USADO' && t.redeemDate)
-    const isFirstVisit = (t: any): boolean =>
-      firstVisitByNeighbor.get(t.neighbor?.id) === new Date(t.redeemDate).getTime()
-
-    this.uniqueNeighbors = new Set(usados.map(t => t.neighbor?.id)).size
-    this.newNeighbors = usados.filter(isFirstVisit).length
-    this.avgVisitsPerNeighbor = this.uniqueNeighbors > 0 ? usados.length / this.uniqueNeighbors : 0
-
-    const byCouponMap = new Map<
-      string,
-      {
-        couponId: string
-        title: string
-        redemptions: number
-        neighbors: Set<string>
-        newNeighbors: number
-        pointsSpent: number
-      }
-    >()
-    for (const t of usados) {
-      const couponId = t.coupon?.id ?? 'sin-cupon'
-      const entry = byCouponMap.get(couponId) ?? {
-        couponId,
-        title: t.coupon?.title ?? 'Cupón eliminado',
-        redemptions: 0,
-        neighbors: new Set<string>(),
-        newNeighbors: 0,
-        pointsSpent: 0
-      }
-      entry.redemptions++
-      if (t.neighbor?.id) entry.neighbors.add(t.neighbor.id)
-      entry.pointsSpent += t.costInPoints ?? 0
-      if (isFirstVisit(t)) entry.newNeighbors++
-      byCouponMap.set(couponId, entry)
-    }
-
-    this.byCoupon = Array.from(byCouponMap.values())
-      .map(({ neighbors, ...rest }) => ({ ...rest, uniqueNeighbors: neighbors.size }))
-      .sort((a, b) => b.newNeighbors - a.newNeighbors)
   }
 }

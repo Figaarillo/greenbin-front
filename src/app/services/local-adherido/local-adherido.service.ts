@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../../config/api.config'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core'
 import { StorageService } from '../storage/storage.service'
 import { LocalAdherido } from '../interfaces/local-adherido'
@@ -102,6 +102,15 @@ export class LocalAdheridoService {
 
   getCouponTransactions(rewardPartnerId: string): Observable<any> {
     return this.http.get<any>(`${this.apiBase}/api/coupon-transaction/reward-partner/` + rewardPartnerId)
+  }
+
+  getRewardPartnerStats(rewardPartnerId: string, from?: string, to?: string): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    return this.http.get<any>(`${this.apiBase}/api/coupon-transaction/reward-partner/${rewardPartnerId}/stats`, {
+      params
+    })
   }
 
   useCoupon(payload: { code: string; rewardPartnerId: string }): Observable<any> {
