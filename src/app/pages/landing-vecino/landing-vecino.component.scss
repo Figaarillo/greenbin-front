@@ -49,6 +49,12 @@
   }
 }
 
+.ms-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .ms-stats {
   display: flex;
   gap: 14px;
