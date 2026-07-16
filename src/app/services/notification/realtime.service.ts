@@ -54,10 +54,21 @@ export class RealtimeService {
       const response = await fetch(`${this.apiBase}/api/notifications/stream`, {
         headers: {
           Authorization: `Bearer ${this.sesionService.getAccessToken()}`,
-          Accept: 'text/event-stream'
+          Accept: 'text/event-stream',
+          // El ngsw intercepta fetch() para su lógica de caché, y eso rompe
+          // una respuesta streaming (text/event-stream) que nunca termina.
+          'ngsw-bypass': 'true'
         },
         signal: this.abortController.signal
       })
+
+      if (response.status === 401) {
+        // Token inválido/expirado: reintentar no lo arregla, hace falta
+        // volver a autenticarse. Se corta el loop y el servicio queda listo
+        // para que un start() posterior (post-login) abra la conexión de nuevo.
+        this.abortController = null
+        return
+      }
 
       if (response.body == null) {
         this.scheduleReconnect()
