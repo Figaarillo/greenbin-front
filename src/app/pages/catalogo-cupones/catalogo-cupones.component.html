@@ -21,6 +21,7 @@
         <button type="button" class="chip" [class.active]="sortField === 'discount'" (click)="setSortField('discount')">Descuento</button>
         <button type="button" class="chip" [class.active]="sortField === 'costInPoints'" (click)="setSortField('costInPoints')">Costo</button>
         <button type="button" class="chip" [class.active]="sortField === 'validDays'" (click)="setSortField('validDays')">Vigencia</button>
+        <button type="button" class="chip" [class.active]="sortField === 'createdAt'" (click)="setSortField('createdAt')">Fecha</button>
       </div>
       <button
         type="button"

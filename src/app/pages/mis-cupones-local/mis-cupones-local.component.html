@@ -17,14 +17,22 @@
         <button type="button" class="chip chip-adquirido" [class.active]="statusFilter === 'DISPONIBLE'" (click)="setStatusFilter('DISPONIBLE')">Disponibles</button>
         <button type="button" class="chip chip-vencido" [class.active]="statusFilter === 'NO_DISPONIBLE'" (click)="setStatusFilter('NO_DISPONIBLE')">No disponibles</button>
       </div>
+    </div>
+
+    <div class="filters-row">
+      <div class="status-chips">
+        <button type="button" class="chip" [class.active]="sortField === 'discount'" (click)="setSortField('discount')">Descuento</button>
+        <button type="button" class="chip" [class.active]="sortField === 'costInPoints'" (click)="setSortField('costInPoints')">Costo</button>
+        <button type="button" class="chip" [class.active]="sortField === 'validDays'" (click)="setSortField('validDays')">Vigencia</button>
+        <button type="button" class="chip" [class.active]="sortField === 'createdAt'" (click)="setSortField('createdAt')">Fecha</button>
+      </div>
       <button
         type="button"
         class="sort-btn"
         (click)="toggleSortDir()"
-        [title]="sortDir === 'desc' ? 'Mayor descuento primero' : 'Menor descuento primero'"
+        [title]="sortDir === 'desc' ? 'Mayor primero' : 'Menor primero'"
       >
         <mat-icon>{{ sortDir === 'desc' ? 'south' : 'north' }}</mat-icon>
-        Descuento
       </button>
     </div>
 

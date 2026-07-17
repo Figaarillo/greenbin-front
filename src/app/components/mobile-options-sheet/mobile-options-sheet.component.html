@@ -40,14 +40,11 @@
       </div>
 
       @if (preferences(); as prefs) {
-        <div class="opt-section-title">Notificaciones</div>
-        @for (row of visiblePreferenceRows(); track row.key) {
-          <div class="opt-row">
-            <mat-icon>notifications</mat-icon>
-            <span class="opt-text">{{ row.label }}</span>
-            <mat-slide-toggle [checked]="prefs[row.key]" (change)="onPreferenceToggle(row)"></mat-slide-toggle>
-          </div>
-        }
+        <button class="opt-item" (click)="openNotifications()">
+          <mat-icon>notifications</mat-icon>
+          <span class="opt-text">Gestión de notificaciones</span>
+          <mat-icon class="chevron">chevron_right</mat-icon>
+        </button>
       }
     </div>
   }
@@ -85,6 +82,35 @@
     }
 
     <button class="gestionar-link" (click)="onGestionarCuentaCompleta()">Gestionar cuenta completa</button>
+  }
+
+  @if (view === 'notifications') {
+    <div class="opt-edit-header">
+      <button class="back-btn" (click)="backToOptions()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Gestión de notificaciones</span>
+    </div>
+
+    @if (preferences(); as prefs) {
+      <div class="opt-section-title">Recibir en la app</div>
+      @for (row of visiblePreferenceRows(); track row.key) {
+        <div class="opt-row">
+          <mat-icon>notifications</mat-icon>
+          <span class="opt-text">{{ row.label }}</span>
+          <mat-slide-toggle [checked]="prefs[row.key]" (change)="onPreferenceToggle(row)"></mat-slide-toggle>
+        </div>
+      }
+
+      <div class="opt-divider"></div>
+
+      <div class="opt-section-title">Mails</div>
+      <div class="opt-row">
+        <mat-icon>mail</mat-icon>
+        <span class="opt-text">Recibir también por mail</span>
+        <mat-slide-toggle [checked]="prefs.emailEnabled" (change)="onEmailToggle()"></mat-slide-toggle>
+      </div>
+    }
   }
 
 </app-bottom-sheet>

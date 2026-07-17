@@ -14,6 +14,8 @@ export interface NotificationPreference {
   couponRedeemed: boolean
   couponCreated: boolean
   pointsDelivered: boolean
+  /** Switch maestro: independiente de las categorías de arriba. */
+  emailEnabled: boolean
 }
 
 export type NotificationPreferencePatch = Partial<NotificationPreference>
