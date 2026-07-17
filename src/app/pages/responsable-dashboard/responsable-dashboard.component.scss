@@ -1,0 +1,330 @@
+// ── Filtro de rango segmentado (vive dentro del hero) ───────────────────
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.range {
+  display: flex;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: var(--r-pill);
+  padding: 4px;
+  flex-wrap: wrap;
+
+  button {
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 7px 15px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+    transition: 0.15s;
+
+    &.on {
+      background: #fff;
+      color: var(--accent-ink);
+    }
+
+    &.custom {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      .material-icons {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.custom-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  position: relative;
+}
+
+// ── KPIs con sparkline ───────────────────────────────────────────────────
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.kpi {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .kpi-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ic {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+
+    .material-icons {
+      font-size: 20px;
+    }
+
+    &.g {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    &.y {
+      background: rgba(224, 160, 25, 0.15);
+      color: var(--warning);
+    }
+
+    &.b {
+      background: rgba(58, 119, 181, 0.13);
+      color: var(--info);
+    }
+  }
+
+  .trend {
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--green);
+
+    .material-icons {
+      font-size: 15px;
+    }
+
+    &.down {
+      color: var(--danger);
+    }
+  }
+
+  .val {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    margin-top: 12px;
+  }
+
+  .lbl {
+    color: var(--muted);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .spark {
+    margin-top: 12px;
+  }
+}
+
+// ── Layout principal: columna + rail derecho ─────────────────────────────
+.grid-main {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 20px 22px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+
+  h3 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .card-sub {
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-top: 2px;
+  }
+}
+
+.tag {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+// ── Alturas de charts ────────────────────────────────────────────────────
+.chart-area {
+  position: relative;
+  height: 240px;
+}
+
+.split-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.chart-donut,
+.chart-bars {
+  position: relative;
+  height: 240px;
+}
+
+// ── Top categorías (barras de progreso) ──────────────────────────────────
+.tc {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tc-row .tc-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+
+  b {
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--muted);
+    font-weight: 700;
+  }
+}
+
+.track {
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  overflow: hidden;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: var(--r-pill);
+  }
+}
+
+.empty-hint {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+// ── Selector de punto verde (rail de vecinos destacados) ─────────────────
+.pv-select {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  font-family: inherit;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+// ── Rail: filas de ranking (top categorías / vecinos destacados) ─────────
+.rail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  .r-ic {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-weight: 700;
+    color: var(--accent);
+
+    .material-icons {
+      font-size: 19px;
+    }
+  }
+
+  .r-body {
+    flex: 1;
+    min-width: 0;
+
+    b {
+      font-size: 13.5px;
+      font-weight: 600;
+      display: block;
+    }
+
+    small {
+      color: var(--muted);
+      font-size: 11.5px;
+    }
+  }
+
+  .r-val {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent-ink);
+  }
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────
+@media (max-width: 1280px) {
+  .grid-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1124px) {
+  .kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .split-charts {
+    grid-template-columns: 1fr;
+  }
+}

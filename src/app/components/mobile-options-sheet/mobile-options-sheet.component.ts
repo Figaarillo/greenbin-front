@@ -32,11 +32,15 @@ interface PreferenceRow {
 // Mapea cada categoría de notificación a los roles que realmente pueden
 // recibirla (según qué evento de negocio la dispara en el backend), para no
 // mostrarle a un local un toggle de "compra de cupones" que nunca le aplica.
+// couponCreated aplica a 'local' (confirmación de que su cupón quedó creado)
+// Y a 'vecino' (aviso de que hay un cupón nuevo disponible en el catálogo) —
+// el backend ya dispara ambos eventos, ver register.usecase.ts del back.
 const PREFERENCE_ROWS: PreferenceRow[] = [
   { key: 'couponPurchased', label: 'Compra de cupones', roles: ['vecino'] },
   { key: 'couponRedeemed', label: 'Canje de cupones', roles: ['vecino'] },
-  { key: 'couponCreated', label: 'Cupones creados', roles: ['local'] },
-  { key: 'pointsDelivered', label: 'Entregas de puntos', roles: ['vecino', 'responsable'] }
+  { key: 'couponCreated', label: 'Cupones creados', roles: ['local', 'vecino'] },
+  { key: 'pointsDelivered', label: 'Entregas de puntos', roles: ['vecino', 'responsable'] },
+  { key: 'couponExpiringSoon', label: 'Cupones por vencer', roles: ['vecino'] }
 ]
 
 @Component({
@@ -75,7 +79,7 @@ export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
   private textSize = inject(TextSizeService)
   private notificationService = inject(NotificationService)
 
-  view: 'options' | 'edit' = 'options'
+  view: 'options' | 'edit' | 'notifications' = 'options'
   themeMode = this.theme.getTheme()
   textSizeMode = this.textSize.getSize()
   readonly preferences = signal<NotificationPreference | null>(null)
@@ -149,6 +153,10 @@ export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
     this.view = 'edit'
   }
 
+  openNotifications(): void {
+    this.view = 'notifications'
+  }
+
   backToOptions(): void {
     this.view = 'options'
   }
@@ -168,6 +176,15 @@ export class MobileOptionsSheetComponent implements OnInit, OnDestroy {
     const next = !current[row.key]
     this.preferences.set({ ...current, [row.key]: next })
     this.notificationService.updatePreferences({ [row.key]: next }).subscribe({ error: () => {} })
+  }
+
+  onEmailToggle(): void {
+    const current = this.preferences()
+    if (current == null) return
+
+    const next = !current.emailEnabled
+    this.preferences.set({ ...current, emailEnabled: next })
+    this.notificationService.updatePreferences({ emailEnabled: next }).subscribe({ error: () => {} })
   }
 
   onGestionarCuentaCompleta(): void {

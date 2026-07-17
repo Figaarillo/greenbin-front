@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Router, RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
+import { MatBadgeModule } from '@angular/material/badge'
 
 export type TabExtraItem = {
   icon: string
@@ -15,7 +16,7 @@ export type TabExtraItem = {
 @Component({
   selector: 'app-mobile-tabbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, MatIconModule, MatBadgeModule],
   templateUrl: './mobile-tabbar.component.html',
   styleUrl: './mobile-tabbar.component.scss'
 })
@@ -35,6 +36,9 @@ export class MobileTabbarComponent {
 
   /** Estado activo del botón de Opciones (el sheet asociado está abierto). */
   @Input() optionsOpen = false
+
+  /** Cantidad de notificaciones sin leer, para el badge sobre el avatar. */
+  @Input() unreadCount = 0
 
   /** Color accent para el estado activo (pasa un CSS var o color) */
   @Input() accentColor: string = 'var(--accent)'

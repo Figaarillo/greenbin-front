@@ -13,6 +13,8 @@ import { VecinoService } from '../../services/vecino/vecino.service'
 import { CouponTransaction } from '../../services/interfaces/coupon'
 import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
 
@@ -29,7 +31,9 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     MatButtonModule,
     RouterModule,
     NavbarComponent,
-    SkeletonComponent
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './mis-cupones-vecino.component.html',
   styleUrl: './mis-cupones-vecino.component.scss'

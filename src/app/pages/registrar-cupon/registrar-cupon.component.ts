@@ -8,10 +8,21 @@ import { MatInput } from '@angular/material/input'
 import { Router } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 @Component({
   selector: 'app-registrar-cupon',
   standalone: true,
-  imports: [PageHeaderComponent, MatFormFieldModule, MatButton, MatInput, MatIconModule, ReactiveFormsModule],
+  imports: [
+    PageHeaderComponent,
+    MatFormFieldModule,
+    MatButton,
+    MatInput,
+    MatIconModule,
+    ReactiveFormsModule,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './registrar-cupon.component.html',
   styleUrl: './registrar-cupon.component.scss'
 })

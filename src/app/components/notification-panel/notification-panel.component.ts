@@ -11,7 +11,8 @@ const CATEGORY_ICONS: Record<NotificationCategory, string> = {
   COUPON_PURCHASED: 'local_activity',
   COUPON_REDEEMED: 'redeem',
   COUPON_CREATED: 'add_circle',
-  POINTS_DELIVERED: 'arrow_upward'
+  POINTS_DELIVERED: 'arrow_upward',
+  COUPON_EXPIRING_SOON: 'schedule'
 }
 
 @Component({

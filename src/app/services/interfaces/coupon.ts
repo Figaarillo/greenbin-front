@@ -1,3 +1,8 @@
+// Campos de orden compartidos por toda pantalla que liste cupones "crudos"
+// (catálogo del vecino, cupones propios del local) — mantenerlos unificados
+// para que la experiencia de ordenar sea la misma sin importar el rol.
+export type CampoOrdenCupon = 'discount' | 'costInPoints' | 'validDays' | 'createdAt'
+
 export interface Coupon {
   id: string
   title: string
@@ -8,6 +13,7 @@ export interface Coupon {
   costInPoints: number
   rewardPartner?: string
   rewardPartnerId?: string
+  createdAt: string
 }
 
 export interface CouponTransaction {

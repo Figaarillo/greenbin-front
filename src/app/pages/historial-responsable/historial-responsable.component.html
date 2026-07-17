@@ -1,5 +1,8 @@
 <div data-role="responsable">
-  <app-navbar [title]="'Historial de Entregas'" [route]="'/responsable'"></app-navbar>
+  <app-navbar [title]="'Historial de Entregas'" [route]="'/responsable'">
+    <app-notification-bell navActions #bell (opened)="panel.open()" />
+  </app-navbar>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="container">
     <div class="global-filter">

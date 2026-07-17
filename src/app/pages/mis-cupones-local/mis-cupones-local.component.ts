@@ -5,19 +5,30 @@ import { MatTableDataSource } from '@angular/material/table'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { BottomSheetComponent } from '../../components/bottom-sheet/bottom-sheet.component'
 import { ModificarCuponComponent } from '../modificar-cupon/modificar-cupon.component'
-import { Coupon } from '../../services/interfaces/coupon'
+import { Coupon, CampoOrdenCupon } from '../../services/interfaces/coupon'
+import { ordenarCupones } from '../../services/interfaces/coupon-sort.util'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import Swal from 'sweetalert2'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 export type DisponibilidadFiltro = 'TODOS' | 'DISPONIBLE' | 'NO_DISPONIBLE'
 
 @Component({
   selector: 'app-mis-cupones-local',
   standalone: true,
-  imports: [MatIconModule, PageHeaderComponent, BottomSheetComponent, ModificarCuponComponent, SkeletonComponent],
+  imports: [
+    MatIconModule,
+    PageHeaderComponent,
+    BottomSheetComponent,
+    ModificarCuponComponent,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './mis-cupones-local.component.html',
   styleUrl: './mis-cupones-local.component.scss'
 })
@@ -31,6 +42,7 @@ export class MisCuponesLocalComponent {
   localId: string = ''
   titleFilter = ''
   statusFilter: DisponibilidadFiltro = 'TODOS'
+  sortField: CampoOrdenCupon = 'discount'
   sortDir: 'desc' | 'asc' = 'desc'
   cuponEnEdicion: Coupon | null = null
 
@@ -53,6 +65,11 @@ export class MisCuponesLocalComponent {
     this.applyFilters()
   }
 
+  setSortField(field: CampoOrdenCupon) {
+    this.sortField = field
+    this.applyFilters()
+  }
+
   toggleSortDir() {
     this.sortDir = this.sortDir === 'desc' ? 'asc' : 'desc'
     this.applyFilters()
@@ -66,10 +83,7 @@ export class MisCuponesLocalComponent {
       result = result.filter(c => c.isAvailable === wantAvailable)
     }
 
-    const dir = this.sortDir === 'desc' ? -1 : 1
-    result = [...result].sort((a, b) => (a.discount - b.discount) * dir)
-
-    this.dataSource.data = result
+    this.dataSource.data = ordenarCupones(result, this.sortField, this.sortDir)
   }
 
   edit(cupon: Coupon) {

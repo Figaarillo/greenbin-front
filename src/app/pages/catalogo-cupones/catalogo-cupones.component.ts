@@ -9,17 +9,25 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
 import { SesionService } from '../../services/sesion/sesion.service'
 import { VecinoService } from '../../services/vecino/vecino.service'
 import { RealtimeService } from '../../services/notification/realtime.service'
-import { Coupon } from '../../services/interfaces/coupon'
+import { Coupon, CampoOrdenCupon } from '../../services/interfaces/coupon'
+import { ordenarCupones } from '../../services/interfaces/coupon-sort.util'
 import { forkJoin, filter } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
-
-export type CampoOrdenCupon = 'discount' | 'costInPoints' | 'validDays'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-catalogo-cupones',
   standalone: true,
-  imports: [MatIconModule, CuponSheetComponent, PageHeaderComponent, SkeletonComponent],
+  imports: [
+    MatIconModule,
+    CuponSheetComponent,
+    PageHeaderComponent,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './catalogo-cupones.component.html',
   styleUrl: './catalogo-cupones.component.scss'
 })
@@ -40,11 +48,8 @@ export class CatalogoCuponesComponent {
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
-    const dir = this.sortDir === 'desc' ? -1 : 1
-    const field = this.sortField
-    this.dataSource.data = this.items
-      .filter(c => c.title.toLowerCase().includes(title))
-      .sort((a, b) => (a[field] - b[field]) * dir)
+    const filtered = this.items.filter(c => c.title.toLowerCase().includes(title))
+    this.dataSource.data = ordenarCupones(filtered, this.sortField, this.sortDir)
   }
 
   onTitleFilter(event: Event) {

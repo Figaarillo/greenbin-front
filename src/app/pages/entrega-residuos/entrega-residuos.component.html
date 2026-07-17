@@ -1,9 +1,11 @@
 <div class="page-wrap" data-role="responsable">
   <app-page-header title="Registrar Entrega">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
     @if (currentPvName) {
       <div class="hdr-chip"><mat-icon>place</mat-icon>{{ currentPvName }}</div>
     }
   </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="er-body">
 

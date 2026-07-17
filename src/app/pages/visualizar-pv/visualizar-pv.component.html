@@ -1,5 +1,8 @@
 <div data-role="vecino">
-  <app-page-header title="Mapa"></app-page-header>
+  <app-page-header title="Mapa">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
+  </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="container mt-3">
     <div class="w-100 map-container">

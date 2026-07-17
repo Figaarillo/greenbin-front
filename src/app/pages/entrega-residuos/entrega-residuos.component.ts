@@ -17,6 +17,8 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
 import { WasteDelivery } from '../../services/interfaces/wasteDelivery'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-entrega-residuos',
@@ -30,7 +32,9 @@ import { PuntoVerde } from '../../services/interfaces/punto-verde'
     ReactiveFormsModule,
     MatSelectModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './entrega-residuos.component.html',
   styleUrl: './entrega-residuos.component.scss'

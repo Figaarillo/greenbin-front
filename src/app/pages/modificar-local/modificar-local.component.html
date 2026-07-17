@@ -1,7 +1,10 @@
 <div class="edit-form-page" [class.embedded]="embedded" data-role="local">
   @if (!embedded) {
     <div class="login-bg"></div>
-    <app-page-header title="Mi perfil"></app-page-header>
+    <app-page-header title="Mi perfil">
+      <app-notification-bell phActions #bell (opened)="panel.open()" />
+    </app-page-header>
+    <app-notification-panel #panel (closed)="bell.refresh()" />
   }
   <div class="edit-form-body">
     @if (form) {

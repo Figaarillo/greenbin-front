@@ -1,5 +1,8 @@
 <div data-role="vecino">
-  <app-navbar [title]="'Mis Cupones'" [route]="'/vecino'"></app-navbar>
+  <app-navbar [title]="'Mis Cupones'" [route]="'/vecino'">
+    <app-notification-bell navActions #bell (opened)="panel.open()" />
+  </app-navbar>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="container mt-3">
     <div class="c-search-row">

@@ -2,11 +2,12 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, View
 import { GoogleMapsModule } from '@angular/google-maps'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
+import { SkeletonComponent } from '../skeleton/skeleton.component'
 
 @Component({
   selector: 'app-map-view',
   standalone: true,
-  imports: [GoogleMapsModule],
+  imports: [GoogleMapsModule, SkeletonComponent],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
 })
@@ -37,6 +38,11 @@ export class MapViewComponent implements AfterViewInit {
   // recien ahi existe google.maps.marker.PinElement para poder crear pines.
   markerLibraryReady = false
 
+  // En true si la API de Maps no cargó (ej. API key inválida) o si crear un
+  // pin tira una excepción: en ese caso dejamos de intentar dibujar el mapa
+  // y mostramos el skeleton en su lugar, en vez de romper la pantalla entera.
+  mapError = false
+
   ngAfterViewInit() {
     google.maps
       .importLibrary('marker')
@@ -48,7 +54,9 @@ export class MapViewComponent implements AfterViewInit {
         })
         resizeObserver.observe(this.contenedorPadre.nativeElement)
       })
-      .catch(() => {})
+      .catch(() => {
+        this.mapError = true
+      })
   }
 
   /** Crea el SVG de la tiendita (reward partner) */
@@ -106,13 +114,17 @@ export class MapViewComponent implements AfterViewInit {
     })
   }
 
+  // Construir un PinElement puede tirar (ej. la API de Maps quedó en un
+  // estado roto por una API key inválida): si eso pasa, marcamos mapError
+  // para que el template pase al skeleton en vez de crashear a mitad del
+  // @for, y devolvemos el marcador sin content (Maps dibuja su pin default).
   getPuntoVerdeMarkerOptions(puntoVerde: PuntoVerde): google.maps.marker.AdvancedMarkerElementOptions {
     const markerOptions: google.maps.marker.AdvancedMarkerElementOptions = {
       position: {
         lat: puntoVerde.coordinates.latitude,
         lng: puntoVerde.coordinates.longitude
       },
-      content: this.createPuntoVerdePin().element
+      content: this.safePinElement(() => this.createPuntoVerdePin())
     }
     return markerOptions
   }
@@ -123,9 +135,18 @@ export class MapViewComponent implements AfterViewInit {
         lat: localAdherido.coordinates.latitude,
         lng: localAdherido.coordinates.longitude
       },
-      content: this.createLocalAdheridoPin().element //el pin element da el estilo al marcador
+      content: this.safePinElement(() => this.createLocalAdheridoPin())
     }
     return markerOptions
+  }
+
+  private safePinElement(build: () => google.maps.marker.PinElement): HTMLElement | undefined {
+    try {
+      return build().element
+    } catch {
+      this.mapError = true
+      return undefined
+    }
   }
 
   onMapInitialized(map: google.maps.Map) {

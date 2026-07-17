@@ -12,6 +12,8 @@ import { SesionService } from '../../services/sesion/sesion.service'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
 import Swal from 'sweetalert2'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-modificar-local',
@@ -27,7 +29,9 @@ import Swal from 'sweetalert2'
     RouterModule,
     CommonModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './modificar-local.component.html',
   styleUrl: './modificar-local.component.scss'
