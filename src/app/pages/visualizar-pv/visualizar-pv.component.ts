@@ -12,6 +12,8 @@ import { LocalAdherido } from '../../services/interfaces/local-adherido'
 import { MatIconModule } from '@angular/material/icon'
 import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-visualizar-pv',
@@ -24,7 +26,9 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
     ModalLocalAdheridoComponent,
     MatIconModule,
     RouterModule,
-    PageHeaderComponent
+    PageHeaderComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './visualizar-pv.component.html',
   styleUrl: './visualizar-pv.component.scss'

@@ -12,13 +12,23 @@ import { SesionService } from '../../services/sesion/sesion.service'
 import Swal from 'sweetalert2'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 export type DisponibilidadFiltro = 'TODOS' | 'DISPONIBLE' | 'NO_DISPONIBLE'
 
 @Component({
   selector: 'app-mis-cupones-local',
   standalone: true,
-  imports: [MatIconModule, PageHeaderComponent, BottomSheetComponent, ModificarCuponComponent, SkeletonComponent],
+  imports: [
+    MatIconModule,
+    PageHeaderComponent,
+    BottomSheetComponent,
+    ModificarCuponComponent,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './mis-cupones-local.component.html',
   styleUrl: './mis-cupones-local.component.scss'
 })

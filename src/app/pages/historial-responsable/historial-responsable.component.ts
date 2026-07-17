@@ -7,13 +7,23 @@ import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
 import { WasteDeliveryService } from '../../services/WasteDelivery/waste-delivery.service'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 Chart.register(...registerables)
 
 @Component({
   selector: 'app-historial-responsable',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, NgChartsModule, SkeletonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NavbarComponent,
+    NgChartsModule,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './historial-responsable.component.html',
   styleUrl: './historial-responsable.component.scss'
 })

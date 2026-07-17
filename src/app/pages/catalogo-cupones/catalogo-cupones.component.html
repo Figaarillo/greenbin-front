@@ -1,11 +1,13 @@
 <div class="page-wrap" data-role="vecino">
 
   <app-page-header title="Catálogo">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
     <div class="hdr-chip">
       <mat-icon>stars</mat-icon>
       {{ puntos }} pts disponibles
     </div>
   </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="c-body">
 

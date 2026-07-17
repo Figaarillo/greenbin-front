@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { MatIconModule } from '@angular/material/icon'
 import Swal from 'sweetalert2'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-modificar-vecino',
@@ -26,7 +28,9 @@ import Swal from 'sweetalert2'
     MatButtonModule,
     RouterModule,
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    NotificationBellComponent,
+    NotificationPanelComponent
   ],
   templateUrl: './modificar-vecino.component.html',
   styleUrl: './modificar-vecino.component.scss'

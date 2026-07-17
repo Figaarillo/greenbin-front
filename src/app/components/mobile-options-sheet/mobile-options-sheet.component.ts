@@ -39,7 +39,8 @@ const PREFERENCE_ROWS: PreferenceRow[] = [
   { key: 'couponPurchased', label: 'Compra de cupones', roles: ['vecino'] },
   { key: 'couponRedeemed', label: 'Canje de cupones', roles: ['vecino'] },
   { key: 'couponCreated', label: 'Cupones creados', roles: ['local', 'vecino'] },
-  { key: 'pointsDelivered', label: 'Entregas de puntos', roles: ['vecino', 'responsable'] }
+  { key: 'pointsDelivered', label: 'Entregas de puntos', roles: ['vecino', 'responsable'] },
+  { key: 'couponExpiringSoon', label: 'Cupones por vencer', roles: ['vecino'] }
 ]
 
 @Component({

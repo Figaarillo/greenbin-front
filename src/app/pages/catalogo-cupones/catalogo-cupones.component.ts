@@ -14,11 +14,20 @@ import { ordenarCupones } from '../../services/interfaces/coupon-sort.util'
 import { forkJoin, filter } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 @Component({
   selector: 'app-catalogo-cupones',
   standalone: true,
-  imports: [MatIconModule, CuponSheetComponent, PageHeaderComponent, SkeletonComponent],
+  imports: [
+    MatIconModule,
+    CuponSheetComponent,
+    PageHeaderComponent,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './catalogo-cupones.component.html',
   styleUrl: './catalogo-cupones.component.scss'
 })

@@ -1,5 +1,8 @@
 <div class="page-wrap" data-role="local">
-<app-page-header title="Usar cupón"></app-page-header>
+<app-page-header title="Usar cupón">
+  <app-notification-bell phActions #bell (opened)="panel.open()" />
+</app-page-header>
+<app-notification-panel #panel (closed)="bell.refresh()" />
 
 <div class="uc-body">
 

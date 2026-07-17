@@ -1,6 +1,9 @@
 <div class="page-wrap" data-role="local">
 
-  <app-page-header title="Mis Cupones"></app-page-header>
+  <app-page-header title="Mis Cupones">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
+  </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="c-body">
 

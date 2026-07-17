@@ -1,5 +1,8 @@
 <div data-role="vecino">
-  <app-page-header title="Historial de entregas"></app-page-header>
+  <app-page-header title="Historial de entregas">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
+  </app-page-header>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="container">
     <div class="global-filter">

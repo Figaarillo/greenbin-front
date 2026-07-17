@@ -24,6 +24,7 @@
       [profileRoute]="profileRoute"
       [userPhoto]="userPhoto"
       [optionsOpen]="optionsSheet()?.isOpen() ?? false"
+      [unreadCount]="unreadCount()"
       (hamburgerClick)="onHamburgerClick()"
       (middleClick)="onMiddleClick($event)"
       (optionsClick)="onOptionsClick()"

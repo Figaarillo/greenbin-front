@@ -9,13 +9,23 @@ import { Chart, registerables } from 'chart.js'
 import { ChartData, ChartOptions } from 'chart.js'
 import { StatisticsService } from '../../services/statistics/statistics.service'
 import type { NeighborDelivery } from '../../services/interfaces/statistics'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 Chart.register(...registerables)
 
 @Component({
   selector: 'app-mis-reciclados',
   standalone: true,
-  imports: [CommonModule, FormsModule, PageHeaderComponent, NgChartsModule, SkeletonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    PageHeaderComponent,
+    NgChartsModule,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './mis-reciclados.component.html',
   styleUrl: './mis-reciclados.component.scss'
 })

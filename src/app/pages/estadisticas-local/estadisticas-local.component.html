@@ -1,4 +1,11 @@
-<app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
+@if (!viewingAsEntity) {
+  <app-navbar [title]="navTitle" [route]="navBackRoute">
+    <app-notification-bell navActions #bell (opened)="panel.open()" />
+  </app-navbar>
+  <app-notification-panel #panel (closed)="bell.refresh()" />
+} @else {
+  <app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
+}
 
 <div class="container">
 

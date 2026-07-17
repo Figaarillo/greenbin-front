@@ -1,4 +1,9 @@
-export type NotificationCategory = 'COUPON_PURCHASED' | 'COUPON_REDEEMED' | 'COUPON_CREATED' | 'POINTS_DELIVERED'
+export type NotificationCategory =
+  | 'COUPON_PURCHASED'
+  | 'COUPON_REDEEMED'
+  | 'COUPON_CREATED'
+  | 'POINTS_DELIVERED'
+  | 'COUPON_EXPIRING_SOON'
 
 export interface Notification {
   id: string
@@ -14,6 +19,7 @@ export interface NotificationPreference {
   couponRedeemed: boolean
   couponCreated: boolean
   pointsDelivered: boolean
+  couponExpiringSoon: boolean
   /** Switch maestro: independiente de las categorías de arriba. */
   emailEnabled: boolean
 }

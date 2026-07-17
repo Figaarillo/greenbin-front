@@ -1,5 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
-import { Component, DestroyRef, OnDestroy, OnInit, PLATFORM_ID, inject, viewChild } from '@angular/core'
+import { Component, DestroyRef, OnDestroy, OnInit, PLATFORM_ID, inject, signal, viewChild } from '@angular/core'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ActivatedRoute, NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router'
 import { BreakpointObserver } from '@angular/cdk/layout'
@@ -11,6 +11,7 @@ import { MobileMenuComponent, MobileMenuItem } from '../../components/mobile-men
 import { MobileOptionsSheetComponent } from '../../components/mobile-options-sheet/mobile-options-sheet.component'
 import { SesionService } from '../../services/sesion/sesion.service'
 import { RealtimeService } from '../../services/notification/realtime.service'
+import { NotificationService } from '../../services/notification/notification.service'
 
 @Component({
   selector: 'app-role-layout',
@@ -34,12 +35,14 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
   private breakpointObserver = inject(BreakpointObserver)
   private sesionService = inject(SesionService)
   private realtimeService = inject(RealtimeService)
+  private notificationService = inject(NotificationService)
   private platformId = inject(PLATFORM_ID)
   private destroyRef = inject(DestroyRef)
 
   role = 'vecino'
   isMobile = false
   userId = ''
+  readonly unreadCount = signal(0)
 
   readonly menu = viewChild(MobileMenuComponent)
   readonly optionsSheet = viewChild(MobileOptionsSheetComponent)
@@ -63,6 +66,10 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
     // conexiones abiertas) y una vez que hay sesión.
     if (isPlatformBrowser(this.platformId)) {
       this.realtimeService.start()
+      this.refreshUnreadCount()
+      // Mismo criterio que NotificationBellComponent: cada evento SSE ya
+      // representa una notificación nueva persistida, alcanza con refrescar.
+      this.realtimeService.events$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.refreshUnreadCount())
     }
 
     this.role = this.route.snapshot.data['role'] || 'vecino'
@@ -115,6 +122,7 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
           { icon: 'home', label: 'Inicio', route: '/responsable/inicio' },
           { icon: 'recycling', label: 'Registrar entrega', route: '/responsable/entrega' },
           { icon: 'history', label: 'Historial entregas', route: '/responsable/historial-responsable' },
+          { icon: 'bar_chart', label: 'Dashboard', route: '/responsable/dashboard' },
           { icon: 'close', label: 'Cerrar Sesión', route: '' }
         ]
       },
@@ -151,6 +159,10 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
+        // El SSE solo avisa de notificaciones NUEVAS, no de que el usuario
+        // leyó algo en el panel de otra pantalla — refrescar en cada
+        // navegación cubre ese caso sin necesitar un bus de eventos.
+        this.refreshUnreadCount()
         this.menu()?.closeSheet()
         this.optionsSheet()?.closeSheet()
       })
@@ -208,5 +220,12 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
       // La propia pantalla de Entregar pide el punto verde si todavía no hay uno elegido.
       this.router.navigate(['/responsable/entrega'])
     }
+  }
+
+  private refreshUnreadCount(): void {
+    this.notificationService.unreadCount().subscribe({
+      next: resp => this.unreadCount.set(resp.data.count),
+      error: () => {}
+    })
   }
 }

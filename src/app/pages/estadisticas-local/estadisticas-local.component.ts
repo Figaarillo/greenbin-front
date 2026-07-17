@@ -9,13 +9,25 @@ import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
+import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
 Chart.register(...registerables)
 
 @Component({
   selector: 'app-estadisticas-local',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, MatIconModule, NgChartsModule, NavbarComponent, SkeletonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MatIconModule,
+    NgChartsModule,
+    NavbarComponent,
+    SkeletonComponent,
+    NotificationBellComponent,
+    NotificationPanelComponent
+  ],
   templateUrl: './estadisticas-local.component.html',
   styleUrl: './estadisticas-local.component.scss'
 })
