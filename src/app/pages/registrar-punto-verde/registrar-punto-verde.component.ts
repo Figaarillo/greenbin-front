@@ -3,11 +3,8 @@ import { inject, Component, ViewChild } from '@angular/core'
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { MapInputComponent } from '../../components/map-input/map-input.component'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
@@ -16,16 +13,12 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
   selector: 'app-registrar-punto-verde',
   standalone: true,
   imports: [
-    NavbarComponent,
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
     RouterModule,
-    MatIconModule,
-    MatButtonModule,
     MapInputComponent
   ],
   templateUrl: './registrar-punto-verde.component.html',

@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
-import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIcon } from '@angular/material/icon'
 import { MatInput } from '@angular/material/input'
@@ -22,7 +21,6 @@ import { CommonModule } from '@angular/common'
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIcon,

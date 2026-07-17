@@ -1,7 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { isPlatformBrowser } from '@angular/common'
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { TableComponent } from '../../components/table/table.component'
@@ -11,7 +10,7 @@ import { Router } from '@angular/router'
 @Component({
   selector: 'app-consultar-locales',
   standalone: true,
-  imports: [NavbarComponent, TableComponent],
+  imports: [TableComponent],
   templateUrl: './consultar-locales.component.html',
   styleUrl: './consultar-locales.component.scss'
 })

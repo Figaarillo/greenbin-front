@@ -9,7 +9,6 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import { LocalAdherido } from '../../services/interfaces/local-adherido'
-import { MatIconModule } from '@angular/material/icon'
 import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
@@ -24,7 +23,6 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
     CommonModule,
     ModalPvComponent,
     ModalLocalAdheridoComponent,
-    MatIconModule,
     RouterModule,
     PageHeaderComponent,
     NotificationBellComponent,

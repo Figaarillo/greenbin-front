@@ -1,7 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, DestroyRef, inject, OnInit, viewChild } from '@angular/core'
 import { NavigationEnd, NavigationStart, Router, RouterModule, RouterOutlet } from '@angular/router'
-import { Location } from '@angular/common'
 import { BreakpointObserver } from '@angular/cdk/layout'
 import { CommonModule } from '@angular/common'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -21,7 +20,6 @@ export class EntityLayoutComponent implements OnInit {
   name = ''
   email = ''
   router = inject(Router)
-  private location = inject(Location)
   private breakpointObserver = inject(BreakpointObserver)
 
   readonly menu = viewChild(MobileMenuComponent)
@@ -108,10 +106,6 @@ export class EntityLayoutComponent implements OnInit {
 
   onMenuLogout(): void {
     this.logOut()
-  }
-
-  goBack(): void {
-    this.location.back()
   }
 
   logOut(): void {

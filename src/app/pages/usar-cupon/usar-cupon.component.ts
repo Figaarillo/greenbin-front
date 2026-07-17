@@ -1,8 +1,5 @@
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon'
 import { RouterModule } from '@angular/router'
 import { CommonModule } from '@angular/common'
@@ -19,10 +16,7 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
   imports: [
     PageHeaderComponent,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule,
     RouterModule,
     CommonModule,
     MatIconModule,

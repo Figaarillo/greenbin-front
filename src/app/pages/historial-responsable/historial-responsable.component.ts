@@ -136,7 +136,6 @@ export class HistorialResponsableComponent implements OnInit {
       ]
     }
 
-    // Bar chart - kg per month
     const monthMap = new Map<string, number>()
     for (const tx of this.transactions) {
       const date = new Date(tx.date)

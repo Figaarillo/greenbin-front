@@ -1,10 +1,8 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, ViewChild, PLATFORM_ID } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
-import { MatSortModule } from '@angular/material/sort'
-import { MatTableModule, MatTableDataSource } from '@angular/material/table'
+import { MatTableDataSource } from '@angular/material/table'
 import { RouterModule } from '@angular/router'
 import { CuponSheetComponent } from '../../components/cupon-sheet/cupon-sheet.component'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
@@ -25,10 +23,7 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     CommonModule,
     CuponSheetComponent,
     MatIconModule,
-    MatTableModule,
-    MatSortModule,
     MatCardModule,
-    MatButtonModule,
     RouterModule,
     NavbarComponent,
     SkeletonComponent,

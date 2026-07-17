@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -20,7 +19,6 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
   standalone: true,
   imports: [
     PageHeaderComponent,
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

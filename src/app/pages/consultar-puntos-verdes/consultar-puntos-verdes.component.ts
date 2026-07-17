@@ -6,13 +6,12 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { Router } from '@angular/router'
 import Swal from 'sweetalert2'
 import { Column } from '../../services/interfaces/columns'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { TableComponent } from '../../components/table/table.component'
 
 @Component({
   selector: 'app-consultar-puntos-verdes',
   standalone: true,
-  imports: [NavbarComponent, TableComponent],
+  imports: [TableComponent],
   templateUrl: './consultar-puntos-verdes.component.html',
   styleUrl: './consultar-puntos-verdes.component.scss'
 })
