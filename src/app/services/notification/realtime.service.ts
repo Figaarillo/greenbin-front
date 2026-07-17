@@ -51,13 +51,15 @@ export class RealtimeService {
     this.abortController = new AbortController()
 
     try {
-      const response = await fetch(`${this.apiBase}/api/notifications/stream`, {
+      // ngsw-bypass como query param, NO como header: el ngsw intercepta
+      // fetch() para su lógica de caché y rompe la respuesta streaming
+      // (text/event-stream) que nunca termina. Va en la URL porque como
+      // header custom dispararía un preflight CORS que el backend rechaza
+      // (el stream es cross-origin).
+      const response = await fetch(`${this.apiBase}/api/notifications/stream?ngsw-bypass=true`, {
         headers: {
           Authorization: `Bearer ${this.sesionService.getAccessToken()}`,
-          Accept: 'text/event-stream',
-          // El ngsw intercepta fetch() para su lógica de caché, y eso rompe
-          // una respuesta streaming (text/event-stream) que nunca termina.
-          'ngsw-bypass': 'true'
+          Accept: 'text/event-stream'
         },
         signal: this.abortController.signal
       })
