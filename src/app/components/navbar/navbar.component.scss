@@ -1,55 +1,6 @@
-.mat-toolbar {
-  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
-  color: #fff;
-  position: relative;
-  box-shadow: var(--sh-1);
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-@media (max-width: 959px) {
-  .mat-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-  }
-}
-
-mat-sidenav {
-  width: 200px;
-  border-right: none;
-  padding: 16px 0;
-}
-
-mat-sidenav-container {
-  height: calc(100vh - 65px);
-}
-
-mat-sidenav-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 17px;
-  letter-spacing: -0.02em;
-}
-
-.example-spacer {
-  flex: 1 1 auto;
-}
-
-.back-button {
-  color: #fff;
-}
-
-@media (max-width: 1124px) {
-  .back-button { display: none; }
+// El look real (.page-header, .ph-top-row, .ph-back, .ph-title, etc.) vive
+// en styles.scss, compartido con app-page-header para que ambos midan y se
+// vean exactamente igual. Ver "Header unificado" en styles.scss.
+:host {
+  display: block;
 }

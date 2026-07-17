@@ -1,14 +1,7 @@
 <div data-role="local" class="landing-drawer">
-  <div class="v-header" appScrollShadow>
-    <div class="v-topbar">
-      <span class="v-brand">GreenBin</span>
-      <span class="spacer"></span>
-      <app-notification-bell #bell (opened)="panel.open()" />
-    </div>
-
-    <div class="v-hello">¡Hola, {{name}}! 🎉</div>
-  </div>
-
+  <app-page-header [title]="'¡Hola, ' + name + '! 🎉'">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
+  </app-page-header>
   <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="v-body">
