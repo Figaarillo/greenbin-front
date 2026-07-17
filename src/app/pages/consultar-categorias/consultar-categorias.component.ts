@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
-import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { Column } from '../../services/interfaces/columns'
 import { WasteCategoryService } from '../../services/wasteCategory/waste-category.service'
 import { TableComponent } from '../../components/table/table.component'
@@ -10,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common'
 @Component({
   selector: 'app-consultar-categorias',
   standalone: true,
-  imports: [NavbarComponent, TableComponent],
+  imports: [TableComponent],
   templateUrl: './consultar-categorias.component.html',
   styleUrl: './consultar-categorias.component.scss'
 })

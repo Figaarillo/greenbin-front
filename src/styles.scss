@@ -118,6 +118,89 @@ html.gb-text-lg {
   }
 }
 
+// ── Header unificado (app-page-header y app-navbar comparten este look:
+// mismo alto, mismo tipografía, mismo sticky. app-navbar suma el botón de
+// volver arriba a la izquierda; app-page-header no lo necesita porque vive
+// en pantallas de nivel superior, alcanzables desde el tabbar). ──────────
+.page-header {
+  background: linear-gradient(150deg, var(--accent), var(--accent-ink));
+  color: #fff;
+  padding: 22px 20px 26px;
+  user-select: none;
+  -webkit-user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 0 0 rgba(15, 23, 18, 0);
+  transition: box-shadow 200ms ease;
+
+  &.is-scrolled {
+    box-shadow: 0 4px 14px rgba(15, 23, 18, 0.18);
+  }
+}
+
+.ph-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ph-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+
+  .mat-icon,
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.ph-back {
+  color: #fff;
+  margin-left: -8px;
+  flex-shrink: 0;
+}
+
+.ph-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.ph-title {
+  margin: 14px 0 0;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  // app-navbar puede tener un titulo mas largo (nombre de un local, etc.):
+  // una sola linea, con elipsis en vez de romper la altura del header.
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Reserva la altura del extra (chip/acciones) aunque no haya contenido,
+// para que todos los headers midan exactamente lo mismo.
+.ph-extra {
+  margin-top: 14px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+}
+
 // ═════════════════════════════════════════════════════════════════════════
 //  ANGULAR MATERIAL — Custom Theme
 // ═════════════════════════════════════════════════════════════════════════

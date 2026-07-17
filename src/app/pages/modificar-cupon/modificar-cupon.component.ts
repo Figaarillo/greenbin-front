@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatIconModule } from '@angular/material/icon'
 import { RouterModule, ActivatedRoute, Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
@@ -20,8 +19,7 @@ import { LocalAdheridoService } from '../../services/local-adherido/local-adheri
     ReactiveFormsModule,
     MatButtonModule,
     RouterModule,
-    CommonModule,
-    MatIconModule
+    CommonModule
   ],
   templateUrl: './modificar-cupon.component.html',
   styleUrl: './modificar-cupon.component.scss'

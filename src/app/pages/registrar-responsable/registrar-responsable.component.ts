@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } 
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { RouterModule, Router } from '@angular/router'
 import Swal from 'sweetalert2'
@@ -15,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon'
   selector: 'app-registrar-responsable',
   standalone: true,
   imports: [
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

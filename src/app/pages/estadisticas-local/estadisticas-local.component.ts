@@ -47,7 +47,6 @@ export class EstadisticasLocalComponent implements OnInit {
   dateTo = ''
   hasData = false
 
-  // KPI cards
   totalAdquirido = 0
   totalUsado = 0
   totalExpirado = 0
@@ -66,7 +65,6 @@ export class EstadisticasLocalComponent implements OnInit {
     pointsSpent: number
   }> = []
 
-  // Bar chart - status distribution
   barData: ChartData<'bar'> = {
     labels: ['Adquirido', 'Usado', 'Expirado'],
     datasets: [{ data: [], label: 'Cupones', backgroundColor: ['#2196f3', '#4caf50', '#f44336'] }]
@@ -77,7 +75,6 @@ export class EstadisticasLocalComponent implements OnInit {
     scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
   }
 
-  // Pie chart - discount ranges
   pieData: ChartData<'pie'> = {
     labels: ['< 25%', '25% – 50%', '50% – 75%', '> 75%'],
     datasets: [{ data: [], backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#9c27b0'] }]

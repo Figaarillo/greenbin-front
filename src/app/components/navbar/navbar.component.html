@@ -1,11 +1,16 @@
+<header class="page-header" appScrollShadow>
+  <div class="ph-top-row">
+    <button mat-icon-button [routerLink]="[route]" class="ph-back" aria-label="Volver">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="ph-actions">
+      <ng-content select="[navActions]"></ng-content>
+    </div>
+  </div>
 
-<mat-toolbar class="mat-elevation-z8" >
-  <button mat-icon-button [routerLink]="[route]" class="back-button">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <span class="example-spacer"></span>
-  <span class="title"><b>{{title}}</b></span>
-  <span class="example-spacer"></span>
-  <ng-content select="[navActions]"></ng-content>
-</mat-toolbar>
-  
+  <h1 class="ph-title">{{ title }}</h1>
+
+  <div class="ph-extra">
+    <ng-content></ng-content>
+  </div>
+</header>

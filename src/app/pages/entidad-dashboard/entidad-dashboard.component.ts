@@ -1,12 +1,10 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
-import { Router } from '@angular/router'
 import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
 import { ChartData, ChartOptions } from 'chart.js'
-import { EntidadService } from '../../services/entidad/entidad.service'
 import { StatisticsService } from '../../services/statistics/statistics.service'
 import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.service'
 import { ResponsablesService } from '../../services/responsables/responsables.service'
@@ -42,8 +40,6 @@ export class EntidadDashboardComponent implements OnInit {
   name = ''
   email = ''
   entidadId = ''
-  router = inject(Router)
-  entidadServ = inject(EntidadService)
   statsServ = inject(StatisticsService)
   private pvServ = inject(PuntoVerdeService)
   private respServ = inject(ResponsablesService)
@@ -341,12 +337,5 @@ export class EntidadDashboardComponent implements OnInit {
     if (groupBy === 'year') return String(year)
     if (groupBy === 'month') return date.toLocaleDateString('es-AR', { year: 'numeric', month: 'short' })
     return date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })
-  }
-
-  logOut(): void {
-    this.storage.removeItem('accessToken')
-    this.storage.removeItem('refreshToken')
-    this.storage.setItem('respoEdit', 'false')
-    this.router.navigateByUrl('/login-admin')
   }
 }

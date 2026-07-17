@@ -129,7 +129,6 @@ export class MisRecicladosComponent implements OnInit {
       ]
     }
 
-    // Bar chart - kg per month
     const monthMap = new Map<string, number>()
     for (const delivery of this.deliveries) {
       const date = new Date(delivery.date)

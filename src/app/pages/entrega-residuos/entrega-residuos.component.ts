@@ -90,8 +90,11 @@ export class EntregaResiduosComponent {
     const pvGuardado = this.storage.getItem('puntoVerde') || ''
     this.pvSelected = !!pvGuardado
 
-    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
-    this.pvService.list(entidadInfo.id).subscribe((res: any) => {
+    // El responsable guarda su perfil bajo 'usuarioInfo' (no 'entidadInfo',
+    // esa clave es exclusiva del rol entidad), y la relacion con la entidad
+    // viene como el string crudo en 'entity', no como 'entityId'.
+    const usuarioInfo = JSON.parse(this.storage.getItem('usuarioInfo') || '{}')
+    this.pvService.list(usuarioInfo.entity).subscribe((res: any) => {
       this.puntosVerdes = res ?? []
       const actual = this.puntosVerdes.find(p => p.id === pvGuardado)
       this.currentPvName = actual?.name ?? ''

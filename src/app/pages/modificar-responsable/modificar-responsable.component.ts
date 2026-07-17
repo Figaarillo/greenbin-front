@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } 
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { ResponsableService } from '../../services/responsable/responsable.service'
 import { ActivatedRoute, RouterModule, Router } from '@angular/router'
 import { Responsable } from '../../services/interfaces/responsable'
@@ -16,7 +15,6 @@ import { NavbarComponent } from '../../components/navbar/navbar.component'
   standalone: true,
   imports: [
     NavbarComponent,
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,

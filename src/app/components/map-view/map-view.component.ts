@@ -159,11 +159,4 @@ export class MapViewComponent implements AfterViewInit {
       lng: obj.coordinates.longitude
     }
   }
-
-  setCenter(lat: number, lng: number) {
-    this.center = {
-      lat: lat,
-      lng: lng
-    }
-  }
 }

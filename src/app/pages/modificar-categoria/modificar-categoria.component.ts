@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule, ActivatedRoute, Router } from '@angular/router'
@@ -10,15 +9,7 @@ import { WasteCategoryService } from '../../services/wasteCategory/waste-categor
 @Component({
   selector: 'app-modificar-categoria',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    RouterModule,
-    CommonModule
-  ],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './modificar-categoria.component.html',
   styleUrl: './modificar-categoria.component.scss'
 })

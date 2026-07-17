@@ -2,6 +2,7 @@ import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core'
 import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
+import { MatIconModule } from '@angular/material/icon'
 import { NgChartsModule } from 'ng2-charts'
 import { Chart, registerables } from 'chart.js'
 import { ChartData, ChartOptions } from 'chart.js'
@@ -10,6 +11,7 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { PuntoVerde } from '../../services/interfaces/punto-verde'
 import type {
   TotalRecycled,
@@ -32,10 +34,12 @@ const DAY_MS = 86400000
   imports: [
     CommonModule,
     FormsModule,
+    MatIconModule,
     NgChartsModule,
     SkeletonComponent,
     NotificationBellComponent,
-    NotificationPanelComponent
+    NotificationPanelComponent,
+    PageHeaderComponent
   ],
   templateUrl: './responsable-dashboard.component.html',
   styleUrl: './responsable-dashboard.component.scss'
@@ -107,8 +111,13 @@ export class ResponsableDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
-    this.entidadId = entidadInfo?.id ?? ''
+    // El responsable guarda su perfil bajo 'usuarioInfo' (no 'entidadInfo',
+    // esa clave es exclusiva del rol entidad — ver ROLE_CONFIG en
+    // login.component.ts). La relación con la entidad no viene populada,
+    // así que el backend la serializa como el string crudo en 'entity',
+    // no como 'entityId' ni como un objeto anidado.
+    const usuarioInfo = JSON.parse(this.storage.getItem('usuarioInfo') || '{}')
+    this.entidadId = usuarioInfo?.entity ?? ''
     this.puntoVerdeSeleccionado = this.storage.getItem('puntoVerde') || ''
 
     if (isPlatformBrowser(this.platformId)) {

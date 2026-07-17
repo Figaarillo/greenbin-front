@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterModule } from '@angular/router'
 import { Vecino } from '../../services/interfaces/vecino'
 import { VecinoService } from '../../services/vecino/vecino.service'
@@ -28,7 +27,6 @@ import Swal from 'sweetalert2'
   selector: 'app-registrar-vecino',
   standalone: true,
   imports: [
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,7 +34,6 @@ import Swal from 'sweetalert2'
     MatButtonModule,
     RouterModule,
     MatIconModule,
-    MatButtonModule,
     MatSelectModule,
     CommonModule
   ],

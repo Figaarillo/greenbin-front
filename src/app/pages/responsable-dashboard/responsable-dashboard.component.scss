@@ -1,43 +1,50 @@
-// ── Filtro de rango segmentado (vive dentro del hero) ───────────────────
-.hero-actions {
+// El header ahora es app-page-header (ver "Header unificado" en styles.scss).
+// El filtro de rango vive en el body, mismo lugar/estilo que los filtros de
+// catalogo-cupones y mis-cupones-*.
+.filters-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 12px;
 }
 
-.range {
+.status-chips {
   display: flex;
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: var(--r-pill);
-  padding: 4px;
+  gap: 8px;
   flex-wrap: wrap;
+}
 
-  button {
-    border: 0;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.75);
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 13px;
-    padding: 7px 15px;
-    border-radius: var(--r-pill);
-    cursor: pointer;
-    transition: 0.15s;
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: var(--r-pill, 999px);
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
 
-    &.on {
-      background: #fff;
-      color: var(--accent-ink);
-    }
+  .mat-icon,
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
 
-    &.custom {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+  &:hover {
+    border-color: var(--accent);
+  }
 
-      .material-icons {
-        font-size: 16px;
-      }
-    }
+  &.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
   }
 }
 
@@ -46,8 +53,43 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 14px;
-  position: relative;
+  margin-bottom: 12px;
+}
+
+// Variante clara del hdr-chip global (pensado para fondo oscuro): acá vive
+// en el body, sobre fondo claro.
+.hdr-chip-muted {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--body-text, #333);
+
+  input[type='date'] {
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    color: inherit;
+  }
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--r-pill, 999px);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+
+  .mat-icon,
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 // ── KPIs con sparkline ───────────────────────────────────────────────────

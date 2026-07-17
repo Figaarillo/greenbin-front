@@ -52,7 +52,6 @@ export class MapInputComponent implements AfterViewInit {
   }
 
   getByAddress(address: string): void {
-    //alert('asdasd')
     const geocoder = new google.maps.Geocoder()
     geocoder.geocode({ address: address + this.city }, (results: any, status: any) => {
       if (status === 'OK') {

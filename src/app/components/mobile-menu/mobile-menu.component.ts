@@ -18,7 +18,6 @@ export type MobileMenuItem = {
 export class MobileMenuComponent {
   @Input({ required: true }) items!: MobileMenuItem[]
 
-  // Datos del usuario
   @Input() userName: string = ''
   @Input() userSubtitle: string = ''
   @Input() userDetail: string = ''

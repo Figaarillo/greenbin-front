@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
-import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule, ActivatedRoute, Router } from '@angular/router'
@@ -10,15 +9,7 @@ import { PuntoVerdeService } from '../../services/punto-verde/punto-verde.servic
 @Component({
   selector: 'app-modificar-punto-verde',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    RouterModule,
-    CommonModule
-  ],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, RouterModule, CommonModule],
   templateUrl: './modificar-punto-verde.component.html',
   styleUrl: './modificar-punto-verde.component.scss'
 })

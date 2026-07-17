@@ -3,13 +3,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { Router, RouterModule } from '@angular/router'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { CommonModule } from '@angular/common'
 import { SesionService } from '../../services/sesion/sesion.service'
-import { MatDialogModule } from '@angular/material/dialog'
 import { MatIconModule } from '@angular/material/icon'
 import Swal from 'sweetalert2'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
@@ -20,7 +18,6 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
   standalone: true,
   imports: [
     PageHeaderComponent,
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -28,7 +25,6 @@ import { NotificationPanelComponent } from '../../components/notification-panel/
     MatButtonModule,
     RouterModule,
     CommonModule,
-    MatDialogModule,
     MatIconModule,
     NotificationBellComponent,
     NotificationPanelComponent

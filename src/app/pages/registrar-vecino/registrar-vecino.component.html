@@ -55,7 +55,6 @@
           <mat-select #mySelect (selectionChange)="onSelectChange($event.value)" formControlName="entityId">
             <mat-option *ngFor="let entity of entities" [value]="entity.id">
               {{ entity.name }}
-              <!-- {{ entity.name }} - {{ entity.city }} -->
             </mat-option>
           </mat-select>
         </mat-form-field>

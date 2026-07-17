@@ -1,20 +1,14 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, OnInit, PLATFORM_ID } from '@angular/core'
-import { MatButtonModule } from '@angular/material/button'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
-import { MatListModule } from '@angular/material/list'
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { SidenavComponent } from '../../components/sidenav/sidenav.component'
 import { RouterModule } from '@angular/router'
-import { MatCardModule } from '@angular/material/card'
-import { MatTooltipModule } from '@angular/material/tooltip'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
-import { ScrollShadowDirective } from '../../directives/scroll-shadow.directive'
+import { PageHeaderComponent } from '../../components/page-header/page-header.component'
 
 export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
 
@@ -22,21 +16,15 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
   selector: 'app-home-local',
   standalone: true,
   imports: [
-    MatButtonModule,
     MatIconModule,
-    MatListModule,
     MatDividerModule,
-    MatToolbarModule,
-    SidenavComponent,
     RouterModule,
-    MatCardModule,
-    MatTooltipModule,
     CommonModule,
     DatePipe,
     SkeletonComponent,
     NotificationBellComponent,
     NotificationPanelComponent,
-    ScrollShadowDirective
+    PageHeaderComponent
   ],
   templateUrl: './home-local.component.html',
   styleUrl: './home-local.component.scss'

@@ -1,13 +1,6 @@
 <div data-role="responsable" class="landing-drawer">
-  <div class="v-header" appScrollShadow>
-    <div class="v-topbar">
-      <span class="v-brand">GreenBin</span>
-      <span class="spacer"></span>
-      <app-notification-bell #bell (opened)="panel.open()" />
-    </div>
-
-    <div class="v-hello">¡Hola, {{nombre}}!</div>
-
+  <app-page-header [title]="'¡Hola, ' + nombre + '!'">
+    <app-notification-bell phActions #bell (opened)="panel.open()" />
     <div class="select-container">
       <mat-form-field class="pto-select">
         <mat-label>Punto Verde Actual</mat-label>
@@ -18,8 +11,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-  </div>
-
+  </app-page-header>
   <app-notification-panel #panel (closed)="bell.refresh()" />
 
   <div class="v-body">

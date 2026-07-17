@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-import { MatToolbarModule } from '@angular/material/toolbar'
 import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
@@ -16,7 +15,6 @@ import Swal from 'sweetalert2'
   selector: 'app-registrar-entidad',
   standalone: true,
   imports: [
-    MatToolbarModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
