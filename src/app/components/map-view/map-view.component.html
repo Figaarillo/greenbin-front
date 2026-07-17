@@ -1,19 +1,21 @@
 <div #viewMapContainer class="w-100 h-100 map-wrap">
-    <google-map
-    [width]="anchoVariable"
-    [height]="height"
-    [center]="center"
-    [zoom]="zoom"
-    [mapId]="'iuhd8q3hsdads'"
-    (mapInitialized)="onMapInitialized($event)"
-    >
-    @if(markerLibraryReady){
+    @if (markerLibraryReady && !mapError) {
+        <google-map
+        [width]="anchoVariable"
+        [height]="height"
+        [center]="center"
+        [zoom]="zoom"
+        [mapId]="'iuhd8q3hsdads'"
+        (mapInitialized)="onMapInitialized($event)"
+        >
         @for (pv of puntosVerdes; track pv) {
             <map-advanced-marker [position]="coordToPosition(pv)" [options]="getPuntoVerdeMarkerOptions(pv)" (mapClick)="puntoVerdeClick.emit(pv)"></map-advanced-marker>
         }
         @for (la of localesAdheridos; track la) {
             <map-advanced-marker [position]="coordToPosition(la)" [options]="getLocalAdheridoMarkerOptions(la)" (mapClick)="localAdheridoClick.emit(la)"></map-advanced-marker>
         }
+        </google-map>
+    } @else {
+        <app-skeleton type="block" [count]="1" />
     }
-    </google-map>
 </div>
