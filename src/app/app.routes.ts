@@ -202,6 +202,14 @@ export const routes: Routes = [
           )
       },
       {
+        path: 'dashboard',
+        canActivate: [isLogged, authGuardGuard],
+        loadComponent: () =>
+          import('./pages/responsable-dashboard/responsable-dashboard.component').then(
+            m => m.ResponsableDashboardComponent
+          )
+      },
+      {
         path: 'modificar-responsable/:id',
         canActivate: [isLogged],
         loadComponent: () =>
