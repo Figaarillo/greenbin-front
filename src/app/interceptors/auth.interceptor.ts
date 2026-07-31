@@ -5,8 +5,13 @@ import { IS_REFRESH_TOKEN_REQUEST } from './httpContextToken'
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const sesionService = inject(SesionService)
-  //si no es una ruta de registro, o peticion de refresh-token, se agrega el encabezado con el bearerToken
-  if (!req.url.includes('/auth/login')) {
+  const isPublicAuthRoute =
+    req.url.includes('/auth/login') ||
+    req.url.includes('/auth/register') ||
+    req.url.includes('/auth/forgot-password') ||
+    req.url.includes('/auth/reset-password')
+  //si no es una ruta de registro, login u otra ruta pública de auth, o peticion de refresh-token, se agrega el encabezado con el bearerToken
+  if (!isPublicAuthRoute) {
     const accessToken = sesionService.getAccessToken()
     const refreshToken = sesionService.getRefreshToken()
     const isRefreshTokenRequest = req.context.get(IS_REFRESH_TOKEN_REQUEST)
