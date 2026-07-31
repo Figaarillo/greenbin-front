@@ -22,6 +22,10 @@ import { CommonModule } from '@angular/common'
 import { StorageService } from '../../services/storage/storage.service'
 import { ThemeService } from '../../services/theme/theme.service'
 import Swal from 'sweetalert2'
+import {
+  PasswordRequirementsComponent,
+  PasswordRequirement
+} from '../../components/password-requirements/password-requirements.component'
 
 @Component({
   selector: 'app-registrar-vecino',
@@ -35,7 +39,8 @@ import Swal from 'sweetalert2'
     RouterModule,
     MatIconModule,
     MatSelectModule,
-    CommonModule
+    CommonModule,
+    PasswordRequirementsComponent
   ],
   templateUrl: './registrar-vecino.component.html',
   styleUrl: './registrar-vecino.component.scss'
@@ -44,6 +49,12 @@ export class RegistrarVecinoComponent implements OnInit {
   form: FormGroup
   hidePassword = true
   entities: Entidad[] = []
+  passwordRequirements: PasswordRequirement[] = [
+    { label: 'Mínimo 8 caracteres', test: v => v.length >= 8 },
+    { label: 'Al menos una minúscula', test: v => /[a-z]/.test(v) },
+    { label: 'Al menos una mayúscula', test: v => /[A-Z]/.test(v) },
+    { label: 'Al menos un carácter especial', test: v => /[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]/.test(v) }
+  ]
   constructor(
     private fb: FormBuilder,
     private vecinoService: VecinoService,
@@ -68,7 +79,6 @@ export class RegistrarVecinoComponent implements OnInit {
   ngOnInit(): void {
     this.entityServices.list(0, 100).subscribe((resp: any) => {
       this.entities = resp
-      console.log('Se listan las entidades \n', this.entities)
     })
   }
   passwordValidator(control: AbstractControl): ValidationErrors | null {

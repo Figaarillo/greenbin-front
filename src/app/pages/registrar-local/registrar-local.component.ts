@@ -15,6 +15,10 @@ import { EntidadService } from '../../services/entidad/entidad.service'
 import { Entidad } from '../../services/interfaces/entidad'
 import { MatSelectModule } from '@angular/material/select'
 import { CommonModule } from '@angular/common'
+import {
+  PasswordRequirementsComponent,
+  PasswordRequirement
+} from '../../components/password-requirements/password-requirements.component'
 @Component({
   selector: 'app-registrar-local',
   standalone: true,
@@ -29,7 +33,8 @@ import { CommonModule } from '@angular/common'
     MapInputComponent,
     MatSelectModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    PasswordRequirementsComponent
   ],
   templateUrl: './registrar-local.component.html',
   styleUrl: './registrar-local.component.scss'
@@ -42,6 +47,11 @@ export class RegistrarLocalComponent implements OnInit {
   entitySelect = ''
   entities: Entidad[] = []
   disabled: boolean = true
+  passwordRequirements: PasswordRequirement[] = [
+    { label: 'Mínimo 8 caracteres', test: v => v.length >= 8 },
+    { label: 'Al menos una mayúscula', test: v => /[A-Z]/.test(v) },
+    { label: 'Al menos un carácter especial', test: v => /[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`]/.test(v) }
+  ]
   @ViewChild(MapInputComponent) mapCompnent!: MapInputComponent
   constructor(
     private localService: LocalAdheridoService,

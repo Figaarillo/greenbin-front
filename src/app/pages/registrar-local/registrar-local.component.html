@@ -103,10 +103,11 @@
           @if (formGroup.controls.password.hasError('required')) {
             <mat-error>Ingrese su contraseña.</mat-error>
           }
-          @if (formGroup.controls.password.hasError('pattern')) {
-            <mat-error>Ingrese una contraseña válida.</mat-error>
-          }
         </mat-form-field>
+        <app-password-requirements
+          [password]="formGroup.controls.password.value"
+          [requirements]="passwordRequirements">
+        </app-password-requirements>
 
         <mat-form-field>
           <mat-label>Confirmar Contraseña</mat-label>
