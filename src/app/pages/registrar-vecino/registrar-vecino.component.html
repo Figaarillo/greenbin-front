@@ -68,23 +68,11 @@
           @if (form.get('password')!.hasError('required')) {
             <mat-error>Ingrese una contraseña</mat-error>
           }
-          @if (!form.get('password')!.hasError('required') && form.get('password')!.invalid) {
-            <mat-error>
-              @if (form.get('password')!.hasError('minlength')) {
-                <div>• Mínimo 8 caracteres</div>
-              }
-              @if (form.get('password')!.hasError('missingLowercase')) {
-                <div>• Al menos una minúscula</div>
-              }
-              @if (form.get('password')!.hasError('missingUppercase')) {
-                <div>• Al menos una mayúscula</div>
-              }
-              @if (form.get('password')!.hasError('missingSpecial')) {
-                <div>• Al menos un carácter especial</div>
-              }
-            </mat-error>
-          }
         </mat-form-field>
+        <app-password-requirements
+          [password]="form.get('password')!.value"
+          [requirements]="passwordRequirements">
+        </app-password-requirements>
 
         <mat-form-field>
           <mat-label>DNI</mat-label>
