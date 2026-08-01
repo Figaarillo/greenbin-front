@@ -326,7 +326,7 @@ export class EntidadDashboardComponent implements OnInit {
       this.countVecinos = (res?.data ?? []).length
     })
     this.localServ.list(this.entidadId).subscribe((res: any) => {
-      this.countLocales = (res?.data ?? []).length
+      this.countLocales = (res ?? []).length
     })
   }
 
