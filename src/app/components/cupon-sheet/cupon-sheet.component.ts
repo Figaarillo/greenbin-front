@@ -101,7 +101,7 @@ export class CuponSheetComponent {
   }
 
   get puedeCanjear(): boolean {
-    return !!this.cupon && this.misPuntos >= this.cupon.costInPoints && !this.cargando
+    return !!this.cupon && !this.cupon.adquirido && this.misPuntos >= this.cupon.costInPoints && !this.cargando
   }
 
   // ── Acciones ───────────────────────────────────────────

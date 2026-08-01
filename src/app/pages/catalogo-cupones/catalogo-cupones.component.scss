@@ -140,6 +140,17 @@
   }
 
   &:active { transform: translateY(0); }
+
+  &.c-card-disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    filter: grayscale(0.6);
+
+    &:hover {
+      transform: none;
+      box-shadow: var(--sh-1);
+    }
+  }
 }
 
 .c-card-icon {
@@ -202,6 +213,12 @@
 .c-card-vigencia {
   background: var(--surface-2);
   color: var(--muted);
+}
+
+.c-card-adquirido {
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight: 700;
 }
 
 .c-card-badge {
