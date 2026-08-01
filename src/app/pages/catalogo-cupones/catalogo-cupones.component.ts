@@ -45,13 +45,13 @@ export class CatalogoCuponesComponent {
   titleFilter = ''
   sortField: CampoOrdenCupon = 'discount'
   sortDir: 'desc' | 'asc' = 'desc'
-  showAdquiridos = false
+  hideAdquiridos = false
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
     const filtered = this.items
       .filter(c => c.title.toLowerCase().includes(title))
-      .filter(c => this.showAdquiridos || !c.adquirido)
+      .filter(c => !this.hideAdquiridos || !c.adquirido)
     this.dataSource.data = ordenarCupones(filtered, this.sortField, this.sortDir)
   }
 
@@ -60,8 +60,8 @@ export class CatalogoCuponesComponent {
     this.applyFilters()
   }
 
-  toggleShowAdquiridos() {
-    this.showAdquiridos = !this.showAdquiridos
+  toggleHideAdquiridos() {
+    this.hideAdquiridos = !this.hideAdquiridos
     this.applyFilters()
   }
 
