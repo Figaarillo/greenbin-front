@@ -24,6 +24,7 @@
         <button type="button" class="chip" [class.active]="sortField === 'costInPoints'" (click)="setSortField('costInPoints')">Costo</button>
         <button type="button" class="chip" [class.active]="sortField === 'validDays'" (click)="setSortField('validDays')">Vigencia</button>
         <button type="button" class="chip" [class.active]="sortField === 'createdAt'" (click)="setSortField('createdAt')">Fecha</button>
+        <button type="button" class="chip" [class.active]="hideAdquiridos" (click)="toggleHideAdquiridos()">Ocultar adquiridos</button>
       </div>
       <button
         type="button"
@@ -44,7 +45,7 @@
 
       <div class="c-list">
         @for (data of dataSource.filteredData; track data) {
-          <div class="c-card" (click)="abrirModal(data)">
+          <div class="c-card" [class.c-card-disabled]="data.adquirido" (click)="abrirModal(data)">
             <div class="c-card-icon">
               <mat-icon>local_activity</mat-icon>
             </div>
@@ -54,6 +55,9 @@
               <div class="c-card-pills">
                 <span class="c-card-price">{{ data.costInPoints }} pts</span>
                 <span class="c-card-price c-card-vigencia">{{ data.validDays }} días</span>
+                @if (data.adquirido) {
+                  <span class="c-card-price c-card-adquirido">Ya canjeado</span>
+                }
               </div>
             </div>
             <div class="c-card-badge">{{ data.discount }}<span>%</span></div>

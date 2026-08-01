@@ -14,6 +14,8 @@ export interface Coupon {
   rewardPartner?: string
   rewardPartnerId?: string
   createdAt: string
+  /** Solo se completa en el catálogo del vecino: true si ya lo canjeó y sigue ADQUIRIDO sin usar. */
+  adquirido?: boolean
 }
 
 export interface CouponTransaction {

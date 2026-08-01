@@ -45,15 +45,23 @@ export class CatalogoCuponesComponent {
   titleFilter = ''
   sortField: CampoOrdenCupon = 'discount'
   sortDir: 'desc' | 'asc' = 'desc'
+  hideAdquiridos = false
 
   private applyFilters() {
     const title = this.titleFilter.trim().toLowerCase()
-    const filtered = this.items.filter(c => c.title.toLowerCase().includes(title))
+    const filtered = this.items
+      .filter(c => c.title.toLowerCase().includes(title))
+      .filter(c => !this.hideAdquiridos || !c.adquirido)
     this.dataSource.data = ordenarCupones(filtered, this.sortField, this.sortDir)
   }
 
   onTitleFilter(event: Event) {
     this.titleFilter = (event.target as HTMLInputElement).value
+    this.applyFilters()
+  }
+
+  toggleHideAdquiridos() {
+    this.hideAdquiridos = !this.hideAdquiridos
     this.applyFilters()
   }
 
@@ -102,12 +110,17 @@ export class CatalogoCuponesComponent {
     if (myTransactions$) {
       forkJoin({ coupons: coupons$, transactions: myTransactions$ }).subscribe({
         next: ({ coupons, transactions }) => {
+          // Solo bloqueamos re-canje mientras el cupón sigue ADQUIRIDO (activo y sin usar).
+          // Si ya fue USADO o quedó EXPIRADO, el vecino puede volver a comprarlo.
           this.redeemedCouponIds = new Set(
             (transactions.data ?? [])
-              .filter((t: any) => t.status === 'ADQUIRIDO' || t.status === 'USADO' || t.status === 'EXPIRADO')
+              .filter((t: any) => t.status === 'ADQUIRIDO')
               .map((t: any) => t.coupon?.id ?? t.coupon)
           )
-          this.items = (<Coupon[]>coupons.data).filter(c => !this.redeemedCouponIds.has((c as any).id))
+          this.items = (<Coupon[]>coupons.data).map(c => ({
+            ...c,
+            adquirido: this.redeemedCouponIds.has(c.id)
+          }))
           this.dataSource = new MatTableDataSource(this.items)
           this.applyFilters()
           this.loading = false
@@ -128,6 +141,7 @@ export class CatalogoCuponesComponent {
   }
 
   abrirModal(cupon: Coupon) {
+    if (cupon.adquirido) return
     this.sheet?.openCatalog(cupon)
   }
 
