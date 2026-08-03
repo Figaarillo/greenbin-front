@@ -1,13 +1,23 @@
-<app-bottom-sheet [handle]="false" (closed)="onSheetClosed()">
+<app-bottom-sheet (closed)="onSheetClosed()">
   <div class="panel-header">
-    @if (pushSupported()) {
-      <button type="button" class="icon-btn" (click)="togglePush()" [attr.aria-label]="pushSubscribed() ? 'Desactivar notificaciones push' : 'Activar notificaciones push'">
-        <mat-icon>{{ pushSubscribed() ? 'notifications_active' : 'notifications_off' }}</mat-icon>
+    <div class="sheet-top">
+      @if (pushSupported()) {
+        <button type="button" class="sheet-top-action" (click)="togglePush()" [attr.aria-label]="pushSubscribed() ? 'Desactivar notificaciones push' : 'Activar notificaciones push'">
+          <mat-icon>{{ pushSubscribed() ? 'notifications_active' : 'notifications_off' }}</mat-icon>
+        </button>
+      }
+      <span class="sheet-top-title">Notificaciones</span>
+      <button type="button" class="sheet-close" (click)="closeSheet()" aria-label="Cerrar notificaciones">
+        <mat-icon>close</mat-icon>
       </button>
-    }
-    <span class="panel-title">Notificaciones</span>
+    </div>
     @if (hasUnread()) {
-      <button type="button" class="mark-all-btn" (click)="markAllAsRead()">Marcar todas como leídas</button>
+      <div class="panel-header-sub">
+        <button type="button" class="mark-all-btn" (click)="markAllAsRead()">
+          <mat-icon>done_all</mat-icon>
+          Marcar todas como leídas
+        </button>
+      </div>
     }
   </div>
 

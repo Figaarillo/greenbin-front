@@ -264,33 +264,5 @@
 }
 
 // ── Sheet de edición ──────────────────────────────────────────────────────
-.c-sheet-close-x {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 0;
-  background: var(--surface-2);
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
-
-  mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-}
-
-.c-sheet-title {
-  padding: 16px 44px 4px 20px;
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--ink);
-}
+// El encabezado usa .sheet-top / .sheet-top-title / .sheet-close, definidos
+// una sola vez en styles.scss y compartidos con los demás sheets.

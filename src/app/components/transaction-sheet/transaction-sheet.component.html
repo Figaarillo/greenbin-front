@@ -1,0 +1,130 @@
+<app-bottom-sheet #sheet>
+  @if (item) {
+    <div class="sheet-top">
+      <span class="sheet-top-title">Detalle</span>
+      <button type="button" class="sheet-close" (click)="cerrar()" aria-label="Cerrar">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="ts-scroll">
+
+      <div class="ts-hero">
+        <div class="ts-hero-ic">
+          <mat-icon>{{ esCupon ? 'local_activity' : 'arrow_upward' }}</mat-icon>
+        </div>
+        <div class="ts-amount" [class.neg]="item.puntos < 0">
+          {{ item.puntos > 0 ? '+' : '' }}{{ item.puntos }} pts
+        </div>
+        <!-- Sin locale 'es' registrado en la app, los nombres de mes/día salen
+             en inglés: se usa el mismo formato numérico que el resto. -->
+        <div class="ts-when">{{ item.fecha | date:'dd/MM/yyyy · HH:mm' }}</div>
+      </div>
+
+      @if (esCupon) {
+        <div class="ts-block">
+          <div class="ts-bt">Cupón</div>
+          @if (cuponTitulo) {
+            <div class="ts-row">
+              <span class="k"><mat-icon>confirmation_number</mat-icon> Título</span>
+              <span class="v">{{ cuponTitulo }}</span>
+            </div>
+          }
+          @if (cuponLocal) {
+            <div class="ts-row">
+              <span class="k"><mat-icon>storefront</mat-icon> Local</span>
+              <span class="v">{{ cuponLocal }}</span>
+            </div>
+          }
+          @if (cuponDescuento != null) {
+            <div class="ts-row">
+              <span class="k"><mat-icon>percent</mat-icon> Descuento</span>
+              <span class="v">{{ cuponDescuento }}%</span>
+            </div>
+          }
+        </div>
+
+        @if (cuponCodigo || cuponVence) {
+          <div class="ts-block">
+            <div class="ts-bt">Código</div>
+            @if (cuponCodigo) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>key</mat-icon> Tu código</span>
+                <span class="v code">{{ cuponCodigo }}</span>
+              </div>
+            }
+            @if (cuponVence) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>schedule</mat-icon> Vence</span>
+                <span class="v">{{ cuponVence | date:'dd/MM/yyyy' }}</span>
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        @if (perspectiva === 'responsable' && vecino) {
+          <div class="ts-block">
+            <div class="ts-bt">Vecino</div>
+            <div class="ts-row">
+              <span class="k"><mat-icon>person</mat-icon> Nombre</span>
+              <span class="v">{{ vecino }}</span>
+            </div>
+            @if (puntoVerde) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>place</mat-icon> Punto verde</span>
+                <span class="v">{{ puntoVerde }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        @if (detalles.length > 0) {
+          <div class="ts-block">
+            <div class="ts-bt">{{ perspectiva === 'responsable' ? 'Residuos recibidos' : 'Qué entregaste' }}</div>
+            @for (d of detalles; track d.categoria) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>recycling</mat-icon> {{ d.categoria }}</span>
+                <span class="v">
+                  {{ d.peso | number:'1.0-1' }} kg
+                  <small>{{ d.puntos }} pts</small>
+                </span>
+              </div>
+            }
+          </div>
+
+          <div class="ts-total">
+            <span>Total · {{ pesoTotal | number:'1.0-1' }} kg</span>
+            <span>{{ item.puntos }} pts</span>
+          </div>
+        }
+
+        @if (perspectiva === 'vecino' && (puntoVerde || recibio)) {
+          <div class="ts-block ts-block-gap">
+            <div class="ts-bt">Dónde</div>
+            @if (puntoVerde) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>place</mat-icon> Punto verde</span>
+                <span class="v">{{ puntoVerde }}</span>
+              </div>
+            }
+            @if (recibio) {
+              <div class="ts-row">
+                <span class="k"><mat-icon>badge</mat-icon> Recibió</span>
+                <span class="v">{{ recibio }}</span>
+              </div>
+            }
+          </div>
+        }
+      }
+
+      @if (detalles.length === 0 && !esCupon) {
+        <p class="ts-empty">{{ item.descripcion }}</p>
+      }
+
+      @if (idCorto) {
+        <div class="ts-note">Transacción #{{ idCorto }}</div>
+      }
+
+    </div>
+  }
+</app-bottom-sheet>

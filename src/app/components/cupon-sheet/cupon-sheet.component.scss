@@ -1,9 +1,10 @@
 // Área scrolleable del contenido (el footer queda fijo abajo).
+// El padding-top da el aire que faltaba entre la barra superior y el título.
 .cs-scroll {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 4px 18px 2px;
+  padding: 14px 18px 2px;
 }
 
 // ── Encabezado: badge % + título ────────────────────────
@@ -196,7 +197,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 12px auto 10px;
+  margin: 4px auto 10px;
 
   mat-icon {
     color: var(--accent);

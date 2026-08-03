@@ -8,18 +8,32 @@
 .select-container {
   margin-top: 14px;
 
+  // Este select vive sobre el gradiente del header, así que no sigue el
+  // tratamiento base (sin caja): mantiene su pastilla translúcida. Hay que
+  // devolverle el padding lateral y la línea, que el estilo base saca.
   .pto-select {
     width: 100%;
 
     ::ng-deep .mdc-text-field--filled {
       background: rgba(255, 255, 255, 0.16) !important;
       border-radius: 12px !important;
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+      box-shadow: none !important;
     }
 
     ::ng-deep .mat-mdc-select-value-text,
     ::ng-deep .mat-mdc-select-arrow,
     ::ng-deep .mat-mdc-floating-label {
       color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    // El label flotado va en mayúsculas por el estilo base; acá dentro es
+    // demasiado ruido para una pastilla chica.
+    ::ng-deep .mdc-floating-label--float-above {
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 0.75;
     }
   }
 }
@@ -51,6 +65,12 @@
   box-shadow: var(--sh-1);
   padding: 16px 18px;
   margin-bottom: 18px;
+}
+
+// Ranking de vecinos: oculto por ahora. El bloque y su carga de datos
+// siguen intactos en el template — para volver a mostrarlo, borrar esta regla.
+.top-vecinos {
+  display: none;
 }
 
 .card-head {

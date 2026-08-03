@@ -1,5 +1,6 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { Component, inject } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -46,6 +47,9 @@ export class EntregaResiduosComponent {
   pvSelected = false
   dniValidated = false
 
+  /** El DNI se validó contra el backend y no existe ningún vecino con ese número. */
+  dniNoEncontrado = false
+
   totalPuntos = 0
   fechaActual: string = ''
   categories: any[] = []
@@ -80,6 +84,15 @@ export class EntregaResiduosComponent {
     this.dniValidator = this.fb.group({
       dni: ['', [Validators.required]]
     })
+
+    // "No encontramos ese DNI" habla del número que se envió, no del que está
+    // en pantalla: apenas el responsable lo corrige, el mensaje deja de aplicar.
+    this.dniValidator
+      .get('dni')!
+      .valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        if (this.dniNoEncontrado) this.dniNoEncontrado = false
+      })
     this.form = this.fb.group({
       categoria: [{}, [Validators.required]],
       kilos: ['', [Validators.required]],
@@ -174,15 +187,9 @@ export class EntregaResiduosComponent {
   }
 
   validateDni() {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success ',
-        cancelButton: 'btn btn-danger'
-      }
-    })
-
     if (this.dniValidator.valid) {
       const dni = this.dniValidator.value.dni
+      this.dniNoEncontrado = false
       Swal.fire({
         title: 'Cargando',
         showConfirmButton: false,
@@ -203,10 +210,9 @@ export class EntregaResiduosComponent {
         () => {
           Swal.close()
           this.dniValidated = false
-          swalWithBootstrapButtons.fire({
-            title: 'El usuario no existe.',
-            icon: 'error'
-          })
+          // El error queda inline, junto al campo que falló: un modal obliga
+          // a descartarlo antes de poder corregir el número.
+          this.dniNoEncontrado = true
         }
       )
     }

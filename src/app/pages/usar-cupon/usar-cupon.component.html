@@ -19,16 +19,29 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     @if (mode === 'code') {
-      <div class="ticket">
+      <div class="ticket" [class.has-error]="(form.get('code')!.invalid && form.get('code')!.touched) || !!error">
         <div class="lbl">Código del cupón</div>
         <input class="ticket-input" placeholder="ABC123" formControlName="code" maxlength="6">
-        @if (form.get('code')!.hasError('required')) {
-          <div class="ticket-error">Ingresá el código</div>
-        }
-        @if (form.get('code')!.hasError('minlength')) {
-          <div class="ticket-error">El código debe tener 6 caracteres</div>
-        }
       </div>
+
+      @if (form.get('code')!.hasError('required') && form.get('code')!.touched) {
+        <div class="form-error">
+          <mat-icon>error_outline</mat-icon>
+          <div>
+            <b>Falta el código</b>
+            <span>Pedile al vecino los 6 dígitos de su cupón.</span>
+          </div>
+        </div>
+      }
+      @if (form.get('code')!.hasError('minlength') && form.get('code')!.touched) {
+        <div class="form-error">
+          <mat-icon>error_outline</mat-icon>
+          <div>
+            <b>Código incompleto</b>
+            <span>El código tiene 6 caracteres. Revisá que no falte ninguno.</span>
+          </div>
+        </div>
+      }
     }
 
     @if (mode === 'scan') {
@@ -43,7 +56,13 @@
     }
 
     @if (error) {
-      <p class="error-msg">{{ error }}</p>
+      <div class="form-error">
+        <mat-icon>error_outline</mat-icon>
+        <div>
+          <b>No pudimos validar el cupón</b>
+          <span>{{ error }}</span>
+        </div>
+      </div>
     }
 
     <button class="btn-primary-custom btn-fixed-bottom" type="submit" [disabled]="cargando">

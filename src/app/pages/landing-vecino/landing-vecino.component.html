@@ -47,7 +47,7 @@
       }
 
       @for (item of historialVisible; track item) {
-        <div class="tx-item">
+        <div class="tx-item" (click)="txSheet.open(item, 'vecino')">
           <div class="tx-icon" [class.up]="item.tipo === 'residuo'">
             <mat-icon>{{ item.tipo === 'residuo' ? 'arrow_upward' : 'local_activity' }}</mat-icon>
           </div>
@@ -58,6 +58,7 @@
           <div class="tx-pts" [class.pos]="item.puntos > 0">
             {{ item.puntos > 0 ? '+' : '' }}{{ item.puntos }}
           </div>
+          <mat-icon class="tx-chev">chevron_right</mat-icon>
         </div>
       }
 
@@ -68,4 +69,6 @@
       }
       }
     </div>
+
+    <app-transaction-sheet #txSheet />
 </div>

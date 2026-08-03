@@ -15,6 +15,7 @@ import { SesionService } from '../../services/sesion/sesion.service'
 import { RealtimeService } from '../../services/notification/realtime.service'
 import { CommonModule, DatePipe, isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
+import { TransactionSheetComponent } from '../../components/transaction-sheet/transaction-sheet.component'
 
 @Component({
   selector: 'app-landing-vecino',
@@ -28,7 +29,8 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
     RouterModule,
     CommonModule,
     DatePipe,
-    SkeletonComponent
+    SkeletonComponent,
+    TransactionSheetComponent
   ],
   templateUrl: './landing-vecino.component.html',
   styleUrl: './landing-vecino.component.scss'
@@ -99,7 +101,9 @@ export class LandingVecinoComponent implements OnInit {
           tipo: 'cupon',
           descripcion: `Canje cupón "${t.coupon?.title}"`,
           puntos: -t.costInPoints,
-          fecha: t.adquisitionDate ?? t.createdAt
+          fecha: t.adquisitionDate ?? t.createdAt,
+          // La transacción completa alimenta el sheet de detalle.
+          raw: t
         }))
         this.historial = [...cupones].sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
         this.historialVisible = this.historial.slice(0, this.LIMITE)
@@ -129,7 +133,10 @@ export class LandingVecinoComponent implements OnInit {
           tipo: 'residuo',
           descripcion: `Entrega en ${t.greenPoint?.name ?? 'Punto Verde'}`,
           puntos: t.totalPoints,
-          fecha: t.date
+          fecha: t.date,
+          // La transacción completa alimenta el sheet de detalle: el endpoint
+          // ya popula transactionDetails.waste.category, greenPoint y responsible.
+          raw: t
         }))
         this.historial = [...this.historial, ...residuos].sort(
           (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()

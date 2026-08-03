@@ -1,3 +1,6 @@
+// Queda por debajo del mobile-tabbar (z-index:300) a propósito: el tabbar
+// siempre se ve nítido por encima. El cierre al tocar afuera no depende de
+// esta capa, lo resuelve el listener de la clase (ver BottomSheetComponent).
 .sheet-wrapper {
   position: fixed;
   inset: 0;

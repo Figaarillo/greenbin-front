@@ -105,11 +105,8 @@
   }
 }
 
-.ticket-error {
-  color: var(--danger);
-  font-size: 12px;
-  margin-top: 8px;
-}
+// Los mensajes de error usan .form-error (styles.scss), compartido con
+// entrega-residuos. El estado .has-error del ticket también vive allá.
 
 // ── Vista previa de escaneo (mock, sin cámara real) ───────────────────────
 .scan-frame {
@@ -197,8 +194,3 @@
 //   z-index: 250;
 // }
 
-.error-msg {
-  color: var(--danger);
-  font-size: 14px;
-  margin-bottom: 8px;
-}

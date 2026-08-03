@@ -202,6 +202,72 @@ html.gb-text-lg {
 }
 
 // ═════════════════════════════════════════════════════════════════════════
+//  BOTTOM SHEETS — barra superior compartida
+//  Todos los sheets (notificaciones, cupón, código) usan la MISMA barra:
+//  igual posición, tamaño y color. Definida una sola vez acá.
+// ═════════════════════════════════════════════════════════════════════════
+.sheet-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px 0;
+  flex-shrink: 0;
+}
+
+// Columna central: se centra de verdad porque las columnas laterales son 1fr.
+.sheet-top-title {
+  grid-column: 2;
+  justify-self: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+// Acción secundaria de la izquierda (ej. toggle de push): ícono fantasma,
+// sin fondo, para que no compita con el cierre.
+.sheet-top-action {
+  grid-column: 1;
+  justify-self: start;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.sheet-close {
+  grid-column: 3;
+  justify-self: end;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: var(--surface-2);
+  color: var(--ink);
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
 //  ANGULAR MATERIAL — Custom Theme
 // ═════════════════════════════════════════════════════════════════════════
 
@@ -1313,5 +1379,240 @@ h6 {
 
   .form-sections .fset-fields {
     grid-template-columns: 1fr;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  FIELD CARD — card blanca que agrupa campos en las pantallas mobile
+//  (registrar/modificar cupón, entrega de residuos, modificar-*).
+//  Estaba duplicada idéntica en 6 componentes; vive acá una sola vez.
+// ═════════════════════════════════════════════════════════════════════════
+.field-card {
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-1);
+  padding: 6px 16px 2px;
+  margin-bottom: 16px;
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  CAMPOS DE FORMULARIO — underline sobrio (estilo BASE de la app)
+//  El `filled` de Material trae una caja gris (#f5f5f5) que no sale de
+//  ningún token: choca con el fondo verdoso y con el acento del rol.
+//  Acá se le saca el relleno y queda una sola línea, que toma el acento
+//  al foco.
+//
+//  Va sin scope a propósito: el mismo formulario se usa suelto (con
+//  .field-card) y embebido en un sheet (sin ella), así que colgarlo de un
+//  contenedor deja la mitad de los casos afuera. Los dos tratamientos
+//  especiales lo pisan por especificidad y siguen intactos:
+//    · .form-sections  → caja surface-2 + halo (desktop entidad)
+//    · .login-body / .auth-body / .edit-form-body en mobile → glass
+// ═════════════════════════════════════════════════════════════════════════
+// Se configura por TOKENS MDC y no peleando con `background-color`: en
+// Angular Material 17 el fondo, el color del label y el del texto salen de
+// custom properties que el theme emite con más especificidad que cualquier
+// regla nuestra. Además, al apuntar a los tokens de GreenBin, el tema oscuro
+// y el acento por rol salen gratis.
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: transparent;
+  --mdc-filled-text-field-disabled-container-color: transparent;
+  --mdc-filled-text-field-input-text-color: var(--ink);
+  --mdc-filled-text-field-disabled-input-text-color: var(--muted);
+  --mdc-filled-text-field-label-text-color: var(--muted);
+  --mdc-filled-text-field-hover-label-text-color: var(--muted);
+  --mdc-filled-text-field-focus-label-text-color: var(--accent-ink);
+  --mdc-filled-text-field-caret-color: var(--accent);
+  --mdc-filled-text-field-error-label-text-color: var(--danger);
+  --mdc-filled-text-field-error-focus-label-text-color: var(--danger);
+  --mdc-filled-text-field-error-caret-color: var(--danger);
+
+  // La línea nativa se apaga acá y se redibuja abajo con box-shadow, para
+  // poder animar el grosor sin mover el contenido.
+  --mdc-filled-text-field-active-indicator-color: transparent;
+  --mdc-filled-text-field-hover-active-indicator-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: transparent;
+  --mdc-filled-text-field-error-active-indicator-color: transparent;
+  --mdc-filled-text-field-error-hover-active-indicator-color: transparent;
+  --mdc-filled-text-field-error-focus-active-indicator-color: transparent;
+
+  // El mat-select nace con los colores del theme verde.
+  --mat-select-enabled-trigger-text-color: var(--ink);
+  --mat-select-enabled-arrow-color: var(--muted);
+  --mat-select-focused-arrow-color: var(--accent);
+  --mat-select-placeholder-text-color: var(--muted);
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  box-shadow: inset 0 -1.5px 0 var(--line);
+  transition: box-shadow 150ms ease;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.mdc-text-field--filled.mdc-text-field--focused:not(.mdc-text-field--disabled) {
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+  box-shadow: inset 0 -2px 0 var(--danger);
+}
+
+// Label flotado: chico y en mayúsculas, que es lo que le da estructura
+// al campo ahora que no hay caja. En reposo queda como está.
+.mdc-text-field--filled .mdc-floating-label--float-above {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+// El asterisco de requerido también nace verde por el theme.
+.mat-mdc-form-field .mat-mdc-form-field-required-marker {
+  color: var(--muted);
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-required-marker {
+  color: var(--accent-ink);
+}
+
+// Velo gris que Material pinta encima al hover/foco: sobra cuando el campo
+// no tiene caja, y en tema oscuro se ve como una mancha clara.
+.mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+// El panel del mat-select también nace verde: la opción activa toma el rol.
+.mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: var(--accent-ink);
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  HISTORIAL — ítem clickeable
+//  Abre el detalle de la transacción (app-transaction-sheet). El bloque
+//  .tx-item base sigue duplicado en landing-vecino y landing-responsable;
+//  acá va solo lo que suma la interacción, para no repetirlo en las dos.
+// ═════════════════════════════════════════════════════════════════════════
+.tx-item {
+  cursor: pointer;
+
+  .tx-chev {
+    color: var(--muted);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-left: -4px;
+  }
+
+  &:active {
+    background: var(--surface-2);
+    border-radius: var(--r-field);
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+//  MENSAJES DE ERROR — banner inline
+//  Antes había tres variantes del mismo concepto (.ticket-error duplicada en
+//  usar-cupon y entrega-residuos, más .error-msg): texto rojo suelto, sin
+//  ícono ni fondo, que se leía como parte de la página y no como una alerta.
+//  Ahora es un solo componente: ícono + título (qué pasó) + detalle (qué hacer).
+// ═════════════════════════════════════════════════════════════════════════
+.form-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  // El margen de abajo lo separa del botón de acción, que suele venir
+  // inmediatamente después.
+  margin: 14px 0 20px;
+  padding: 11px 13px;
+  border-radius: var(--r-field);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+  border-left: 3px solid var(--danger);
+  text-align: left;
+
+  .mat-icon,
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--danger);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  b {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--danger);
+    margin-bottom: 1px;
+  }
+
+  span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+}
+
+// ── mat-error: mismo lenguaje, distinto peso ────────────────────────────
+// Los errores de campo NO usan el banner: en un formulario de 5 campos,
+// 5 banners con fondo es un mar de alarma y ninguno se lee. Comparten el
+// color, el ícono y la tipografía; el fondo queda reservado para el error
+// de la acción completa (.form-error), que es uno solo por pantalla.
+.mat-mdc-form-field-error {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger);
+
+  // Ícono por fuente: un mat-error se declara como texto en el template,
+  // así que no hay dónde meter un <mat-icon>.
+  &::before {
+    content: 'error_outline';
+    font-family: 'Material Icons';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+}
+
+// El campo que falló también reacciona: hoy queda idéntico a como estaba
+// antes de equivocarte, así que nada indica dónde mirar.
+.ticket.has-error {
+  box-shadow:
+    var(--sh-1),
+    0 0 0 1.5px color-mix(in srgb, var(--danger) 45%, transparent);
+
+  .ticket-input {
+    border-bottom-color: var(--danger);
+  }
+}
+
+// ── .form-sections recupera su caja ─────────────────────────────────────
+// En desktop (entidad) el campo sí conserva relleno y halo al foco: es el
+// tratamiento que ya estaba definido para esas pantallas.
+.form-sections {
+  .mat-mdc-form-field {
+    --mdc-filled-text-field-container-color: var(--surface-2);
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    padding-left: 16px;
+    padding-right: 16px;
+    box-shadow: none;
+  }
+
+  .mdc-text-field--filled.mdc-text-field--focused:not(.mdc-text-field--disabled) {
+    box-shadow: inset 0 0 0 1.5px var(--accent);
   }
 }

@@ -31,13 +31,29 @@
       <!-- Paso 1: validar DNI (mismo lenguaje que "Usar cupón") -->
       <p class="subtitle">Ingresá el DNI del vecino para validarlo.</p>
       <form [formGroup]="dniValidator" (ngSubmit)="validateDni()">
-        <div class="ticket">
+        <div class="ticket" [class.has-error]="(dniValidator.get('dni')!.hasError('required') && dniValidator.get('dni')!.touched) || dniNoEncontrado">
           <div class="lbl">DNI del vecino</div>
           <input class="ticket-input" type="number" placeholder="30111222" formControlName="dni">
-          @if (dniValidator.get('dni')!.hasError('required')) {
-            <div class="ticket-error">Ingresá el DNI</div>
-          }
         </div>
+
+        @if (dniValidator.get('dni')!.hasError('required') && dniValidator.get('dni')!.touched) {
+          <div class="form-error">
+            <mat-icon>error_outline</mat-icon>
+            <div>
+              <b>Falta el DNI</b>
+              <span>Pedile el documento al vecino para poder validarlo.</span>
+            </div>
+          </div>
+        }
+        @if (dniNoEncontrado) {
+          <div class="form-error">
+            <mat-icon>person_off</mat-icon>
+            <div>
+              <b>No encontramos ese DNI</b>
+              <span>Verificá el número con el vecino. Si todavía no tiene cuenta, tiene que registrarse primero.</span>
+            </div>
+          </div>
+        }
         <button mat-raised-button class="btn-primary-custom" [disabled]="dniValidator.invalid" type="submit">Validar DNI</button>
       </form>
     } @else {

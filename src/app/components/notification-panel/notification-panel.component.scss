@@ -1,40 +1,20 @@
+// La barra superior (.sheet-top / .sheet-top-title / .sheet-top-action /
+// .sheet-close) es compartida por todos los sheets y vive en styles.scss.
 .panel-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 12px;
-  padding: 20px 24px 18px;
+  padding: 12px 0 0;
   border-bottom: 1px solid var(--line);
 }
 
-.panel-title {
-  grid-column: 2;
-  justify-self: center;
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--ink);
-}
-
-.icon-btn {
-  grid-column: 1;
-  justify-self: start;
-  display: grid;
-  place-items: center;
-  border: none;
-  background: none;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 4px;
-
-  &:hover {
-    opacity: 0.8;
-  }
+.panel-header-sub {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 18px 12px;
 }
 
 .mark-all-btn {
-  grid-column: 3;
-  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   border: none;
   background: none;
   color: var(--accent);
@@ -43,13 +23,19 @@
   cursor: pointer;
   padding: 4px;
 
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
   &:hover {
     opacity: 0.8;
   }
 }
 
 .panel-body {
-  padding: 10px 0 20px;
+  padding: 12px 14px 20px;
   max-height: 65vh;
   overflow: auto;
 }
@@ -65,26 +51,37 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 4px;
-  border-bottom: 1px solid var(--line);
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: var(--r-field);
+  background: var(--surface-2);
   cursor: pointer;
   position: relative;
 
   &.unread {
     background: var(--accent-soft);
-    border-radius: 12px;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
 .notif-icon {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
+  border-radius: 11px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  background: var(--accent-soft);
+  background: var(--surface);
   color: var(--accent-ink);
+  box-shadow: var(--sh-1);
+
+  .unread & {
+    background: var(--accent);
+    color: #fff;
+  }
 
   mat-icon {
     font-size: 20px;

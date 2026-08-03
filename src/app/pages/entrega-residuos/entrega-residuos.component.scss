@@ -13,20 +13,6 @@ form {
   width: 100%;
 }
 
-// ── Campos agrupados en una sola card ────────────────────────────────────
-.field-card {
-  background: var(--surface);
-  border-radius: var(--r-card);
-  box-shadow: var(--sh-1);
-  padding: 6px 16px 2px;
-  margin-bottom: 16px;
-
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 4px;
-  }
-}
-
 .btn-primary-custom {
   width: 100%;
   height: 46px !important;
@@ -117,11 +103,8 @@ form {
     border-color: var(--accent);
   }
 }
-.ticket-error {
-  color: var(--danger);
-  font-size: 12px;
-  margin-top: 8px;
-}
+// Los mensajes de error usan .form-error (styles.scss), compartido con
+// usar-cupon. El estado .has-error del ticket también vive allá.
 
 // ── Paso 2: agregar residuo + lista de ítems ─────────────────────────────
 .btn-add {
