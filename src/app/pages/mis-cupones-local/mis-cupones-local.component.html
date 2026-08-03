@@ -78,12 +78,14 @@
 
   </div>
 
-  <app-bottom-sheet [handle]="false">
+  <app-bottom-sheet>
     @if (cuponEnEdicion) {
-      <button class="c-sheet-close-x" type="button" (click)="closeEdit()">
-        <mat-icon>close</mat-icon>
-      </button>
-      <div class="c-sheet-title">Editar cupón</div>
+      <div class="sheet-top">
+        <span class="sheet-top-title">Editar cupón</span>
+        <button type="button" class="sheet-close" (click)="closeEdit()" aria-label="Cerrar">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
       <app-modificar-cupon [embedded]="true" [couponIdOverride]="cuponEnEdicion.id" (saved)="onCuponGuardado()" />
     }
   </app-bottom-sheet>

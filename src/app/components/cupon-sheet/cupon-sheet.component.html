@@ -3,6 +3,13 @@
 
     <!-- Estado: código (canjeado / ver código) · si no, detalle -->
     @if (codigoCanje) {
+      <div class="sheet-top">
+        <span class="sheet-top-title"></span>
+        <button type="button" class="sheet-close" (click)="cerrar()" aria-label="Cerrar">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
       <div class="cs-scroll cs-success">
         <div class="cs-success-icon">
           <mat-icon>{{ recienCanjeado ? 'check_circle' : 'confirmation_number' }}</mat-icon>
@@ -26,6 +33,13 @@
         <button class="cs-btn-ghost" (click)="cerrar()">Listo</button>
       </div>
     } @else {
+      <div class="sheet-top">
+        <span class="sheet-top-title">Cupón</span>
+        <button type="button" class="sheet-close" (click)="cerrar()" aria-label="Cerrar">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
       <div class="cs-scroll">
         <div class="cs-head">
           <div class="cs-badge">{{ cupon.discount }}<small>%</small></div>

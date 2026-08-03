@@ -202,6 +202,72 @@ html.gb-text-lg {
 }
 
 // ═════════════════════════════════════════════════════════════════════════
+//  BOTTOM SHEETS — barra superior compartida
+//  Todos los sheets (notificaciones, cupón, código) usan la MISMA barra:
+//  igual posición, tamaño y color. Definida una sola vez acá.
+// ═════════════════════════════════════════════════════════════════════════
+.sheet-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px 0;
+  flex-shrink: 0;
+}
+
+// Columna central: se centra de verdad porque las columnas laterales son 1fr.
+.sheet-top-title {
+  grid-column: 2;
+  justify-self: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+// Acción secundaria de la izquierda (ej. toggle de push): ícono fantasma,
+// sin fondo, para que no compita con el cierre.
+.sheet-top-action {
+  grid-column: 1;
+  justify-self: start;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.sheet-close {
+  grid-column: 3;
+  justify-self: end;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: var(--surface-2);
+  color: var(--ink);
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════
 //  ANGULAR MATERIAL — Custom Theme
 // ═════════════════════════════════════════════════════════════════════════
 
