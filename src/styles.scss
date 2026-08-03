@@ -1514,3 +1514,105 @@ h6 {
     border-radius: var(--r-field);
   }
 }
+
+// ═════════════════════════════════════════════════════════════════════════
+//  MENSAJES DE ERROR — banner inline
+//  Antes había tres variantes del mismo concepto (.ticket-error duplicada en
+//  usar-cupon y entrega-residuos, más .error-msg): texto rojo suelto, sin
+//  ícono ni fondo, que se leía como parte de la página y no como una alerta.
+//  Ahora es un solo componente: ícono + título (qué pasó) + detalle (qué hacer).
+// ═════════════════════════════════════════════════════════════════════════
+.form-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  // El margen de abajo lo separa del botón de acción, que suele venir
+  // inmediatamente después.
+  margin: 14px 0 20px;
+  padding: 11px 13px;
+  border-radius: var(--r-field);
+  background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+  border-left: 3px solid var(--danger);
+  text-align: left;
+
+  .mat-icon,
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--danger);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  b {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--danger);
+    margin-bottom: 1px;
+  }
+
+  span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+}
+
+// ── mat-error: mismo lenguaje, distinto peso ────────────────────────────
+// Los errores de campo NO usan el banner: en un formulario de 5 campos,
+// 5 banners con fondo es un mar de alarma y ninguno se lee. Comparten el
+// color, el ícono y la tipografía; el fondo queda reservado para el error
+// de la acción completa (.form-error), que es uno solo por pantalla.
+.mat-mdc-form-field-error {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger);
+
+  // Ícono por fuente: un mat-error se declara como texto en el template,
+  // así que no hay dónde meter un <mat-icon>.
+  &::before {
+    content: 'error_outline';
+    font-family: 'Material Icons';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+}
+
+// El campo que falló también reacciona: hoy queda idéntico a como estaba
+// antes de equivocarte, así que nada indica dónde mirar.
+.ticket.has-error {
+  box-shadow:
+    var(--sh-1),
+    0 0 0 1.5px color-mix(in srgb, var(--danger) 45%, transparent);
+
+  .ticket-input {
+    border-bottom-color: var(--danger);
+  }
+}
+
+// ── .form-sections recupera su caja ─────────────────────────────────────
+// En desktop (entidad) el campo sí conserva relleno y halo al foco: es el
+// tratamiento que ya estaba definido para esas pantallas.
+.form-sections {
+  .mat-mdc-form-field {
+    --mdc-filled-text-field-container-color: var(--surface-2);
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    padding-left: 16px;
+    padding-right: 16px;
+    box-shadow: none;
+  }
+
+  .mdc-text-field--filled.mdc-text-field--focused:not(.mdc-text-field--disabled) {
+    box-shadow: inset 0 0 0 1.5px var(--accent);
+  }
+}

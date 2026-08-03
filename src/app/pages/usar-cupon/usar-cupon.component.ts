@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatIconModule } from '@angular/material/icon'
 import { RouterModule } from '@angular/router'
@@ -41,6 +42,17 @@ export class UsarCuponComponent {
     this.form = this.fb.group({
       code: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
     })
+
+    // El error del backend habla de un código que ya no es el que está en
+    // pantalla: apenas el usuario lo edita, deja de ser cierto. Sin esto el
+    // mensaje queda pegado, porque `error` solo se limpiaba al reenviar y el
+    // reenvío ni siquiera ocurre mientras el campo esté incompleto.
+    this.form
+      .get('code')!
+      .valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        if (this.error !== '') this.error = ''
+      })
   }
 
   onSubmit() {

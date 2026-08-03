@@ -103,11 +103,8 @@ form {
     border-color: var(--accent);
   }
 }
-.ticket-error {
-  color: var(--danger);
-  font-size: 12px;
-  margin-top: 8px;
-}
+// Los mensajes de error usan .form-error (styles.scss), compartido con
+// usar-cupon. El estado .has-error del ticket también vive allá.
 
 // ── Paso 2: agregar residuo + lista de ítems ─────────────────────────────
 .btn-add {
