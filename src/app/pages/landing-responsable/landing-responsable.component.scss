@@ -67,6 +67,12 @@
   margin-bottom: 18px;
 }
 
+// Ranking de vecinos: oculto por ahora. El bloque y su carga de datos
+// siguen intactos en el template — para volver a mostrarlo, borrar esta regla.
+.top-vecinos {
+  display: none;
+}
+
 .card-head {
   margin-bottom: 10px;
 
