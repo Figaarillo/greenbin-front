@@ -1,6 +1,5 @@
 import { StorageService } from '../../services/storage/storage.service'
 import { inject, Component, ViewChild, PLATFORM_ID } from '@angular/core'
-import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 import { MatTableDataSource } from '@angular/material/table'
 import { RouterModule } from '@angular/router'
@@ -23,7 +22,6 @@ export type EstadoCuponFiltro = 'TODOS' | 'ADQUIRIDO' | 'USADO' | 'EXPIRADO'
     CommonModule,
     CuponSheetComponent,
     MatIconModule,
-    MatCardModule,
     RouterModule,
     NavbarComponent,
     SkeletonComponent,
