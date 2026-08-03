@@ -14,6 +14,7 @@ import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 import { PageHeaderComponent } from '../../components/page-header/page-header.component'
+import { TransactionSheetComponent } from '../../components/transaction-sheet/transaction-sheet.component'
 
 @Component({
   selector: 'app-landing-responsable',
@@ -28,7 +29,8 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
     SkeletonComponent,
     NotificationBellComponent,
     NotificationPanelComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    TransactionSheetComponent
   ],
   templateUrl: './landing-responsable.component.html',
   styleUrl: './landing-responsable.component.scss'
@@ -78,7 +80,10 @@ export class LandingResponsableComponent implements OnInit {
           .map((t: any) => ({
             descripcion: `Entrega de ${t.neighbor?.firstname} ${t.neighbor?.lastname} en ${t.greenPoint?.name ?? 'Punto Verde'}`,
             puntos: t.totalPoints,
-            fecha: t.date
+            fecha: t.date,
+            // La transacción completa alimenta el sheet de detalle: el endpoint
+            // ya popula transactionDetails, greenPoint, neighbor y responsible.
+            raw: t
           }))
           .sort((a: any, b: any) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
         this.historialVisible = this.historial.slice(0, this.LIMITE)

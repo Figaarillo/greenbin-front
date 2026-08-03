@@ -1490,3 +1490,27 @@ h6 {
 .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
   color: var(--accent-ink);
 }
+
+// ═════════════════════════════════════════════════════════════════════════
+//  HISTORIAL — ítem clickeable
+//  Abre el detalle de la transacción (app-transaction-sheet). El bloque
+//  .tx-item base sigue duplicado en landing-vecino y landing-responsable;
+//  acá va solo lo que suma la interacción, para no repetirlo en las dos.
+// ═════════════════════════════════════════════════════════════════════════
+.tx-item {
+  cursor: pointer;
+
+  .tx-chev {
+    color: var(--muted);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-left: -4px;
+  }
+
+  &:active {
+    background: var(--surface-2);
+    border-radius: var(--r-field);
+  }
+}
