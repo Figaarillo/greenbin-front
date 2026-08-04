@@ -7,141 +7,285 @@
   <app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
 }
 
-<div class="container">
+<div class="roi" data-role="entidad">
 
-  <!-- Filtro global -->
-  <div class="global-filter">
-    <span class="global-filter-label">
-      <mat-icon style="font-size:18px; vertical-align:middle">calendar_today</mat-icon>
-      Período
-    </span>
-    <label>
-      Desde
-      <input type="date" [(ngModel)]="dateFrom">
-    </label>
-    <label>
-      Hasta
-      <input type="date" [(ngModel)]="dateTo">
-    </label>
-    <button class="filter-btn" (click)="applyGlobalFilter()">Aplicar</button>
-    @if (dateFrom || dateTo) {
-      <button class="filter-btn filter-btn-secondary" (click)="clearGlobalFilter()">Limpiar</button>
+  <!-- ── Toolbar de período: UNA fila, arriba de todo lo que filtra.
+       El título ya lo pone el navbar, así que acá no se repite. ── -->
+  <div class="toolbar">
+    <div>
+      <div class="toolbar-period">
+        <span class="material-icons">calendar_today</span>
+        {{ rangeLabel }}
+      </div>
+      <div class="toolbar-note">
+        <b>ROI</b> es «retorno de la inversión»: cuánto le devuelve el programa al local a cambio de
+        ofrecer cupones — visitas de vecinos, clientes nuevos y puntos gastados en el negocio.
+      </div>
+    </div>
+    <div class="range">
+      <button type="button" [class.on]="selectedRange === '7d'" (click)="setRange('7d')">7 días</button>
+      <button type="button" [class.on]="selectedRange === '30d'" (click)="setRange('30d')">30 días</button>
+      <button type="button" [class.on]="selectedRange === '90d'" (click)="setRange('90d')">90 días</button>
+      <button type="button" [class.on]="selectedRange === '1y'" (click)="setRange('1y')">Año</button>
+      <button type="button" [class.on]="selectedRange === 'custom'" (click)="setRange('custom')">
+        <span class="material-icons">event</span> Personalizado
+      </button>
+    </div>
+    @if (selectedRange === 'custom') {
+      <div class="custom-range">
+        <span class="hdr-chip">
+          <span class="material-icons">event</span>
+          <input type="date" [(ngModel)]="dateFrom" aria-label="Desde" />
+        </span>
+        <span class="hdr-chip">
+          <span class="material-icons">event</span>
+          <input type="date" [(ngModel)]="dateTo" aria-label="Hasta" />
+        </span>
+        <button type="button" class="btn-hero" (click)="applyCustomRange()">
+          <span class="material-icons">tune</span> Aplicar
+        </button>
+      </div>
     }
   </div>
 
   @if (loading) {
-    <app-skeleton type="stat" [count]="4" />
+    <app-skeleton type="stat" [count]="3" />
     <app-skeleton type="block" [count]="2" />
+  } @else if (error) {
+    <div class="card">
+      <div class="empty">
+        <span class="material-icons">error_outline</span>
+        <b>No pudimos cargar las estadísticas</b>
+        Puede ser un problema momentáneo de conexión.
+        <button type="button" class="cta" (click)="loadData()">Reintentar</button>
+      </div>
+    </div>
   } @else if (!hasData) {
-    <div class="empty-state">
-      <mat-icon>bar_chart</mat-icon>
-      <p>No hay canjes en el período seleccionado</p>
+    <div class="card">
+      <div class="empty">
+        <span class="material-icons">local_activity</span>
+        <b>Todavía no hay cupones canjeados en este período</b>
+        Cuando los vecinos empiecen a canjear y presentar cupones, acá vas a ver
+        cuántos entraron al local y cuántos eran clientes nuevos.
+      </div>
     </div>
   } @else {
 
-    <!-- KPI cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card kpi-blue">
-        <mat-icon>shopping_bag</mat-icon>
-        <span class="kpi-value">{{ totalAdquirido }}</span>
-        <span class="kpi-label">Adquiridos</span>
-      </div>
-      <div class="kpi-card kpi-green">
-        <mat-icon>check_circle</mat-icon>
-        <span class="kpi-value">{{ totalUsado }}</span>
-        <span class="kpi-label">Usados</span>
-      </div>
-      <div class="kpi-card kpi-red">
-        <mat-icon>cancel</mat-icon>
-        <span class="kpi-value">{{ totalExpirado }}</span>
-        <span class="kpi-label">Expirados</span>
-      </div>
-      <div class="kpi-card kpi-orange">
-        <mat-icon>stars</mat-icon>
-        <span class="kpi-value">{{ totalPuntos | number }}</span>
-        <span class="kpi-label">Puntos generados</span>
-      </div>
-    </div>
+  <div class="grid-main">
+    <div class="col">
 
-    <!-- ROI: valor de negocio, no solo cupones -->
-    <h3 class="section-title">Retorno para el local</h3>
-    <div class="kpi-grid">
-      <div class="kpi-card kpi-teal">
-        <mat-icon>groups</mat-icon>
-        <span class="kpi-value">{{ uniqueNeighbors }}</span>
-        <span class="kpi-label">Vecinos distintos</span>
-      </div>
-      <div class="kpi-card kpi-purple">
-        <mat-icon>person_add</mat-icon>
-        <span class="kpi-value">{{ newNeighbors }}</span>
-        <span class="kpi-label">Vecinos nuevos</span>
-      </div>
-      <div class="kpi-card kpi-blue">
-        <mat-icon>repeat</mat-icon>
-        <span class="kpi-value">{{ avgVisitsPerNeighbor | number:'1.1-1' }}</span>
-        <span class="kpi-label">Visitas por vecino</span>
-      </div>
-      <div class="kpi-card kpi-green">
-        <mat-icon>stars</mat-icon>
-        <span class="kpi-value">{{ totalPuntos | number }}</span>
-        <span class="kpi-label">Puntos gastados acá</span>
-      </div>
-    </div>
-
-    @if (byCoupon.length > 0) {
-      <div class="card roi-by-coupon">
+      <!-- ── LA RESPUESTA: una cifra hero, no ocho tiles ── -->
+      <div class="card">
         <div class="card-head">
-          <h3>Por cupón</h3>
-          <div class="card-sub">Qué cupón trae más clientes nuevos</div>
+          <div>
+            <h3>Retorno del programa</h3>
+            <div class="card-sub">Qué le dejó GreenBin al local en el período</div>
+          </div>
         </div>
-        @for (c of byCoupon; track c.couponId) {
-          <div class="rail-item">
-            <div class="r-body">
-              <b>{{ c.title }}</b>
-              <small>{{ c.redemptions }} canjes · {{ c.uniqueNeighbors }} vecinos</small>
+
+        <div class="answer">
+          <div class="answer-num">{{ totalUsado | number }}</div>
+          <div class="answer-lbl">
+            {{ totalUsado === 1 ? 'visita de un vecino que entró' : 'visitas de vecinos que entraron' }}
+            al local con un cupón de GreenBin
+          </div>
+          @if (newNeighbors > 0) {
+            <div class="answer-note">
+              <span class="material-icons">person_add</span>
+              {{ newNeighbors | number }}
+              {{ newNeighbors === 1 ? 'de esos vecinos nunca había venido' : 'de esos vecinos nunca habían venido' }}
             </div>
-            <span class="r-val">{{ c.newNeighbors }} nuevos</span>
+          }
+        </div>
+
+        <div class="tiles">
+          <div class="tile" title="Personas únicas que usaron al menos un cupón acá. Si un vecino vino 3 veces, cuenta 1.">
+            <div class="tv">{{ uniqueNeighbors | number }}</div>
+            <div class="tl">Vecinos distintos <span class="material-icons hint-ic">help_outline</span></div>
+          </div>
+          <div class="tile" title="Cupones usados dividido vecinos distintos. Arriba de 1 significa que vuelven.">
+            <div class="tv">{{ avgVisitsPerNeighbor | number: '1.1-1' }}</div>
+            <div class="tl">Visitas por vecino <span class="material-icons hint-ic">help_outline</span></div>
+          </div>
+          <div class="tile" title="Puntos que los vecinos gastaron en este local. Es lo que el local cobró en moneda del programa.">
+            <div class="tv">{{ totalPuntos | number }}</div>
+            <div class="tl">Puntos gastados acá <span class="material-icons hint-ic">help_outline</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EMBUDO: reemplaza los 3 tiles + la barra redundante ── -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Embudo de cupones</h3>
+            <div class="card-sub">Del canje con puntos hasta la visita al local</div>
+          </div>
+          <button type="button" class="tbl-toggle" (click)="toggleFunnelTable()" [attr.aria-expanded]="showFunnelTable">
+            <span class="material-icons">table_rows</span>
+            {{ showFunnelTable ? 'Ver gráfico' : 'Ver tabla' }}
+          </button>
+        </div>
+
+        @if (showFunnelTable) {
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Estado</th>
+                <th scope="col" class="num">Cupones</th>
+                <th scope="col" class="num">% del total</th>
+                <th scope="col">Qué significa</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of funnel; track row.key) {
+                <tr>
+                  <th scope="row"><i class="fdot" [style.background]="row.color"></i> {{ row.label }}</th>
+                  <td class="num">{{ row.value | number }}</td>
+                  <td class="num">{{ row.pct | number: '1.0-1' }}%</td>
+                  <td class="muted-cell">{{ row.hint }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <div class="funnel">
+            @for (row of funnel; track row.key) {
+              <div class="frow" [title]="row.hint">
+                <div class="flabel"><i class="fdot" [style.background]="row.color"></i> {{ row.label }}</div>
+                <div class="ftrack">
+                  <div class="fbar" [style.width.%]="row.pct" [style.background]="row.color"></div>
+                </div>
+                <div class="fval">
+                  {{ row.value | number }}
+                  <small>{{ row.pct | number: '1.0-1' }}%</small>
+                </div>
+              </div>
+              @if (row.key === 'canjeados') {
+                <div class="fstep">
+                  <span class="material-icons">subdirectory_arrow_right</span>
+                  {{ conversion }}% llegó a usarse en el local
+                </div>
+              }
+            }
           </div>
         }
       </div>
-    }
 
-    <!-- Charts -->
-    <div class="charts-grid">
-
-      <!-- Bar: estado de cupones -->
-      <div class="chart-card">
-        <h3 class="chart-title">Estado de cupones</h3>
-        <p class="chart-sub">Distribución por estado de canje</p>
-        <div class="chart-container">
-          <canvas baseChart
-            [data]="barData"
-            [options]="barOptions"
-            type="bar">
-          </canvas>
+      <!-- ── POR CUPÓN: el dato accionable, como tabla ── -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Rendimiento por cupón</h3>
+            <div class="card-sub">Cuál trae gente nueva y cuál se queda sin usar</div>
+          </div>
         </div>
+        @if (byCoupon.length === 0) {
+          <div class="empty-hint">Ningún cupón registró canjes en este período.</div>
+        } @else {
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Cupón</th>
+                  <th scope="col" class="num">Canjes</th>
+                  <th scope="col" class="num">Usados</th>
+                  <th scope="col" class="num">Conversión</th>
+                  <th scope="col" class="num">Vecinos nuevos</th>
+                  <th scope="col" class="num">Puntos</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (c of byCoupon; track c.couponId) {
+                  <tr>
+                    <th scope="row">{{ c.title }}</th>
+                    <td class="num">{{ c.total | number }}</td>
+                    <td class="num">{{ c.redemptions | number }}</td>
+                    <td class="num">
+                      <span class="pill" [class]="'pill ' + conversionClass(c.conversion)">{{ c.conversion }}%</span>
+                    </td>
+                    <td class="num">{{ c.newNeighbors | number }}</td>
+                    <td class="num">{{ c.pointsSpent | number }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
       </div>
-
-      <!-- Pie: rango de descuentos -->
-      <div class="chart-card">
-        <h3 class="chart-title">Descuentos aplicados</h3>
-        <p class="chart-sub">Cupones canjeados por rango de descuento</p>
-        <div class="chart-container">
-          <canvas baseChart
-            [data]="pieData"
-            [options]="pieOptions"
-            type="pie">
-          </canvas>
-        </div>
-        <div class="range-legend">
-          <div class="range-item"><span class="dot dot-green"></span>Menor al 25%</div>
-          <div class="range-item"><span class="dot dot-orange"></span>25% – 50%</div>
-          <div class="range-item"><span class="dot dot-blue"></span>50% – 75%</div>
-          <div class="range-item"><span class="dot dot-purple"></span>Mayor al 75%</div>
-        </div>
-      </div>
-
     </div>
-  }
 
+    <!-- ── RAIL DERECHO ── -->
+    <div class="col">
+
+      <!-- Rangos ORDENADOS → rampa secuencial de un solo tono -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Descuentos aplicados</h3>
+            <div
+              class="card-sub"
+              title="Los rangos tienen orden natural, por eso se colorean con una rampa de intensidad y no con colores distintos."
+            >
+              Cupones por rango de descuento <span class="material-icons hint-ic">help_outline</span>
+            </div>
+          </div>
+        </div>
+
+        @if (!hasDiscounts) {
+          <div class="empty-hint">Sin cupones en el período.</div>
+        } @else {
+          @for (row of discountRows; track row.label) {
+            <div class="obar">
+              <div class="olabel">{{ row.label }}</div>
+              <div class="otrack"><div class="ofill" [style.width.%]="row.pct" [style.background]="row.color"></div></div>
+              <div class="oval">{{ row.value | number }}</div>
+            </div>
+          }
+          <div class="scale-legend">
+            <span>Menor descuento</span>
+            <span class="scale-swatches">
+              @for (row of discountRows; track row.label) {
+                <i [style.background]="row.color"></i>
+              }
+            </span>
+            <span>Mayor</span>
+          </div>
+        }
+      </div>
+
+      <!-- Composición de vecinos -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Composición de vecinos</h3>
+            <div class="card-sub">Nuevos vs. los que ya habían venido</div>
+          </div>
+        </div>
+
+        @if (uniqueNeighbors === 0) {
+          <div class="empty-hint">Ningún vecino usó cupones en el período.</div>
+        } @else {
+          <div class="obar">
+            <div class="olabel">Nuevos</div>
+            <div class="otrack">
+              <div class="ofill" [style.width.%]="newNeighborsPct" style="background: #1e9e5a"></div>
+            </div>
+            <div class="oval">{{ newNeighbors | number }}</div>
+          </div>
+          <div class="obar">
+            <div class="olabel">Recurrentes</div>
+            <div class="otrack">
+              <div class="ofill" [style.width.%]="100 - newNeighborsPct" style="background: #7fcda4"></div>
+            </div>
+            <div class="oval">{{ recurringNeighbors | number }}</div>
+          </div>
+          <div class="composition-note">
+            <b>{{ newNeighborsPct }}%</b> de los vecinos del período llegó por primera vez
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
 </div>

@@ -40,25 +40,6 @@ export class ConsultarLocalesComponent implements OnInit {
     this.router.navigate(['/entidad/consultar-locales', id, 'roi'])
   }
 
-  toggleLocal(id: string) {
-    const local = this.locales.find(l => l.id === id)
-    if (!local) return
-    const activar = local.isActive !== 'Habilitado'
-    const titulo = activar ? '¿Habilitar este local?' : '¿Deshabilitar este local?'
-
-    Swal.fire({
-      title: titulo,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar'
-    }).then(result => {
-      if (result.isConfirmed) {
-        this.localService.update({ isActive: activar }, id).subscribe(() => this.listLocales())
-      }
-    })
-  }
-
   listLocales() {
     const entidadInfo = JSON.parse(this.storage.getItem('entidadInfo') || '{}')
     this.localService.list(entidadInfo.id, true).subscribe({

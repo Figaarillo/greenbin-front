@@ -71,12 +71,16 @@
                 @if (column.key === 'actions') {
                   <td>
                     <div class="actions">
-                      <button class="ic-btn edit" type="button" title="Editar" (click)="editAction(row.id)">
-                        <span class="material-icons">edit</span>
-                      </button>
-                      <button class="ic-btn del" type="button" title="Eliminar" (click)="deleteAction(row.id)">
-                        <span class="material-icons">delete</span>
-                      </button>
+                      @if (showEdit) {
+                        <button class="ic-btn edit" type="button" [title]="editLabel" (click)="editAction(row.id)">
+                          <span class="material-icons">{{ editIcon }}</span>
+                        </button>
+                      }
+                      @if (showDelete) {
+                        <button class="ic-btn del" type="button" [title]="deleteLabel" (click)="deleteAction(row.id)">
+                          <span class="material-icons">{{ deleteIcon }}</span>
+                        </button>
+                      }
                     </div>
                   </td>
                 } @else {

@@ -1,3 +1,15 @@
 <div data-role="entidad">
-  <app-table [columns]="columns" [title]="title" [tableData]="locales" [loading]="loading" (edit)="verRoi($event)" (delete)="toggleLocal($event)"></app-table>
+  <!-- Sin acción de deshabilitar: PUT /api/reward-partner/:id está protegido con
+       protectOwner(REWARD_PARTNER), o sea que sólo el propio local puede
+       modificar sus datos. La entidad únicamente consulta. -->
+  <app-table
+    [columns]="columns"
+    [title]="title"
+    [tableData]="locales"
+    [loading]="loading"
+    [showDelete]="false"
+    editIcon="insights"
+    editLabel="Ver ROI del local"
+    (edit)="verRoi($event)"
+  ></app-table>
 </div>

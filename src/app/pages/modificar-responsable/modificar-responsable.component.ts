@@ -70,6 +70,15 @@ export class ModificarResponsableComponent implements OnInit {
     }
   }
 
+  /** Descarta cualquier carácter que no sea dígito mientras se tipea. */
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement
+    const soloDigitos = input.value.replace(/\D/g, '')
+    if (soloDigitos === input.value) return
+    input.value = soloDigitos
+    this.form.get('phoneNumber')?.setValue(soloDigitos, { emitEvent: false })
+  }
+
   onSubmit() {
     if (this.embedded) {
       // El sheet ya exige un tap explícito en "Guardar": sin confirmación doble de SweetAlert.
@@ -97,29 +106,36 @@ export class ModificarResponsableComponent implements OnInit {
       .then(result => {
         if (result.isConfirmed) {
           if (this.form.valid && this.id) {
-            this.service.update(<Responsable>this.form.value, this.id).subscribe(() => {
-              swalWithBootstrapButtons
-                .fire({
-                  title: '¡El Usuario ha sido modificado.!',
-
-                  icon: 'success'
+            this.service.update(<Responsable>this.form.value, this.id).subscribe({
+              next: () => {
+                swalWithBootstrapButtons
+                  .fire({
+                    title: '¡El Usuario ha sido modificado.!',
+                    icon: 'success'
+                  })
+                  .then(() => {
+                    this.storage.setItem('respoEdit', 'false')
+                    this.router.navigate([this.ruta])
+                  })
+              },
+              // Sin esto, un 409 por usuario repetido no mostraba absolutamente nada.
+              error: (err: { error?: { message?: string } }) => {
+                swalWithBootstrapButtons.fire({
+                  title: 'No se pudo guardar',
+                  text: err?.error?.message ?? 'Revisá los datos e intentá de nuevo.',
+                  icon: 'error'
                 })
-                .then(() => {
-                  this.storage.setItem('respoEdit', 'false')
-                  this.router.navigate([this.ruta])
-                })
+              }
             })
           } else {
-            swalWithBootstrapButtons
-              .fire({
-                title: 'Ha ocurrido un error',
-                icon: 'error'
-              })
-              .then(result => {
-                if (result.isConfirmed) {
-                  this.router.navigate(['/modificar-responsable']) // Navega al home si se cancela
-                }
-              })
+            // Antes navegaba a '/modificar-responsable' (sin :id), una ruta que no
+            // existe: de ahí el NG04002. El formulario inválido se corrige acá mismo.
+            this.form.markAllAsTouched()
+            swalWithBootstrapButtons.fire({
+              title: 'Revisá los datos',
+              text: 'Hay campos con errores. El teléfono debe tener solo números (10 a 15 dígitos).',
+              icon: 'error'
+            })
           }
         } else {
           swalWithBootstrapButtons.fire({

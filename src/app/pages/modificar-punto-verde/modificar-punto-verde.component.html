@@ -36,16 +36,54 @@
         <div class="fset-head">
           <div class="ic"><span class="material-icons">place</span></div>
           <h4>Ubicación</h4>
-          <p>Dirección del punto dentro del municipio.</p>
+          <p>Cambiá la dirección y ajustá la posición exacta haciendo click en el mapa.</p>
         </div>
         <div class="fset-fields">
-          <mat-form-field class="full">
-            <mat-label>Dirección</mat-label>
-            <input matInput formControlName="address">
-            @if (form.get('address')!.hasError('required')) {
-              <mat-error>Ingrese una dirección</mat-error>
+          <div class="full address-row">
+            <mat-form-field class="address-field">
+              <mat-label>Dirección</mat-label>
+              <input matInput formControlName="address">
+              @if (form.get('address')!.hasError('required')) {
+                <mat-error>Ingrese una dirección</mat-error>
+              }
+            </mat-form-field>
+            <button
+              mat-flat-button
+              color="accent"
+              type="button"
+              (click)="coordsByAddress()"
+              [disabled]="form.get('address')!.invalid"
+            >
+              Localizar
+            </button>
+          </div>
+
+          <div class="full map-slot">
+            @if (initialCenter) {
+              @defer (on immediate) {
+                <app-map-input
+                  [type]="'punto-verde'"
+                  [initialCenter]="initialCenter"
+                  [city]="city"
+                  (coordinates)="getCoordinates($event)"
+                ></app-map-input>
+              } @placeholder {
+                <div class="map-placeholder">Cargando mapa…</div>
+              }
             }
-          </mat-form-field>
+          </div>
+
+          <!-- Las coordenadas se muestran, no se escriben a mano: el punto del
+               mapa es la fuente de verdad y así se ve qué se va a guardar. -->
+          <div class="full coords-readout">
+            <span class="material-icons">my_location</span>
+            @if (form.get('latitude')!.value && form.get('longitude')!.value) {
+              Posición seleccionada:
+              <b>{{ form.get('latitude')!.value | number: '1.5-5' }}, {{ form.get('longitude')!.value | number: '1.5-5' }}</b>
+            } @else {
+              Sin posición: tocá el mapa para ubicar el punto verde.
+            }
+          </div>
         </div>
       </div>
 

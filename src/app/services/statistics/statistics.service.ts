@@ -18,10 +18,34 @@ export class StatisticsService {
     return this.http.get(`${this.url}/entity/${entityId}/total-recycled`, { params })
   }
 
-  getGreenPointsRanking(entityId: string, from?: string, to?: string): Observable<any> {
+  getCo2Avoided(entityId: string, from?: string, to?: string): Observable<any> {
     let params = new HttpParams()
     if (from) params = params.set('from', from)
     if (to) params = params.set('to', to)
+    return this.http.get(`${this.url}/entity/${entityId}/co2-avoided`, { params })
+  }
+
+  getPointsBalance(entityId: string): Observable<any> {
+    return this.http.get(`${this.url}/entity/${entityId}/points-balance`)
+  }
+
+  getEntityCounts(entityId: string): Observable<any> {
+    return this.http.get(`${this.url}/entity/${entityId}/counts`)
+  }
+
+  getRewardPartnersRanking(entityId: string, from?: string, to?: string, limit?: number): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    if (limit != null) params = params.set('limit', String(limit))
+    return this.http.get(`${this.url}/entity/${entityId}/reward-partners-ranking`, { params })
+  }
+
+  getGreenPointsRanking(entityId: string, from?: string, to?: string, limit?: number): Observable<any> {
+    let params = new HttpParams()
+    if (from) params = params.set('from', from)
+    if (to) params = params.set('to', to)
+    if (limit != null) params = params.set('limit', String(limit))
     return this.http.get(`${this.url}/entity/${entityId}/green-points-ranking`, { params })
   }
 

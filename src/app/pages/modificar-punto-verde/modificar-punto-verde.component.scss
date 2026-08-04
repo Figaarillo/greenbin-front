@@ -21,3 +21,59 @@
   box-shadow: 0 4px 14px var(--accent-soft);
   border: none;
 }
+
+
+// ── Ubicación: mismos estilos que el alta de punto verde ──────────────
+// La dirección y el botón Localizar comparten fila dentro de la sección.
+.address-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  .address-field {
+    flex: 1;
+  }
+
+  button {
+    margin-top: 6px;
+    border-radius: var(--r-pill);
+  }
+}
+
+.map-slot {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.map-placeholder {
+  height: 300px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-2);
+  border-radius: var(--r-field);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+
+.coords-readout {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 9px 12px;
+  border-radius: var(--r-field, 12px);
+  background: var(--surface-2, #eef3ec);
+  color: var(--muted);
+  font-size: 12.5px;
+
+  .material-icons {
+    font-size: 17px;
+    color: var(--green, #1e9e5a);
+  }
+
+  b {
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+}

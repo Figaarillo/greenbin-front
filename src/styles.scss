@@ -1112,6 +1112,10 @@ h6 {
   z-index: 10;
   overflow: hidden;
 
+  // Círculo decorativo. Al ser el último hijo posicionado del hero se pinta
+  // ENCIMA de .hero-actions y se comía los clicks de los botones de la esquina
+  // superior derecha (Volver, rango "Personalizado", Aplicar). Es puro adorno:
+  // no debe recibir eventos de puntero.
   &::after {
     content: '';
     position: absolute;
@@ -1121,6 +1125,7 @@ h6 {
     height: 220px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
   }
 
   .hero-top {
