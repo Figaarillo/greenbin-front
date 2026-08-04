@@ -41,16 +41,23 @@ interface RangeRow {
 
 const DAY_MS = 86400000
 
-// Estados de cupón: paleta de STATUS, no colores de serie. El ámbar queda bajo
-// 3:1 contra la superficie, por eso toda marca lleva su valor escrito al lado.
-const ST_TOTAL = '#0a3a23'
-const ST_USADO = '#1e9e5a'
-const ST_SIN_USAR = '#e0a019'
-const ST_VENCIDO = '#e5484d'
+// Estados de cupón: paleta de STATUS. Los estados se separan por LUMINOSIDAD
+// además de por tono — verde y rojo con la misma claridad son indistinguibles
+// en deuteranopía (el par original daba ΔE 4,1; este da 8,7).
+// El ámbar queda en 2:1 contra la superficie, por eso toda marca lleva su valor
+// escrito al lado y la tarjeta ofrece vista de tabla.
+const ST_TOTAL = '#243330'
+const ST_USADO = '#2f8f63'
+const ST_SIN_USAR = '#e0b04a'
+const ST_VENCIDO = '#8f3540'
 
 // Los rangos de descuento son categorías ORDENADAS: rampa de un solo tono
-// claro→oscuro (luminosidad monótona), nunca cuatro colores distintos.
-const SEQ = ['#c3e8d3', '#7fcda4', '#2f9e63', '#0f5132']
+// claro→oscuro (luminosidad monótona verificada).
+//
+// Es azul y no verde a propósito: en verde se confundía con el estado "usados"
+// del embudo, y en ámbar sumaba amarillo sobre el acento del local. Neutra, no
+// compite con ninguno de los dos roles (ΔE 15,4 contra el verde de estado).
+const SEQ = ['#e4e8f4', '#b0bfe0', '#6c81b0', '#3b4d76']
 
 @Component({
   selector: 'app-estadisticas-local',
@@ -78,7 +85,7 @@ export class EstadisticasLocalComponent implements OnInit {
 
   /** true cuando entra por la ruta de entidad (viendo el ROI de un local ajeno). */
   viewingAsEntity = false
-  navTitle = 'Estadísticas'
+  navTitle = 'Mi retorno'
   navBackRoute = '/local'
 
   // ── Filtro de período ──

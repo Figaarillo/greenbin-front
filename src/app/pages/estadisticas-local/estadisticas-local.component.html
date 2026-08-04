@@ -7,7 +7,9 @@
   <app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
 }
 
-<div class="roi" data-role="entidad">
+<!-- El acento sale del rol que esta mirando: verde entidad cuando revisa
+     un local ajeno, ambar local cuando el local ve su propio retorno. -->
+<div class="roi" [attr.data-role]="viewingAsEntity ? 'entidad' : 'local'">
 
   <!-- ── Toolbar de período: UNA fila, arriba de todo lo que filtra.
        El título ya lo pone el navbar, así que acá no se repite. ── -->
@@ -269,14 +271,14 @@
           <div class="obar">
             <div class="olabel">Nuevos</div>
             <div class="otrack">
-              <div class="ofill" [style.width.%]="newNeighborsPct" style="background: #1e9e5a"></div>
+              <div class="ofill" [style.width.%]="newNeighborsPct" style="background: #3b4d76"></div>
             </div>
             <div class="oval">{{ newNeighbors | number }}</div>
           </div>
           <div class="obar">
             <div class="olabel">Recurrentes</div>
             <div class="otrack">
-              <div class="ofill" [style.width.%]="100 - newNeighborsPct" style="background: #7fcda4"></div>
+              <div class="ofill" [style.width.%]="100 - newNeighborsPct" style="background: #b0bfe0"></div>
             </div>
             <div class="oval">{{ recurringNeighbors | number }}</div>
           </div>

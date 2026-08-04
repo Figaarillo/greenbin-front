@@ -576,6 +576,25 @@
     padding: 16px 14px 40px;
   }
 
+  .card {
+    padding: 16px 15px;
+  }
+
+  // La tabla se corta en pantallas angostas y el corte no se nota: se avisa que
+  // hay mas columnas a la derecha en vez de dejarlas escondidas.
+  .table-scroll {
+    position: relative;
+
+    &::after {
+      content: 'Deslizá para ver el resto de las columnas →';
+      display: block;
+      padding-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+  }
+
   .tiles {
     grid-template-columns: 1fr;
   }
