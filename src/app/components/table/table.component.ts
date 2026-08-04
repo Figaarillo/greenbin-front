@@ -27,6 +27,16 @@ export class TableComponent implements OnChanges {
   @Input() createRoute = ''
   @Input() loading = false
 
+  // Acciones configurables. Los defaults reproducen el comportamiento previo
+  // (editar + eliminar) para no tocar las pantallas que ya funcionaban; una
+  // pantalla que no puede mutar la fila apaga el botón que corresponda.
+  @Input() showEdit = true
+  @Input() showDelete = true
+  @Input() editIcon = 'edit'
+  @Input() editLabel = 'Editar'
+  @Input() deleteIcon = 'delete'
+  @Input() deleteLabel = 'Eliminar'
+
   tableColumns: Column[] = []
 
   @Input() set columns(columns: Column[]) {
