@@ -7,13 +7,20 @@ import { EstadisticasLocalComponent } from './estadisticas-local.component'
 import { API_BASE_URL } from '../../config/api.config'
 import { StorageService } from '../../services/storage/storage.service'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
+import { SwPush } from '@angular/service-worker'
+import { EMPTY } from 'rxjs'
 
 const API = 'http://test'
 const LOCAL_ID = 'local-1'
 
+/** Id que devuelve la ruta. `null` = el local mirando su propio retorno. */
+let routeId: string | null = LOCAL_ID
+
 class StorageStub {
-  getItem(): string | null {
-    return null
+  // Cuando la ruta no trae :id, el componente resuelve el local desde el perfil
+  // guardado en 'usuarioInfo' — asi es como entra el propio local.
+  getItem(key: string): string | null {
+    return key === 'usuarioInfo' ? JSON.stringify({ id: LOCAL_ID }) : null
   }
   setItem(): void {}
   removeItem(): void {}
@@ -60,6 +67,7 @@ describe('EstadisticasLocalComponent', () => {
   const matchStats = (): TestRequest[] => httpMock.match(req => req.url === statsUrl)
 
   beforeEach(() => {
+    routeId = LOCAL_ID
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
@@ -67,7 +75,10 @@ describe('EstadisticasLocalComponent', () => {
         provideRouter([]),
         { provide: API_BASE_URL, useValue: API },
         { provide: StorageService, useClass: StorageStub },
-        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => LOCAL_ID } } } }
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => routeId } } } },
+        // Como local, el template monta la campana de notificaciones, que cuelga
+        // de SwPush; sólo existe con el service worker registrado.
+        { provide: SwPush, useValue: { isEnabled: false, messages: EMPTY, notificationClicks: EMPTY } }
       ]
     })
 
@@ -78,6 +89,24 @@ describe('EstadisticasLocalComponent', () => {
 
   afterEach(() => {
     httpMock.verify()
+  })
+
+  it('el local ve la pantalla con su propio acento, no el de entidad', () => {
+    // Sin :id en la ruta => es el local mirando su propio retorno.
+    routeId = null
+    const fixture = TestBed.createComponent(EstadisticasLocalComponent)
+    fixture.detectChanges()
+    matchStats()[0].flush({ data: STATS })
+    fixture.detectChanges()
+
+    const root = (fixture.nativeElement as HTMLElement).querySelector('.roi')!
+    expect(root.getAttribute('data-role')).toBe('local')
+    expect(fixture.componentInstance.viewingAsEntity).toBe(false)
+    expect(fixture.componentInstance.navTitle).toBe('Mi retorno')
+
+    // La campana de notificaciones pide su contador al montarse.
+    httpMock.match(() => true).forEach(r => !r.cancelled && r.flush({ data: 0 }))
+    fixture.destroy()
   })
 
   it('entrando por la ruta de entidad se muestra como Panel de ROI', () => {
@@ -207,6 +236,18 @@ describe('EstadisticasLocalComponent', () => {
       expect(text).toContain('10% en compras superiores a $8.000')
       expect(text).toContain('Menor descuento')
       expect(text).toContain('35%')
+
+      fixture.destroy()
+    })
+
+    it('la entidad ve la pantalla con el acento de entidad', () => {
+      const fixture = TestBed.createComponent(EstadisticasLocalComponent)
+      fixture.detectChanges()
+      matchStats()[0].flush({ data: STATS })
+      fixture.detectChanges()
+
+      const root = (fixture.nativeElement as HTMLElement).querySelector('.roi')!
+      expect(root.getAttribute('data-role')).toBe('entidad')
 
       fixture.destroy()
     })

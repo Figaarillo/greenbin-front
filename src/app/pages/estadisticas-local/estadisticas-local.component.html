@@ -7,7 +7,9 @@
   <app-navbar [title]="navTitle" [route]="navBackRoute"></app-navbar>
 }
 
-<div class="roi" data-role="entidad">
+<!-- El acento sale del rol que esta mirando: verde entidad cuando revisa
+     un local ajeno, ambar local cuando el local ve su propio retorno. -->
+<div class="roi" [attr.data-role]="viewingAsEntity ? 'entidad' : 'local'">
 
   <!-- ── Toolbar de período: UNA fila, arriba de todo lo que filtra.
        El título ya lo pone el navbar, así que acá no se repite. ── -->

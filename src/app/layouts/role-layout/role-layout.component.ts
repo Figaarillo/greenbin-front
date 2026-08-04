@@ -138,6 +138,9 @@ export class RoleLayoutComponent implements OnInit, OnDestroy {
           { icon: 'confirmation_number', label: 'Mis cupones', route: '/local/cupones-ofrecidos' },
           { icon: 'confirmation_number', label: 'Crear cupón', route: '/local/registrar-cupon' },
           { icon: 'qr_code_scanner', label: 'Usar cupón', route: '/local/usar-cupon' },
+          // La ruta existia desde siempre pero no la linkeaba nadie: el local no
+          // tenia forma de llegar a su propio panel de retorno.
+          { icon: 'insights', label: 'Mi retorno (ROI)', route: '/local/estadisticas-local' },
           { icon: 'close', label: 'Cerrar Sesión', route: '' }
         ]
       }

@@ -78,7 +78,7 @@ export class EstadisticasLocalComponent implements OnInit {
 
   /** true cuando entra por la ruta de entidad (viendo el ROI de un local ajeno). */
   viewingAsEntity = false
-  navTitle = 'Estadísticas'
+  navTitle = 'Mi retorno'
   navBackRoute = '/local'
 
   // ── Filtro de período ──
