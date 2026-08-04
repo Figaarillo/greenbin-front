@@ -4,15 +4,53 @@ import { CommonModule, isPlatformBrowser } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ActivatedRoute, RouterModule } from '@angular/router'
 import { MatIconModule } from '@angular/material/icon'
-import { NgChartsModule } from 'ng2-charts'
-import { Chart, registerables, ChartData, ChartOptions } from 'chart.js'
 import { LocalAdheridoService } from '../../services/local-adherido/local-adherido.service'
 import { NavbarComponent } from '../../components/navbar/navbar.component'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
 import { NotificationPanelComponent } from '../../components/notification-panel/notification-panel.component'
 
-Chart.register(...registerables)
+type RangeKey = '7d' | '30d' | '90d' | '1y' | 'custom'
+
+interface CouponRow {
+  couponId: string
+  title: string
+  total: number
+  redemptions: number
+  uniqueNeighbors: number
+  newNeighbors: number
+  pointsSpent: number
+  conversion: number
+}
+
+interface FunnelRow {
+  key: string
+  label: string
+  hint: string
+  value: number
+  pct: number
+  color: string
+}
+
+interface RangeRow {
+  label: string
+  value: number
+  pct: number
+  color: string
+}
+
+const DAY_MS = 86400000
+
+// Estados de cupón: paleta de STATUS, no colores de serie. El ámbar queda bajo
+// 3:1 contra la superficie, por eso toda marca lleva su valor escrito al lado.
+const ST_TOTAL = '#0a3a23'
+const ST_USADO = '#1e9e5a'
+const ST_SIN_USAR = '#e0a019'
+const ST_VENCIDO = '#e5484d'
+
+// Los rangos de descuento son categorías ORDENADAS: rampa de un solo tono
+// claro→oscuro (luminosidad monótona), nunca cuatro colores distintos.
+const SEQ = ['#c3e8d3', '#7fcda4', '#2f9e63', '#0f5132']
 
 @Component({
   selector: 'app-estadisticas-local',
@@ -22,7 +60,6 @@ Chart.register(...registerables)
     FormsModule,
     RouterModule,
     MatIconModule,
-    NgChartsModule,
     NavbarComponent,
     SkeletonComponent,
     NotificationBellComponent,
@@ -37,64 +74,45 @@ export class EstadisticasLocalComponent implements OnInit {
   private route = inject(ActivatedRoute)
   private rewardPartnerId = ''
   loading = true
+  error = false
 
   /** true cuando entra por la ruta de entidad (viendo el ROI de un local ajeno). */
   viewingAsEntity = false
   navTitle = 'Estadísticas'
   navBackRoute = '/local'
 
+  // ── Filtro de período ──
+  selectedRange: RangeKey = '90d'
   dateFrom = ''
   dateTo = ''
+  rangeLabel = ''
   hasData = false
 
+  // ── Totales ──
   totalAdquirido = 0
   totalUsado = 0
   totalExpirado = 0
   totalPuntos = 0
+  totalCanjeado = 0
 
-  // ROI: valor de negocio para el local (clientes, no solo cupones)
+  // ── ROI: valor de negocio para el local (clientes, no sólo cupones) ──
   uniqueNeighbors = 0
   newNeighbors = 0
+  recurringNeighbors = 0
+  newNeighborsPct = 0
   avgVisitsPerNeighbor = 0
-  byCoupon: Array<{
-    couponId: string
-    title: string
-    redemptions: number
-    uniqueNeighbors: number
-    newNeighbors: number
-    pointsSpent: number
-  }> = []
 
-  barData: ChartData<'bar'> = {
-    labels: ['Adquirido', 'Usado', 'Expirado'],
-    datasets: [{ data: [], label: 'Cupones', backgroundColor: ['#2196f3', '#4caf50', '#f44336'] }]
-  }
-  barOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-  }
+  // ── Embudo ──
+  funnel: FunnelRow[] = []
+  /** Porcentaje de lo canjeado que terminó en una visita al local. */
+  conversion = 0
+  showFunnelTable = false
 
-  pieData: ChartData<'pie'> = {
-    labels: ['< 25%', '25% – 50%', '50% – 75%', '> 75%'],
-    datasets: [{ data: [], backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#9c27b0'] }]
-  }
-  pieOptions: ChartOptions<'pie'> = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'bottom' },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            const total = (ctx.dataset.data as number[]).reduce((a, b) => a + b, 0)
-            const value = ctx.parsed as number
-            const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0'
-            return ` ${ctx.label}: ${value} cupones (${pct}%)`
-          }
-        }
-      }
-    }
-  }
+  // ── Rangos de descuento (ordenados) ──
+  discountRows: RangeRow[] = []
+  hasDiscounts = false
+
+  byCoupon: CouponRow[] = []
 
   constructor(private localService: LocalAdheridoService) {}
 
@@ -112,66 +130,150 @@ export class EstadisticasLocalComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) this.loadData()
   }
 
+  setRange(range: RangeKey): void {
+    this.selectedRange = range
+    if (range !== 'custom') this.loadData()
+  }
+
+  applyCustomRange(): void {
+    if (this.dateFrom || this.dateTo) this.loadData()
+  }
+
+  toggleFunnelTable(): void {
+    this.showFunnelTable = !this.showFunnelTable
+  }
+
   loadData(): void {
     this.loading = true
-    const from = this.dateFrom ? new Date(this.dateFrom).toISOString() : undefined
-    const to = this.dateTo ? new Date(this.dateTo + 'T23:59:59').toISOString() : undefined
+    this.error = false
+    const { from, to } = this.currentWindow()
+    this.updateRangeLabel(from, to)
 
     this.localService.getRewardPartnerStats(this.rewardPartnerId, from, to).subscribe({
       next: (resp: any) => {
         this.applyStats(resp.data)
         this.loading = false
       },
-      error: () => (this.loading = false)
+      error: () => {
+        this.error = true
+        this.loading = false
+      }
     })
   }
 
-  applyGlobalFilter(): void {
-    this.loadData()
+  /**
+   * Se mandan instantes exactos resueltos en la zona del usuario. Usar
+   * `toISOString()` sobre una fecha suelta la convierte a UTC y corre el rango
+   * un día; y un `to` a medianoche descarta todo lo del día en curso.
+   */
+  private currentWindow(): { from?: string; to?: string } {
+    if (this.selectedRange === 'custom') {
+      return {
+        from: this.dateFrom ? this.startOfDay(this.dateFrom) : undefined,
+        to: this.dateTo ? this.endOfDay(this.dateTo) : undefined
+      }
+    }
+    const days: Record<Exclude<RangeKey, 'custom'>, number> = { '7d': 7, '30d': 30, '90d': 90, '1y': 365 }
+    const now = new Date()
+    const from = new Date(now.getTime() - days[this.selectedRange] * DAY_MS)
+    from.setHours(0, 0, 0, 0)
+    const to = new Date(now)
+    to.setHours(23, 59, 59, 999)
+    return { from: from.toISOString(), to: to.toISOString() }
   }
 
-  clearGlobalFilter(): void {
-    this.dateFrom = ''
-    this.dateTo = ''
-    this.loadData()
+  private startOfDay(iso: string): string {
+    const [y, m, d] = iso.split('-').map(Number)
+    return new Date(y, m - 1, d, 0, 0, 0, 0).toISOString()
+  }
+
+  private endOfDay(iso: string): string {
+    const [y, m, d] = iso.split('-').map(Number)
+    return new Date(y, m - 1, d, 23, 59, 59, 999).toISOString()
+  }
+
+  private updateRangeLabel(from?: string, to?: string): void {
+    if (!from || !to) {
+      this.rangeLabel = 'Todo el historial'
+      return
+    }
+    const fmt = (iso: string) =>
+      new Date(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' })
+    this.rangeLabel = `${fmt(from)} – ${fmt(to)}`
   }
 
   private applyStats(stats: any): void {
-    this.hasData = stats.totalAdquirido + stats.totalUsado + stats.totalExpirado > 0
+    this.totalAdquirido = stats.totalAdquirido ?? 0
+    this.totalUsado = stats.totalUsado ?? 0
+    this.totalExpirado = stats.totalExpirado ?? 0
+    this.totalPuntos = stats.totalPuntos ?? 0
+    this.totalCanjeado = this.totalAdquirido + this.totalUsado + this.totalExpirado
+    this.hasData = this.totalCanjeado > 0
 
-    this.totalAdquirido = stats.totalAdquirido
-    this.totalUsado = stats.totalUsado
-    this.totalExpirado = stats.totalExpirado
-    this.totalPuntos = stats.totalPuntos
-    this.uniqueNeighbors = stats.uniqueNeighbors
-    this.newNeighbors = stats.newNeighbors
-    this.avgVisitsPerNeighbor = stats.avgVisitsPerNeighbor
-    this.byCoupon = stats.byCoupon
+    this.uniqueNeighbors = stats.uniqueNeighbors ?? 0
+    this.newNeighbors = stats.newNeighbors ?? 0
+    this.recurringNeighbors = Math.max(this.uniqueNeighbors - this.newNeighbors, 0)
+    this.newNeighborsPct = this.uniqueNeighbors > 0 ? Math.round((this.newNeighbors / this.uniqueNeighbors) * 100) : 0
+    this.avgVisitsPerNeighbor = stats.avgVisitsPerNeighbor ?? 0
+    this.conversion = this.totalCanjeado > 0 ? Math.round((this.totalUsado / this.totalCanjeado) * 100) : 0
 
-    this.barData = {
-      labels: ['Adquirido', 'Usado', 'Expirado'],
-      datasets: [
-        {
-          data: [this.totalAdquirido, this.totalUsado, this.totalExpirado],
-          label: 'Cupones',
-          backgroundColor: ['#2196f3', '#4caf50', '#f44336']
-        }
-      ]
-    }
+    const pct = (value: number): number => (this.totalCanjeado > 0 ? (value / this.totalCanjeado) * 100 : 0)
+    this.funnel = [
+      {
+        key: 'canjeados',
+        label: 'Canjeados',
+        hint: 'Cupones que los vecinos compraron con sus puntos',
+        value: this.totalCanjeado,
+        pct: 100,
+        color: ST_TOTAL
+      },
+      {
+        key: 'usados',
+        label: 'Usados',
+        hint: 'El vecino presentó el cupón en el local',
+        value: this.totalUsado,
+        pct: pct(this.totalUsado),
+        color: ST_USADO
+      },
+      {
+        key: 'sinusar',
+        label: 'Sin usar',
+        hint: 'Canjeados y todavía vigentes, sin presentar',
+        value: this.totalAdquirido,
+        pct: pct(this.totalAdquirido),
+        color: ST_SIN_USAR
+      },
+      {
+        key: 'vencidos',
+        label: 'Vencidos',
+        hint: 'Expiraron antes de que el vecino los usara',
+        value: this.totalExpirado,
+        pct: pct(this.totalExpirado),
+        color: ST_VENCIDO
+      }
+    ]
 
-    this.pieData = {
-      labels: ['< 25%', '25% – 50%', '50% – 75%', '> 75%'],
-      datasets: [
-        {
-          data: [
-            stats.discountRanges.lt25,
-            stats.discountRanges.from25to50,
-            stats.discountRanges.from50to75,
-            stats.discountRanges.gt75
-          ],
-          backgroundColor: ['#4caf50', '#ff9800', '#2196f3', '#9c27b0']
-        }
-      ]
-    }
+    const ranges = stats.discountRanges ?? { lt25: 0, from25to50: 0, from50to75: 0, gt75: 0 }
+    const values = [ranges.lt25 ?? 0, ranges.from25to50 ?? 0, ranges.from50to75 ?? 0, ranges.gt75 ?? 0]
+    const maxRange = Math.max(...values, 1)
+    this.hasDiscounts = values.some(v => v > 0)
+    this.discountRows = ['Menor a 25%', '25% – 50%', '50% – 75%', 'Mayor a 75%'].map((label, i) => ({
+      label,
+      value: values[i],
+      pct: (values[i] / maxRange) * 100,
+      color: SEQ[i]
+    }))
+
+    this.byCoupon = ((stats.byCoupon ?? []) as CouponRow[]).map(c => ({
+      ...c,
+      conversion: c.total > 0 ? Math.round((c.redemptions / c.total) * 100) : 0
+    }))
+  }
+
+  /** Semáforo de la conversión por cupón: acompaña al número, no lo reemplaza. */
+  conversionClass(pct: number): string {
+    if (pct >= 65) return 'good'
+    if (pct >= 45) return 'mid'
+    return 'low'
   }
 }
