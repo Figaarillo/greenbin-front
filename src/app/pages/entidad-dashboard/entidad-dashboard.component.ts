@@ -41,6 +41,13 @@ Chart.register(...registerables)
 const CATEGORY_COLORS = ['#1e9e5a', '#e0a019', '#3a77b5', '#e5484d', '#7c3aed', '#34d399', '#a3782f', '#0f5132']
 const RANKING_LIMIT = 10
 
+// Mismos estados de cupón que el panel de ROI del local. Separados por
+// luminosidad además de por tono: verde y rojo con la misma claridad no se
+// distinguen en deuteranopía (el par original daba ΔE 4,1; este da 8,7).
+const ST_USADO = '#2f8f63'
+const ST_SIN_USAR = '#e0b04a'
+const ST_VENCIDO = '#8f3540'
+
 // ── BLOQUE DESMONTABLE: equivalencias de CO2 ────────────────────────────────
 // Si se decide sacar la equivalencia del dashboard, alcanza con borrar esta
 // constante, `co2Trees`, `co2DetailOpen`, `toggleCo2Detail()`, el getter
@@ -523,21 +530,21 @@ export class EntidadDashboardComponent implements OnInit {
         {
           data: data.map(d => d.used),
           label: 'Usados',
-          backgroundColor: '#1e9e5a',
+          backgroundColor: ST_USADO,
           borderRadius: 4,
           maxBarThickness: 22
         },
         {
           data: data.map(d => d.acquired),
           label: 'Sin usar',
-          backgroundColor: '#e0a019',
+          backgroundColor: ST_SIN_USAR,
           borderRadius: 4,
           maxBarThickness: 22
         },
         {
           data: data.map(d => d.expired),
           label: 'Vencidos',
-          backgroundColor: '#e5484d',
+          backgroundColor: ST_VENCIDO,
           borderRadius: 4,
           maxBarThickness: 22
         }

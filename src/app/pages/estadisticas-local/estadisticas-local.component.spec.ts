@@ -190,8 +190,9 @@ describe('EstadisticasLocalComponent', () => {
       expect(component.hasDiscounts).toBe(true)
       expect(component.discountRows.map(r => r.value)).toEqual([30, 8, 2, 1])
       expect(component.discountRows[0].pct).toBe(100)
-      // Un solo tono, de más claro a más oscuro.
-      expect(component.discountRows.map(r => r.color)).toEqual(['#c3e8d3', '#7fcda4', '#2f9e63', '#0f5132'])
+      // Un solo tono, de más claro a más oscuro. Es azul y no verde para no
+      // confundirse con el estado "usados" del embudo.
+      expect(component.discountRows.map(r => r.color)).toEqual(['#e4e8f4', '#b0bfe0', '#6c81b0', '#3b4d76'])
     })
 
     it('marca que no hay descuentos cuando todos los rangos están en cero', () => {
