@@ -2,62 +2,6 @@
   @if (!embedded) {
     <app-navbar [title]="'Editar Responsable'" [route]="ruta"></app-navbar>
   }
-  <div [class]="embedded ? 'embedded-body' : 'container mt-3'">
-    @if(form){
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div [class]="embedded ? '' : 'field-card'">
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" formControlName="firstname">
-            @if (form.get('firstname')!.hasError('required')) {
-              <mat-error>Ingrese un nombre</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Apellido</mat-label>
-            <input matInput placeholder="Apellido" formControlName="lastname">
-            @if (form.get('lastname')!.hasError('required')) {
-              <mat-error>Ingrese un apellido</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>DNI</mat-label>
-            <input type="number" matInput placeholder="DNI" formControlName="dni">
-            @if (form.get('dni')!.hasError('required')) {
-              <mat-error>Ingrese un DNI</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Nombre de Usuario</mat-label>
-            <input matInput placeholder="Nombre de Usuario" formControlName="username">
-            @if (form.get('username')!.hasError('required')) {
-              <mat-error>Ingrese un Nombre de Usuario</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Teléfono</mat-label>
-            <span matTextPrefix>+54 &nbsp;</span>
-            <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
-            @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
-              <mat-error>Ingrese un teléfono válido</mat-error>
-            }
-            @if (form.get('phoneNumber')!.hasError('required')) {
-              <mat-error>Ingrese un teléfono</mat-error>
-            }
-          </mat-form-field>
-        </div>
-        @if (embedded) {
-          <div class="btn-row">
-            <button mat-stroked-button class="btn-pill-cancel" type="button" (click)="saved.emit()">Cancelar</button>
-            <button mat-raised-button class="btn-pill-save" type="submit">Guardar</button>
-          </div>
-        } @else {
-          <button mat-raised-button class="btn-primary-custom" type="submit">Guardar cambios</button>
-        }
-      </form>
-    }
-  </div>
-
   @if(form){
     <form class="form-sections" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="fset">
@@ -120,9 +64,20 @@
           <mat-form-field class="full" floatLabel="always">
             <mat-label>Teléfono</mat-label>
             <span matTextPrefix>+54 &nbsp;</span>
-            <input type="tel" matInput placeholder="3533-4039876" formControlName="phoneNumber">
+            <!-- Solo dígitos: el backend valida ^\d{10,15}$. El placeholder con
+                 guion inducía a escribirlo y dejaba el formulario inválido. -->
+            <input
+              type="tel"
+              matInput
+              inputmode="numeric"
+              maxlength="15"
+              placeholder="3533403987"
+              formControlName="phoneNumber"
+              (input)="onPhoneInput($event)"
+            >
+            <mat-hint>Solo números, sin guiones ni espacios (10 a 15 dígitos)</mat-hint>
             @if (form.get('phoneNumber')!.invalid && !form.get('phoneNumber')!.hasError('required')) {
-              <mat-error>Ingrese un teléfono válido</mat-error>
+              <mat-error>Ingrese un teléfono válido: solo números, 10 a 15 dígitos</mat-error>
             }
             @if (form.get('phoneNumber')!.hasError('required')) {
               <mat-error>Ingrese un teléfono</mat-error>
@@ -131,11 +86,18 @@
         </div>
       </div>
 
-      <div class="sec-footer">
-        <button type="submit" class="btn-pill">
-          <span class="material-icons">check</span> Guardar cambios
-        </button>
-      </div>
+      @if (embedded) {
+        <div class="btn-row">
+          <button mat-stroked-button class="btn-pill-cancel" type="button" (click)="saved.emit()">Cancelar</button>
+          <button mat-raised-button class="btn-pill-save" type="submit">Guardar</button>
+        </div>
+      } @else {
+        <div class="sec-footer">
+          <button type="submit" class="btn-pill">
+            <span class="material-icons">check</span> Guardar cambios
+          </button>
+        </div>
+      }
     </form>
   }
 </div>
