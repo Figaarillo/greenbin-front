@@ -40,13 +40,21 @@
     <app-skeleton type="stat" [count]="3" />
     <app-skeleton type="block" [count]="2" />
   } @else {
+  @if (errorTotals) {
+    <div class="card-error">
+      <span class="material-icons">error_outline</span>
+      No pudimos cargar los totales del período.
+      <button type="button" (click)="loadAllStats()">Reintentar</button>
+    </div>
+  }
+
   <!-- ── KPIs con tendencia y sparkline ── -->
   <div class="kpis">
     <div class="kpi">
       <div class="kpi-head">
         <div class="ic g"><span class="material-icons">scale</span></div>
         @if (trendWeight !== null) {
-          <span class="trend" [class.down]="trendWeight < 0">
+          <span class="trend" [title]="comparisonLabel" [class.down]="trendWeight < 0">
             <span class="material-icons">{{ trendWeight < 0 ? 'trending_down' : 'trending_up' }}</span>
             {{ trendWeight >= 0 ? '+' : '' }}{{ trendWeight | number: '1.0-0' }}%
           </span>
@@ -66,7 +74,7 @@
       <div class="kpi-head">
         <div class="ic y"><span class="material-icons">star</span></div>
         @if (trendPoints !== null) {
-          <span class="trend" [class.down]="trendPoints < 0">
+          <span class="trend" [title]="comparisonLabel" [class.down]="trendPoints < 0">
             <span class="material-icons">{{ trendPoints < 0 ? 'trending_down' : 'trending_up' }}</span>
             {{ trendPoints >= 0 ? '+' : '' }}{{ trendPoints | number: '1.0-0' }}%
           </span>
@@ -80,7 +88,7 @@
       <div class="kpi-head">
         <div class="ic b"><span class="material-icons">swap_horiz</span></div>
         @if (trendTransactions !== null) {
-          <span class="trend" [class.down]="trendTransactions < 0">
+          <span class="trend" [title]="comparisonLabel" [class.down]="trendTransactions < 0">
             <span class="material-icons">{{ trendTransactions < 0 ? 'trending_down' : 'trending_up' }}</span>
             {{ trendTransactions >= 0 ? '+' : '' }}{{ trendTransactions | number: '1.0-0' }}%
           </span>
@@ -118,7 +126,24 @@
             </div>
           </div>
           <div class="chart-donut">
-            <canvas baseChart [data]="pieData" [options]="pieOptions" type="doughnut"></canvas>
+            @if (errorCategory) {
+              <div class="chart-msg">
+                <span class="material-icons">error_outline</span>
+                No pudimos cargar las categorías.
+                <button type="button" (click)="loadAllStats()">Reintentar</button>
+              </div>
+            } @else if (!hasCategories) {
+              <div class="chart-msg">Sin residuos clasificados en este período.</div>
+            } @else {
+              <canvas
+                baseChart
+                [data]="pieData"
+                [options]="pieOptions"
+                type="doughnut"
+                role="img"
+                aria-label="Distribución del peso reciclado por categoría"
+              ></canvas>
+            }
           </div>
         </div>
         <div class="card">
@@ -129,7 +154,24 @@
             </div>
           </div>
           <div class="chart-bars">
-            <canvas baseChart [data]="rankingData" [options]="rankingOptions" type="bar"></canvas>
+            @if (errorRanking) {
+              <div class="chart-msg">
+                <span class="material-icons">error_outline</span>
+                No pudimos cargar el ranking.
+                <button type="button" (click)="loadAllStats()">Reintentar</button>
+              </div>
+            } @else if (!hasRanking) {
+              <div class="chart-msg">Ningún punto verde registró entregas en este período.</div>
+            } @else {
+              <canvas
+                baseChart
+                [data]="rankingData"
+                [options]="rankingOptions"
+                type="bar"
+                role="img"
+                aria-label="Ranking de puntos verdes por kilogramos recolectados"
+              ></canvas>
+            }
           </div>
         </div>
       </div>

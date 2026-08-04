@@ -370,3 +370,59 @@
     grid-template-columns: 1fr;
   }
 }
+
+// ── Mensajes dentro de una tarjeta (error / vacío) ───────────────────────
+.chart-msg {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 12px;
+
+  .material-icons {
+    font-size: 26px;
+    opacity: 0.6;
+  }
+
+  button {
+    border: 1px solid var(--line, #e2e8e0);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 5px 12px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--accent-soft);
+    }
+  }
+}
+
+.card-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: var(--r-md, 12px);
+  background: rgba(229, 72, 77, 0.08);
+  color: #a3252a;
+  font-size: 13px;
+
+  button {
+    margin-left: auto;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    cursor: pointer;
+  }
+}
