@@ -18,8 +18,6 @@ export class LocalAdheridoService {
   private storage = inject(StorageService)
   private url: string = `${this.apiBase}/api/reward-partner`
   private urlCoupon: string = `${this.apiBase}/api/coupon`
-  private url_afip_auth = 'https://app.afipsdk.com/api/v1/afip/auth'
-  private url_afip_cuit = 'https://app.afipsdk.com/api/v1/afip/requests'
 
   create(object: LocalAdherido): Observable<LocalAdherido> {
     return this.http.post<LocalAdherido>(this.url, object)
@@ -36,35 +34,9 @@ export class LocalAdheridoService {
     return this.http.get<any>(this.url + '/' + id)
   }
 
-  authenticateAfip(): Observable<any> {
-    const body = {
-      environment: 'dev',
-      tax_id: '20409378472',
-      wsid: 'ws_sr_padron_a13'
-    }
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-
-    return this.http.post<any>(this.url_afip_auth, body, { headers })
-  }
-  authenthicateCuit(cuit: any, token: string, sign: string): Observable<any> {
-    const body = {
-      environment: 'dev',
-      method: 'getPersona',
-      wsid: 'ws_sr_padron_a13',
-      params: {
-        token: token,
-        sign: sign,
-        cuitRepresentada: '20409378472',
-        idPersona: cuit
-      }
-    }
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-    return this.http.post<any>(this.url_afip_cuit, body, { headers })
+  /** true si el CUIT existe en el padrón de ARCA (vía backend, evita el CORS de AfipSDK y no expone su token). */
+  cuitExists(cuit: string): Observable<boolean> {
+    return this.http.get<any>(`${this.url}/validate-cuit/${cuit}`).pipe(map((resp: any) => resp?.data?.exists === true))
   }
   async roleValidator() {
     const token = this.storage.getItem('accessToken')

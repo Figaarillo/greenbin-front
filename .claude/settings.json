@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.afipsdk.com)",
+      "WebFetch(domain:afipsdk.com)"
+    ]
+  }
+}
