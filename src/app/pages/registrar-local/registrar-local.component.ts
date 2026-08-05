@@ -42,8 +42,6 @@ import {
 export class RegistrarLocalComponent implements OnInit {
   title: string = 'Registrarse'
   hidePassword = true
-  token = ''
-  sign = ''
   entitySelect = ''
   entities: Entidad[] = []
   disabled: boolean = true
@@ -60,10 +58,6 @@ export class RegistrarLocalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.localService.authenticateAfip().subscribe(resp => {
-      this.token = resp.token
-      this.sign = resp.sign
-    })
     this.entityServices.list(0, 100).subscribe((resp: any) => {
       this.entities = resp
     })
@@ -212,12 +206,18 @@ export class RegistrarLocalComponent implements OnInit {
 
     Swal.showLoading()
 
-    this.localService.authenthicateCuit(cuit, this.token, this.sign).subscribe(
-      () => {
+    this.localService.cuitExists(cuit).subscribe(
+      (exists: boolean) => {
         Swal.close()
+        if (!exists) {
+          swalWithBootstrapButtons.fire({
+            title: 'El CUIT ingresado no existe en ARCA.',
+            icon: 'error'
+          })
+          return
+        }
         swalWithBootstrapButtons.fire({
           title: '¡Cuit validado con éxito!',
-
           icon: 'success'
         })
         this.disabled = false
@@ -229,6 +229,7 @@ export class RegistrarLocalComponent implements OnInit {
         this.formGroup.get('phoneNumber')?.enable()
       },
       () => {
+        Swal.close()
         swalWithBootstrapButtons.fire({
           title: 'Ha ocurrido un error al validar su cuit.',
           icon: 'error'
