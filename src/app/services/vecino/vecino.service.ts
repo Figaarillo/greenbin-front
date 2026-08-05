@@ -58,6 +58,16 @@ export class VecinoService {
     return this.http.get<any>(`${this.apiBase}/api/coupon-transaction/neighbor/${neighborId}`)
   }
 
+  /**
+   * Catálogo del vecino: los cupones ya vienen con `redeemable` y `reason`
+   * resueltos por el backend, así que la pantalla no tiene que cruzarlos contra
+   * sus transacciones para saber cuáles ya canjeó.
+   */
+  getCatalog(neighborId: string, entityId?: string): Observable<any> {
+    const url = `${this.apiBase}/api/coupon-transaction/catalog/${neighborId}`
+    return this.http.get<any>(entityId ? `${url}?entityId=${entityId}` : url)
+  }
+
   list(entityId?: string, includeInactive = false): Observable<any> {
     const token = this.storage.getItem('accessToken')
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
