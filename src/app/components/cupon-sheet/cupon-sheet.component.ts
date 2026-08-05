@@ -30,6 +30,13 @@ export class CuponSheetComponent {
   /** Emite los puntos restantes al canjear, para que el padre actualice el saldo. */
   @Output() cuponCanjeado = new EventEmitter<number>()
 
+  /**
+   * El backend rechazó el canje por una razón de negocio (ya lo tenías, el local
+   * lo borró, se quedó sin disponibilidad). El padre tiene que resincronizar el
+   * catálogo: lo que el vecino está viendo ya no refleja el estado real.
+   */
+  @Output() canjeRechazado = new EventEmitter<void>()
+
   cupon?: Coupon
   transaction?: any
   local?: LocalAdherido
@@ -101,7 +108,9 @@ export class CuponSheetComponent {
   }
 
   get puedeCanjear(): boolean {
-    return !!this.cupon && !this.cupon.adquirido && this.misPuntos >= this.cupon.costInPoints && !this.cargando
+    return (
+      !!this.cupon && this.cupon.redeemable !== false && this.misPuntos >= this.cupon.costInPoints && !this.cargando
+    )
   }
 
   // ── Acciones ───────────────────────────────────────────
@@ -132,7 +141,18 @@ export class CuponSheetComponent {
       },
       error: (err: any) => {
         this.cargando = false
-        alert('No se pudo canjear el cupón. ' + (err?.error?.message ?? 'Intentá de nuevo.'))
+
+        // El mensaje ya lo muestra requestInterceptor con el texto real del
+        // backend: un alert() acá le apilaba un segundo popup al vecino.
+        //
+        // Un 4xx es un rechazo de negocio, no una falla técnica: el catálogo
+        // está desactualizado y hay que resincronizarlo. Un 5xx o un corte de
+        // red no dicen nada del estado del cupón, así que no se toca la lista.
+        const status = err?.status ?? 0
+        if (status >= 400 && status < 500) {
+          this.canjeRechazado.emit()
+          this.cerrar()
+        }
       }
     })
   }

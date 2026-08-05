@@ -114,9 +114,12 @@ export const requestInterceptor: HttpInterceptorFn = (req, next) => {
             cancelButton: 'btn btn-danger'
           }
         })
+        // El backend ya manda el motivo real en `message` (ej: "Ya canjeaste
+        // este cupón"). El texto de la ruta queda solo como fallback: pisarlo
+        // siempre hacía que el usuario leyera una causa que no era la suya.
         swalWithBootstrapButtons.fire({
           title: 'Ha ocurrido un error',
-          text: shouldNotify.errorMessage,
+          text: err?.error?.message ?? shouldNotify.errorMessage,
           icon: 'error'
         })
       }
