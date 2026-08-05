@@ -14,8 +14,14 @@ export interface Coupon {
   rewardPartner?: string
   rewardPartnerId?: string
   createdAt: string
-  /** Solo se completa en el catálogo del vecino: true si ya lo canjeó y sigue ADQUIRIDO sin usar. */
-  adquirido?: boolean
+  /**
+   * Solo en el catálogo del vecino: lo resuelve la policy de canje del backend.
+   * El front NO deduce la regla — la muestra. Si mañana el local puede
+   * configurar cuántas veces se canjea un cupón, esto no cambia.
+   */
+  redeemable?: boolean
+  /** Motivo por el que no se puede canjear, listo para mostrar (ej: "Ya canjeado"). */
+  reason?: string
 }
 
 export interface CouponTransaction {

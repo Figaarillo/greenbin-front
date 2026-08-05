@@ -11,7 +11,7 @@ import { VecinoService } from '../../services/vecino/vecino.service'
 import { RealtimeService } from '../../services/notification/realtime.service'
 import { Coupon, CampoOrdenCupon } from '../../services/interfaces/coupon'
 import { ordenarCupones } from '../../services/interfaces/coupon-sort.util'
-import { forkJoin, filter } from 'rxjs'
+import { filter } from 'rxjs'
 import { isPlatformBrowser } from '@angular/common'
 import { SkeletonComponent } from '../../components/skeleton/skeleton.component'
 import { NotificationBellComponent } from '../../components/notification-bell/notification-bell.component'
@@ -41,7 +41,6 @@ export class CatalogoCuponesComponent {
   dataSource: MatTableDataSource<any> = new MatTableDataSource()
   puntos = 0
   items: Coupon[] = []
-  redeemedCouponIds: Set<string> = new Set()
   titleFilter = ''
   sortField: CampoOrdenCupon = 'discount'
   sortDir: 'desc' | 'asc' = 'desc'
@@ -51,7 +50,7 @@ export class CatalogoCuponesComponent {
     const title = this.titleFilter.trim().toLowerCase()
     const filtered = this.items
       .filter(c => c.title.toLowerCase().includes(title))
-      .filter(c => !this.hideAdquiridos || !c.adquirido)
+      .filter(c => !this.hideAdquiridos || c.redeemable !== false)
     this.dataSource.data = ordenarCupones(filtered, this.sortField, this.sortDir)
   }
 
@@ -104,44 +103,26 @@ export class CatalogoCuponesComponent {
     const entityId = parsed?.entity?.id
     const neighborId = this.sesionService.getUserId()
 
-    const coupons$ = this.service.listCupon(entityId)
-    const myTransactions$ = neighborId ? this.vecinoService.getMyTransactions(neighborId) : null
+    // El catálogo del vecino ya llega resuelto contra la regla de canje. Sin
+    // vecino identificado no hay regla que aplicar, así que se cae al listado
+    // crudo de cupones disponibles.
+    const catalog$ = neighborId ? this.vecinoService.getCatalog(neighborId, entityId) : this.service.listCupon(entityId)
 
-    if (myTransactions$) {
-      forkJoin({ coupons: coupons$, transactions: myTransactions$ }).subscribe({
-        next: ({ coupons, transactions }) => {
-          // Solo bloqueamos re-canje mientras el cupón sigue ADQUIRIDO (activo y sin usar).
-          // Si ya fue USADO o quedó EXPIRADO, el vecino puede volver a comprarlo.
-          this.redeemedCouponIds = new Set(
-            (transactions.data ?? [])
-              .filter((t: any) => t.status === 'ADQUIRIDO')
-              .map((t: any) => t.coupon?.id ?? t.coupon)
-          )
-          this.items = (<Coupon[]>coupons.data).map(c => ({
-            ...c,
-            adquirido: this.redeemedCouponIds.has(c.id)
-          }))
-          this.dataSource = new MatTableDataSource(this.items)
-          this.applyFilters()
-          this.loading = false
-        },
-        error: () => (this.loading = false)
-      })
-    } else {
-      coupons$.subscribe({
-        next: obj => {
-          this.items = <Coupon[]>obj.data
-          this.dataSource = new MatTableDataSource(this.items)
-          this.applyFilters()
-          this.loading = false
-        },
-        error: () => (this.loading = false)
-      })
-    }
+    catalog$.subscribe({
+      next: obj => {
+        // El fallback sin vecino no trae `redeemable`: se normaliza acá para que
+        // la pantalla nunca tenga que preguntarse si el campo vino o no.
+        this.items = (<Coupon[]>obj.data).map(c => ({ ...c, redeemable: c.redeemable ?? true }))
+        this.dataSource = new MatTableDataSource(this.items)
+        this.applyFilters()
+        this.loading = false
+      },
+      error: () => (this.loading = false)
+    })
   }
 
   abrirModal(cupon: Coupon) {
-    if (cupon.adquirido) return
+    if (cupon.redeemable === false) return
     this.sheet?.openCatalog(cupon)
   }
 
@@ -153,6 +134,16 @@ export class CatalogoCuponesComponent {
 
   onCuponCanjeado(puntosRestantes: number) {
     this.puntos = puntosRestantes
+    this.getItems()
+  }
+
+  /**
+   * Race condition: el vecino tocó "Canjear" sobre un cupón que ya no podía
+   * canjear. En vez de adivinar el motivo en el cliente, se vuelve a pedir el
+   * estado al backend — que es la única fuente de verdad. El cupón queda en
+   * gris si ya lo tenía, o desaparece si el local lo borró.
+   */
+  onCanjeRechazado() {
     this.getItems()
   }
 }
