@@ -1,0 +1,130 @@
+:host {
+  --pg-bg: #0b140f;
+  --pg-surface: #122019;
+  --pg-line: #233327;
+  --pg-muted: #8fa396;
+  --pg-vecino: var(--green-accent, #34d399);
+  --pg-local: var(--warning, #e0a019);
+  --pg-responsable: #3fcdb0;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  background:
+    radial-gradient(38vw 38vw at 18% 78%, rgba(224, 160, 25, 0.16), transparent 65%),
+    radial-gradient(42vw 42vw at 50% 92%, rgba(52, 211, 153, 0.2), transparent 62%),
+    radial-gradient(38vw 38vw at 82% 78%, rgba(63, 205, 176, 0.16), transparent 65%),
+    radial-gradient(100vw 60vh at 50% 0%, #101c15, transparent 70%),
+    var(--pg-bg);
+}
+
+.grid {
+  width: 100%;
+  max-width: 1600px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 7vw;
+  padding: 0 8vw;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3.1vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 2.6vh;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.col.local .label {
+  color: var(--pg-local);
+}
+.col.vecino .label {
+  color: var(--pg-vecino);
+}
+.col.responsable .label {
+  color: var(--pg-responsable);
+}
+
+.phone {
+  position: relative;
+  width: min(19vw, 36vh);
+  aspect-ratio: 9 / 19.5;
+  border-radius: 14% / 7%;
+  padding: 3.5%;
+  background: linear-gradient(160deg, #1c2a22, #0e1712);
+  border: 1px solid var(--pg-line);
+  box-shadow: 0 40px 80px -24px rgba(0, 0, 0, 0.6);
+}
+
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 3.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28%;
+  height: 2.6%;
+  border-radius: 0 0 40% 40%;
+  background: #0e1712;
+  z-index: 2;
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 11% / 5.5%;
+  overflow: hidden;
+  background: var(--pg-surface);
+  border: 2px dashed var(--pg-line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8%;
+  text-align: center;
+}
+
+.screen svg {
+  width: 11%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.screen .slot-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(11px, 1.1vw, 15px);
+  color: var(--pg-muted);
+  font-weight: 600;
+}
+
+.col.local .screen svg,
+.col.local .screen .slot-label {
+  color: var(--pg-local);
+  stroke: var(--pg-local);
+}
+.col.vecino .screen svg,
+.col.vecino .screen .slot-label {
+  color: var(--pg-vecino);
+  stroke: var(--pg-vecino);
+}
+.col.responsable .screen svg,
+.col.responsable .screen .slot-label {
+  color: var(--pg-responsable);
+  stroke: var(--pg-responsable);
+}

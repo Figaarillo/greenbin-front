@@ -31,6 +31,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/modificar-entidad/modificar-entidad.component').then(m => m.ModificarEntidadComponent)
   },
+  // ── Oculta: sin link en ningún menú, solo por URL directa ──────────
+  {
+    path: 'presentacion-greenbin',
+    loadComponent: () =>
+      import('./pages/presentacion-greenbin/presentacion-greenbin.component').then(m => m.PresentacionGreenbinComponent)
+  },
   // ── Flat registrations (no layout) ────────────────
   {
     path: 'registrar-vecino',
